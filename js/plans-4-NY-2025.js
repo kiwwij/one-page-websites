@@ -29,7 +29,7 @@ function updateTimer() {
         const daysStr = days > 0 ? `${days}д ` : "";
         countdownDisplay.innerText = `${daysStr}${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
         
-        btn.onclick = () => alert("Терпение! Подарок откроется в 00:01!");
+        btn.onclick = () => alert("Терпение! Подарок откроется в 00:00!");
     }
 }
 
@@ -84,4 +84,5 @@ function createSnow() {
 
 createSnow();
 setInterval(updateTimer, 1000);
+
 updateTimer();
