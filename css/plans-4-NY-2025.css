@@ -1,0 +1,159 @@
+body {
+    background: #f0f4f8 linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px; /* Отступ от краев экрана для мобилок */
+}
+
+.main-wrapper {
+    width: 100%;
+    max-width: 1000px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(15px);
+    border-radius: 40px;
+    padding: 60px 40px; /* Большой отступ внутри контейнера */
+    box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+    border: 1px solid white;
+    z-index: 10;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2.8em;
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.subtitle {
+    color: #7f8c8d;
+    margin-bottom: 50px;
+}
+
+/* Сетка с отступами */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px; /* Расстояние между карточками */
+    margin-bottom: 50px;
+}
+
+.card {
+    background: white;
+    padding: 25px; /* Внутренний отступ в карточке */
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.3s ease;
+    border: 1px solid #edf2f7;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+}
+
+.sticker {
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
+    object-fit: contain;
+}
+
+.sticker.static {
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.1));
+}
+
+.text { text-align: left; }
+.text strong { display: block; font-size: 1.2em; color: #d63031; }
+.text p { margin: 5px 0 0; color: #95a5a6; }
+
+/* Подарок */
+.gift-section {
+    background: #fff;
+    border-radius: 30px;
+    padding: 40px;
+    border: 3px dashed #ff7675;
+}
+
+.countdown {
+    font-family: 'Courier New', monospace;
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #d63031;
+    margin: 20px 0;
+}
+
+.btn-gift {
+    border: none;
+    padding: 18px 50px;
+    font-size: 1.3em;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.btn-gift.disabled { background: #dfe6e9; color: #b2bec3; cursor: not-allowed; }
+.btn-gift.active { background: #27ae60; color: white; box-shadow: 0 10px 25px rgba(39, 174, 96, 0.3); }
+
+#snow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+
+/* Блок тестов */
+.tests-wrapper {
+    margin-top: 50px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.section-title {
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-size: 1.8em;
+}
+
+.tests-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.test-item {
+    background: white;
+    padding: 15px;
+    border-radius: 15px;
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+    font-size: 0.9em;
+    transition: all 0.3s ease;
+    border: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.test-item:hover {
+    background: #ff7675;
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(255, 118, 117, 0.3);
+}
+
+/* Плавный скролл к тестам */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Цвет для карточки-триггера */
+.tests-trigger strong {
+    color: #0984e3 !important;
+}
