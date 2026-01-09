@@ -1,0 +1,202 @@
+/* --- Общие настройки (Мрачная тема) --- */
+:root {
+    --bg-color: #0a0a0a;
+    --card-bg: #141414;
+    --text-primary: #dcdcdc;
+    --text-secondary: #9aa0a6;
+    --accent-red: #8a0e0e; 
+    --accent-hover: #b91c1c;
+    --link-color: #ff6b6b;
+    --steam-color: #171a21;
+    --steam-hover: #2a475e;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: 'Noto Sans', sans-serif;
+    line-height: 1.6;
+}
+
+h1, h2, h3 { font-family: 'Exo 2', sans-serif; }
+
+.container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+
+/* --- Хедер --- */
+header {
+    background: linear-gradient(180deg, #000 0%, var(--bg-color) 100%);
+    padding: 60px 0 40px;
+    text-align: center;
+    border-bottom: 2px solid var(--accent-red);
+    margin-bottom: 40px;
+}
+
+header h1 {
+    font-size: 3rem;
+    color: #fff;
+    text-shadow: 0 0 15px rgba(138, 14, 14, 0.8);
+    margin-bottom: 10px;
+}
+
+.subtitle { color: var(--text-secondary); font-size: 1.1rem; }
+
+/* --- Сетка --- */
+.games-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-bottom: 60px;
+}
+
+/* --- Карточка --- */
+.game-card {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.7);
+    border: 1px solid #2a2a2a;
+    transition: transform 0.3s ease;
+    position: relative;
+}
+
+.game-card:hover {
+    transform: translateY(-5px);
+    border-color: #444;
+}
+
+.poster-wrapper {
+    flex: 0 0 320px;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.poster-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.5s ease;
+    opacity: 0.85;
+}
+
+.game-card:hover .poster-wrapper img { opacity: 1; transform: scale(1.02); }
+
+/* Контент */
+.content-wrapper {
+    padding: 25px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.chapter-tag {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;
+    padding: 2px 8px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 4px;
+}
+
+/* Цвета тегов */
+.question-arc .chapter-tag { color: #5c8bd6; border: 1px solid #5c8bd6; }
+.answer-arc .chapter-tag { color: #ff4d4d; border: 1px solid #ff4d4d; }
+.rei-arc .chapter-tag { color: #c48dfd; border: 1px solid #c48dfd; }
+.bonus-arc .chapter-tag { color: #f1c40f; border: 1px solid #f1c40f; } /* Желтый для Hou+ */
+
+/* Время прохождения */
+.playtime {
+    font-size: 0.85rem;
+    color: #ffd700;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(0,0,0,0.3);
+    padding: 4px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.game-title {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: #fff;
+    line-height: 1.2;
+}
+
+.game-desc {
+    margin-bottom: 15px;
+    font-style: italic;
+    color: var(--text-secondary);
+    border-left: 3px solid #333;
+    padding-left: 10px;
+}
+
+.game-plot {
+    margin-bottom: 25px;
+    font-size: 0.95rem;
+    color: #cccccc;
+    text-align: justify;
+}
+
+/* Ссылки на персонажей */
+.char-link {
+    color: var(--link-color);
+    text-decoration: none;
+    border-bottom: 1px dashed var(--link-color);
+    transition: all 0.2s;
+}
+.char-link:hover {
+    background-color: rgba(255, 107, 107, 0.1);
+    color: #fff;
+    border-bottom-style: solid;
+}
+
+.steam-btn {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--steam-color);
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    align-self: flex-start;
+    transition: background 0.2s;
+    margin-top: auto;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.steam-btn:hover {
+    background-color: var(--steam-hover);
+    border-color: rgba(255,255,255,0.3);
+}
+
+footer {
+    text-align: center;
+    padding: 40px 0;
+    color: #555;
+    font-size: 0.9rem;
+    border-top: 1px solid #222;
+}
+
+@media (max-width: 800px) {
+    .game-card { flex-direction: column; }
+    .poster-wrapper { flex: 0 0 auto; width: 100%; height: auto; }
+    .header-row { flex-direction: column; gap: 10px; }
+    header h1 { font-size: 2.2rem; }
+}

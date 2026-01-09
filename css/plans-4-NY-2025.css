@@ -157,3 +157,17 @@ html {
 .tests-trigger strong {
     color: #0984e3 !important;
 }
+
+/* Особенный стиль для карточки президента */
+.president-card {
+    border: 1px solid #ffd700 !important; /* Золотая рамка */
+    background: linear-gradient(135deg, #ffffff 0%, #fff9e6 100%) !important;
+}
+
+.president-card:hover {
+    box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3) !important;
+}
+
+.president-card strong {
+    color: #2c3e50;
+}

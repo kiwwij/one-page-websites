@@ -84,5 +84,4 @@ function createSnow() {
 
 createSnow();
 setInterval(updateTimer, 1000);
-
 updateTimer();
