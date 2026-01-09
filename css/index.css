@@ -1,0 +1,145 @@
+:root {
+    --bg-color: #f8f9fa;       /* Очень светлый серый */
+    --card-bg: #ffffff;        /* Белые карточки */
+    --text-main: #2d3436;      /* Темно-серый текст (не черный) */
+    --text-muted: #636e72;     /* Серый для описаний */
+    --accent: #0984e3;         /* Приятный синий */
+    --shadow: 0 4px 12px rgba(0,0,0,0.05);
+    --shadow-hover: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: 'Inter', -apple-system, sans-serif;
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
+.main-wrapper {
+    width: 100%;
+    max-width: 800px;
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Header --- */
+header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    background-color: var(--text-main);
+    color: #fff;
+    font-size: 2rem;
+    font-weight: bold;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+h1 {
+    font-weight: 800;
+    font-size: 2rem;
+    margin-bottom: 10px;
+    letter-spacing: -1px;
+}
+
+.bio {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
+/* --- Grid --- */
+h2 {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* --- Project Card --- */
+.project-card {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    padding: 25px;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--accent);
+}
+
+.card-title {
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+}
+
+.card-type {
+    font-size: 0.8rem;
+    color: var(--accent);
+    background: rgba(9, 132, 227, 0.1);
+    padding: 4px 8px;
+    border-radius: 6px;
+    align-self: flex-start;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.card-arrow {
+    align-self: flex-end;
+    color: var(--accent);
+    font-weight: bold;
+    margin-top: 15px;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+}
+
+.project-card:hover .card-arrow {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.loading { color: var(--text-muted); font-style: italic; }
+
+/* --- Footer --- */
+footer {
+    margin-top: auto;
+    padding-top: 60px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+footer a { color: var(--text-main); text-decoration: none; font-weight: 600; }
+footer a:hover { text-decoration: underline; }
