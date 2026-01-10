@@ -34,6 +34,7 @@ async function loadProjects() {
             const card = document.createElement('a');
             card.href = `${folder}/${file.name}`;
             card.className = 'project-card';
+            card.target = '_blank';
             
             card.innerHTML = `
                 <div>
