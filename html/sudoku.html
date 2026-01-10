@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Судоку - Играй онлайн</title>
+    
+    <meta name="description" content="Бесплатная игра в Судоку с выбором уровня сложности. Проверкой ошибок в реальном времени и подсветкой цифр.">
+    <meta name="author" content="kiwwij">
+
+    <meta property="og:title" content="Судоку - Играй онлайн">
+    <meta property="og:description" content="Классическая головоломка Судоку прямо в вашем браузере.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kiwwij.github.io/my-projects/sudoku/">
+    <meta property="og:image" content="https://kiwwij.github.io/my-projects/html/sudoku/images/sudoku-preview.png">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Судоку - Играй онлайн">
+    <meta name="twitter:description" content="Классическая головоломка Судоку прямо в вашем браузере.">
+    <meta name="twitter:image" content="https://kiwwij.github.io/my-projects/html/sudoku/images/sudoku-preview.png">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔢</text></svg>">
+    <link rel="apple-touch-icon" href="sudoku/images/apple-touch-icon.png">
+    <link rel="manifest" href="sudoku/manifest.json">
+    
+    <link rel="stylesheet" href="../css/sudoku.css">
+</head>
+<body>
+
+    <div class="container">
+        
+        <div class="lang-switcher">
+            <label for="lang-select" data-lang-key="languageLabel">Язык:</label>
+            <select id="lang-select">
+                <option value="en">🇺🇸 English</option>
+                <option value="uk">🇺🇦 Українська</option>
+                <option value="ru">🇷🇺 Русский</option>
+                <option value="ja">🇯🇵 日本語</option>
+            </select>
+        </div>
+
+        <h1 data-lang-key="title">Судоку</h1>
+        
+        <div class="controls">
+            <label for="difficulty" data-lang-key="difficultyLabel">Сложность:</label>
+            <select id="difficulty">
+                <option value="easy" data-lang-key="diffEasy">Легкая</option>
+                <option value="medium" data-lang-key="diffMedium">Средняя</option>
+                <option value="hard" data-lang-key="diffHard">Сложная</option>
+                <option value="expert" data-lang-key="diffExpert">Эксперт</option>
+            </select>
+            <button id="new-game-btn" data-lang-key="btnNewGame">Новая игра</button>
+        </div>
+        
+        <div id="sudoku-grid">
+            </div>
+        
+        <div class="controls-bottom">
+            <button id="check-btn" data-lang-key="btnCheck">Проверить</button>
+            <button id="solve-btn" data-lang-key="btnSolve">Решить</button>
+        </div>
+
+        <p id="message"></p>
+
+        <div id="number-palette">
+            </div>
+    </div>
+
+    <script src="../js/sudoku.js"></script>
+</body>
+</html>
