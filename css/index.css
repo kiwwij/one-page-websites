@@ -1,9 +1,9 @@
 :root {
-    --bg-color: #f8f9fa;       /* Очень светлый серый */
-    --card-bg: #ffffff;        /* Белые карточки */
-    --text-main: #2d3436;      /* Темно-серый текст (не черный) */
-    --text-muted: #636e72;     /* Серый для описаний */
-    --accent: #0984e3;         /* Приятный синий */
+    --bg-color: #f8f9fa;
+    --card-bg: #ffffff;
+    --text-main: #2d3436;
+    --text-muted: #636e72;
+    --accent: #0984e3;
     --shadow: 0 4px 12px rgba(0,0,0,0.05);
     --shadow-hover: 0 8px 24px rgba(0,0,0,0.12);
 }
@@ -22,58 +22,69 @@ body {
 
 .main-wrapper {
     width: 100%;
-    max-width: 800px;
-    padding: 60px 20px;
+    /* БЫЛО: 800px. СТАЛО: 1200px — теперь влезет больше проектов в ряд */
+    max-width: 1200px; 
+    padding: 40px 20px;
     display: flex;
     flex-direction: column;
 }
 
 /* --- Header --- */
-header {
-    text-align: center;
-    margin-bottom: 60px;
-}
+header { text-align: center; margin-bottom: 40px; }
 
 .avatar {
-    width: 80px;
-    height: 80px;
-    background-color: var(--text-main);
-    color: #fff;
-    font-size: 2rem;
-    font-weight: bold;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 80px; 
+    height: 80px; 
+    /* Убираем background-color, так как теперь это картинка */
+    border-radius: 50%; 
+    display: block; 
     margin: 0 auto 20px;
+    object-fit: cover; /* Чтобы картинка не сплющивалась */
+    border: 3px solid #fff; /* Белая обводка (по желанию) */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Тень */
 }
 
-h1 {
-    font-weight: 800;
-    font-size: 2rem;
-    margin-bottom: 10px;
-    letter-spacing: -1px;
+h1 { font-weight: 800; font-size: 2rem; margin-bottom: 5px; }
+.bio { color: var(--text-muted); font-size: 1.1rem; }
+
+/* --- Controls & Search --- */
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 15px;
 }
 
-.bio {
-    color: var(--text-muted);
+h2 {
     font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin: 0;
+    border: none;
 }
+
+#search-input {
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid #dfe6e9;
+    font-size: 0.95rem;
+    width: 100%;
+    max-width: 300px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+#search-input:focus { border-color: var(--accent); }
 
 /* --- Grid --- */
-h2 {
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--text-muted);
-    margin-bottom: 20px;
-    border-bottom: 1px solid #e0e0e0;
-    padding-bottom: 10px;
-}
-
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    /* БЫЛО: minmax(280px). СТАЛО: minmax(240px) — карточки чуть компактнее */
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 20px;
 }
 
@@ -81,15 +92,15 @@ h2 {
 .project-card {
     background-color: var(--card-bg);
     border-radius: 12px;
-    padding: 25px;
     text-decoration: none;
     color: inherit;
     box-shadow: var(--shadow);
     transition: all 0.3s ease;
     border: 1px solid transparent;
+    overflow: hidden; /* Чтобы картинка не вылезала */
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    height: 100%;
 }
 
 .project-card:hover {
@@ -98,48 +109,126 @@ h2 {
     border-color: var(--accent);
 }
 
-.card-title {
-    font-weight: 700;
-    font-size: 1.2rem;
-    margin-bottom: 8px;
+/* Общие стили картинки */
+.card-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-bottom: 1px solid #f1f2f6;
+    display: block; /* Важно для img */
 }
 
+/* Спец. стили для заглушки (если картинки нет) */
+.card-image.placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 3.5rem;
+    font-weight: 800;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.card-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.card-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 5px; }
 .card-type {
-    font-size: 0.8rem;
-    color: var(--accent);
+    font-size: 0.75rem; color: var(--accent);
     background: rgba(9, 132, 227, 0.1);
-    padding: 4px 8px;
-    border-radius: 6px;
-    align-self: flex-start;
-    margin-bottom: 15px;
-    font-weight: 600;
+    padding: 3px 8px; border-radius: 6px;
+    align-self: flex-start; margin-bottom: 10px; font-weight: 600;
 }
-
 .card-arrow {
-    align-self: flex-end;
-    color: var(--accent);
-    font-weight: bold;
-    margin-top: 15px;
-    opacity: 0;
-    transform: translateX(-10px);
-    transition: all 0.3s ease;
+    margin-top: auto; align-self: flex-end;
+    color: var(--accent); font-weight: bold; font-size: 0.9rem;
+    opacity: 0; transform: translateX(-10px); transition: all 0.3s ease;
 }
+.project-card:hover .card-arrow { opacity: 1; transform: translateX(0); }
 
-.project-card:hover .card-arrow {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-.loading { color: var(--text-muted); font-style: italic; }
+.loading { color: var(--text-muted); font-style: italic; width: 100%; }
 
 /* --- Footer --- */
 footer {
-    margin-top: auto;
-    padding-top: 60px;
-    text-align: center;
-    color: var(--text-muted);
+    margin-top: auto; 
+    padding-top: 40px;
+    text-align: center; 
+    color: var(--text-muted); 
     font-size: 0.9rem;
+    /* Центрируем всё содержимое футера */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* Отступ между элементами (ссылками и точками) */
 }
 
-footer a { color: var(--text-main); text-decoration: none; font-weight: 600; }
-footer a:hover { text-decoration: underline; }
+footer a { 
+    color: var(--text-main); 
+    text-decoration: none; 
+    font-weight: 600;
+    
+    /* ВАЖНО: Выравниваем иконку и текст внутри ссылки */
+    display: inline-flex;
+    align-items: center;
+    gap: 5px; /* Отступ между иконкой и текстом */
+    transition: color 0.2s;
+}
+
+footer a:hover {
+    color: var(--accent); /* При наведении цвет меняется на синий */
+}
+
+/* --- Поиск с иконкой --- */
+.search-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 300px; /* Ширина поля поиска */
+}
+
+.search-wrapper i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%); /* Центрируем иконку по вертикали */
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    pointer-events: none; /* Чтобы клик по иконке переходил в поле ввода */
+}
+
+#search-input {
+    width: 100%;
+    padding: 10px 15px 10px 40px; /* Слева отступ 40px, чтобы текст не наезжал на лупу */
+    border-radius: 8px;
+    border: 1px solid #dfe6e9;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.2s;
+}
+
+#search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(9, 132, 227, 0.1);
+}
+
+/* Красим иконку в синий, когда поле активно */
+.search-wrapper:focus-within i {
+    color: var(--accent);
+}
+
+h2 {
+    /* --- Выравнивание --- */
+    display: flex;           /* Включаем режим гибкого контейнера */
+    align-items: center;     /* Выравниваем всё строго по центру вертикально */
+    gap: 10px;               /* Отступ между иконкой и текстом (вместо &nbsp;) */
+    
+    /* --- Остальные стили --- */
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin: 0;
+}

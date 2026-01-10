@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kiwwij | Projects Hub</title>
-    
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📂</text></svg>">
-
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-    
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
@@ -16,23 +14,46 @@
     <div class="main-wrapper">
         <header>
             <div class="profile">
-                <div class="avatar">K</div> 
+                <img 
+                    src="https://avatars.akamai.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg" 
+                    alt="K" 
+                    class="avatar" 
+                    title="Avatar from Steam"
+                >
+                
                 <h1>kiwwij</h1>
                 <p class="bio">Personal Website & Project Archive</p>
             </div>
         </header>
 
         <main>
-            <h2>Мои проекты</h2>
+            <div class="controls">
+                <h2><i class='bx bx-folder-open'></i> My projects</h2>
+                <div class="search-wrapper">
+                    <i class='bx bx-search'></i>
+                    <input type="text" id="search-input" placeholder="Find a project...">
+                </div>
+            </div>
+
             <div id="projects-grid" class="grid">
-                <div class="loading">Загрузка списка проектов...</div>
+                <div class="loading">Loading list of projects...</div>
             </div>
         </main>
 
         <footer>
-            <a href="https://github.com/kiwwij" target="_blank">GitHub</a>
+            <a href="https://github.com/kiwwij" target="_blank">
+                <i class='bx bxl-github'></i> GitHub
+            </a>
+            
             <span>•</span>
-            <span>2026</span>
+            
+            <a href="https://kiwwij.github.io/kiwwij-social-links/" target="_blank">
+                <i class='bx bx-link-alt'></i> Socials
+            </a>
+
+            <span>•</span>
+            
+            <span id="current-year"></span>
         </footer>
     </div>
 
