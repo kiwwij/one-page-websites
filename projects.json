@@ -1,11 +1,53 @@
 {
-  "tunnel-to-summer.html": "html/tunnel-to-summer/img/shortcut_icon.png",
-  "spworlds-copy.html": "bx bxs-cube-alt", 
-  "plans-4-NY-2025.html": "bx bxs-tree",
-  "Higurashi-When-They-Cry.html": "bx bxs-bug",
-  "Final-Fantasy.html": "bx bxs-diamond",
-  "tt-song-AKA-trend.html": "bx bxl-tiktok",
-  "anime-world.html": "bx bxs-collection",
-  "sudoku.html": "bx bxs-grid-alt",
-  "wheel-of-fortune-modes.html": "bx bxs-pie-chart-alt-2"
+  "tunnel-to-summer.html": {
+    "image": "html/tunnel-to-summer/img/shortcut_icon.png",
+    "description": "Fan page / promotional page for the anime 'Tunnel to Summer'.",
+    "stack": ["html", "css", "js", "github"]
+  },
+  "spworlds-copy.html": {
+    "image": "bx bxs-cube-alt",
+    "description": "A copy of the SPWorlds website.",
+    "stack": ["html", "css", "js", "github"]
+  },
+  "plans-4-NY-2025.html": {
+    "image": "bx bxs-tree",
+    "description": "Interactive list of plans for New Year's celebrations (25/26).",
+    "stack": ["html", "css", "js", "github"]
+  },
+  "Higurashi-When-They-Cry.html": {
+    "image": "bx bxs-bug",
+    "description": "A mini-wiki for the games / visual novels 'Higurashi when they cry'.",
+    "stack": ["html", "css", "js", "github"]
+  },
+  "Final-Fantasy.html": {
+    "image": "bx bxs-diamond",
+    "description": "A mini-wiki about the Final Fantasy series of games.",
+    "stack": ["html", "css", "js", "github"]
+  },
+  "tt-song-AKA-trend.html": {
+    "image": "bx bxl-tiktok",
+    "description": "Visualization of TikTok trend with music.",
+    "stack": ["html", "css", "js", "github"]
+  },
+  "anime-world.html": {
+    "image": "bx bxs-collection",
+    "description": "A small library / anime advertisement / catalog of watched anime.",
+    "stack": ["html", "css", "js", "github"]
+  },
+  "sudoku.html": {
+    "image": "https://upload.wikimedia.org/wikipedia/commons/b/b3/Sdk_intro.gif",
+    "description": "Classic Sudoku game with field generation.",
+    "stack": ["html", "css", "js", "github"]
+  },
+  "wheel-of-fortune-modes.html": {
+    "image": "https://i.pinimg.com/originals/94/cc/d5/94ccd56f2a24d1eb9486d86fcee0b3b1.gif",
+    "description": "Wheel of fortune / heads or tails / random number.",
+    "stack": ["html", "css", "js", "github"]
+  },
+  "Homeowners-association": {
+    "image": "https://kasyanenko.com.ua/wp-content/uploads/2020/08/ede2a50ec1a2ab6501ce7f737c21a90b.jpeg",
+    "description": "A Homeowners Association (HOA) in Ukrainian is ОСББ (Об'єднання співвласників багатоквартирного будинку) that manages common areas and infrastructure. Project on IT-Universe 2026. The site might not be working, so the link leads to a video. But here's a link to the site - https://testosbb.xo.je/php/login.php",
+    "stack": ["php", "mysql", "html", "css", "js"],
+    "url": "https://testosbb.xo.je/php/login.php"
+  }
 }
