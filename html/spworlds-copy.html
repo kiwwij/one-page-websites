@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>СП - Сервера по Майнкрафту</title>
+        <meta charset="UTF-8">
+        <meta name="author" content="kiwwij">
+        <meta name="description" content="spworlds, minecraft, servers, play, community, gaming, 5opka, sp,">
+        <meta name="keywords" content="сп, сервера, майнкрафт, сп миры, 5opka, spworlds, play, community, gaming">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="img/sp_shortcut_icon.png">
+        <link rel="stylesheet" href="../css/spworlds-copy.css">
+        <script src="../js/spworlds-copy.js" defer></script>
+        <link href="https://cdn.boxicons.com/fonts/basic/boxicons.min.css" rel="stylesheet">
+</head>
+<body>
+    
+<header>
+    <img src="spworlds-copy/img/sp_icon.png" alt="SP Logo" class="logo">
+    <h1 class="title">sp worlds</h1>
+    <button class="create-modpacks" id="createModpackBtn" onclick="window.location.href='https://www.youtube.com/@serhiosergey'">Создать сборку</button>
+
+    <nav id="mainNav">
+        <ul>
+            <li><a href="spworlds-copy/home.html" class="active" >Главная</a></li>
+            <li><a href="spworlds-copy/how-to-play.html">Как играть</a></li>
+            <li><a href="mailto:help@spworlds.ru">Поддержка</a></li>
+        </ul>
+    </nav>
+
+    <button class="login-button" id="loginButton">Войти</button>
+    <button class="burger-menu" id="burgerMenuBtn">☰</button>
+</header>
+
+    <div class="main-content">
+        <h1 class="main-title">Уникальные<br> Майнкрафт сервера</h1>
+        <p class="main-p-title">СП - Это целая страна на ванильном сервере майнкрафт.<br> Без гриферов, приватов или доната.</p>
+    </div>
+
+    <div class="buttons">
+        <button class="servers-button">Наши сервера</button>
+        <button class="ip-button" id="ipButton">
+            <span class="text">IP: play.spworlds.ru</span>
+            <span class="copied-text">Скопировано!</span>
+        </button>
+    </div>
+
+    <div class="SPCoin">
+        <div class="SPCoin-icon">
+            <i class='bx bx-credit-card-alt SPCoin-main-icon'></i>
+        </div>
+        <div class="SPCoin-info">
+            <h3 class="SPCoin-title">SPCoin</h3>
+            <p class="SPCoin-text">Ваш баланс: 0</p>
+        </div>
+        <button class="SPCoin-button">
+            <i class='bx bx-plus SPCoin-plus-icon ' id="TopUpButton"></i>
+        </button>
+    </div>
+
+    <div class="opka-img">
+        <img src="spworlds-copy/img/5opka.png" alt="5opka Image">
+    </div>
+
+    <div class="sp-text">
+    <h1 class="servers-sp">Сервера sp worlds</h1>
+    </div>
+    
+    <div class="servers">
+        <div class="SPm">
+            <div class="SPm-header">
+                <img src="spworlds-copy/img/sp_icon_red.png" alt="SP Icon red" class="SPm-icon-red">
+                <p class="SPm-description">СПм</p>
+                <img src="spworlds-copy/img/scull.png" alt="scull icon" class="scull">
+            </div>
+            <h1 class="SPm-title">НОВЫЙ СЕЗОН</h1>
+            <p class="SP-text">На этом сервере проходят обходы, на которых игроки показывают, что они успели сделать за время пребывания на сервере. Игроки этого сервера САМИ выбирают президента, который будет...</p>
+            <button class="SP-info" id="SPmInfoBtn">Подробнее</button>
+        </div>
+
+        <div class="SP">
+            <div class="SP5-header">
+                <img src="spworlds-copy/img/sp_icon_blue.png" alt="SP Icon blue" class="SPm-icon-blue">
+                <p class="SP-description">СП</p>
+            </div>
+            <p class="SP-text">#СП - Это основной сервер, куда войти можно только с лицензией. За жизнью данного сервера следят большинство зрителей стримов от разных ютуберов. Игроки могут создавать свои города или...</p>
+            <button class="SP-info" id="SPInfoBtn">Подробнее</button>
+        </div>
+    </div>
+
+    <hr class="hr-main">
+    <!-- Кнопка для показа футера (только мобильная/планшетная версия) -->
+    <button class="show-footer-btn" id="showFooterBtn" aria-controls="footerPanel" aria-expanded="false">Контакты и Документы</button>
+
+    <footer class="footer-main" id="footerPanel" role="dialog" aria-modal="true" aria-labelledby="footerTitle">
+    <button class="footer-close-btn" aria-label="Закрыть панель">&times;</button>
+    
+    <div class="footer-left">
+        <div class="footer-brand">
+            <img src="spworlds-copy/img/sp_icon.png" alt="SP Logo" class="logo">
+            <h1 class="title" id="footerTitle">sp worlds</h1>
+        </div>
+        <p class="website-info">Copyright © sp worlds 2025. Все права защищены. Сервера sp worlds не относятся к Mojang Studios.<br><br></p>
+        <p class="website-owner">ИП БАРАНОВ КИРИЛЛ ВЛАДИМИРОВИЧ (ИНН 616611368049 ОГРНИП 322619600023730)</p>
+    </div>
+
+    <div class="footer-center">
+        <h1 class="doc-title">Документы</h1>
+        <a href="spworlds-copy/contract.html" class="footer-link">Договор-оферта<br><br></a>
+        <a href="spworlds-copy/privacy.html" class="footer-link">Политика обработки персональных данных<br><br></a>
+        <a href="spworlds-copy/payment.html" class="footer-link">Порядок проведения оплаты и безопасность<br> операций</a>
+    </div>
+
+    <div class="footer-right">
+        <h1>Свяжитесь с нами</h1>
+        <a href="mailto:help@spworlds.ru">help@spworlds.ru</a>
+        <img src="spworlds-copy/img/cards.png" alt="payment methods" class="cards">
+    </div>
+</footer>
+
+
+    <div id="loginModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Вход в аккаунт</h2>
+        <button class="login-discord">Discord</button>
+        <button class="login-telegram">Telegram</button>
+    </div>
+    </div>
+
+
+    <div id="serverInfoModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Информация о сервере</h2>
+        <div class="video-container">
+        <iframe id="serverVideo" src="https://www.youtube.com/watch?v=O3I611y8pDE" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <h3>Вход на сервер СПм</h3>
+        <p>
+        На этом сервере проходят обходы, на которых игроки показывают, что они успели сделать за время пребывания на сервере. Игроки этого сервера САМИ выбирают президента, который будет руководить жизнью сервера.
+        </p>
+        <p>
+        Покупая данный товар, вы получаете доступ к игровому серверу "СПм". Для входа и игры на данном сервере вам нужно иметь лицензионную копию игры "Minecraft Java Edition" и широкополосный доступ к сети Интернет.
+        </p>
+        <div class="modal-buttons">
+        <button class="buy-button">Приобрести за 555₽</button>
+        <button class="gift-button">Купить в подарок</button>
+        </div>
+    </div>
+    </div>
+
+</body>
+</html>

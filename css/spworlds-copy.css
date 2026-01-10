@@ -1,0 +1,1697 @@
+@import "https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;500;600;700&display=swap";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    background-color: #0d0d11;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+body {
+    min-height: 100vh;
+    font-size: 16px;
+    overflow-x: visible;
+    display: flex;
+    flex-direction: column;
+    background-color: #0d0d11;
+}
+
+main {
+    flex: 1;
+}
+
+header {
+    position: fixed;
+    top: 27px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10%;
+    position: relative;
+    float: left;
+    gap: 17px;
+}
+
+header nav ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+header .logo {
+    width: 35px;
+    height: 35px;
+}
+
+header h1 {
+    font-size: 22px;
+    color: #ffffff;
+    font-family: "Rowdies", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+header .create-modpacks {
+    cursor: pointer;
+    margin-right: 220px;
+    color: #454550;
+    font-size: 1rem;
+    background: linear-gradient(180deg,rgba(240, 178, 228, 1) 0%, rgba(186, 156, 244, 1) 100%);
+    border: none;
+    padding: 7px 10px;
+    border-radius: 5px;
+    font-family: "Libre Franklin", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    transition: 0.5s;
+}
+
+header .create-modpacks:hover {
+    transform: scale(1.1);
+}
+
+header .logo, h1:hover {
+    cursor: pointer;
+}
+
+header nav ul li {
+    position: relative;
+    float: left;
+    font-family: "Libre Franklin", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    transition: 0.5s;
+}
+
+header nav ul li a {
+    color: #454550;
+    padding: 15px;
+}
+
+header nav ul li a:hover {
+    color: #6e6e76;
+}
+
+header .login-button {
+    cursor: pointer;
+    color: #ffffff;
+    font-size: 1rem;
+    background-color: #6563ee;
+    margin-left: 270px;
+    border: none;
+    padding: 7px 10px;
+    border-radius: 5px;
+    font-family: "Libre Franklin", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    transition: 0.5s;
+}
+
+header .login-button:hover {
+    transform: scale(1.1);
+}
+
+header nav ul li a.active {
+    color: #ffffff !important;
+    font-weight: 500;
+}
+
+/* How to Play Section ------------------------------------------------------------ */
+.how-to-play {
+    position: absolute;
+    top: 100px;
+    left: 150px;
+    right: 150px;
+    color: #c3c7cd;
+    font-family: "Rowdies", sans-serif;
+    font-weight: 400;
+}
+
+.how-to-play-title {
+    color: #ffffff;
+    font-family: "Montserrat", 0;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+    font-size: 60px;
+    margin-bottom: 20px;
+}
+
+.how-to-play-title:hover {
+    cursor: text;
+}
+
+.how-to-play-description, .how-to-play-faq {
+    font-family: "Arimo", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 20px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.how-to-play-faq {
+    color: #c3c7cd;
+    font-family: "Arimo", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.how-to-play-faq-list {
+    list-style: none;
+    font-family: "Arimo", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    margin: 15px;
+    font-size: 20px;
+}
+
+.how-to-play-faq-list li::before {
+    content: "•";
+    color: #4b5563;
+    font-size: 22px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+.how-to-play-faq-list li {
+    margin-bottom: 15px;
+}
+
+.back-link {
+    color: #ffffff;
+    font-size: 20px;
+    text-decoration: none;
+    font-family: "Montserrat", 0;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    transition: 0.3s;
+}
+
+.back-link:hover {
+    color: #6563ee;
+}
+
+/* Main Content Section ------------------------------------------------------------ */
+.main-content, .buttons, .SPCoin {
+    position: absolute;
+    top: 100px;
+    left: 150px;
+    right: 150px;
+    color: #c3c7cd;
+    font-family: "Rowdies", sans-serif;
+    font-weight: 400;
+}
+
+.buttons {
+    cursor: pointer;
+    font-size: 1rem;
+    top: 200px;
+    left: 150px;
+    right: 150px;
+    gap: 20px;
+    display: flex;
+}
+
+.buttons button {
+    color: #ffffff;
+    font-family: "Rowdies", sans-serif;
+    font-weight: 400;
+    padding: 13px 55px;
+    border-radius: 15px;
+    font-family: "Libre Franklin", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    transition: 0.5s;
+}
+
+.buttons .servers-button {
+    border: none;
+    font-size: 1.2rem;
+    background-color: #6563ee;
+}
+
+.buttons .servers-button:hover {
+    transform: scale(1.1);
+    background-color: #5452c1;
+}
+
+.buttons .servers-button:hover {
+    transform: scale(1.1);
+    background-color: #5452c1;
+}
+
+.buttons .ip-button {
+    position: relative;
+    transition: all 0.3s ease;
+    border: 1px solid #38383e;
+    border-color: #38383e;
+    background-color: #0d0d11;
+    overflow: hidden;
+    font-size: 1.2rem;
+}
+
+.buttons .ip-button .text {
+    display: inline-block;
+    background-color: transparent;
+    transition: all 0.3s ease;
+}
+
+.buttons .ip-button .copied-text {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%) translateX(100%);
+    opacity: 0;
+    width: 100%;
+    text-align: center;
+    color: #4CAF50;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.buttons .ip-button.copied .text {
+    transform: translateX(-100%);
+    opacity: 0;
+    display: inline-block;
+}
+
+.buttons .ip-button.copied .copied-text {
+    transform: translateY(-50%) translateX(0);
+    background-color: transparent;
+    opacity: 1;
+}
+
+.buttons .ip-button:hover {
+    background-color: #1e1e25 !important;
+}
+
+.SPCoin {
+    display: flex;
+    gap: 15px;
+    top: 84%;
+    left: 150px;
+    right: 55%;
+    font-family: "Arimo", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    background-color: #151519;
+    border-radius: 15px;
+    padding: 10px;
+}
+
+.SPCoin-info .SPCoin-title, .SPCoin-info .SPCoin-text {
+    background-color: #151519;
+}
+
+.SPCoin i {
+    display: inline-flex;
+}
+
+.SPCoin-icon {
+    background: none;
+}
+
+.SPCoin-main-icon {
+    border: none;
+    position: relative;
+    font-size: 35px;
+    color: #ffbd3e;
+    padding: 10px;
+    background-color: #443720;
+    border-radius: 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+}
+
+.SPCoin-plus-icon {
+    border: none;
+    position: relative;
+    font-size: 35px;
+    color: #ffffff;
+    padding: 10px;
+    background-color: #38383e;
+    border-radius: 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+}
+
+.SPCoin-info {
+    flex-grow: 1;
+    color: #ffffff;
+    background: none;
+    font-size: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.SPCoin-button {
+    background: none;
+    cursor: pointer;
+    border: none;
+}
+
+.SPCoin-plus-icon:hover {
+    background-color: #313137;
+    border-radius: 15px;
+}
+
+.SPCoin-main-icon {
+    background-color: #443720;
+}
+
+.SPCoin-plus-icon {
+    font-size: 30px;
+    background-color: #38383e;
+}
+
+.main-content {
+    position: absolute;
+    top: 40%;
+    left: 150px;
+    right: 45%;
+    color: #c3c7cd;
+    font-family: "Rowdies", sans-serif;
+    font-weight: 400;
+}
+
+.main-title {
+    color: #ffffff;
+    font-family: "Arimo", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 50px;
+    margin-bottom: 20px;
+}
+
+.main-title:hover {
+    cursor: text;
+}
+
+.main-p-title {
+    color: #8f8f94;
+    font-family: "Arimo", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.buttons {
+    top: 73%;
+}
+
+.opka-img {
+    position: absolute;
+    top: 50%;
+    right: 0%;
+    transform: translateY(-40%);
+    z-index: 999;
+}
+
+.opka-img img {
+    width: 33vw;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+/* Footer Content Section ------------------------------------------------------------ */
+.footer {
+    margin-top: 78%; /* футер всегда снизу */
+    border-top: 1px solid #ccc;
+    width: 100%;
+    color: #c3c7cd;
+    padding: 20px 10%;
+    display: flex;
+    justify-content: space-around;
+    flex-shrink: 0;
+}
+
+.footer-brand .logo {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.footer-left {
+    color: #8f8f94;
+    font-family: "Arimo", sans-serif;
+    font-weight: 500;
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 17px;
+}
+
+.footer-brand .title {
+    margin: 0;
+    font-size: 22px;
+    color: #ffffff;
+    font-family: "Rowdies", sans-serif;
+    font-weight: 400;
+}
+
+.footer-left .website-info {
+    font-size: 16px;
+    margin-top: 34px;
+    line-height: 1.6;
+}
+
+.footer-left .website-owner {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.footer-center h1, .footer-right h1 {
+    color: #ffffff;
+    font-family: "Libre Franklin", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-size: 20px;
+    margin-bottom: 40px;
+}
+
+.footer-center a, .footer-right a {
+    font-size: 16px;
+    font-family: "Arimo", sans-serif;
+    font-weight: 500;
+    color: #8f8f94;
+}
+
+.footer-center a:hover, .footer-right a:hover {
+    text-decoration: underline;
+}
+
+hr {
+    color: #38383e;
+    margin: 45px 0;
+}
+
+.footer-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+}
+
+.footer .cards {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    margin-top: 20px;
+    object-fit: contain;
+}
+
+/* Server Content Section ------------------------------------------------------------ */
+.servers {
+    position: absolute;
+    top: 117%;
+    left: 150px;
+    gap: 45px;
+    right: 53%;
+    background-color: #0d0d11;
+    font-family: "Rowdies", sans-serif; 
+    font-weight: 400;
+    display: flex;
+    justify-content: space-around;
+    width: 658px;
+    flex-shrink: 0;
+}
+
+.sp-text h1 {
+    margin: 50% 10%;
+    margin-right: 70%;
+    color: #ffffff;
+    font-family: "Arimo", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 30px;
+}
+
+
+.SPm-header img, .SP5-header img {
+    width: 35px;
+    height: 35px;
+}
+
+.SPm-header, .SP5-header {
+    margin: 0 0 15px 0;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.SPm-description, .SP-description {
+    margin-left: 10px;
+    color: #ffffff;
+    font-family: "Montserrat", 0;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+    font-size: 30px;
+}
+
+.SPm-header .scull {
+    margin-left: 100px;
+    width: 23px;
+    height: 23px;
+}
+
+.SPm-title {
+    margin-top: 15px;
+    margin-left: 25px;
+    margin-right: 25px;
+    color: #ffffff;
+    font-family: "Arimo", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 20px;
+    text-align: center;
+    color: #6563ee;
+    background-color: #161627;
+    border-radius: 5px;
+    padding: 5px 5px;
+}
+
+.SPm-title:hover {
+    cursor: text;
+}
+
+.SP-text {
+    margin: 0 0 15px 0;
+    padding: 0 15px;
+    flex-grow: 1;
+    margin-top: 20px;
+    color: #8f8f94;
+    font-family: "Arimo", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.SP-info {
+    margin: 15px auto;
+    margin-bottom: 7px;
+    color: #ffffff;
+    font-family: "Arimo", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 18px;
+    background-color: #1e1e25;
+    border-radius: 7px;
+    padding: 15px 35px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    text-align: center;
+    display: block;
+    width: fit-content;
+    transition: 0.3s;
+}
+
+.SP-info:hover {
+    background-color: #6563ee;
+}
+
+.SPm {
+    border-color: #151519;
+    border-radius: 20px;
+    border-style: solid;
+}
+
+.SP {
+    border-color: #151519;
+    border-radius: 20px;
+    border-style: solid;
+}
+
+.SPm, .SP {
+    transition: 0.3s;
+    border: 1px solid #151519;
+    padding: 17px;
+    flex-direction: column;
+}
+
+.SP .SP-info {
+    margin-top: 63px;
+}
+
+.SPm:hover {
+    background-color: #151519;
+}
+
+.SPm:hover .SP-info {
+    background-color: #6563ee;
+}
+
+.SP:hover {
+    background-color: #151519;
+}
+
+.SP:hover .SP-info {
+    background-color: #6563ee;
+}
+
+/* Footer home page ------------------------------------------------------------ */
+.footer-main {
+    margin-top: -25px;
+    width: 100%;
+    color: #c3c7cd;
+    padding: 20px 10%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.hr-main {
+    color: #38383e;
+    margin: -230px 0 20px 0;
+    margin-left: 150px;
+    margin-right: 150px;
+}
+
+.footer-main .cards {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    margin-top: 20px;
+    object-fit: contain;
+}
+
+/* Contract page ------------------------------------------------------------ */
+.contract-terms {
+    color: #ffffff;
+    font-family: "Montserrat", 0;
+    font-optical-sizing: auto;
+    font-weight: 800;                    /* поменять шрифт */
+    font-style: normal;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.contract {
+    position: absolute;
+    top: 100px;
+    left: 150px;
+    right: 150px;
+    color: #c3c7cd;
+    font-family: "Rowdies", sans-serif;
+    font-weight: 400;
+}
+
+.contract-title {
+    color: #ffffff;
+    font-family: "Montserrat", 0;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+    font-size: 60px;
+    margin-bottom: 20px;
+}
+
+.contract-title:hover {
+    cursor: text;
+}
+
+.back-link {
+    color: #ffffff;
+    font-size: 20px;
+    text-decoration: none;
+    font-family: "Montserrat", 0;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    transition: 0.3s;
+}
+
+.back-link:hover {
+    color: #6563ee;
+}
+
+.contract h2 {
+    color: #ffffff;
+    font-family: "Arimo", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 30px;
+    margin-top: 20px;
+}
+
+.contract p {
+    color: #c3c7cd;
+    font-family: "Arimo", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 20px;
+    line-height: 1.6;
+}
+
+.contract .clause .note, .contract .note {
+    font-style: italic;
+}
+
+.footer-contract {
+    margin-top: 6460px;
+    width: 100%;
+    color: #c3c7cd;
+    padding: 20px 10%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.footer-contract .cards {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    margin-top: 20px;
+    object-fit: contain;
+}
+
+/* Contract page ------------------------------------------------------------ */
+.footer-privacy {
+    margin-top: 4965px;
+    width: 100%;
+    color: #c3c7cd;
+    padding: 20px 10%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.footer-privacy .cards {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    margin-top: 20px;
+    object-fit: contain;
+}
+
+/* Payment page ------------------------------------------------------------ */
+.contract ol {
+    list-style-type: decimal;
+    padding-left: 40px;
+}
+
+.contract ul {
+    list-style-type: disc;
+    padding-left: 40px;
+}
+
+.contract li {
+    display: list-item;
+}
+
+.contract ol li::marker {
+    color: #9ca39d;
+    font-size: 27px;
+    font-weight: bold;
+}
+
+.contract ul li::marker {
+    color: #4b5563;
+    font-size: 18px;
+}
+
+.contract ol p {
+    color: #c3c7cd;
+    font-family: "Arimo", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 20px;
+    line-height: 1.6;
+}
+
+.contract ol li {
+    color: #c3c7cd;
+    font-family: "Arimo", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 20px;
+    line-height: 1.6;
+}
+
+.footer-payment {
+    margin-top: 3055px;
+    width: 100%;
+    color: #c3c7cd;
+    padding: 20px 10%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.footer-payment .cards {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    margin-top: 20px;
+    object-fit: contain;
+}
+
+/* Modal Styles ------------------------------------------------------------ */
+/* Стили модального фона */
+.modal {
+  display: none; /* скрыто по умолчанию */
+  position: fixed;
+  z-index: 1000; /* поверх всего */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5); /* затемнение фона */
+}
+
+/* Содержимое модального окна */
+#loginModal .modal-content {
+  width: 280px !important;   /* узкая фиксированная ширина */
+  max-width: 90vw;           /* чтобы не выходило за экран на мобильных */
+  padding: 15px 20px;
+  margin: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 8px;
+  background-color: #0d0d11;
+  color: #eee;
+  position: relative;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* Крестик закрытия */
+/* Модальный фон с блюром */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  
+  /* добавляем размытие заднего фона */
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  /* для браузеров, не поддерживающих backdrop-filter */
+  /* можно добавить fallback, но сейчас не критично */
+}
+
+/* Контейнер модального окна по центру с нужным фоном */
+.modal-content {
+  background-color: #0d0d11;
+  color: #eee;
+  margin: auto; /* Центрирование */
+  padding: 20px 30px;
+  border-radius: 10px;
+  width: 320px;
+  max-width: 90%;
+  position: relative;
+
+  /* Центрирование по вертикали */
+  top: 50%;
+  transform: translateY(-50%);
+  position: relative;
+}
+
+/* Крестик закрытия */
+.close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #eee;
+}
+
+/* Кнопки входа */
+.login-discord {
+  background-color: #6563ee;
+  border: none;
+  color: white;
+  padding: 12px 20px;
+  margin: 10px 0;
+  width: 100%;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.login-telegram {
+  background-color: #4193cf;
+  border: none;
+  color: white;
+  padding: 12px 20px;
+  margin: 10px 0;
+  width: 100%;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.login-discord:hover, .login-telegram:hover {
+  opacity: 0.85;
+}
+
+/* Заголовок модального окна */
+.modal-content h2 {
+    color: #ffffff;
+    font-family: "Arimo", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+/* Responsive Styles ------------------------------------------------------------ */
+/* Размытие фона при открытии */
+.blur {
+  filter: blur(5px);
+  transition: filter 0.3s ease;
+}
+
+/* Модал */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  padding-top: 50px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+  background-color: #0d0d11;
+  margin: auto;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 800px;
+  color: #fff;
+  font-family: "Arimo", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  box-sizing: border-box;
+}
+
+.modal-content p {
+  color: #8f8f94;
+  font-family: "Arimo", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.modal .close {
+  color: #8f8f94;
+  float: right;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  border: none;
+}
+
+.modal-buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.buy-button {
+  background-color: #6563ee;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.buy-button:hover {
+  background-color: #5452c1;
+}
+
+.gift-button {
+  background-color: #1e1e25;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.gift-button:hover {
+  background-color: #38383e;
+}
+
+/* Adaptive Styles ------------------------------------------------------------ */
+/* ====== АДАПТАЦИЯ ====== */
+
+/* --- Планшеты --- */
+@media screen and (max-width: 1024px) {
+    header {
+        padding: 0 5%;
+    }
+    .main-content,
+    .buttons,
+    .SPCoin,
+    .contract,
+    .how-to-play,
+    .servers,
+    .sp-text {
+        left: 50px !important;
+        right: 50px !important;
+    }
+}
+
+/* --- Смартфоны --- */
+@media screen and (max-width: 768px) {
+    /* Шапка */
+    .create-modpacks { display: none; }
+
+    .burger-menu {
+        display: block;
+        background: none;
+        border: none;
+        font-size: 28px;
+        color: white;
+        cursor: pointer;
+        margin-left: auto;
+    }
+
+    header {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    nav#mainNav {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background-color: #0d0d11;
+    }
+    nav#mainNav ul {
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+    }
+    nav#mainNav li {
+        width: 100%;
+        text-align: center;
+    }
+    nav#mainNav a {
+        display: block;
+        padding: 12px 0;
+        font-size: 18px;
+    }
+
+    /* Контент без absolute */
+    .main-content,
+    .buttons,
+    .SPCoin,
+    .sp-text,
+    .servers {
+        position: static !important;
+        transform: none !important;
+        left: auto !important;
+        right: auto !important;
+        top: auto !important;
+        margin: 20px auto;
+        max-width: 90%;
+    }
+
+    /* Убираем картинку */
+    .opka-img { display: none !important; }
+
+    /* Заголовки */
+    .main-title { font-size: 32px; }
+    .main-p-title { font-size: 14px; }
+
+    /* Кнопки */
+    .buttons {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+    .buttons button {
+        width: 100%;
+        padding: 10px;
+    }
+
+    /* SP Coin — всегда в одну строчку */
+    .SPCoin {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 15px;
+        padding: 10px;
+        border-radius: 15px;
+        background-color: #151519;
+        width: 100%;
+    }
+    .SPCoin-info {
+        flex-grow: 1;
+        text-align: left;
+    }
+
+    /* Заголовок "Сервера sp worlds" */
+    .sp-text h1 {
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin: 20px auto;
+    }
+
+    /* Сервера в колонку */
+    .servers {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        gap: 20px;
+    }
+}
+
+/* --- Очень маленькие телефоны --- */
+@media screen and (max-width: 480px) {
+    .main-title { font-size: 26px; }
+    .how-to-play-title, .contract-title { font-size: 26px; }
+}
+
+/* Бургер скрыт по умолчанию */
+.burger-menu {
+    display: none;
+}
+@media screen and (max-width: 768px) {
+    .burger-menu { display: block; }
+}
+
+/* ===== footer-panel.css ===== */
+
+/* Кнопка открытия — не показываем на десктопе */
+.show-footer-btn {
+  display: none;
+}
+
+/* Крестик закрытия по умолчанию скрыт (откроем на мобилках) */
+.footer-main .footer-close-btn {
+  display: none;
+}
+
+/* Обычный «подвал» на десктопе */
+.footer-main {
+  position: static;
+  display: block;
+  background: #0d0d11;
+  color: #fff;
+}
+
+/* Горизонтальный футер на ПК с отступами и линией сверху */
+@media (min-width: 769px) {
+  /* Стили линии, если <hr> есть в HTML */
+  footer hr {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    margin: 0 auto 20px;
+    max-width: 1200px; /* чтобы не тянулась на весь экран */
+  }
+
+  .footer-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+    padding: 20px 40px;
+    max-width: 1200px; /* ширина контента */
+    margin: 0 auto; /* центрируем */
+  }
+
+  .footer-main .footer-left,
+  .footer-main .footer-center,
+  .footer-main .footer-right {
+    flex: 1;
+    margin-bottom: 0;
+  }
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+/* --- Мобильная версия (<= 768px) --- */
+@media (max-width: 768px) {
+  .show-footer-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 16px;
+    padding: 12px 16px;
+    font-size: 16px;
+    border: none;
+    border-radius: 12px;
+    background: #1f1f28;
+    color: #ffffff;
+    z-index: 10000;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .footer-main {
+    position: fixed;
+    inset: 0;
+    display: none;
+    background: rgba(13,13,17,0.92);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 10001;
+    padding: 24px 18px 28px;
+    overflow-y: auto;
+    transform: translateY(100%);
+    transition: transform 220ms ease-out;
+  }
+
+  .footer-main.is-open {
+    display: block;
+    transform: translateY(0);
+  }
+
+  .footer-main .footer-close-btn {
+    display: inline-flex;
+    position: sticky;
+    top: 0;
+    margin-left: auto;
+    font-size: 28px;
+    line-height: 1;
+    border: none;
+    background: transparent;
+    color: #ffffff;
+    padding: 8px;
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  .footer-main .footer-left,
+  .footer-main .footer-center,
+  .footer-main .footer-right {
+    margin-bottom: 18px;
+  }
+
+  .footer-main .cards {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* --- Чуть мягче анимации --- */
+@media (prefers-reduced-motion: reduce) {
+  .footer-main {
+    transition: none;
+  }
+}
+
+/* === каркас липкого футера === */
+html, body {
+  height: 100%;
+}
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+header { flex-shrink: 0; }
+main   { flex: 1; }            /* растягиваем контент — футер уходит вниз */
+footer { flex-shrink: 0; }
+
+/* === десктоп: .how-to-play должна быть в потоке, а не absolute === */
+@media (min-width: 769px) {
+  .how-to-play {
+    position: static;           /* снимаем absolute */
+    top: auto; left: auto; right: auto; /* на всякий случай обнуляем */
+    max-width: 1200px;
+    margin: 120px auto 40px;    /* отступ сверху под шапку + снизу */
+    padding: 0 150px;           /* боковые поля как у тебя было */
+  }
+
+  /* линия внутри блока — видимая и ровная */
+  .how-to-play hr {
+    border: 0;
+    border-top: 1px solid #38383e;
+    margin: 45px 0;
+  }
+
+  /* десктопный футер — горизонтальный и по центру с отступами */
+  .footer-main {
+    position: static;           /* точно в потоке */
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+    padding: 24px 40px;
+    max-width: 1200px;
+    margin: 0 auto;             /* центрируем */
+    background: #0d0d11;
+  }
+}
+
+/* мобильная кнопка «Контакты и документы» по-прежнему скрыта на десктопе */
+@media (min-width: 769px) {
+  .show-footer-btn { display: none; }
+}
+
+@media (min-width: 769px) {
+  /* Общий контейнер для контента */
+  .how-to-play {
+    position: static;
+    max-width: 1200px;         /* одинаковая ширина */
+    margin: 120px auto 40px;   /* центрируем */
+    padding: 0 20px;           /* внутренние отступы */
+  }
+
+  .how-to-play hr {
+    border: 0;
+    border-top: 1px solid #38383e;
+    margin: 45px 0;
+  }
+
+  /* Футер */
+  .footer-main {
+    position: static;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+    padding: 24px 20px;        /* такие же боковые отступы, как у контента */
+    max-width: 1200px;         /* та же ширина */
+    margin: 0 auto;            /* центрируем */
+    background: #0d0d11;
+    width: 100%;
+  }
+
+  /* Колонки футера */
+  .footer-main > div {
+    flex: 1;
+    min-width: 200px;
+  }
+}
+
+/* Кнопка "Наверх" — только мобильные */
+#scrollTopBtn {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  background: linear-gradient(135deg, #6563ee, #8b88ff);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 52px;
+  height: 52px;
+  font-size: 20px;
+  font-weight: bold;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease, background 0.3s ease;
+}
+
+#scrollTopBtn:hover {
+  background: linear-gradient(135deg, #5452c1, #7a77e6);
+}
+
+#scrollTopBtn.show {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Скрываем на ПК */
+@media (max-width: 768px) {
+  .footer-contract {
+    display: none !important;
+  }
+}
+
+@media (min-width: 1025px) {
+  #scrollTopBtn {
+    display: none !important;
+  }
+}
+
+/* Скрыть футер политики только на телефонах */
+@media (max-width: 768px) {
+  .footer-privacy {
+    display: none !important;
+  }
+}
+
+/* Скрыть футер политики только на телефонах */
+@media (max-width: 768px) {
+  .footer-payment {
+    display: none !important;
+  }
+}
+
+/* Скрыть футер политики только на телефонах */
+@media (max-width: 1024px) {
+  .footer-contract {
+    display: none !important;
+  }
+}
+
+/* Скрыть футер политики только на телефонах */
+@media (max-width: 1024px) {
+  .footer-privacy {
+    display: none !important;
+  }
+}
+
+/* Скрыть футер политики только на телефонах */
+@media (max-width: 1024px) {
+  .footer-payment {
+    display: none !important;
+  }
+}
+
+/* Планшеты и телефоны: только выезжающий футер */
+@media (max-width: 1024px) {
+  .show-footer-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 16px;
+    padding: 12px 16px;
+    font-size: 16px;
+    border: none;
+    border-radius: 12px;
+    background: #1f1f28;
+    color: #ffffff;
+    z-index: 10000;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .footer-main {
+    position: fixed;
+    inset: 0;
+    display: none;
+    background: rgba(13,13,17,0.92);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 10001;
+    padding: 24px 18px 28px;
+    overflow-y: auto;
+    transform: translateY(100%);
+    transition: transform 220ms ease-out;
+  }
+
+  .footer-main.is-open {
+    display: block;
+    transform: translateY(0);
+  }
+
+  .footer-main .footer-close-btn {
+    display: inline-flex;
+    position: sticky;
+    top: 0;
+    margin-left: auto;
+    font-size: 28px;
+    line-height: 1;
+    border: none;
+    background: transparent;
+    color: #ffffff;
+    padding: 8px;
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  .footer-main .footer-left,
+  .footer-main .footer-center,
+  .footer-main .footer-right {
+    margin-bottom: 18px;
+  }
+
+  .footer-main .cards {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+@media (max-width: 1024px) {
+  .footer-main .cards,
+  .footer-center .cards,
+  .footer-right .cards {
+    max-width: 180px;
+  }
+}
+
+/* Планшеты и меньше — элементы идут в потоке, не перекрываются */
+@media (max-width: 1024px) {
+  .main-content,
+  .buttons,
+  .SPCoin,
+  .sp-text,
+  .servers {
+    position: static !important;
+    transform: none !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    margin: 20px auto;
+    max-width: 90%;
+  }
+
+  /* Контент в колонку на планшетах */
+  .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+  .buttons button {
+    flex: 1 1 auto;
+    min-width: 200px;
+  }
+
+  /* SPCoin адаптация */
+  .SPCoin {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+  }
+
+  /* Сервера под заголовком */
+  .servers {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 20px;
+  }
+
+  /* Центровка заголовка */
+  .sp-text h1 {
+    text-align: center;
+    margin: 20px auto;
+  }
+}
+
+@media (max-width: 1024px) {
+  /* Убираем картинку справа */
+  .opka-img {
+    display: none !important;
+  }
+
+  /* Убираем кнопку "Создать сборку" */
+  .create-modpacks {
+    display: none !important;
+  }
+
+  /* Убираем hr */
+  .hr-main {
+    display: none !important;
+  }
+}

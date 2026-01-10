@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta author="kiwwij"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rock That Body Lyrics</title>
+  <link rel="stylesheet" href="../css/tt-song-AKA-trend.css"/>
+</head>
+<body>
+    <canvas id="iconCanvas" width="50" height="50" style="display:none;"></canvas>
+
+    <div class="stars"></div>
+
+    <div class="container">
+        <canvas id="avatar" width="80" height="80" style="border-radius:50%; margin-bottom: 15px;"></canvas>
+
+        <div class="title">Rock That Body</div>
+
+        <div class="music-player">
+            <audio id="song" controls>
+                <source src="tt-song-AKA-trend/rock-that-body.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+
+        <div class="lyrics-container">
+            <div id="current-line" class="line"></div>
+        </div>
+
+        <div class="visualizer">
+            <div class="bar" style="--i:1"></div>
+            <div class="bar" style="--i:2"></div>
+            <div class="bar" style="--i:3"></div>
+            <div class="bar" style="--i:4"></div>
+            <div class="bar" style="--i:5"></div>
+            <div class="bar" style="--i:6"></div>
+        </div>
+    </div>
+
+    <script src="../js/tt-song-AKA-trend.js"></script>
+</body>
+</html>
