@@ -2,7 +2,7 @@
 const username = 'kiwwij';
 const repo = 'my-projects';
 const folder = 'html';
-const steamLogin = 'serhiosergey'; // Твой логин в ссылке Steam (id/serhiosergey)
+const steamLogin = 'serhiosergey';
 
 // Читаем файл локально
 const configUrl = 'projects.json'; 
@@ -30,7 +30,7 @@ async function loadProjects() {
         container.innerHTML = ''; 
 
         if (htmlFiles.length === 0) {
-            container.innerHTML = '<p>Проектов пока нет.</p>';
+            container.innerHTML = '<p>There are no projects yet.</p>';
             return;
         }
 
@@ -79,7 +79,7 @@ async function loadProjects() {
                 <div class="card-content">
                     <span class="card-type">HTML Page</span>
                     <div class="card-title">${displayName}</div>
-                    <div class="card-arrow">Открыть →</div>
+                    <div class="card-arrow">Open →</div>
                 </div>
             `;
 
@@ -89,7 +89,7 @@ async function loadProjects() {
 
     } catch (error) {
         console.error(error);
-        container.innerHTML = `<p style="color:red; text-align:center;">Ошибка загрузки. Используйте Live Server.</p>`;
+        container.innerHTML = `<p style="color:red; text-align:center;">Loading error. Please use Live Server.</p>`;
     }
 }
 
@@ -125,7 +125,7 @@ async function updateSteamAvatar() {
             }
         }
     } catch (err) {
-        console.log('Не удалось загрузить аватарку Steam автоматически, останется старая.', err);
+        console.log('Failed to download Steam avatar automatically, old one will remain.', err);
     }
 }
 
