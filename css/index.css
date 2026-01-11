@@ -603,3 +603,108 @@ footer a:hover {
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
     z-index: 2;
 }
+
+/* --- СЧЕТЧИК ПРОЕКТОВ --- */
+.count-badge {
+    font-size: 0.75rem; /* Уменьшили шрифт (было 0.85rem) */
+    background-color: rgba(0, 0, 0, 0.08);
+    color: var(--text-muted);
+    padding: 2px 8px; /* Чуть меньше отступы по бокам (было 10px) */
+    border-radius: 10px; /* Чуть меньше радиус скругления */
+    margin-left: 4px;
+    vertical-align: middle;
+    position: relative; 
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+/* В темной теме делаем фон чуть светлее */
+[data-theme="dark"] .count-badge {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-main);
+}
+
+/* Иконки языков */
+.tech-icon {
+    font-size: 1.5rem;
+    color: var(--text-muted);
+    
+    /* Та самая "пружинистая" анимация */
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+    
+    cursor: pointer;    /* Рука при наведении */
+    position: relative; /* Чтобы работали z-index */
+    z-index: 1;         /* Лежит на уровне карточки */
+    display: inline-block; /* Важно для трансформации */
+}
+
+/* Эффект при наведении */
+.tech-icon:hover {
+    transform: scale(1.4) translateY(-3px); /* Сильное увеличение и подскок */
+    z-index: 10;          /* Всплывает поверх всего, даже соседних иконок */
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2)); /* Добавляем тень для объема */
+    filter: brightness(1.2) drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+}
+
+/* --- КНОПКА "НАВЕРХ" --- */
+#scrollTopBtn {
+    /* Обязательно display: flex, но скрываем визуально */
+    display: flex;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 99;
+    
+    /* Размеры и форма */
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    
+    /* Цвета */
+    background-color: var(--card-bg);
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
+    
+    /* Тени и размытие */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    
+    /* Текст */
+    font-size: 1.5rem;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    
+    /* --- АНИМАЦИЯ ПОЯВЛЕНИЯ (Главное изменение) --- */
+    opacity: 0;                /* Полностью прозрачная */
+    visibility: hidden;        /* Нельзя кликнуть */
+    transform: translateY(20px); /* Спущена вниз на 20px */
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Плавный переход */
+}
+
+/* Класс, который мы будем добавлять через JS */
+#scrollTopBtn.show {
+    opacity: 1;                /* Видимая */
+    visibility: visible;       /* Кликабельная */
+    transform: translateY(0);  /* Возвращается на место */
+}
+
+/* Ховер эффект */
+#scrollTopBtn:hover {
+    transform: translateY(-5px); /* При наведении чуть всплывает */
+    background-color: var(--accent);
+    color: white;
+    border-color: var(--accent);
+    box-shadow: 0 8px 20px rgba(9, 132, 227, 0.3);
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 768px) {
+    #scrollTopBtn {
+        bottom: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+}

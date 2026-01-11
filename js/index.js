@@ -89,23 +89,30 @@ async function loadProjects() {
                 imageHTML = `<div class="card-image placeholder" style="background-color: ${color}"><span>${displayName.charAt(0)}</span></div>`;
             }
 
-            // --- ЛОГИКА ОТОБРАЖЕНИЯ ИКОНОК ---
+            // --- ЛОГИКА ОТОБРАЖЕНИЯ ИКОНОК (ОБНОВЛЕННАЯ) ---
             const MAX_ICONS = 6; 
             let stackHTML = '';
 
+            // Вспомогательная функция для создания кликабельной иконки
+            const createIconHtml = (tech) => {
+                const iconClass = getTechIcon(tech);
+                // onclick event.preventDefault() - останавливает открытие ссылки карточки
+                // onclick event.stopPropagation() - останавливает "всплытие" клика
+                return `<i class='${iconClass} tech-icon' 
+                           title='Filter by ${tech.toUpperCase()}'
+                           onclick="event.preventDefault(); event.stopPropagation(); filterByTech('${tech}')">
+                        </i>`;
+            };
+
             if (stack.length <= MAX_ICONS) {
-                stackHTML = stack.map(tech => {
-                    const iconClass = getTechIcon(tech);
-                    return `<i class='${iconClass} tech-icon' title='${tech.toUpperCase()}'></i>`;
-                }).join('');
+                stackHTML = stack.map(tech => createIconHtml(tech)).join('');
             } else {
                 const visibleCount = MAX_ICONS - 1; 
                 const hiddenCount = stack.length - visibleCount;
 
-                const visibleTechs = stack.slice(0, visibleCount).map(tech => {
-                    const iconClass = getTechIcon(tech);
-                    return `<i class='${iconClass} tech-icon' title='${tech.toUpperCase()}'></i>`;
-                }).join('');
+                const visibleTechs = stack.slice(0, visibleCount)
+                    .map(tech => createIconHtml(tech))
+                    .join('');
 
                 const hiddenTechsString = stack.slice(visibleCount).join(', ').toUpperCase();
                 stackHTML = `${visibleTechs}<span class="tech-more" title="More: ${hiddenTechsString}">+${hiddenCount}</span>`;
@@ -139,6 +146,8 @@ async function loadProjects() {
             container.appendChild(card);
             allProjects.push(card);
         });
+
+        updateProjectCount();
 
     } catch (error) {
         console.error(error);
@@ -233,6 +242,7 @@ function initTheme() {
 searchInput.addEventListener('input', (e) => {
     const val = e.target.value.toLowerCase();
     allProjects.forEach(card => card.style.display = card.getAttribute('data-name').includes(val) ? 'flex' : 'none');
+    updateProjectCount();
 });
 
 document.getElementById('current-year').textContent = new Date().getFullYear();
@@ -318,6 +328,9 @@ function filterByTech(tech) {
         
         // Показываем все карточки
         allProjects.forEach(card => card.style.display = 'flex');
+
+        // --- ВАЖНО: Обновляем счетчик здесь тоже! ---
+        updateProjectCount(); 
         return;
     }
 
@@ -343,5 +356,44 @@ function filterByTech(tech) {
         } else {
             card.style.display = 'none';
         }
+    });
+
+    // Обновляем счетчик при применении фильтра
+    updateProjectCount();
+}
+
+function updateProjectCount() {
+    const counter = document.getElementById('project-count');
+    // Считаем только те карточки, которые видимы (display != 'none')
+    const visibleCount = allProjects.filter(card => card.style.display !== 'none').length;
+    
+    if (counter) {
+        counter.textContent = visibleCount;
+        
+        // Маленькая анимация: если проектов 0, красим в красный, иначе стандарт
+        counter.style.color = visibleCount === 0 ? '#e74c3c' : '';
+    }
+}
+
+// --- КНОПКА SCROLL TO TOP ---
+const mybutton = document.getElementById("scrollTopBtn");
+
+window.onscroll = function() { scrollFunction() };
+
+function scrollFunction() {
+    // Если прокрутили больше 300px — добавляем класс .show
+    if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        mybutton.classList.add("show");
+    } else {
+        // Иначе убираем его
+        mybutton.classList.remove("show");
+    }
+}
+
+// Функция плавного скролла наверх
+function topFunction() {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
     });
 }
