@@ -28,12 +28,21 @@ async function loadProjects() {
 
         // 2. --- ДОБАВЛЯЕМ ВНЕШНИЙ ПРОЕКТ ВРУЧНУЮ ---
         // Имя 'OSBB' должно совпадать с ключом в projects.json
-        htmlFiles.push({ name: 'Homeowners-association' }); 
+        const manualProjects = [
+            { name: 'Homeowners-association' },
+            { name: 'kiwwij-anime-tier-list' },
+            { name: 'kiwwij-social-links' },
+            { name: 'online-library' },
+            { name: 'Caterpillar-game' },
+        ];
+        
+        htmlFiles.push(...manualProjects);
         
         // Сортировка А-Я (теперь сортирует и GitHub файлы, и твой новый)
         htmlFiles.sort((a, b) => a.name.localeCompare(b.name));
 
         const projectsConfig = configResponse || {}; 
+        renderTechStats(htmlFiles, projectsConfig);
 
         container.innerHTML = ''; 
 
@@ -110,6 +119,7 @@ async function loadProjects() {
             card.className = 'project-card';
             card.target = '_blank';
             card.setAttribute('data-name', displayName.toLowerCase());
+            card.setAttribute('data-stack', stack.join(',').toLowerCase());
             
             card.innerHTML = `
                 ${imageHTML}
@@ -231,3 +241,107 @@ document.addEventListener('DOMContentLoaded', () => {
     updateSteamAvatar(); 
     initTheme();
 });
+
+// Цвета для популярных технологий (как на GitHub)
+const techColors = {
+    'html': '#e34c26',
+    'css': '#563d7c',
+    'js': '#f1e05a',
+    'javascript': '#f1e05a',
+    'python': '#3572A5',
+    'php': '#4F5D95',
+    'java': '#b07219',
+    'c++': '#f34b7d',
+    'cpp': '#f34b7d',
+    'c#': '#178600',
+    'typescript': '#2b7489',
+    'ts': '#2b7489',
+    'vue': '#41b883',
+    'react': '#61dafb',
+    'github': '#181717',
+    'git': '#F05032',
+    'mysql': '#4479a1',
+    'sql': '#4479a1'
+};
+
+let currentFilter = null; // Глобальная переменная для хранения текущего фильтра
+
+function renderTechStats(files, projectsConfig) {
+    const statsContainer = document.getElementById('tech-stats');
+    if (!statsContainer) return;
+
+    const totalStats = {};
+    let totalCount = 0;
+
+    files.forEach(file => {
+        const configEntry = projectsConfig[file.name];
+        let stack = (configEntry && configEntry.stack) ? configEntry.stack : [];
+        stack.forEach(tech => {
+            const key = tech.toLowerCase();
+            totalStats[key] = (totalStats[key] || 0) + 1;
+            totalCount++;
+        });
+    });
+
+    if (totalCount === 0) {
+        statsContainer.style.display = 'none';
+        return;
+    }
+
+    const sortedStats = Object.entries(totalStats).sort(([, a], [, b]) => b - a);
+
+    statsContainer.innerHTML = sortedStats.map(([tech, count]) => {
+        const percentage = (count / totalCount) * 100;
+        const color = techColors[tech] || getRandomColor();
+        const percentDisplay = percentage.toFixed(1);
+
+        // Мы добавляем onclick прямо в HTML
+        return `<div class="stat-bar" 
+                     id="filter-${tech}"
+                     onclick="filterByTech('${tech}')"
+                     style="width: ${percentage}%; background-color: ${color};" 
+                     title="Filter by ${tech.toUpperCase()}: ${count} projects">
+                </div>`;
+    }).join('');
+}
+
+// --- НОВАЯ ФУНКЦИЯ ФИЛЬТРАЦИИ ---
+function filterByTech(tech) {
+    const statsContainer = document.getElementById('tech-stats');
+    const searchInput = document.getElementById('search-input');
+    
+    // Если кликнули по уже активному фильтру — сбрасываем
+    if (currentFilter === tech) {
+        currentFilter = null;
+        statsContainer.classList.remove('has-active-filter');
+        document.querySelectorAll('.stat-bar').forEach(el => el.classList.remove('active'));
+        
+        // Показываем все карточки
+        allProjects.forEach(card => card.style.display = 'flex');
+        return;
+    }
+
+    // Устанавливаем новый фильтр
+    currentFilter = tech;
+    
+    // Очищаем поиск, чтобы не конфликтовал
+    searchInput.value = ''; 
+
+    // Визуальные эффекты на полоске
+    statsContainer.classList.add('has-active-filter');
+    document.querySelectorAll('.stat-bar').forEach(el => el.classList.remove('active'));
+    
+    const activeBar = document.getElementById(`filter-${tech}`);
+    if (activeBar) activeBar.classList.add('active');
+
+    // Сама фильтрация карточек
+    allProjects.forEach(card => {
+        const stackString = card.getAttribute('data-stack');
+        // Проверяем, есть ли выбранная технология в списке стека этой карточки
+        if (stackString && stackString.includes(tech)) {
+            card.style.display = 'flex';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}

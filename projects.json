@@ -30,7 +30,7 @@
     "stack": ["html", "css", "js", "github"]
   },
   "anime-world.html": {
-    "image": "bx bxs-collection",
+    "image": "https://raw.githubusercontent.com/kiwwij/my-projects/refs/heads/main/html/anime-world/img/favicons/anime-preview.png",
     "description": "A small library / anime advertisement / catalog of watched anime.",
     "stack": ["html", "css", "js", "github"]
   },
@@ -46,8 +46,42 @@
   },
   "Homeowners-association": {
     "image": "https://kasyanenko.com.ua/wp-content/uploads/2020/08/ede2a50ec1a2ab6501ce7f737c21a90b.jpeg",
-    "description": "A Homeowners Association (HOA) in Ukrainian is ОСББ (Об'єднання співвласників багатоквартирного будинку) that manages common areas and infrastructure. Project on IT-Universe 2026. The site might not be working, so the link leads to a video. But here's a link to the site - https://testosbb.xo.je/php/login.php",
+    "description": "A Homeowners Association (HOA) in Ukrainian is ОСББ (Об'єднання співвласників багатоквартирного будинку) that manages common areas and infrastructure. Project on IT-Universe 2026. The site might not be working, so the link leads to a video. But here's a link to the site - https://testosbb.xo.je/php/login.php?i=1",
     "stack": ["php", "mysql", "html", "css", "js"],
-    "url": "https://testosbb.xo.je/php/login.php"
+    "url": "https://testosbb.xo.je/php/login.php?i=1"
+  },
+  "kiwwij-anime-tier-list": {
+    "image": "bx bxs-user-detail",
+    "description": "Personal page about me, my interests, and anime tier list.",
+    "stack": ["html", "css", "js", "github"],
+    "url": "https://kiwwij.github.io/kiwwij-anime-tier-list/"
+  },
+  "kiwwij-social-links": {
+    "image": "bx bxs-id-card",
+    "description": "Hub with links to all my social media profiles.",
+    "stack": ["html", "css", "js", "github"],
+    "url": "https://kiwwij.github.io/kiwwij-social-links/"
+  },
+  "online-library": {
+    "image": "https://kiwwij.github.io/online-library/img/librium_logo.png",
+    "description": "University coursework project. An online library system.",
+    "stack": ["html", "css", "js", "github"],
+    "url": "https://kiwwij.github.io/online-library/"
+  },
+  "Caterpillar-game": {
+    "image": "https://i.ibb.co/SX79Fkm6/icon.jpg",
+    "description": "University project. A classic Caterpillar (Snake-like) game developed in C++.",
+    "stack": ["c++", "github"],
+    "url": "https://github.com/kiwwij/Caterpillar-game"
+  },
+  "eng.html": {
+    "image": "bx bxs-book-open",
+    "description": "English word repetition.",
+    "stack": ["html", "css", "js", "github"]
+  },
+  "bzvp.html": {
+    "image": "bx bxs-medal",
+    "description": "Questions for exam preparation.",
+    "stack": ["html", "css", "js", "github"]
   }
 }

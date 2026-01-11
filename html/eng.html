@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT English Vocabulary Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .timer-bar-inner { transition: width 1s linear; }
+        .option-btn { transition: all 0.2s ease-in-out; }
+        .option-btn:disabled { opacity: 0.8; cursor: not-allowed; }
+        .option-btn.correct { background-color: #d1fae5; border-color: #10b981; color: #065f46; font-weight: 600; }
+        .option-btn.incorrect { background-color: #fee2e2; border-color: #f87171; color: #991b1b; font-weight: 600; }
+        .fade-in { animation: fadeIn 0.3s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen flex items-center justify-center p-4">
+
+    <div id="app" class="w-full max-w-2xl bg-white rounded-2xl shadow-xl p-6 md:p-10 fade-in">
+
+        <div id="topic-screen">
+            <h1 class="text-3xl font-bold text-center text-gray-800 mb-2">IT English Vocabulary</h1>
+            <p class="text-center text-gray-500 mb-8">Оберіть тему для вивчення</p>
+            
+            <div class="grid grid-cols-1 gap-4">
+                <button onclick="selectTopic('hardware')" class="group relative w-full bg-white border-2 border-indigo-100 hover:border-indigo-500 hover:bg-indigo-50 p-4 rounded-xl transition-all duration-300 flex items-center shadow-sm hover:shadow-md">
+                    <div class="bg-indigo-100 p-3 rounded-lg group-hover:bg-indigo-600 transition-colors">
+                        <span class="text-2xl">🖥️</span>
+                    </div>
+                    <div class="ml-4 text-left">
+                        <h3 class="text-lg font-bold text-gray-800 group-hover:text-indigo-700">Hardware & Display</h3>
+                        <p class="text-sm text-gray-500">33 слова (монітори, залізо)</p>
+                    </div>
+                </button>
+
+                <button onclick="selectTopic('software')" class="group relative w-full bg-white border-2 border-emerald-100 hover:border-emerald-500 hover:bg-emerald-50 p-4 rounded-xl transition-all duration-300 flex items-center shadow-sm hover:shadow-md">
+                    <div class="bg-emerald-100 p-3 rounded-lg group-hover:bg-emerald-600 transition-colors">
+                        <span class="text-2xl">💾</span>
+                    </div>
+                    <div class="ml-4 text-left">
+                        <h3 class="text-lg font-bold text-gray-800 group-hover:text-emerald-700">Software & Dev</h3>
+                        <p class="text-sm text-gray-500">37 слів (програми, код, помилки)</p>
+                    </div>
+                </button>
+
+                <button onclick="selectTopic('ui')" class="group relative w-full bg-white border-2 border-purple-100 hover:border-purple-500 hover:bg-purple-50 p-4 rounded-xl transition-all duration-300 flex items-center shadow-sm hover:shadow-md">
+                    <div class="bg-purple-100 p-3 rounded-lg group-hover:bg-purple-600 transition-colors">
+                        <span class="text-2xl">🖱️</span>
+                    </div>
+                    <div class="ml-4 text-left">
+                        <h3 class="text-lg font-bold text-gray-800 group-hover:text-purple-700">UI & Interaction</h3>
+                        <p class="text-sm text-gray-500">29 слів (інтерфейс, взаємодія)</p>
+                    </div>
+                </button>
+
+                <div class="border-t border-gray-200 my-2"></div>
+
+                <button onclick="selectTopic('mix')" class="group relative w-full bg-gradient-to-r from-orange-500 to-pink-500 text-white p-4 rounded-xl transition-all duration-300 flex items-center shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    <div class="bg-white/20 p-3 rounded-lg">
+                        <span class="text-2xl">🎲</span>
+                    </div>
+                    <div class="ml-4 text-left">
+                        <h3 class="text-lg font-bold">Random Mix</h3>
+                        <p class="text-sm text-orange-100">40 випадкових слів з усіх тем</p>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <div id="mode-screen" class="hidden">
+            <div class="flex items-center mb-6">
+                <button onclick="goBackToTopics()" class="text-gray-400 hover:text-gray-700 font-medium flex items-center">
+                    ← Назад
+                </button>
+                <h2 id="selected-topic-title" class="ml-auto text-xl font-bold text-gray-800">Обрана тема</h2>
+            </div>
+            
+            <p class="text-center text-gray-600 mb-8">Як ви хочете тренуватися?</p>
+
+            <div class="space-y-4">
+                <button onclick="startGame('multiple-choice')" class="w-full bg-blue-600 text-white font-bold py-4 px-6 rounded-xl shadow-md hover:bg-blue-700 transition-colors duration-300 flex items-center justify-between group">
+                    <span>Тест (4 варіанти)</span>
+                    <span class="bg-blue-500 group-hover:bg-blue-600 py-1 px-3 rounded text-sm">Найлегший</span>
+                </button>
+                <button onclick="startGame('write-en-ua')" class="w-full bg-teal-600 text-white font-bold py-4 px-6 rounded-xl shadow-md hover:bg-teal-700 transition-colors duration-300 flex items-center justify-between group">
+                    <span>Писати переклад (EN → UA)</span>
+                    <span class="bg-teal-500 group-hover:bg-teal-600 py-1 px-3 rounded text-sm">Складний</span>
+                </button>
+                <button onclick="startGame('write-ua-en')" class="w-full bg-indigo-600 text-white font-bold py-4 px-6 rounded-xl shadow-md hover:bg-indigo-700 transition-colors duration-300 flex items-center justify-between group">
+                    <span>Писати слово (UA → EN)</span>
+                    <span class="bg-indigo-500 group-hover:bg-indigo-600 py-1 px-3 rounded text-sm">Експерт</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="quiz-screen" class="hidden">
+            <div class="flex justify-between items-center mb-4">
+                <div id="question-counter" class="text-sm font-semibold text-gray-500"></div>
+                <div id="timer" class="text-lg font-bold text-blue-600">30с</div>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2.5 mb-6 overflow-hidden">
+                <div id="timer-bar" class="timer-bar-inner bg-blue-600 h-2.5 rounded-full" style="width: 100%;"></div>
+            </div>
+            <h2 id="question-text" class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8 min-h-[80px] flex items-center justify-center"></h2>
+            <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </div>
+
+        <div id="quiz-write-screen" class="hidden">
+            <div class="flex justify-between items-center mb-4">
+                <div id="write-question-counter" class="text-sm font-semibold text-gray-500"></div>
+                <div id="write-timer" class="text-lg font-bold text-blue-600">30с</div>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2.5 mb-6 overflow-hidden">
+                <div id="write-timer-bar" class="timer-bar-inner bg-blue-600 h-2.5 rounded-full" style="width: 100%;"></div>
+            </div>
+            <h2 id="write-question-text" class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-6 min-h-[80px] flex items-center justify-center"></h2>
+            
+            <div class="relative">
+                <input type="text" id="write-input" class="w-full border-2 border-gray-300 p-4 rounded-lg text-lg focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors" placeholder="Введіть відповідь..." autocomplete="off">
+            </div>
+            
+            <div id="write-feedback" class="text-center font-semibold mt-4 mb-6 min-h-[1.5rem]"></div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <button id="skip-btn" class="w-full bg-gray-200 text-gray-700 font-bold py-3 px-6 rounded-lg hover:bg-gray-300 transition-colors">Пропустити</button>
+                <button id="check-btn" class="w-full bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors">Перевірити</button>
+            </div>
+        </div>
+
+        <div id="results-screen" class="hidden text-center">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Результати</h1>
+            <p id="result-topic-name" class="text-gray-500 mb-6 font-medium"></p>
+            
+            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-8 mb-8 inline-block w-full">
+                <div class="text-6xl font-black text-blue-600 mb-2" id="score-text"></div>
+                <div class="flex justify-center gap-8 text-sm uppercase tracking-wide font-bold">
+                    <span class="text-green-600">✓ <span id="correct-count"></span> Правильно</span>
+                    <span class="text-red-500">✕ <span id="incorrect-count"></span> Помилок</span>
+                </div>
+            </div>
+
+            <div id="results-review-container" class="mt-4 text-left hidden">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">Робота над помилками:</h3>
+                <div id="results-review" class="space-y-3 max-h-80 overflow-y-auto pr-2 scrollbar-thin"></div>
+            </div>
+
+            <button onclick="goBackToTopics()" class="w-full bg-gray-800 text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:bg-black transition-colors duration-300 text-lg mt-8">
+                Головне меню
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // --- 1. БАЗА ДАНИХ СЛІВ (По категоріям) ---
+        const wordCategories = {
+            hardware: [
+                { en: "amplify", ua: "підсилювати" },
+                { en: "aspect ratio", ua: "співвідношення сторін" },
+                { en: "barcode", ua: "штрихкод" },
+                { en: "bit-mapped", ua: "растровий" },
+                { en: "blank space", ua: "клавіша пробіл" }, // Updated based on list context
+                { en: "built-in", ua: "вбудований" },
+                { en: "characters", ua: "символи" },
+                { en: "compatible", ua: "сумісний" },
+                { en: "contrast ratio", ua: "контрастність" },
+                { en: "density", ua: "щільність, густина" },
+                { en: "emission", ua: "випромінення" },
+                { en: "external", ua: "зовнішній" },
+                { en: "film", ua: "плівка" },
+                { en: "headphones, earpieces", ua: "навушники" },
+                { en: "headset", ua: "гарнітура" },
+                { en: "inch", ua: "дюйм" },
+                { en: "instead of", ua: "замість" },
+                { en: "lower-case letters", ua: "літери нижнього регістру" },
+                { en: "refresh rate", ua: "частота оновлення" },
+                { en: "response time", ua: "час відгуку" },
+                { en: "space bar", ua: "клавіша пробіл" },
+                { en: "speakers", ua: "колонки" },
+                { en: "specifications", ua: "технічні характеристики" },
+                { en: "3D", ua: "трьохвимірний" },
+                { en: "to attach", ua: "прикріпити, приєднати" },
+                { en: "to capture", ua: "захопити" },
+                { en: "to display", ua: "показувати" },
+                { en: "to obtain", ua: "отримувати" },
+                { en: "to purchase", ua: "купувати" },
+                { en: "to reduce", ua: "зменшувати" },
+                { en: "to remove", ua: "видаляти" },
+                { en: "upper-case letters", ua: "літери верхнього регістру" },
+                { en: "viewing angles", ua: "кути огляду" }
+            ],
+            software: [
+                { en: "application software", ua: "прикладне програмне забезпечення" },
+                { en: "back-up", ua: "резервне копіювання" },
+                { en: "bug", ua: "помилка спричинена програмістом" },
+                { en: "calculation", ua: "обчислення" },
+                { en: "closed source", ua: "із закритим кодом" },
+                { en: "compatible", ua: "сумісний" },
+                { en: "database", ua: "база даних" },
+                { en: "desktop publishing", ua: "комп’ютерна верстка" },
+                { en: "embedded", ua: "вбудований" },
+                { en: "end user", ua: "кінцевий користувач" },
+                { en: "error", ua: "помилка спричинена неуважністю" },
+                { en: "feature", ua: "особливість, функція" },
+                { en: "firmware", ua: "прошивка, вбудоване ПЗ" },
+                { en: "flowchart", ua: "блок-схема" },
+                { en: "IDE", ua: "інтегроване середовище розробки" },
+                { en: "kernel", ua: "ядро" },
+                { en: "manually", ua: "вручну" },
+                { en: "open source software", ua: "ПЗ з відкритим кодом" },
+                { en: "paging file", ua: "файл підкачки" },
+                { en: "proprietary software", ua: "пропрієтарне програмне забезпечення" },
+                { en: "restriction", ua: "обмеження" },
+                { en: "sequence", ua: "послідовність" },
+                { en: "source code", ua: "вихідний код" },
+                { en: "spreadsheet", ua: "електронна таблиця" },
+                { en: "system software", ua: "системне програмне забезпечення" },
+                { en: "task manager", ua: "диспетчер завдань" },
+                { en: "to abort", ua: "перервати" },
+                { en: "to compile", ua: "компілювати" },
+                { en: "to debug", ua: "відлагоджувати" },
+                { en: "to edit", ua: "редагувати" },
+                { en: "to fix", ua: "виправити" },
+                { en: "to restore", ua: "відновлювати" },
+                { en: "to terminate", ua: "обмежувати, припиняти" },
+                { en: "usability", ua: "зручність у користуванні" },
+                { en: "wide range", ua: "широкий спектр" },
+                { en: "word processing", ua: "текстова обробка" },
+                { en: "word processor", ua: "текстовий редактор" }
+            ],
+            ui: [
+                { en: "allocates", ua: "виділяти" },
+                { en: "assembly language", ua: "мова асемблера" },
+                { en: "background", ua: "фон" },
+                { en: "button", ua: "кнопка" },
+                { en: "check box", ua: "позначка, прапорець" },
+                { en: "consumer electronics", ua: "споживча електроніка" },
+                { en: "desktop", ua: "робочий стіл" },
+                { en: "drop-down menu", ua: "випадне меню" },
+                { en: "folder", ua: "папка" },
+                { en: "handwriting recognition", ua: "розпізнавання рукописного тексту" },
+                { en: "high-level language", ua: "високорівнева мова" },
+                { en: "impact", ua: "вплив" },
+                { en: "interaction", ua: "взаємодія" },
+                { en: "kernel", ua: "ядро" },
+                { en: "pointer", ua: "вказівник" },
+                { en: "portability", ua: "портативність" },
+                { en: "recycle bin", ua: "корзина" },
+                { en: "scrollbar", ua: "панель прокрутки" },
+                { en: "shell", ua: "оболонка" },
+                { en: "speech recognition", ua: "розпізнавання мовлення" },
+                { en: "submenu", ua: "підменю" },
+                { en: "taskbar", ua: "панель завдань" },
+                { en: "to benefit", ua: "отримати перевагу" },
+                { en: "to broaden", ua: "розширювати" },
+                { en: "to check", ua: "позначати, перевіряти" },
+                { en: "to improve", ua: "покращувати" },
+                { en: "to interact", ua: "взаємодіяти" },
+                { en: "to involve", ua: "включати, залучати" },
+                { en: "to uncheck", ua: "зняти позначку" }
+            ]
+        };
+
+        // --- Глобальні змінні ---
+        let currentTopicKey = '';
+        let currentQuizData = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let userAnswers = [];
+        let timer;
+        let timeLeft;
+        const TIME_PER_QUESTION = 20;
+
+        // --- DOM Elements ---
+        const screens = {
+            topic: document.getElementById('topic-screen'),
+            mode: document.getElementById('mode-screen'),
+            quiz: document.getElementById('quiz-screen'),
+            write: document.getElementById('quiz-write-screen'),
+            results: document.getElementById('results-screen')
+        };
+
+        // --- Утиліти ---
+        function shuffle(array) {
+            return array.sort(() => Math.random() - 0.5);
+        }
+
+        // --- Логіка навігації ---
+        function selectTopic(topic) {
+            currentTopicKey = topic;
+            let title = "";
+            switch(topic) {
+                case 'hardware': title = "Hardware & Display"; break;
+                case 'software': title = "Software & Development"; break;
+                case 'ui': title = "UI & Interaction"; break;
+                case 'mix': title = "Random Mix (40 words)"; break;
+            }
+            document.getElementById('selected-topic-title').innerText = title;
+            
+            screens.topic.classList.add('hidden');
+            screens.mode.classList.remove('hidden');
+            screens.mode.classList.add('fade-in');
+        }
+
+        function goBackToTopics() {
+            screens.mode.classList.add('hidden');
+            screens.results.classList.add('hidden');
+            screens.topic.classList.remove('hidden');
+            screens.topic.classList.add('fade-in');
+        }
+
+        function prepareData() {
+            let rawData = [];
+            
+            if (currentTopicKey === 'mix') {
+                // Combine all arrays
+                rawData = [
+                    ...wordCategories.hardware,
+                    ...wordCategories.software,
+                    ...wordCategories.ui
+                ];
+                // Shuffle and take 40
+                rawData = shuffle([...rawData]).slice(0, 40);
+            } else {
+                rawData = [...wordCategories[currentTopicKey]];
+                shuffle(rawData);
+            }
+            return rawData;
+        }
+
+        // --- Логіка старту гри ---
+        function startGame(mode) {
+            currentQuizData = prepareData();
+            currentQuestionIndex = 0;
+            score = 0;
+            userAnswers = [];
+            
+            screens.mode.classList.add('hidden');
+
+            if (mode === 'multiple-choice') {
+                screens.quiz.classList.remove('hidden');
+                runMultipleChoiceQuestion();
+            } else {
+                screens.write.classList.remove('hidden');
+                runWriteQuestion(mode);
+            }
+        }
+
+        // --- Multiple Choice Logic ---
+        function runMultipleChoiceQuestion() {
+            if (currentQuestionIndex >= currentQuizData.length) {
+                showResults();
+                return;
+            }
+
+            const item = currentQuizData[currentQuestionIndex];
+            document.getElementById('question-counter').innerText = `${currentQuestionIndex + 1} / ${currentQuizData.length}`;
+            document.getElementById('question-text').innerText = item.en;
+
+            // Generate options
+            let options = [item.ua];
+            // Get all possible UA answers from all categories to confuse
+            let allUa = [...wordCategories.hardware, ...wordCategories.software, ...wordCategories.ui].map(i => i.ua);
+            let wrongOptions = allUa.filter(w => w !== item.ua);
+            shuffle(wrongOptions);
+            options.push(...wrongOptions.slice(0, 3));
+            shuffle(options);
+
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn w-full border-2 border-gray-200 text-gray-700 py-4 px-4 rounded-xl hover:bg-gray-50 hover:border-blue-400 font-medium text-lg';
+                btn.innerText = opt;
+                btn.onclick = () => handleChoice(btn, opt, item.ua, item.en);
+                container.appendChild(btn);
+            });
+
+            startTimer(document.getElementById('timer'), document.getElementById('timer-bar'), () => handleChoice(null, null, item.ua, item.en));
+        }
+
+        function handleChoice(btn, selected, correct, questionText) {
+            clearInterval(timer);
+            const isCorrect = selected === correct;
+            if (isCorrect) score++;
+
+            userAnswers.push({
+                question: questionText,
+                user: selected || "Час вийшов",
+                correct: correct,
+                isCorrect: isCorrect
+            });
+
+            const buttons = document.querySelectorAll('.option-btn');
+            buttons.forEach(b => {
+                b.disabled = true;
+                if (b.innerText === correct) b.classList.add('correct');
+                else if (b === btn && !isCorrect) b.classList.add('incorrect');
+            });
+
+            setTimeout(() => {
+                currentQuestionIndex++;
+                runMultipleChoiceQuestion();
+            }, 1200);
+        }
+
+        // --- Write Mode Logic ---
+        let currentWriteMode = ''; // 'write-en-ua' or 'write-ua-en'
+
+        function runWriteQuestion(mode) {
+            currentWriteMode = mode;
+            if (currentQuestionIndex >= currentQuizData.length) {
+                showResults();
+                return;
+            }
+
+            const item = currentQuizData[currentQuestionIndex];
+            const qCounter = document.getElementById('write-question-counter');
+            const qText = document.getElementById('write-question-text');
+            const input = document.getElementById('write-input');
+            const feedback = document.getElementById('write-feedback');
+            const checkBtn = document.getElementById('check-btn');
+            const skipBtn = document.getElementById('skip-btn');
+
+            qCounter.innerText = `${currentQuestionIndex + 1} / ${currentQuizData.length}`;
+            
+            // Set Question based on mode
+            qText.innerText = (mode === 'write-en-ua') ? item.en : item.ua;
+            
+            // Reset UI
+            input.value = '';
+            input.disabled = false;
+            input.focus();
+            input.classList.remove('border-green-500', 'border-red-500', 'bg-green-50', 'bg-red-50');
+            feedback.innerText = '';
+            checkBtn.disabled = false;
+            skipBtn.disabled = false;
+
+            // Setup Buttons
+            checkBtn.onclick = () => checkWriteAnswer(input.value, item);
+            skipBtn.onclick = () => checkWriteAnswer(null, item);
+            
+            // Allow Enter key
+            input.onkeypress = (e) => {
+                if(e.key === 'Enter') checkWriteAnswer(input.value, item);
+            };
+
+            startTimer(document.getElementById('write-timer'), document.getElementById('write-timer-bar'), () => checkWriteAnswer(null, item));
+        }
+
+        function checkWriteAnswer(userInput, item) {
+            clearInterval(timer);
+            const inputEl = document.getElementById('write-input');
+            const feedbackEl = document.getElementById('write-feedback');
+            
+            const targetAnswer = (currentWriteMode === 'write-en-ua') ? item.ua : item.en;
+            const questionShown = (currentWriteMode === 'write-en-ua') ? item.en : item.ua;
+
+            // Simple normalization (lowercase, trim)
+            let cleanUser = (userInput || "").toLowerCase().trim();
+            // Split target by comma/slash to allow synonyms
+            let possibleAnswers = targetAnswer.toLowerCase().split(/[,/]/).map(s => s.trim());
+            
+            let isCorrect = false;
+            // Exact match or Levenshtein check
+            if (cleanUser && possibleAnswers.some(ans => cleanUser === ans || levenshteinDistance(cleanUser, ans) <= 2)) {
+                isCorrect = true;
+            }
+
+            if (isCorrect) {
+                score++;
+                inputEl.classList.add('border-green-500', 'bg-green-50');
+                feedbackEl.innerText = "Правильно!";
+                feedbackEl.className = "text-center font-bold mt-4 mb-6 text-green-600";
+            } else {
+                inputEl.classList.add('border-red-500', 'bg-red-50');
+                feedbackEl.innerText = `Помилка. Правильно: ${targetAnswer}`;
+                feedbackEl.className = "text-center font-bold mt-4 mb-6 text-red-600";
+            }
+
+            userAnswers.push({
+                question: questionShown,
+                user: userInput || "Пропущено",
+                correct: targetAnswer,
+                isCorrect: isCorrect
+            });
+
+            document.getElementById('check-btn').disabled = true;
+            document.getElementById('skip-btn').disabled = true;
+            inputEl.disabled = true;
+
+            setTimeout(() => {
+                currentQuestionIndex++;
+                runWriteQuestion(currentWriteMode);
+            }, 2000);
+        }
+
+        // --- Common Logic ---
+        function startTimer(display, bar, onTimeout) {
+            timeLeft = TIME_PER_QUESTION;
+            display.innerText = `${timeLeft}с`;
+            bar.style.width = '100%';
+            bar.classList.remove('bg-red-500');
+            bar.classList.add('bg-blue-600');
+
+            if(timer) clearInterval(timer);
+
+            timer = setInterval(() => {
+                timeLeft--;
+                display.innerText = `${timeLeft}с`;
+                let percentage = (timeLeft / TIME_PER_QUESTION) * 100;
+                bar.style.width = `${percentage}%`;
+
+                if (timeLeft <= 5) {
+                    bar.classList.remove('bg-blue-600');
+                    bar.classList.add('bg-red-500');
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    onTimeout();
+                }
+            }, 1000);
+        }
+
+        function showResults() {
+            screens.quiz.classList.add('hidden');
+            screens.write.classList.add('hidden');
+            screens.results.classList.remove('hidden');
+
+            document.getElementById('score-text').innerText = `${Math.round((score / currentQuizData.length) * 100)}%`;
+            document.getElementById('correct-count').innerText = score;
+            document.getElementById('incorrect-count').innerText = currentQuizData.length - score;
+            
+            let topicName = "";
+             switch(currentTopicKey) {
+                case 'hardware': topicName = "Hardware & Display"; break;
+                case 'software': topicName = "Software & Development"; break;
+                case 'ui': topicName = "UI & Interaction"; break;
+                case 'mix': topicName = "Random Mix"; break;
+            }
+            document.getElementById('result-topic-name').innerText = `Тема: ${topicName}`;
+
+            // Error Review
+            const reviewContainer = document.getElementById('results-review-container');
+            const reviewList = document.getElementById('results-review');
+            reviewList.innerHTML = '';
+            
+            const errors = userAnswers.filter(a => !a.isCorrect);
+            if (errors.length > 0) {
+                reviewContainer.classList.remove('hidden');
+                errors.forEach(err => {
+                    const div = document.createElement('div');
+                    div.className = "bg-white border-l-4 border-red-500 p-3 shadow-sm rounded-r-md text-sm";
+                    div.innerHTML = `
+                        <div class="font-bold text-gray-800">${err.question}</div>
+                        <div class="text-red-600 line-through text-xs">${err.user}</div>
+                        <div class="text-green-600 font-bold">${err.correct}</div>
+                    `;
+                    reviewList.appendChild(div);
+                });
+            } else {
+                reviewContainer.classList.add('hidden');
+            }
+        }
+
+        // Helper for fuzzy match
+        function levenshteinDistance(a, b) {
+            const matrix = [];
+            for (let i = 0; i <= b.length; i++) matrix[i] = [i];
+            for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
+            for (let i = 1; i <= b.length; i++) {
+                for (let j = 1; j <= a.length; j++) {
+                    if (b.charAt(i - 1) == a.charAt(j - 1)) {
+                        matrix[i][j] = matrix[i - 1][j - 1];
+                    } else {
+                        matrix[i][j] = Math.min(matrix[i - 1][j - 1] + 1, Math.min(matrix[i][j - 1] + 1, matrix[i - 1][j] + 1));
+                    }
+                }
+            }
+            return matrix[b.length][a.length];
+        }
+    </script>
+</body>
+</html>
