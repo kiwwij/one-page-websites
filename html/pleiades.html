@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Обсерватория Плеяд — Сквозь линзу Шаулы</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Exo+2:wght@200;500&display=swap" rel="stylesheet">
+    <style>
+        /* CSS стили из твоего проекта, адаптированные под чистый HTML */
+        :root {
+            --neon-blue: #4cc9f0;
+            --neon-purple: #9d4edd;
+            --neon-pink: #f72585;
+            --bg-dark: #020408;
+        }
+
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: var(--bg-dark); font-family: 'Exo 2', sans-serif; color: white; }
+        #canvas-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+
+        /* HUD Оверлей */
+        .hud-overlay { position: absolute; inset: 0; pointer-events: none; z-index: 10; padding: 30px; }
+        .hud-corner { position: absolute; color: var(--neon-blue); text-shadow: 0 0 10px rgba(76, 201, 240, 0.5); font-family: 'Orbitron', monospace; }
+        .tl { top: 30px; left: 30px; border-left: 3px solid var(--neon-blue); padding-left: 15px; }
+        .tr { top: 30px; right: 30px; text-align: right; border-right: 3px solid var(--neon-pink); padding-right: 15px; }
+        .bl { bottom: 30px; left: 30px; font-size: 12px; opacity: 0.7; }
+        .br { bottom: 30px; right: 30px; text-align: right; color: var(--neon-pink); }
+        
+        .status-dot { color: #38b000; animation: blink 2s infinite; }
+        @keyframes blink { 50% { opacity: 0.3; } }
+
+        /* Инфо-панель */
+        #info-panel {
+            position: absolute; top: 50%; left: 30px; transform: translateY(-50%) translateX(-500px);
+            width: 380px; background: rgba(2, 4, 8, 0.95); border: 1px solid var(--neon-blue);
+            border-radius: 4px; padding: 25px; z-index: 100; pointer-events: all;
+            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1); backdrop-filter: blur(10px);
+        }
+        #info-panel.visible { transform: translateY(-50%) translateX(0); }
+
+        .panel-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--neon-blue); margin-bottom: 20px; padding-bottom: 10px; }
+        .star-name { font-family: 'Orbitron', monospace; font-size: 24px; color: var(--neon-blue); }
+        .close-btn { background: none; border: none; color: var(--neon-pink); font-size: 24px; cursor: pointer; }
+
+        .mode-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .mode-btn { background: rgba(76, 201, 240, 0.1); border: 1px solid var(--neon-blue); color: var(--neon-blue); padding: 8px; cursor: pointer; font-family: 'Orbitron', sans-serif; font-size: 10px; }
+        .mode-btn.active { background: var(--neon-blue); color: black; }
+
+        .data-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; border-bottom: 1px solid rgba(76, 201, 240, 0.1); padding-bottom: 5px; }
+        .label { color: var(--neon-purple); }
+        .lore-text { font-style: italic; line-height: 1.6; color: #ccc; }
+
+        /* Глюк-эффект */
+        .glitch-active { animation: glitch-anim 0.3s infinite; border-color: var(--neon-pink) !important; }
+        @keyframes glitch-anim {
+            0% { transform: translateY(-50%) translateX(2px); filter: hue-rotate(0deg); }
+            50% { transform: translateY(-50%) translateX(-2px); filter: hue-rotate(90deg); }
+            100% { transform: translateY(-50%) translateX(0); }
+        }
+
+        .subaru-overlay {
+            position: fixed; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%); z-index: 5; pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+<div id="canvas-container"></div>
+
+<div class="hud-overlay">
+    <div class="hud-corner tl">
+        <div style="font-size: 20px; font-weight: bold;">PLEIADES_OBSERVATORY</div>
+        <div style="font-size: 10px; color: var(--neon-purple);">SCANNING_SECTOR_M45</div>
+    </div>
+    <div class="hud-corner tr">
+        <div><span class="status-dot">●</span> SYSTEM_ONLINE</div>
+        <div id="hud-mode-display" style="font-size: 10px; margin-top: 5px;">MODE: SCIENCE</div>
+    </div>
+    <div class="hud-corner bl">
+        DRAG TO ROTATE | SCROLL TO ZOOM<br>
+        CLICK STAR TO SYNC DATA
+    </div>
+    <div class="hud-corner br">
+        ENTER CODE: <span style="border: 1px solid var(--neon-pink); padding: 2px 5px;">SUBARU</span>
+    </div>
+</div>
+
+<div id="info-panel">
+    <div class="panel-header">
+        <div class="star-name" id="p-name">Alcyone</div>
+        <button class="close-btn" onclick="closePanel()">×</button>
+    </div>
+    <div class="mode-toggle">
+        <button id="btn-science" class="mode-btn active" onclick="setMode('science')">АСТРОНОМИЯ</button>
+        <button id="btn-lore" class="mode-btn" onclick="setMode('lore')">АРХИВЫ</button>
+    </div>
+    <div id="p-content">
+        </div>
+</div>
+
+<div id="subaru-msg" class="subaru-overlay">
+    <h1 style="font-family: 'Orbitron'; font-size: 4rem; text-shadow: 0 0 20px #fff;">SUBARU</h1>
+    <p>ЯДРО СКОПЛЕНИЯ СИНХРОНИЗИРОВАНО</p>
+</div>
+
+<script type="importmap">
+{
+    "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+}
+</script>
+
+<script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    const PLEIADES_STARS = [
+        { 
+            id: 1, name: 'Alcyone', char: 'Альциона', pos: [0, 0, 0], size: 0.7, color: '#4cc9f0', 
+            sci: { t: 'B7IIIe', m: 2.86, l: '2,400 L☉', d: '440 ly' }, 
+            lore: 'Ядро и ярчайшая звезда. В Re:Zero символизирует центр испытаний. Как центральный узел, она связывает судьбы всех, кто вошел в Башню Плеяд. Это маяк, к которому стремится Субару.' 
+        },
+        { 
+            id: 2, name: 'Merope', char: 'Меропа', pos: [3, -1, 2], size: 0.45, color: '#9d4edd', 
+            sci: { t: 'B6IVe', m: 4.18, l: '630 L☉', d: '440 ly' }, 
+            lore: 'Единственная звезда, погруженная в туманность (NGC 1435). В сюжете это отражает "скрытую истину". Меропа — это испытание на умение видеть сквозь ложные воспоминания и туман прошлого.' 
+        },
+        { 
+            id: 3, name: 'Taygeta', char: 'Тайгета', pos: [2, 2, 1], size: 0.5, color: '#f72585', 
+            sci: { t: 'B6V', m: 4.30, l: '440 L☉', d: '440 ly' }, 
+            lore: 'Первый этаж Башни Плеяд. Здесь хранятся "Книги Мертвых". Название отражает структуру библиотеки: Тайгета — это архив памяти, где каждое имя — это звезда, которая погасла, но оставила след.' 
+        },
+        { 
+            id: 4, name: 'Celaeno', char: 'Келено', pos: [-2, 1.5, 1.5], size: 0.4, color: '#4895ef', 
+            sci: { t: 'B7IV', m: 5.45, l: '240 L☉', d: '440 ly' }, 
+            lore: 'Второй этаж Башни. Библиотека Келено — место, где Субару столкнулся с бесконечным количеством жизней. В астрономии её называют "Потерянной Плеядой", что тонко намекает на забытых героев.' 
+        },
+        { 
+            id: 5, name: 'Electra', char: 'Электра', pos: [-1.5, -2, 2.5], size: 0.55, color: '#3a86ff', 
+            sci: { t: 'B6IIIe', m: 3.70, l: '1,225 L☉', d: '370 ly' }, 
+            lore: 'Четвертый этаж Башни. Электра — это олицетворение чистой энергии и гнева. Она вращается так быстро, что её форма сплюснута. В лоре это символ яростного сопротивления Шаулы.' 
+        },
+        { 
+            id: 6, name: 'Maia', char: 'Майя', pos: [-3, 0, -2], size: 0.6, color: '#38b000', 
+            sci: { t: 'B8III', m: 3.87, l: '850 L☉', d: '360 ly' }, 
+            lore: 'Пятый этаж. Самая старшая из сестер в мифологии. В Re:Zero Майя — это фундамент, на котором покоятся правила испытаний. Тишина этого этажа так же обманчива, как спокойствие голубого гиганта.' 
+        },
+        { 
+            id: 7, name: 'Sterope', char: 'Стеропа', pos: [1.5, 3.5, -1], size: 0.35, color: '#ff0055', 
+            sci: { t: 'B8V', m: 5.64, l: '90 L☉', d: '430 ly' }, 
+            lore: 'Двойная звезда. Олицетворяет двойственность выбора в испытаниях Башни. Третий этаж, где логика и чувства должны прийти в равновесие, иначе свет звезды померкнет.' 
+        },
+        // АРХИЕПИСКОПЫ (Внешние сигналы)
+        { 
+            id: 8, name: 'Betelgeuse', char: 'Петельгейзе', pos: [10, 5, -15], size: 1.2, color: '#ff4d4d', 
+            sci: { t: 'M1-M2Ia-ab', m: 0.45, l: '126,000 L☉', d: '642 ly' }, 
+            lore: 'Красный сверхгигант в Орионе. Его нестабильность и близость к взрыву идеально отражают безумие Петельгейзе Романе-Конти. Звезда буквально "умирает", как и сам персонаж в бесконечных циклах.' 
+        },
+        { 
+            id: 9, name: 'Regulus', char: 'Регул', pos: [-12, 8, -5], size: 0.8, color: '#ffffff', 
+            sci: { t: 'B8IVn', m: 1.35, l: '360 L☉', d: '79 ly' }, 
+            lore: 'Сердце Льва. "Маленький король". Регул Корнеас считает себя центром мира, и яркость этой звезды подтверждает его эгоцентризм. В астрономии это четырехкратная система, скрывающая свою сложность.' 
+        },
+        { 
+            id: 10, name: 'Sirius', char: 'Сириус', pos: [0, -15, -10], size: 1.0, color: '#99ccff', 
+            sci: { t: 'A1V / DA2', m: -1.46, l: '25 L☉', d: '8.6 ly' }, 
+            lore: 'Ярчайшая звезда ночного неба. Сириус Романе-Конти (Гнев) ослепляет своей любовью и безумием. Как и двойная звезда Сириус A и B, её личность неразрывно связана с объектом её страсти.' 
+        }
+    ];
+
+    let scene, camera, renderer, controls, raycaster, mouse;
+    let selectedStar = null;
+    let currentMode = 'science';
+    let typed = "";
+
+    function init() {
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
+        camera.position.set(0, 5, 20);
+
+        renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+
+        raycaster = new THREE.Raycaster();
+        mouse = new THREE.Vector2();
+
+        // Фон: Далекие звезды
+        const starGeo = new THREE.BufferGeometry();
+        const starPos = [];
+        for(let i=0; i<8000; i++) {
+            starPos.push((Math.random()-0.5)*1500, (Math.random()-0.5)*1500, (Math.random()-0.5)*1500);
+        }
+        starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starPos, 3));
+        scene.add(new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0xffffff, size: 0.15 })));
+
+        // Отрисовка всех объектов
+        PLEIADES_STARS.forEach(data => {
+            const group = new THREE.Group();
+            group.userData = data;
+
+            // Ядро звезды
+            const geo = new THREE.SphereGeometry(data.size, 32, 32);
+            const mat = new THREE.MeshStandardMaterial({ 
+                color: data.color, 
+                emissive: data.color, 
+                emissiveIntensity: 1.5 
+            });
+            const mesh = new THREE.Mesh(geo, mat);
+            group.position.set(...data.pos);
+            group.add(mesh);
+
+            // Свечение (Glow)
+            const spriteMat = new THREE.SpriteMaterial({
+                map: createGlowTexture(data.color),
+                transparent: true,
+                opacity: 0.6,
+                blending: THREE.AdditiveBlending
+            });
+            const sprite = new THREE.Sprite(spriteMat);
+            sprite.scale.set(data.size * 6, data.size * 6, 1);
+            group.add(sprite);
+
+            scene.add(group);
+        });
+
+        // Связи только для Плеяд (id 1-7)
+        const lineMat = new THREE.LineBasicMaterial({ color: 0x4cc9f0, transparent: true, opacity: 0.1 });
+        const pleiades = PLEIADES_STARS.filter(s => s.id <= 7);
+        pleiades.forEach((s1, i) => {
+            pleiades.slice(i+1).forEach(s2 => {
+                const lineGeo = new THREE.BufferGeometry().setFromPoints([
+                    new THREE.Vector3(...s1.pos), new THREE.Vector3(...s2.pos)
+                ]);
+                scene.add(new THREE.Line(lineGeo, lineMat));
+            });
+        });
+
+        const ambientLight = new THREE.AmbientLight(0x404040, 2);
+        scene.add(ambientLight);
+        
+        const pointLight = new THREE.PointLight(0xffffff, 50);
+        camera.add(pointLight);
+        scene.add(camera);
+
+        window.addEventListener('mousedown', onMouseClick);
+        window.addEventListener('keydown', onKey);
+        window.addEventListener('resize', onResize);
+        animate();
+    }
+
+    function createGlowTexture(color) {
+        const canvas = document.createElement('canvas');
+        canvas.width = 128; canvas.height = 128;
+        const ctx = canvas.getContext('2d');
+        const grad = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
+        grad.addColorStop(0, '#fff');
+        grad.addColorStop(0.2, color);
+        grad.addColorStop(1, 'transparent');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, 128, 128);
+        return new THREE.CanvasTexture(canvas);
+    }
+
+    function onMouseClick(e) {
+        mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(scene.children, true);
+        
+        const starObject = intersects.find(i => i.object.parent && i.object.parent.userData.id);
+        if(starObject) {
+            selectStar(starObject.object.parent.userData);
+        }
+    }
+
+    function selectStar(data) {
+        selectedStar = data;
+        document.getElementById('p-name').innerHTML = `${data.name} <span style="font-size:14px; color:#fff;">(${data.char})</span>`;
+        updatePanelContent();
+        document.getElementById('info-panel').classList.add('visible');
+
+        // Глюк для "опасных" звезд
+        if([2, 3, 8, 9, 10].includes(data.id)) {
+            document.getElementById('info-panel').classList.add('glitch-active');
+            setTimeout(() => document.getElementById('info-panel').classList.remove('glitch-active'), 400);
+        }
+    }
+
+    window.setMode = (mode) => {
+        currentMode = mode;
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('btn-' + mode).classList.add('active');
+        updatePanelContent();
+    }
+
+    function updatePanelContent() {
+        if(!selectedStar) return;
+        const content = document.getElementById('p-content');
+        if(currentMode === 'science') {
+            content.innerHTML = `
+                <div class="data-row"><span class="label">Тип:</span><span>${selectedStar.sci.t}</span></div>
+                <div class="data-row"><span class="label">Яркость:</span><span>${selectedStar.sci.m} mag</span></div>
+                <div class="data-row"><span class="label">Светимость:</span><span>${selectedStar.sci.l}</span></div>
+                <div class="data-row"><span class="label">Дистанция:</span><span>${selectedStar.sci.d}</span></div>
+                <p style="font-size:12px; margin-top:15px; opacity:0.6;">*Данные синхронизированы с архивами земной астрономии.</p>
+            `;
+        } else {
+            content.innerHTML = `
+                <div style="border-left: 2px solid #f72585; padding-left: 10px; margin-bottom: 10px;">
+                    <strong style="color: #f72585;">СВЯЗЬ: ${selectedStar.char}</strong>
+                </div>
+                <p class="lore-text">${selectedStar.lore}</p>
+            `;
+        }
+    }
+
+    window.closePanel = () => {
+        document.getElementById('info-panel').classList.remove('visible');
+    }
+
+    function onKey(e) {
+        typed = (typed + e.key.toUpperCase()).slice(-6);
+        if(typed === "SUBARU") {
+            document.getElementById('subaru-msg').style.display = 'flex';
+            // Вспышка при активации кода
+            scene.background = new THREE.Color(0xffffff);
+            setTimeout(() => {
+                scene.background = new THREE.Color(0x020408);
+                document.getElementById('subaru-msg').style.display = 'none';
+            }, 1000);
+        }
+    }
+
+    function onResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function animate() {
+        requestAnimationFrame(animate);
+        controls.update();
+        
+        // Медленное вращение для жизни
+        scene.children.forEach(child => {
+            if(child instanceof THREE.Group) {
+                child.rotation.y += 0.005;
+            }
+        });
+
+        renderer.render(scene, camera);
+    }
+
+    init();
+</script>
+</script>
+</body>
+</html>

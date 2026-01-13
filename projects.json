@@ -32,7 +32,7 @@
   "anime-world.html": {
     "image": "https://raw.githubusercontent.com/kiwwij/my-projects/refs/heads/main/html/anime-world/img/favicons/anime-preview.png",
     "description": "A small library / anime advertisement / catalog of watched anime.",
-    "stack": ["html", "css", "js", "github"]
+    "stack": ["html", "css", "js", "github", "git"]
   },
   "sudoku.html": {
     "image": "https://upload.wikimedia.org/wikipedia/commons/b/b3/Sdk_intro.gif",
@@ -83,5 +83,10 @@
     "image": "bx bxs-medal",
     "description": "Questions for exam preparation.",
     "stack": ["html", "css", "js", "github"]
+  },
+  "pleiades.html": {
+    "image": "bx bx-analyse", 
+    "description": "Interactive 3D star cluster atlas with astronomical data and Re:Zero references. Completely, once again completely made by AI. Purely a website for fun.",
+    "stack": ["three.js", "html", "css", "js", "github"]
   }
 }

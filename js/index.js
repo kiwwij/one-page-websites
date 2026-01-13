@@ -288,6 +288,7 @@ function renderTechStats(files, projectsConfig) {
         let stack = (configEntry && configEntry.stack) ? configEntry.stack : [];
         stack.forEach(tech => {
             const key = tech.toLowerCase();
+            // if (key === 'github') return;
             totalStats[key] = (totalStats[key] || 0) + 1;
             totalCount++;
         });
@@ -350,8 +351,12 @@ function filterByTech(tech) {
     // Сама фильтрация карточек
     allProjects.forEach(card => {
         const stackString = card.getAttribute('data-stack');
-        // Проверяем, есть ли выбранная технология в списке стека этой карточки
-        if (stackString && stackString.includes(tech)) {
+        
+        // Превращаем строку "html,css,github" обратно в массив ["html", "css", "github"]
+        const stackArray = stackString ? stackString.split(',') : [];
+
+        // Ищем ТОЧНОЕ совпадение в массиве
+        if (stackArray.includes(tech)) {
             card.style.display = 'flex';
         } else {
             card.style.display = 'none';
