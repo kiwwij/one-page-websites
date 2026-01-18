@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Моя Сборка 2026 | Intel & NVIDIA</title>
+    <link rel="icon" href="https://unpkg.com/boxicons@2.1.4/svg/solid/bxs-chip.svg" type="image/svg+xml">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../css/newpc.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="main-title">Мой будущий ПК по ценам 2026</h1>
+            <p class="subtitle">Переход с портативного устройства на, так сказать, стационарный</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="card shadow">
+            <h2 class="icon-header"><i class='bx bx-server'></i> Комплектующие системного блока</h2>
+            <table class="pc-table">
+                <thead>
+                    <tr>
+                        <th>Деталь</th>
+                        <th>Модель</th>
+                        <th>Особенности</th>
+                        <th>Цена</th>
+                    </tr>
+                </thead>
+                <tbody id="pc-components">
+                    <tr>
+                        <td>Процессор</td>
+                        <td><a href="https://hotline.ua/computer-processory/intel-core-ultra-7-265k-bx80768265k/" target="_blank">Intel Core Ultra 7 265K</a></td>
+                        <td>20 ядер, LGA 1851</td>
+                        <td class="price" data-price="16200">~16 200 грн</td>
+                    </tr>
+                    <tr>
+                        <td>Видеокарта</td>
+                        <td><a href="https://hotline.ua/computer-videokarty/msi-geforce-rtx-5070-ti-16g-gaming-trio-oc/" target="_blank">MSI RTX 5070 Ti 16G GAMING TRIO</a></td>
+                        <td>GDDR7, PCI Express 5.0</td>
+                        <td class="price" data-price="56500">~56 500 грн</td>
+                    </tr>
+                    <tr>
+                        <td>Мат. плата</td>
+                        <td><a href="https://hotline.ua/computer-materinskie-platy/asus-prime-z890-p-wifi/" target="_blank">ASUS Prime Z890-P WIFI</a></td>
+                        <td>DDR5, Wi-Fi 7</td>
+                        <td class="price" data-price="12300">~12 300 грн</td>
+                    </tr>
+                    <tr>
+                        <td>Охлаждение</td>
+                        <td><a href="https://hotline.ua/ua/computer-kulery-i-radiatory/deepcool-ls720-r-ls720-bkammm-g-1/" target="_blank">DeepCool LS720</a></td>
+                        <td>СЖО 360мм, ARGB</td>
+                        <td class="price" data-price="5500">~5 500 грн</td>
+                    </tr>
+                    <tr>
+                        <td>Память</td>
+                        <td><a href="https://hotline.ua/computer-moduli-pamyati-dlya-pk-i-noutbukov/patriot-32gb-2x16gb-ddr5-6400-mhz-viper-elite-5-veb532g6432kw/" target="_blank">Patriot 32GB (2x16) Viper Elite 5</a></td>
+                        <td>DDR5-6400, CL32</td>
+                        <td class="price" data-price="17100">~17 100 грн</td>
+                    </tr>
+                    <tr>
+                        <td>Диск №1</td>
+                        <td><a href="https://hotline.ua/computer-diski-ssd/samsung-980-250-gb-mz-v8v250bw/" target="_blank">Samsung 980 250 GB</a></td>
+                        <td>Системный диск</td>
+                        <td class="price" data-price="5800">~5 800 грн</td>
+                    </tr>
+                    <tr>
+                        <td>Диск №2</td>
+                        <td><a href="https://hotline.ua/computer-diski-ssd/kingston-kc3000-1024-gb-skc3000s1024g/" target="_blank">Kingston KC3000 1TB</a></td>
+                        <td>7000 МБ/с</td>
+                        <td class="price" data-price="10400">~10 400 грн</td>
+                    </tr>
+                    <tr>
+                        <td>Блок питания</td>
+                        <td><a href="https://hotline.ua/computer-bloki-pitaniya/msi-mag-a850gls-pcIE5/" target="_blank">MSI MAG A850GL PCIE5</a></td>
+                        <td>80 PLUS Gold, ATX 3.1</td>
+                        <td class="price" data-price="7000">~7 000 грн</td>
+                    </tr>
+                    <tr>
+                        <td>Корпус</td>
+                        <td><a href="https://hotline.ua/computer-korpusa/lian-li-lancool-216-black-g99lan216x00/" target="_blank">Lian Li Lancool 216</a></td>
+                        <td>Mesh, отличный обдув</td>
+                        <td class="price" data-price="4600">~4 600 грн</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="3">ИТОГО за системник:</td>
+                        <td id="pc-total">0 грн</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="peripherals">
+            <h2 class="icon-header"><i class='bx bxs-plug'></i> Периферия</h2>
+            <div class="grid">
+                <div class="card shadow">
+                    <h3 class="icon-header"><i class='bx bx-tv'></i> Мониторы</h3>
+                    <ul class="peri-list">
+                        <li><strong>Осн. монитор:</strong> <a href="https://hotline.ua/computer-monitory/lg-27gn800p-b/" target="_blank">27" LG 27GN800P-B (2K)</a> — <span class="price" data-price="19600">~19 600 грн</span></li>
+                        <li><strong>Доп. монитор:</strong> <a href="https://hotline.ua/computer-monitory/asus-va24ehf-90lm0560-b04170/" target="_blank">24" ASUS VA24EHF (FHD)</a> — <span class="price" data-price="7700">~7 700 грн</span></li>
+                        <li><strong>Кронштейн:</strong> Неопределенно — <span class="price" data-price="0">0 грн</span></li>
+                    </ul>
+                </div>
+                <div class="card shadow">
+                    <h3 class="icon-header"><i class='bx bx-mouse'></i> Девайсы</h3>
+                    <ul class="peri-list">
+                        <li><strong>Мышь:</strong> <a href="https://www.foxtrot.com.ua/uk/shop/kompyuterniye-miyshi-razer-basilisk-v3-pro-wireless-35k-black-rz01-05240100-r3g1.html" target="_blank">Basilisk V3 PRO</a> — <span class="price" data-price="9000">9 000 грн</span></li>
+                        <li><strong>Наушники:</strong> <a href="https://www.foxtrot.com.ua/uk/shop/naushniki-razer-kraken-kitty-v2-bt-black-rz04-04860500-r3m1.html" target="_blank">Kraken Kitty V2 BT</a> — <span class="price" data-price="5500">5 500 грн</span></li>
+                        <li><strong>Микрофон:</strong> <a href="https://www.foxtrot.com.ua/uk/shop/mikrofoniy_razer_seiren_v3_chroma_rz19_05060100_r3m1.html" target="_blank">Seiren V3 Chroma</a> — <span class="price" data-price="8000">8 000 грн</span></li>
+                        <li><strong>Пантограф:</strong> Неопределенно — <span class="price" data-price="0">0 грн</span></li>
+                        <li><strong>Клавиатура:</strong> Неопределенно — <span class="price" data-price="0">0 грн</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card shadow final-total-box">
+                <div class="total-item">
+                    <span>Итого за Периферию:</span>
+                    <strong id="peri-total">0 грн</strong>
+                </div>
+                <div class="total-item grand">
+                    <span>Общая сумма:</span>
+                    <strong id="grand-total">0 грн</strong>
+                </div>
+            </div>
+        </section>
+
+        <section class="card shadow compare-section">
+    <h2 class="icon-header"><i class='bx bxs-analyse'></i> Технологический скачок</h2>
+    <div class="compare-grid">
+        <div class="laptop-info box">
+            <div class="box-tag">Текущий MSI Katana</div>
+            <ul class="spec-list-detailed">
+                <li><i class='bx bxs-chip'></i> <span><strong>CPU:</strong> i7-11800H (10нм, 8 ядер)</span></li>
+                <li><i class='bx bxs-component'></i> <span><strong>GPU:</strong> RTX 3060 (6GB GDDR6)</span></li>
+                <li><i class='bx bxs-bolt'></i> <span><strong>TDP:</strong> ~85W (Зажатый чип)</span></li>
+                <li><i class='bx bxs-layer'></i> <span><strong>RAM:</strong> 16GB DDR4-3200</span></li>
+                <li><i class='bx bx-desktop'></i> <span><strong>Screen:</strong> 1080p | 144Hz</span></li>
+            </ul>
+        </div>
+
+        <div class="arrow"><i class='bx bxs-right-arrow-circle'></i></div>
+
+        <div class="pc-info box highlight">
+            <div class="box-tag new">Влажные мечты</div>
+            <ul class="spec-list-detailed">
+                <li><i class='bx bxs-chip'></i> <span><strong>CPU:</strong> Ultra 7 265K (N3B, 20 ядер)</span></li>
+                <li><i class='bx bxs-component'></i> <span><strong>GPU:</strong> RTX 5070 Ti (16GB GDDR7)</span></li>
+                <li><i class='bx bxs-bolt'></i> <span><strong>Power:</strong> 300W+ (Full Power)</span></li>
+                <li><i class='bx bxs-layer'></i> <span><strong>RAM:</strong> 32GB DDR5-6400</span></li>
+                <li><i class='bx bx-desktop'></i> <span><strong>Screen:</strong> 1440p | 144Hz</span></li>
+            </ul>
+        </div>
+    </div>
+</section>
+    </main>
+
+    <footer class="minimal-footer">
+        <div class="container">
+            <p>© 2026 Подборка комплектующих для будущего ПК</p>
+        </div>
+    </footer>
+
+    <script src="../js/newpc.js"></script>
+</body>
+</html>
