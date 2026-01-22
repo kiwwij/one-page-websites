@@ -1,0 +1,16 @@
+{
+  "short_name": "Kiwwij Hub",
+  "name": "Kiwwij | Projects Hub",
+  "icons": [
+    {
+      "src": "https://avatars.akamai.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+      "sizes": "184x184",
+      "type": "image/jpg"
+    }
+  ],
+  "start_url": "index.html",
+  "background_color": "#0d1117",
+  "display": "standalone",
+  "scope": "./",
+  "theme_color": "#58a6ff"
+}

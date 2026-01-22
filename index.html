@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kiwwij | Projects Hub</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📂</text></svg>">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#58a6ff">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="css/index.css">
@@ -59,7 +61,14 @@
             </div>
 
             <div id="projects-grid" class="grid">
-                <div class="loading">Loading list of projects...</div>
+                <div class="skeleton-card">
+                    <div class="skeleton-image"></div>
+                    <div class="skeleton-content">
+                        <div class="skeleton-line title"></div>
+                        <div class="skeleton-line description"></div>
+                        <div class="skeleton-line footer"></div>
+                    </div>
+                </div>
             </div>
         </main>
 
