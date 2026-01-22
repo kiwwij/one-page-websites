@@ -94,6 +94,11 @@
     "description": "Deep-dive hardware architect for my future 2K gaming setup. Based on prices at the beginning of 2026.",
     "stack": ["html", "css", "js", "github"]
   },
+  "kaomoji.html": {
+    "image": "bx bx-smile",
+    "description": "Complete collection of Japanese emoticons (kaomoji).",
+    "stack": ["html", "css", "js", "github"]
+  },
   ".html": {
     "image": "",
     "description": "",

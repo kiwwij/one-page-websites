@@ -269,16 +269,40 @@ h2 {
     color: var(--text-main);
 }
 
+
+
+
+
 .project-card[data-name="homeowners association"] {
     color: var(--text-muted);
-    border-style: dashed; /* Можно добавить пунктирную рамку для стиля */
+    border-style: dashed;
 }
 
-/* При этом при наведении можно возвращать обычный цвет */
 .project-card[data-name="homeowners association"]:hover {
     color: var(--text-main);
     border-style: solid;
 }
+
+.project-card[data-name="newpc"] {
+    color: var(--text-muted);
+    border-style: dashed;
+}
+.project-card[data-name="newpc"]:hover {
+    color: var(--text-main);
+    border-style: solid;
+}
+
+.project-card[data-name="pleiades"] {
+    color: var(--text-muted);
+    border-style: dashed;
+}
+.project-card[data-name="pleiades"]:hover {
+    color: var(--text-main);
+    border-style: solid;
+}
+
+
+
 
 .card-footer {
     margin-top: auto;
