@@ -5,6 +5,11 @@ const folder = 'html';
 const steamLogin = 'serhiosergey';
 const configUrl = 'projects.json'; 
 
+// Скрытые проекты, которые не должны отображаться без кода
+const HIDDEN_FILES = ['manga.html'];
+const SECRET_CODE = 'hentaif'; // Код для разблокировки
+let inputBuffer = '';
+
 const container = document.getElementById('projects-grid');
 const searchInput = document.getElementById('search-input');
 
@@ -12,6 +17,7 @@ let allProjects = [];
 
 async function loadProjects() {
     const apiFolderUrl = `https://api.github.com/repos/${username}/${repo}/contents/${folder}`;
+    const showHidden = localStorage.getItem('unlock_hidden') === 'true';
 
     try {
         const [filesResponse, configResponse] = await Promise.all([
@@ -22,12 +28,18 @@ async function loadProjects() {
         if (!filesResponse.ok) throw new Error('Repo not found or empty');
 
         const files = await filesResponse.json();
+        const projectsConfig = configResponse || {}; 
         
-        // 1. Берем файлы с GitHub
-        const htmlFiles = files.filter(file => file.name.endsWith('.html'));
+        // 1. Фильтруем файлы с GitHub (исключаем скрытые, если не активирован секретный режим)
+        let htmlFiles = files.filter(file => {
+            const isHtml = file.name.endsWith('.html');
+            const isSecret = HIDDEN_FILES.includes(file.name);
+            
+            if (showHidden) return isHtml; // Показываем всё, если разблокировано
+            return isHtml && !isSecret;    // Иначе скрываем секретные файлы
+        });
 
-        // 2. --- ДОБАВЛЯЕМ ВНЕШНИЙ ПРОЕКТ ВРУЧНУЮ ---
-        // Имя 'OSBB' должно совпадать с ключом в projects.json
+        // 2. ДОБАВЛЯЕМ ВНЕШНИЕ ПРОЕКТЫ
         const manualProjects = [
             { name: 'Homeowners-association' },
             { name: 'kiwwij-anime-tier-list' },
@@ -37,14 +49,13 @@ async function loadProjects() {
         ];
         
         htmlFiles.push(...manualProjects);
-        
-        // Сортировка А-Я (теперь сортирует и GitHub файлы, и твой новый)
         htmlFiles.sort((a, b) => a.name.localeCompare(b.name));
 
-        const projectsConfig = configResponse || {}; 
+        // Рендерим статистику только на основе видимых файлов
         renderTechStats(htmlFiles, projectsConfig);
 
         container.innerHTML = ''; 
+        allProjects = []; // Очищаем массив перед заполнением
 
         if (htmlFiles.length === 0) {
             container.innerHTML = '<p>There are no projects yet.</p>';
@@ -61,18 +72,16 @@ async function loadProjects() {
             let imageSource = null;
             let description = '';
             let stack = [];
-            let customUrl = null; // Переменная для кастомной ссылки
+            let customUrl = null;
 
-            if (typeof configEntry === 'string') {
-                imageSource = configEntry;
-            } else if (configEntry && typeof configEntry === 'object') {
+            if (configEntry && typeof configEntry === 'object') {
                 imageSource = configEntry.image;
                 description = configEntry.description || '';
                 stack = configEntry.stack || [];
-                customUrl = configEntry.url; // Читаем ссылку из JSON
+                customUrl = configEntry.url;
             }
 
-            // Картинка проекта
+            // Рендер картинки/плейсхолдера
             let imageHTML;
             if (imageSource) {
                 if (imageSource.includes('/') || imageSource.includes('http')) {
@@ -89,40 +98,25 @@ async function loadProjects() {
                 imageHTML = `<div class="card-image placeholder" style="background-color: ${color}"><span>${displayName.charAt(0)}</span></div>`;
             }
 
-            // --- ЛОГИКА ОТОБРАЖЕНИЯ ИКОНОК (ОБНОВЛЕННАЯ) ---
+            // Стек технологий
             const MAX_ICONS = 6; 
             let stackHTML = '';
-
-            // Вспомогательная функция для создания кликабельной иконки
             const createIconHtml = (tech) => {
                 const iconClass = getTechIcon(tech);
-                // onclick event.preventDefault() - останавливает открытие ссылки карточки
-                // onclick event.stopPropagation() - останавливает "всплытие" клика
-                return `<i class='${iconClass} tech-icon' 
-                           title='Filter by ${tech.toUpperCase()}'
-                           onclick="event.preventDefault(); event.stopPropagation(); filterByTech('${tech}')">
-                        </i>`;
+                return `<i class='${iconClass} tech-icon' title='Filter by ${tech.toUpperCase()}' onclick="event.preventDefault(); event.stopPropagation(); filterByTech('${tech}')"></i>`;
             };
 
             if (stack.length <= MAX_ICONS) {
                 stackHTML = stack.map(tech => createIconHtml(tech)).join('');
             } else {
                 const visibleCount = MAX_ICONS - 1; 
-                const hiddenCount = stack.length - visibleCount;
-
-                const visibleTechs = stack.slice(0, visibleCount)
-                    .map(tech => createIconHtml(tech))
-                    .join('');
-
+                const visibleTechs = stack.slice(0, visibleCount).map(tech => createIconHtml(tech)).join('');
                 const hiddenTechsString = stack.slice(visibleCount).join(', ').toUpperCase();
-                stackHTML = `${visibleTechs}<span class="tech-more" title="More: ${hiddenTechsString}">+${hiddenCount}</span>`;
+                stackHTML = `${visibleTechs}<span class="tech-more" title="More: ${hiddenTechsString}">+${stack.length - visibleCount}</span>`;
             }
 
             const card = document.createElement('a');
-            
-            // ЕСЛИ ЕСТЬ CUSTOM URL — ИСПОЛЬЗУЕМ ЕГО, ИНАЧЕ СТАНДАРТНЫЙ ПУТЬ
             card.href = customUrl ? customUrl : `${folder}/${file.name}`;
-            
             card.className = 'project-card';
             card.target = '_blank';
             card.setAttribute('data-name', displayName.toLowerCase());
@@ -133,11 +127,8 @@ async function loadProjects() {
                 <div class="card-content">
                     <div class="card-title">${displayName}</div>
                     ${description ? `<p class="card-description">${description}</p>` : ''}
-                    
                     <div class="card-footer">
-                        <div class="tech-stack">
-                            ${stackHTML}
-                        </div>
+                        <div class="tech-stack">${stackHTML}</div>
                         <div class="card-arrow"><i class='bx bx-right-arrow-alt'></i></div>
                     </div>
                 </div>
@@ -155,11 +146,46 @@ async function loadProjects() {
     }
 }
 
-// Карта иконок (Только языки)
+// --- СИСТЕМА ПАСХАЛКИ ---
+// Функция для красивых уведомлений
+function showToast(message, duration = 2500) {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = message;
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.classList.add('fade-out');
+        setTimeout(() => toast.remove(), 300);
+    }, duration);
+}
+
+// Обновленный слушатель секретного кода
+document.addEventListener('keydown', (e) => {
+    inputBuffer += e.key.toLowerCase();
+    if (inputBuffer.length > SECRET_CODE.length) {
+        inputBuffer = inputBuffer.substring(inputBuffer.length - SECRET_CODE.length);
+    }
+
+    if (inputBuffer === SECRET_CODE) {
+        const isCurrentlyUnlocked = localStorage.getItem('unlock_hidden') === 'true';
+        if (!isCurrentlyUnlocked) {
+            localStorage.setItem('unlock_hidden', 'true');
+            showToast('<i class="bx bx-lock-open-alt"></i> Secret mode activated! 🔓');
+        } else {
+            localStorage.removeItem('unlock_hidden');
+            showToast('<i class="bx bx-lock-alt"></i> Secret mode deactivated. 🔒');
+        }
+        
+        // Задержка перед перезагрузкой, чтобы пользователь успел увидеть тост
+        setTimeout(() => location.reload(), 1200);
+    }
+});
+
+// Карта иконок
 function getTechIcon(tech) {
-    // Приводим ключ к нижнему регистру, чтобы 'HTML' и 'html' работали одинаково
     const lowerTech = tech.toLowerCase();
-    
     const map = {
         // --- WEB ---
         'html': 'bx bxl-html5',
@@ -252,29 +278,14 @@ document.addEventListener('DOMContentLoaded', () => {
     initTheme();
 });
 
-// Цвета для популярных технологий (как на GitHub)
 const techColors = {
-    'html': '#e34c26',
-    'css': '#563d7c',
-    'js': '#f1e05a',
-    'javascript': '#f1e05a',
-    'python': '#3572A5',
-    'php': '#4F5D95',
-    'java': '#b07219',
-    'c++': '#f34b7d',
-    'cpp': '#f34b7d',
-    'c#': '#178600',
-    'typescript': '#2b7489',
-    'ts': '#2b7489',
-    'vue': '#41b883',
-    'react': '#61dafb',
-    'github': '#181717',
-    'git': '#F05032',
-    'mysql': '#4479a1',
-    'sql': '#4479a1'
+    'html': '#e34c26', 'css': '#563d7c', 'js': '#f1e05a', 'javascript': '#f1e05a', 'python': '#3572A5',
+    'php': '#4F5D95', 'java': '#b07219', 'c++': '#f34b7d', 'cpp': '#f34b7d', 'c#': '#178600',
+    'typescript': '#2b7489', 'ts': '#2b7489', 'vue': '#41b883', 'react': '#61dafb', 'github': '#181717',
+    'git': '#F05032', 'mysql': '#4479a1', 'sql': '#4479a1'
 };
 
-let currentFilter = null; // Глобальная переменная для хранения текущего фильтра
+let currentFilter = null;
 
 function renderTechStats(files, projectsConfig) {
     const statsContainer = document.getElementById('tech-stats');
@@ -288,7 +299,6 @@ function renderTechStats(files, projectsConfig) {
         let stack = (configEntry && configEntry.stack) ? configEntry.stack : [];
         stack.forEach(tech => {
             const key = tech.toLowerCase();
-            // if (key === 'github') return;
             totalStats[key] = (totalStats[key] || 0) + 1;
             totalCount++;
         });
@@ -297,6 +307,8 @@ function renderTechStats(files, projectsConfig) {
     if (totalCount === 0) {
         statsContainer.style.display = 'none';
         return;
+    } else {
+        statsContainer.style.display = 'flex';
     }
 
     const sortedStats = Object.entries(totalStats).sort(([, a], [, b]) => b - a);
@@ -304,109 +316,56 @@ function renderTechStats(files, projectsConfig) {
     statsContainer.innerHTML = sortedStats.map(([tech, count]) => {
         const percentage = (count / totalCount) * 100;
         const color = techColors[tech] || getRandomColor();
-        const percentDisplay = percentage.toFixed(1);
-
-        // Мы добавляем onclick прямо в HTML
-        return `<div class="stat-bar" 
-                     id="filter-${tech}"
-                     onclick="filterByTech('${tech}')"
-                     style="width: ${percentage}%; background-color: ${color};" 
-                     title="Filter by ${tech.toUpperCase()}: ${count} projects">
-                </div>`;
+        return `<div class="stat-bar" id="filter-${tech}" onclick="filterByTech('${tech}')" style="width: ${percentage}%; background-color: ${color};" title="Filter by ${tech.toUpperCase()}: ${count} projects"></div>`;
     }).join('');
 }
 
-// --- НОВАЯ ФУНКЦИЯ ФИЛЬТРАЦИИ ---
 function filterByTech(tech) {
     const statsContainer = document.getElementById('tech-stats');
-    const searchInput = document.getElementById('search-input');
-    
-    // Если кликнули по уже активному фильтру — сбрасываем
     if (currentFilter === tech) {
         currentFilter = null;
         statsContainer.classList.remove('has-active-filter');
         document.querySelectorAll('.stat-bar').forEach(el => el.classList.remove('active'));
-        
-        // Показываем все карточки
         allProjects.forEach(card => card.style.display = 'flex');
-
-        // --- ВАЖНО: Обновляем счетчик здесь тоже! ---
         updateProjectCount(); 
         return;
     }
 
-    // Устанавливаем новый фильтр
     currentFilter = tech;
-    
-    // Очищаем поиск, чтобы не конфликтовал
     searchInput.value = ''; 
-
-    // Визуальные эффекты на полоске
     statsContainer.classList.add('has-active-filter');
     document.querySelectorAll('.stat-bar').forEach(el => el.classList.remove('active'));
     
     const activeBar = document.getElementById(`filter-${tech}`);
     if (activeBar) activeBar.classList.add('active');
 
-    // Сама фильтрация карточек
     allProjects.forEach(card => {
         const stackString = card.getAttribute('data-stack');
-        
-        // Превращаем строку "html,css,github" обратно в массив ["html", "css", "github"]
         const stackArray = stackString ? stackString.split(',') : [];
-
-        // Ищем ТОЧНОЕ совпадение в массиве
-        if (stackArray.includes(tech)) {
-            card.style.display = 'flex';
-        } else {
-            card.style.display = 'none';
-        }
+        card.style.display = stackArray.includes(tech) ? 'flex' : 'none';
     });
-
-    // Обновляем счетчик при применении фильтра
     updateProjectCount();
 }
 
 function updateProjectCount() {
     const counter = document.getElementById('project-count');
-    // Считаем только те карточки, которые видимы (display != 'none')
     const visibleCount = allProjects.filter(card => card.style.display !== 'none').length;
-    
     if (counter) {
         counter.textContent = visibleCount;
-        
-        // Маленькая анимация: если проектов 0, красим в красный, иначе стандарт
         counter.style.color = visibleCount === 0 ? '#e74c3c' : '';
     }
 }
 
 // --- КНОПКА SCROLL TO TOP ---
 const mybutton = document.getElementById("scrollTopBtn");
-
 window.onscroll = function() { scrollFunction() };
-
 function scrollFunction() {
-    // Если прокрутили больше 300px — добавляем класс .show
     if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
         mybutton.classList.add("show");
     } else {
-        // Иначе убираем его
         mybutton.classList.remove("show");
     }
 }
-
-// Функция плавного скролла наверх
 function topFunction() {
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-}
-
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js')
-            .then(reg => console.log('SW registered!', reg))
-            .catch(err => console.log('SW error:', err));
-    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
 }

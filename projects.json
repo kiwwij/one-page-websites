@@ -104,6 +104,11 @@
     "description": "Interactive gallery of cute pugs.",
     "stack": ["html", "css", "js", "github"]
   },
+  "manga.html": {
+    "image": "https://m8.hentaiera.com/024/pqr37mwve1/3.jpg",
+    "description": "Catalog of h-manga artists.",
+    "stack": ["html", "css", "js", "github"]
+  },
   ".html": {
     "image": "",
     "description": "",
