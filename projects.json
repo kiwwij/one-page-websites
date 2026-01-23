@@ -99,6 +99,11 @@
     "description": "Complete collection of Japanese emoticons (kaomoji).",
     "stack": ["html", "css", "js", "github"]
   },
+  "pugs.html": {
+    "image": "html/pugs/0_o.jpg",
+    "description": "Interactive gallery of cute pugs.",
+    "stack": ["html", "css", "js", "github"]
+  },
   ".html": {
     "image": "",
     "description": "",
