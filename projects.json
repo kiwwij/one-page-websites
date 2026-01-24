@@ -109,6 +109,12 @@
     "description": "Catalog of h-manga artists.",
     "stack": ["html", "css", "js", "github"]
   },
+  "image-translator-ai": {
+    "image": "bx bx-extension",
+    "description": "Firefox extension for OCR and translation using AI.",
+    "stack": ["js", "github"],
+    "url": "https://github.com/kiwwij/image-translator-ai"
+  },
   ".html": {
     "image": "",
     "description": "",

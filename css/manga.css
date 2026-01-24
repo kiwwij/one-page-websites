@@ -3,29 +3,35 @@ body {
     color: #e0e0e0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
-    padding: 20px;
+    padding: 10px; /* Уменьшил отступы для мобильных */
 }
 
 header {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 #genre-nav {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 8px; /* Уплотнил кнопки */
     flex-wrap: wrap;
+    position: sticky; /* Панель теперь следует за скроллом */
+    top: 0;
+    background: #121212;
+    padding: 10px 0;
+    z-index: 100;
 }
 
 .nav-btn {
     background: #333;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 8px 15px;
     cursor: pointer;
     border-radius: 5px;
     transition: 0.3s;
+    font-size: 0.9em;
 }
 
 .nav-btn:hover {
@@ -33,28 +39,33 @@ header {
 }
 
 .genre-section {
-    margin-bottom: 50px;
+    margin-bottom: 40px;
 }
 
 .genre-title {
     border-left: 5px solid #ff4757;
     padding-left: 15px;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     text-transform: uppercase;
+    font-size: 1.4em;
 }
 
+/* Улучшенная сетка */
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 25px;
+    /* По умолчанию 2 колонки на очень маленьких экранах */
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 10px; /* Меньше зазоры на мобилках */
 }
 
 .card {
     background: #1e1e1e;
-    border-radius: 10px;
+    border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
 }
 
 .card:hover {
@@ -63,25 +74,54 @@ header {
 
 .poster {
     width: 100%;
-    height: 400px;
+    /* Высота подстраивается пропорционально ширине */
+    aspect-ratio: 3 / 4; 
     object-fit: cover;
     display: block;
 }
 
 .info {
-    padding: 15px;
+    padding: 10px;
+    flex-grow: 1;
 }
 
 .author-name {
     color: #ff4757;
-    font-size: 1.2em;
+    font-size: 1em; /* Чуть меньше шрифт для компактности */
     text-decoration: none;
     font-weight: bold;
+    display: block;
+    word-break: break-word;
 }
 
 .description {
-    font-size: 0.9em;
-    line-height: 1.4;
-    margin-top: 10px;
+    font-size: 0.8em;
+    line-height: 1.3;
+    margin-top: 5px;
     color: #bbb;
+    /* Ограничение описания до 3 строк, чтобы карточки были ровнее */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Адаптация для планшетов и ПК */
+@media (min-width: 600px) {
+    .grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+    }
+    .padding {
+        padding: 20px;
+    }
+    .author-name {
+        font-size: 1.1em;
+    }
+}
+
+@media (min-width: 1024px) {
+    .grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
 }

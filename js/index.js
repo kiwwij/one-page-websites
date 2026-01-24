@@ -6,7 +6,7 @@ const steamLogin = 'serhiosergey';
 const configUrl = 'projects.json'; 
 
 // Скрытые проекты, которые не должны отображаться без кода
-const HIDDEN_FILES = ['manga.html'];
+const HIDDEN_FILES = ['manga.html', ];
 const SECRET_CODE = 'hentaif'; // Код для разблокировки
 let inputBuffer = '';
 
@@ -46,6 +46,7 @@ async function loadProjects() {
             { name: 'kiwwij-social-links' },
             { name: 'online-library' },
             { name: 'Caterpillar-game' },
+            { name: 'image-translator-ai' },
         ];
         
         htmlFiles.push(...manualProjects);
@@ -316,7 +317,14 @@ function renderTechStats(files, projectsConfig) {
     statsContainer.innerHTML = sortedStats.map(([tech, count]) => {
         const percentage = (count / totalCount) * 100;
         const color = techColors[tech] || getRandomColor();
-        return `<div class="stat-bar" id="filter-${tech}" onclick="filterByTech('${tech}')" style="width: ${percentage}%; background-color: ${color};" title="Filter by ${tech.toUpperCase()}: ${count} projects"></div>`;
+        
+        // Округляем проценты для отображения (например, 33%)
+        const displayPercent = Math.round(percentage);
+
+        // В атрибут title добавляем проценты в скобках
+        return `<div class="stat-bar" id="filter-${tech}" onclick="filterByTech('${tech}')" 
+            style="width: ${percentage}%; background-color: ${color};" 
+            title="Filter by ${tech.toUpperCase()}: ${count} projects (${displayPercent}%)"></div>`;
     }).join('');
 }
 
