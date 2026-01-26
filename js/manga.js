@@ -23,6 +23,7 @@ const mangaData = {
         { name: "sakusyaaya", link: "https://hentaiera.com/artist/sakusyaaya/", desc: "Высокие футанари и девушки с формами.", poster: "https://m10.hentaiera.com/030/jx57fniosb/1.webp" },
         { name: "4era7", link: "https://hentaiera.com/artist/4era7/", desc: "Мамочки футанари, ебут девушек и мальчиков.", poster: "https://m10.hentaiera.com/030/tmo5hjpzcv/1.webp" },
         { name: "meshi shinja", link: "https://hentaiera.com/group/meshi-shinja/", desc: "Спаривание футанари и пышных девушек.", poster: "https://m8.hentaiera.com/026/cj8z6f3pno/1.jpg" },
+        { name: "canvas solaris", link: "https://hentaiera.com/artist/canvas-solaris/", desc: "Футанари с громенным члено в мальчиках.", poster: "https://m9.hentaiera.com/027/ja8nhmrqfz/1.jpg" },
     ],
     "Огромная грудь": [
         { name: "mura", link: "https://hentaiera.com/artist/mura/", desc: "Увеличение груди, футанари vs парни, деформация.", poster: "https://m3.hentaiera.com/011/jknwt50rhi/4.jpg" },
@@ -43,7 +44,8 @@ const mangaData = {
         { name: "mojimuji", link: "https://hentaiera.com/artist/mojimuji/", desc: "Девушки с формами и огромные члены.", poster: "https://m9.hentaiera.com/027/9klouxgj10/1.jpg" },
         { name: "kutibue", link: "https://hentaiera.com/artist/kutibue/", desc: "Измена, мамочки, огромные члены.", poster: "https://m9.hentaiera.com/028/c0tpdfo61u/1.webp" },
         { name: "peter h. l.", link: "https://hentaiera.com/artist/peter-h-l/", desc: "Огромные сиськи и бедра.", poster: "https://m10.hentaiera.com/029/dyv5a07ju3/1.webp" },
-        { name: "tapeworm", link: "https://hentaiera.com/artist/tapeworm/", desc: "Рисует девушек с огромными формами.", poster: "https://m10.hentaiera.com/029/jxd9el35ys/1.webp" }
+        { name: "tapeworm", link: "https://hentaiera.com/artist/tapeworm/", desc: "Рисует девушек с огромными формами.", poster: "https://m10.hentaiera.com/029/jxd9el35ys/1.webp" },
+        { name: "rampage", link: "https://hentaiera.com/artist/rampage/", desc: "Рисует девушек с огромными формами (иногда футанари).", poster: "https://m5.hentaiera.com/018/ckywqzox42/1.jpg" },
     ],
     "Высокая девушка": [
         { name: "hachimitsu", link: "https://hentaiera.com/artist/hachimitsu/", desc: "Невероятно высокие девушки и мальчики.", poster: "https://m9.hentaiera.com/027/c5zip8kq6j/1.jpg" },

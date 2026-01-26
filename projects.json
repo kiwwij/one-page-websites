@@ -115,6 +115,11 @@
     "stack": ["js", "github"],
     "url": "https://github.com/kiwwij/image-translator-ai"
   },
+  "girls-inst.html": {
+    "image": "html/girls-inst/boobs/16.jpeg",
+    "description": "A gallery of girls on Instagram, taken from my saved Instagram posts.",
+    "stack": ["html", "css", "js", "github"]
+  },
   ".html": {
     "image": "",
     "description": "",

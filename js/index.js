@@ -2,11 +2,11 @@
 const username = 'kiwwij';
 const repo = 'my-projects';
 const folder = 'html';
-const steamLogin = 'serhiosergey';
+const steamLogin = '76561199023917285';
 const configUrl = 'projects.json'; 
 
 // Скрытые проекты, которые не должны отображаться без кода
-const HIDDEN_FILES = ['manga.html', ];
+const HIDDEN_FILES = ['manga.html', 'girls-inst.html',  '.html'];
 const SECRET_CODE = 'hentaif'; // Код для разблокировки
 let inputBuffer = '';
 
@@ -241,13 +241,30 @@ function getRandomColor() {
 }
 
 async function updateSteamAvatar() {
+    const avatarElement = document.querySelector('.avatar');
+    if (!avatarElement) return; // Если элемента нет, ничего не делаем
+
     try {
-        const response = await fetch(`https://playerdb.co/api/player/steam/${steamLogin}`);
+        // Добавляем timestamp (new Date().getTime()), чтобы избежать кэширования
+        // Это заставляет браузер думать, что это новый запрос каждый раз
+        const response = await fetch(`https://playerdb.co/api/player/steam/${steamLogin}?t=${new Date().getTime()}`);
+        
         if (response.ok) {
             const data = await response.json();
-            document.querySelector('.avatar').src = data.data.player.avatar;
+            
+            // Проверяем, есть ли данные об игроке
+            if (data.success && data.data.player && data.data.player.avatar) {
+                const newAvatarUrl = data.data.player.avatar;
+                
+                // Меняем картинку только если ссылка отличается (хотя браузер и так это оптимизирует)
+                if (avatarElement.src !== newAvatarUrl) {
+                    avatarElement.src = newAvatarUrl;
+                }
+            }
         }
-    } catch (err) { console.log('Avatar update failed'); }
+    } catch (err) {
+        console.log('Не удалось загрузить аватар Steam, остается стандартный.', err);
+    }
 }
 
 function initTheme() {
