@@ -1,8 +1,5 @@
 # 📂 Kiwwij's Project Hub
 
-[![GitHub Pages](https://img.shields.io/badge/Status-Live-success?style=for-the-badge&color=2ea44f)](https://kiwwij.github.io/my-projects/)
-[![Tech Stack](https://img.shields.io/badge/Built%20With-Vanilla%20JS-yellow?style=for-the-badge)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-
 Welcome to my personal project archive. This is a dynamic "One-Page" portfolio that serves as a central hub for all my development work, experiments, and creative coding projects.
 
 Instead of a static list, this site uses the **GitHub REST API** to automatically fetch, categorize, and display my repositories in real-time.
@@ -33,4 +30,4 @@ The core logic lies in `index.js`:
 ---
 
 ### 📬 Connect with me
-[GitHub](https://github.com/kiwwij) • [Socials](https://kiwwij.github.io/kiwwij-social-links/)
+[social links](https://kiwwij.github.io/kiwwij-social-links/)

@@ -120,6 +120,11 @@
     "description": "A gallery of girls on Instagram, taken from my saved Instagram posts.",
     "stack": ["html", "css", "js", "github"]
   },
+  "tt.html": {
+    "image": "bx bxl-tiktok",
+    "description": "My saved TikTok videos were supposed to be here, but because TikTok video player put a heavy load on browsers, I didn't finish the project, or rather, I didn't add all the videos.",
+    "stack": ["html", "css", "js", "github"]
+  },
   ".html": {
     "image": "",
     "description": "",

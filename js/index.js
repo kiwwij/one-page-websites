@@ -85,8 +85,21 @@ async function loadProjects() {
             let imageHTML;
             if (imageSource) {
                 if (imageSource.includes('/') || imageSource.includes('http')) {
-                    imageHTML = `<img src="${imageSource}" alt="${displayName}" class="card-image" loading="lazy">`;
+                    
+                    imageHTML = `
+                        <div class="card-image-wrapper">
+                            <img 
+                                src="${imageSource}" 
+                                alt="${displayName}" 
+                                class="card-image-real" 
+                                loading="lazy"
+                                onload="this.parentElement.classList.add('loaded')"
+                                onerror="this.parentElement.innerHTML='<div class=\'card-image placeholder\' style=\'height:100%\'><i class=\'bx bx-image-alt\' style=\'font-size: 3rem\'></i></div>'"
+                            >
+                        </div>`;
+
                 } else if (imageSource.startsWith('bx')) {
+                    
                     const color = getRandomColor();
                     imageHTML = `<div class="card-image placeholder" style="background-color: ${color}"><i class='${imageSource}' style="font-size: 5rem; color: white;"></i></div>`;
                 } else {

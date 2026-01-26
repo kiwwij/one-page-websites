@@ -1,0 +1,252 @@
+:root {
+    --bg-color: #f2f4f8;        /* Светлый фон страницы */
+    --card-bg: #ffffff;         /* Белые карточки */
+    --text-main: #161823;       /* Темный текст (как в ТикТок) */
+    --text-sec: #8a8b91;        /* Серый текст */
+    --accent: #fe2c55;          /* ТикТок красный */
+    --accent-hover: #e0264a;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Мягкая тень */
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: 'Proxima Nova', 'Segoe UI', Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
+header {
+    background: var(--card-bg);
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-content h1 {
+    font-size: 2rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: var(--text-main);
+}
+
+.header-content h1 i {
+    color: var(--accent);
+}
+
+.header-content p {
+    color: var(--text-sec);
+    margin: 5px 0 20px 0;
+    font-size: 0.95rem;
+}
+
+/* Навигация */
+#filter-nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.filter-btn {
+    background: var(--bg-color);
+    border: none;
+    color: var(--text-main);
+    padding: 10px 20px;
+    border-radius: 24px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.filter-btn i {
+    font-size: 1.1rem;
+    color: var(--text-sec);
+}
+
+.filter-btn:hover {
+    background: #e3e6eb;
+}
+
+.filter-btn.active {
+    background: var(--accent);
+    color: white;
+    box-shadow: 0 4px 10px rgba(254, 44, 85, 0.3);
+}
+
+.filter-btn.active i {
+    color: white;
+}
+
+/* Сетка */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(325px, 1fr));
+    gap: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px 40px 20px;
+}
+
+.video-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.2s;
+}
+
+.video-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Блок описания под видео */
+.card-info {
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+    border-top: 1px solid #f0f0f0;
+}
+
+.desc {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-main);
+    text-align: left;
+    line-height: 1.4;
+}
+
+/* Лоадер */
+.loader {
+    color: var(--text-sec);
+    font-size: 0.9rem;
+    padding: 20px;
+}
+
+/* Анимация */
+.fade-in {
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Адаптив для телефонов */
+@media (max-width: 600px) {
+    header {
+        padding: 20px 10px;
+    }
+    
+    .filter-btn {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+    }
+    
+    .grid-container {
+        padding: 0 10px 40px 10px;
+        gap: 15px;
+    }
+}
+
+/* Кнопка "Показать еще" */
+.load-more-btn {
+    display: flex; /* Flex чтобы работало display: none в JS */
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 20px auto 50px auto; /* Центрирование и отступы */
+    padding: 12px 30px;
+    background-color: var(--card-bg);
+    color: var(--text-main);
+    border: 1px solid #e0e0e0;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+}
+
+.load-more-btn:hover {
+    background-color: var(--accent);
+    color: white;
+    border-color: var(--accent);
+    transform: translateY(-2px);
+}
+
+/* Стили для заглушки (Placeholder) */
+.video-placeholder {
+    width: 100%;
+    /* Минимальная высота плеера ТикТок, чтобы не прыгало */
+    min-height: 580px; 
+    background: linear-gradient(145deg, #f8f9fa, #eef0f5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    border-radius: 12px; /* Чуть меньше чем у карточки, так как внутри */
+}
+
+.video-placeholder:hover {
+    background: #e8eaef;
+}
+
+/* Кнопка Play в центре */
+.play-icon {
+    width: 60px;
+    height: 60px;
+    background-color: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 32px;
+    box-shadow: 0 4px 15px rgba(254, 44, 85, 0.4);
+    transition: transform 0.2s;
+    margin-bottom: 15px;
+}
+
+.video-placeholder:hover .play-icon {
+    transform: scale(1.1);
+}
+
+.placeholder-text {
+    font-weight: 600;
+    color: var(--text-main);
+    font-size: 1rem;
+}
+
+.placeholder-sub {
+    font-size: 0.85rem;
+    color: var(--text-sec);
+    margin-top: 5px;
+}
+
+/* Контейнер для самого видео */
+.video-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    min-height: 580px; /* Держим высоту */
+}

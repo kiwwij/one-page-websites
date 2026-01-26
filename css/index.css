@@ -303,6 +303,15 @@ h2 {
     border-style: solid;
 }
 
+.project-card[data-name="tt"] {
+    color: var(--text-muted);
+    border-style: dashed;
+}
+.project-card[data-name="tt"]:hover {
+    color: var(--text-main);
+    border-style: solid;
+}
+
 /* .project-card[data-name=""] {
     color: var(--text-muted);
     border-style: dashed;
@@ -850,4 +859,67 @@ footer a:hover {
         rgba(0, 0, 0, 0.05),
         transparent
     );
+}
+
+/* --- SKELETON LOADING ДЛЯ КАРТИНОК --- */
+.card-image-wrapper {
+    width: 100%;
+    height: 150px; /* Фиксированная высота */
+    background-color: #e0e0e0;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #f1f2f6;
+    display: block;
+}
+
+/* Адаптация под темную тему */
+[data-theme="dark"] .card-image-wrapper {
+    background-color: #1f252e; /* Более темный фон для скелета */
+    border-color: var(--border-color);
+}
+
+/* Анимация "блика" (используем вашу существующую анимацию shimmer) */
+.card-image-wrapper::after {
+    content: "";
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.4), /* Блик */
+        transparent
+    );
+    animation: shimmer 1.5s infinite;
+    z-index: 1;
+}
+
+[data-theme="dark"] .card-image-wrapper::after {
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.05), /* Блик слабее для темной темы */
+        transparent
+    );
+}
+
+/* Сама картинка */
+.card-image-real {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0; /* Скрыта по умолчанию */
+    transition: opacity 0.5s ease-in-out; /* Плавное появление */
+    position: relative;
+    z-index: 2; /* Поверх анимации */
+}
+
+/* Класс, который JS добавит после загрузки */
+.card-image-wrapper.loaded .card-image-real {
+    opacity: 1; /* Показываем картинку */
+}
+
+.card-image-wrapper.loaded::after {
+    display: none; /* Убираем анимацию, чтобы не грузить процессор */
+    animation: none;
 }

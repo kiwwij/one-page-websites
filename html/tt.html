@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My TikTok Collection</title>
+    <link rel="stylesheet" href="../css/tt.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script async src="https://www.tiktok.com/embed.js"></script>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <h1><i class='bx bxl-tiktok'></i> TikTok Archive</h1>
+            <p>Коллекция лучших тик токов (26.01.2026)</p>
+        </div>
+        
+        <nav id="filter-nav">
+            <button class="filter-btn active" data-filter="all">
+                <i class='bx bx-grid-alt'></i> Все
+            </button>
+            <button class="filter-btn" data-filter="girls">
+                <i class='bx bx-heart'></i> Girls
+            </button>
+            <button class="filter-btn" data-filter="songs">
+                <i class='bx bx-music'></i> Songs
+            </button>
+            <button class="filter-btn" data-filter="pictures">
+                <i class='bx bx-images'></i> Pictures
+            </button>
+            <button class="filter-btn" data-filter="edits">
+                <i class='bx bx-movie-play'></i> Edits
+            </button>
+            <button class="filter-btn" data-filter="memes">
+                <i class='bx bx-laugh'></i> Memes
+            </button>
+            <button class="filter-btn" data-filter="fun">
+                <i class='bx bx-smile'></i> Fun
+            </button>
+        </nav>
+    </header>
+
+    <main id="video-grid" class="grid-container">
+        </main>
+
+    <script src="../js/tt/tt-data.js"></script>
+    <script src="../js/tt.js"></script>
+    <script async src="https://www.tiktok.com/embed.js"></script>
+</body>
+</html>
