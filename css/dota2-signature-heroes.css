@@ -1,0 +1,224 @@
+:root {
+    --bg-dark: #101010;
+    --card-bg: #151515;
+    --text-main: #f0f0f0;
+    --text-muted: #999;
+    --dota-red: #ff3c3c;
+    
+    /* Цвета для подсветок */
+    --wr-color: #92e6a9; 
+    --qop-color: #ff2a2a; 
+    /* ИЗМЕНЕНО: Бледно-голубой для Io */
+    --io-color: #9beaff; 
+    --cm-color: #70ddff;
+    --db-color: #ffbf00;
+    --hw-color: #9bd666;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* Фон */
+.background-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, #1f1f1f 0%, #000000 100%);
+    z-index: -1;
+}
+
+header {
+    text-align: center;
+    padding: 30px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 2.5rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    background: linear-gradient(to right, #ccc, #fff, #ccc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+.subtitle {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-top: 5px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+}
+
+.heroes-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    max-width: 1400px;
+    width: 100%;
+}
+
+/* === КАРТОЧКА ГЕРОЯ === */
+.hero-card {
+    background-color: var(--card-bg);
+    width: 280px; 
+    border-radius: 6px;
+    overflow: hidden;
+    text-decoration: none;
+    color: white;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s;
+    border: 1px solid #333;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    z-index: 2;
+}
+
+.img-wrapper {
+    width: 100%;
+    height: 160px;
+    background-color: #000;
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid #333;
+}
+
+.img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+    opacity: 0.9;
+}
+
+.hero-card:hover .img-wrapper img {
+    transform: scale(1.05);
+    opacity: 1;
+}
+
+.card-info {
+    padding: 12px;
+    text-align: center;
+    background: linear-gradient(to top, #1a1a1a, #222);
+}
+
+.hero-card h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    color: #e0e0e0;
+    letter-spacing: 1px;
+}
+
+/* === СТИЛИ ИКОНОК В РОЛИ === */
+.role {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Отступ между элементами */
+}
+
+/* Группировка иконка + текст */
+.role .attr, .role .atk {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Настройка размера иконок */
+.role img {
+    width: 18px; /* Чуть больше для читаемости */
+    height: 18px;
+    filter: drop-shadow(0 0 2px rgba(0,0,0,0.5)); /* Тень для четкости */
+}
+
+.role .dot {
+    color: #444;
+}
+
+/* Цветовые акценты (Hover) */
+.hero-card.wr-style:hover { border-color: var(--wr-color); }
+.hero-card.wr-style:hover h2 { color: var(--wr-color); text-shadow: 0 0 10px rgba(146, 230, 169, 0.4); }
+
+.hero-card.qop-style:hover { border-color: var(--qop-color); }
+.hero-card.qop-style:hover h2 { color: var(--qop-color); text-shadow: 0 0 10px rgba(255, 42, 42, 0.4); }
+
+.hero-card.db-style:hover { border-color: var(--db-color); }
+.hero-card.db-style:hover h2 { color: var(--db-color); text-shadow: 0 0 10px rgba(255, 191, 0, 0.4); }
+
+.hero-card.hw-style:hover { border-color: var(--hw-color); }
+.hero-card.hw-style:hover h2 { color: var(--hw-color); text-shadow: 0 0 10px rgba(155, 214, 102, 0.4); }
+
+.hero-card.io-style:hover { border-color: var(--io-color); }
+.hero-card.io-style:hover h2 { color: var(--io-color); text-shadow: 0 0 10px rgba(155, 213, 255, 0.4); }
+
+.hero-card.cm-style:hover { border-color: var(--cm-color); }
+.hero-card.cm-style:hover h2 { color: var(--cm-color); text-shadow: 0 0 10px rgba(112, 221, 255, 0.4); }
+
+/* Патч футер */
+.patch-version {
+    position: fixed;
+    bottom: 15px;
+    right: 20px;
+    color: var(--text-muted);
+    font-family: monospace;
+    font-size: 0.9rem;
+    background: rgba(0,0,0,0.6);
+    padding: 5px 12px;
+    border-radius: 4px;
+    border: 1px solid #444;
+    pointer-events: none;
+    backdrop-filter: blur(2px);
+}
+
+.patch-version span {
+    color: #fff;
+    font-weight: bold;
+}
+
+/* Адаптация */
+@media (max-width: 600px) {
+    h1 { font-size: 1.8rem; }
+    .heroes-grid { 
+        flex-direction: column; 
+        align-items: center;
+    }
+    .hero-card { width: 100%; max-width: 350px; }
+}

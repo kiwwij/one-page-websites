@@ -125,6 +125,16 @@
     "description": "My saved TikTok videos were supposed to be here, but because TikTok video player put a heavy load on browsers, I didn't finish the project, or rather, I didn't add all the videos.",
     "stack": ["html", "css", "js", "github"]
   },
+  "all-youtube-channels.html": {
+    "image": "bx bxl-youtube",
+    "description": "This is a collection of almost all of my YouTube channels as of January 26, 2026.",
+    "stack": ["html", "css", "js", "github"]
+  },
+  "dota2-signature-heroes.html": {
+    "image": "bx bxl-steam",
+    "description": "Личный гид по моим любимым героям Dota 2 для патча 7.40c. Включает подробное описание способностей, стилей Arcana и наборов предметов для повышения рейтинга.",
+    "stack": ["html", "css", "js", "github"]
+  },
   ".html": {
     "image": "",
     "description": "",

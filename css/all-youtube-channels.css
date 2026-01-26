@@ -1,0 +1,335 @@
+:root {
+    --bg-color: #ffffff;
+    --header-bg: #ffffff;
+    --text-primary: #0f0f0f;
+    --text-secondary: #606060;
+    --card-hover: #f2f2f2;
+    --btn-bg: #0f0f0f;
+    --btn-text: #ffffff;
+    --btn-hover: #272727;
+    --border-color: #e5e5e5;
+    --lock-bg: #e5e5e5;
+    --hack-color: #ff0000; /* Цвет взлома */
+}
+
+[data-theme="dark"] {
+    --bg-color: #0f0f0f;
+    --header-bg: #0f0f0f;
+    --text-primary: #f1f1f1;
+    --text-secondary: #aaaaaa;
+    --card-hover: #272727;
+    --btn-bg: #f1f1f1;
+    --btn-text: #0f0f0f;
+    --btn-hover: #d9d9d9;
+    --border-color: #3f3f3f;
+    --lock-bg: #1f1f1f;
+    --hack-color: #ff3333;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', Arial, sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: var(--header-bg);
+    padding: 0 2rem;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    letter-spacing: -0.5px;
+}
+
+.logo i {
+    color: #ff0000;
+    font-size: 1.8rem;
+}
+
+.theme-toggle {
+    cursor: pointer;
+    font-size: 1.5rem;
+    padding: 8px;
+    border-radius: 50%;
+}
+
+.theme-toggle:hover {
+    background-color: var(--card-hover);
+}
+
+/* Main Grid */
+main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+h1 {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.channel-grid {
+    display: grid;
+    /* ИЗМЕНЕНИЕ: Жестко 4 колонки на ПК */
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 20px;
+}
+
+/* Channel Card */
+.channel-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    user-select: none;
+    position: relative; /* Для позиционирования прогресс-бара */
+    overflow: hidden; /* Чтобы бар не вылезал за края */
+}
+
+.channel-card:hover {
+    background-color: var(--card-hover);
+    border-color: var(--border-color);
+}
+
+.avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 12px;
+    background-color: #ccc;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 2; /* Поверх прогресс бара */
+}
+
+.channel-name {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 4px;
+    color: var(--text-primary);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    z-index: 2;
+}
+
+.stats {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    z-index: 2;
+}
+
+.sub-btn {
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+    border: none;
+    padding: 0 16px;
+    height: 36px;
+    border-radius: 18px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.sub-btn:hover {
+    background-color: var(--btn-hover);
+}
+
+/* Footer Info */
+.footer-info {
+    margin-top: auto;
+    padding-top: 3rem;
+    padding-bottom: 1rem;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    width: 100%;
+}
+
+/* === Locked Card Styles === */
+.locked-card {
+    opacity: 0.9;
+    border: 1px dashed var(--text-secondary);
+}
+
+/* Эффект помех для аватарки */
+.locked-card .avatar {
+    background: repeating-linear-gradient(
+        45deg,
+        var(--lock-bg),
+        var(--lock-bg) 10px,
+        var(--text-secondary) 10px,
+        var(--text-secondary) 11px
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.locked-card .avatar i {
+    font-size: 2.5rem;
+    color: var(--bg-color);
+    z-index: 2;
+}
+
+/* Шкала взлома (фон) */
+.hack-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 100%; /* Заливаем всю карточку снизу вверх */
+    width: 100%;
+    background-color: rgba(255, 0, 0, 0.2); /* Красный полупрозрачный */
+    transform-origin: bottom;
+    transform: scaleY(0); /* Скрыто по умолчанию */
+    transition: transform 0.05s linear; /* Очень быстрая анимация */
+    z-index: 1;
+}
+
+/* Когда кликаем - карточка чуть дергается */
+.locked-card:active {
+    transform: scale(0.98);
+}
+
+/* === АДАПТАЦИЯ === */
+@media (max-width: 600px) {
+    main {
+        padding: 1rem;
+    }
+
+    .channel-grid {
+        grid-template-columns: repeat(2, 1fr); /* На телефоне 2 колонки */
+        gap: 10px;
+    }
+
+    .channel-card {
+        padding: 10px;
+    }
+
+    .avatar {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 8px;
+    }
+
+    .channel-name {
+        font-size: 0.95rem;
+        line-height: 1.2;
+        margin-bottom: 2px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .stats {
+        font-size: 0.75rem;
+        margin-bottom: 8px;
+    }
+
+    .sub-btn {
+        height: 30px;
+        font-size: 0.8rem;
+        padding: 0 12px;
+        width: 100%;
+    }
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Затемнение фона */
+    backdrop-filter: blur(3px); /* Размытие фона */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none; /* Чтобы клики проходили сквозь скрытое окно */
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.modal-box {
+    background-color: var(--bg-color); /* Учитывает тему! */
+    color: var(--text-primary);       /* Учитывает тему! */
+    padding: 25px;
+    border-radius: 18px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    transform: scale(0.8);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid var(--border-color);
+}
+
+.modal-overlay.active .modal-box {
+    transform: scale(1);
+}
+
+.modal-box h3 {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.modal-box p {
+    margin-bottom: 20px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.modal-box .sub-btn {
+    width: 100%; /* Кнопка на всю ширину */
+    height: 40px;
+    font-size: 1rem;
+}

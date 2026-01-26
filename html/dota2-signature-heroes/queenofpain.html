@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Queen of Pain | Сигнатурный Герой</title>
+    <link rel="icon" type="image/png" href="https://cdn.steamstatic.com/apps/dota2/images/dota_react/global/dota2_logo_symbol.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Playfair+Display:ital,wght@0,400;1,400&family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/dota2-signature-heroes.css">
+    <link rel="stylesheet" href="../../css/dota2-signature-heroes/queenofpain.css">
+</head>
+<body>
+
+    <header class="hero-header">
+        <a href="../dota2-signature-heroes.html" class="back-btn">
+            <span class="arrow">←</span> НАЗАД К ГЕРОЯМ
+        </a>
+        
+        <div class="style-switcher" onclick="toggleArcanaStyle()">
+            <div class="switch-track">
+                <div class="switch-thumb"></div>
+            </div>
+            <span class="switch-label" id="style-name">Стиль 1</span>
+        </div>
+        
+        <div class="header-content">
+            <div class="hero-titles">
+                <h2 class="sub-name">Akasha, the</h2>
+                <h1 class="main-name">QUEEN OF PAIN</h1>
+            </div>
+        </div>
+    </header>
+
+    <div class="content-container">
+        
+        <section class="lore-section">
+            <h3>Искушение Короля</h3>
+            <p>
+                 Король Эльзе призвал Акашу ради запретных мук, прозвав её своей "Тайной Королевой". Она даровала ему столь изысканные страдания, что он забыл о троне. Когда народ восстал и сбросил монарха с башни, руны повиновения пали. Акаша обрела свободу и теперь несет свои мучения в мир каждому, кто ей приглянется.
+            </p>
+        </section>
+
+        <section class="aspect-section">
+            <div class="aspect-card">
+                <div class="aspect-icon">
+                    <img src="https://cdn.steamstatic.com/apps/dota2/images/dota_react/icons/facets/twin_hearts.png" alt="Bondage">
+                </div>
+                <div class="aspect-text">
+                    <h4>Bondage (Отражение боли)</h4>
+                    <p>Акаша <b>отражает</b> во врагов 10% получаемого урона от заклинаний. Если враги рядом, отраженный урон лечит её (работает как вампиризм).</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="skills-section">
+            <h3>Основные Способности</h3>
+            <div class="basic-skills">
+                <div class="skill-card">
+                    <img id="skill-1" src="https://static.wikia.nocookie.net/dota2_gamepedia/images/e/e2/Eminence_of_Ristul_Shadow_Strike_icon.png" alt="Shadow Strike">
+                    <div class="skill-desc">
+                        <h4>Shadow Strike</h4>
+                        <p>Бросает отравленный кинжал. Враг замедляется и получает периодический урон в течение 15 сек.</p>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <img id="skill-2" src="https://static.wikia.nocookie.net/dota2_gamepedia/images/5/5e/Eminence_of_Ristul_Blink_icon.png" alt="Blink">
+                    <div class="skill-desc">
+                        <h4>Blink</h4>
+                        <p>Мгновенная телепортация на короткую дистанцию. Позволяет ворваться в бой или сбежать.</p>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <img id="skill-3" src="https://static.wikia.nocookie.net/dota2_gamepedia/images/2/2f/Eminence_of_Ristul_Scream_of_Pain_icon.png" alt="Scream Of Pain">
+                    <div class="skill-desc">
+                        <h4>Scream Of Pain</h4>
+                        <p>Издает пронзительный вопль, нанося урон всем врагам вокруг.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="ult-section">
+            <div class="ult-card">
+                <div class="ult-icon-wrapper">
+                    <img id="skill-ult" src="https://static.wikia.nocookie.net/dota2_gamepedia/images/6/60/Eminence_of_Ristul_Sonic_Wave_icon.png" alt="Sonic Wave">
+                </div>
+                <div class="ult-info">
+                    <h4>SONIC WAVE <span class="ult-tag">ULTIMATE</span></h4>
+                    <p>Создает гигантскую звуковую волну, которая наносит <b>Чистый урон</b> и отталкивает всех врагов на своем пути. Пробивает невосприимчивость к магии.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="upgrades-section">
+            <h3>Улучшения Способностей</h3>
+            <div class="upgrades-grid">
+                
+                <div class="upgrade-card scepter">
+                    <div class="upgrade-header">
+                        <img src="https://cdn.steamstatic.com/apps/dota2/images/dota_react/items/ultimate_scepter.png" class="item-icon" alt="Scepter">
+                        <span class="plus">+</span>
+                        <img id="skill-upg-1" src="https://static.wikia.nocookie.net/dota2_gamepedia/images/e/e2/Eminence_of_Ristul_Shadow_Strike_icon.png" class="skill-icon-small" alt="Shadow Strike">
+                    </div>
+                    <h4>Shadow Strike Upgrade</h4>
+                    <p>Кинжал летит <b>по области</b> (радиус 375). Когда эффект кинжала заканчивается, цель издает <b>Scream of Pain</b>.</p>
+                </div>
+
+                <div class="upgrade-card shard">
+                    <div class="upgrade-header">
+                        <img src="https://cdn.steamstatic.com/apps/dota2/images/dota_react/items/aghanims_shard.png" class="item-icon" alt="Shard">
+                        <span class="plus">+</span>
+                        <img id="skill-upg-2" src="https://static.wikia.nocookie.net/dota2_gamepedia/images/5/5e/Eminence_of_Ristul_Blink_icon.png" class="skill-icon-small" alt="Blink">
+                    </div>
+                    <h4>Blink Upgrade</h4>
+                    <p>Создает звуковой удар в точках старта и прибытия. Наносит 125 урона и накладывает <b>Безмолвие</b> (1.75 сек).</p>
+                </div>
+
+            </div>
+        </section>
+
+        <section>
+            <h3>Мой Актуальный Билд</h3>
+            <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3405345926" target="_blank" class="steam-guide-link">
+                <div class="steam-content">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" alt="Steam" class="steam-icon-fixed">
+                    <div class="guide-text">
+                        <h4>Queen of Pain Support Build</h4>
+                        <span class="view-btn">Смотреть в Steam</span>
+                    </div>
+                </div>
+            </a>
+        </section>
+
+        <section class="facts-section">
+            <h3>Интересные факты</h3>
+            <ul>
+                <li>Аркана "Eminence of Ristul" меняет анимацию атаки на удары хлыстом, если враг находится близко.</li>
+                <li>Второй стиль Арканы "Royal Decree" открывается после того, как вы попадете ультимейтом Sonic Wave по 1000 вражеским героям.</li>
+                <li>На миникарте иконка героя меняется на стилизованный портрет демона с рогами.</li>
+                <li>При использовании Blink Акаша оставляет за собой огненный след и пентаграмму.</li>
+            </ul>
+        </section>
+
+    </div>
+
+    <div class="patch-version">
+        Patch: <span>7.40c</span>
+    </div>
+
+    <script>
+        // Ссылки на иконки (Стиль 1 - Красный)
+        const style1 = {
+            s1: "https://static.wikia.nocookie.net/dota2_gamepedia/images/e/e2/Eminence_of_Ristul_Shadow_Strike_icon.png",
+            s2: "https://static.wikia.nocookie.net/dota2_gamepedia/images/5/5e/Eminence_of_Ristul_Blink_icon.png",
+            s3: "https://static.wikia.nocookie.net/dota2_gamepedia/images/2/2f/Eminence_of_Ristul_Scream_of_Pain_icon.png",
+            ult: "https://static.wikia.nocookie.net/dota2_gamepedia/images/6/60/Eminence_of_Ristul_Sonic_Wave_icon.png"
+        };
+
+        // Ссылки на иконки (Стиль 2 - Синий)
+        const style2 = {
+            s1: "https://static.wikia.nocookie.net/dota2_gamepedia/images/9/93/Eminence_of_Ristul_Alt_Shadow_Strike_icon.png/revision/latest?cb=20200612070148",
+            s2: "https://static.wikia.nocookie.net/dota2_gamepedia/images/f/f3/Eminence_of_Ristul_Alt_Blink_icon.png/revision/latest?cb=20200612070202",
+            s3: "https://static.wikia.nocookie.net/dota2_gamepedia/images/0/03/Eminence_of_Ristul_Alt_Scream_of_Pain_icon.png/revision/latest?cb=20200612070210",
+            ult: "https://static.wikia.nocookie.net/dota2_gamepedia/images/b/b8/Eminence_of_Ristul_Alt_Sonic_Wave_icon.png/revision/latest?cb=20200612070218"
+        };
+
+        let isBlue = false;
+
+        function toggleArcanaStyle() {
+            const body = document.body;
+            const switcher = document.querySelector('.style-switcher');
+            const label = document.getElementById('style-name');
+
+            isBlue = !isBlue;
+
+            if (isBlue) {
+                // Включаем синий стиль
+                body.classList.add('style-royal');
+                switcher.classList.add('active');
+                label.textContent = "Стиль 2";
+                updateIcons(style2);
+            } else {
+                // Возвращаем красный стиль
+                body.classList.remove('style-royal');
+                switcher.classList.remove('active');
+                label.textContent = "Стиль 1";
+                updateIcons(style1);
+            }
+        }
+
+        function updateIcons(icons) {
+            // Основные скиллы
+            document.getElementById('skill-1').src = icons.s1;
+            document.getElementById('skill-2').src = icons.s2;
+            document.getElementById('skill-3').src = icons.s3;
+            document.getElementById('skill-ult').src = icons.ult;
+            
+            // Иконки в улучшениях
+            document.getElementById('skill-upg-1').src = icons.s1;
+            document.getElementById('skill-upg-2').src = icons.s2;
+        }
+    </script>
+</body>
+</html>

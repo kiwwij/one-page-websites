@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windranger | Сигнатурный Герой</title>
+    <link rel="icon" type="image/png" href="https://cdn.steamstatic.com/apps/dota2/images/dota_react/global/dota2_logo_symbol.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Playfair+Display:ital,wght@0,400;1,400&family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/dota2-signature-heroes.css">
+    <link rel="stylesheet" href="../../css/dota2-signature-heroes/windranger.css">
+</head>
+<body>
+
+    <header class="hero-header">
+        <a href="../dota2-signature-heroes.html" class="back-btn">
+            <span class="arrow">←</span> НАЗАД К ГЕРОЯМ
+        </a>
+        
+        <div class="style-switcher" onclick="toggleArcanaStyle()">
+            <div class="switch-track">
+                <div class="switch-thumb"></div>
+            </div>
+            <span class="switch-label" id="style-name">Стиль 1</span>
+        </div>
+        
+        <div class="header-content">
+            <div class="hero-titles">
+                <h2 class="sub-name">Lyralei, the</h2>
+                <h1 class="main-name">WINDRANGER</h1>
+            </div>
+        </div>
+    </header>
+
+    <div class="content-container">
+        
+        <section class="lore-section">
+            <h3>История Ветра</h3>
+            <p>
+                 Лиралей, крестница ветра, потеряла семью в буре при рождении. Ветер сжалился над младенцем и перенес её в деревню. Теперь её стрелы неизменно попадают в цель, а сама она движется со скоростью урагана, наказывая врагов самой природой.
+            </p>
+        </section>
+
+        <section class="aspect-section">
+            <div class="aspect-card">
+                <div class="aspect-icon">
+                    <img src="https://cdn.steamstatic.com/apps/dota2/images/dota_react/icons/facets/execute.png" alt="Killshot">
+                </div>
+                <div class="aspect-text">
+                    <h4>Killshot (Выстрел навылет)</h4>
+                    <p><b>Powershot</b> работает как "казнь": мгновенно убивает героев, если их здоровье падает ниже <b>13%</b>.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="skills-section">
+            <h3>Основные Способности</h3>
+            <div class="basic-skills">
+                <div class="skill-card">
+                    <img id="skill-1" src="https://static.wikia.nocookie.net/dota2_gamepedia/images/7/73/Compass_of_the_Rising_Gale_Shackleshot_icon.png" alt="Shackleshot">
+                    <div class="skill-desc">
+                        <h4>Shackleshot</h4>
+                        <p>Связывает цель с врагом или деревом позади. При неудаче оглушает всего на 0.6 сек.</p>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <img id="skill-2" src="https://static.wikia.nocookie.net/dota2_gamepedia/images/5/5e/Compass_of_the_Rising_Gale_Powershot_icon.png" alt="Powershot">
+                    <div class="skill-desc">
+                        <h4>Powershot</h4>
+                        <p>Заряжаемый выстрел. Урон растет при зарядке, но снижается за каждого пробитого врага.</p>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <img id="skill-3" src="https://static.wikia.nocookie.net/dota2_gamepedia/images/0/02/Compass_of_the_Rising_Gale_Windrun_icon.png" alt="Windrun">
+                    <div class="skill-desc">
+                        <h4>Windrun</h4>
+                        <p>Ускоряет бег и дарует 100% уклонение от любых физических атак.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="ult-section">
+            <div class="ult-card">
+                <div class="ult-icon-wrapper">
+                    <img id="skill-ult" src="https://static.wikia.nocookie.net/dota2_gamepedia/images/4/43/Compass_of_the_Rising_Gale_Focus_Fire_icon.png" alt="Focus Fire">
+                </div>
+                <div class="ult-info">
+                    <h4>FOCUS FIRE <span class="ult-tag">ULTIMATE</span></h4>
+                    <p>Атакует цель на бегу с бонусом <b>+350</b> к скорости атаки. Урон с руки снижен, но эффекты предметов (молнии, криты) работают на 100%.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="upgrades-section">
+            <h3>Улучшения Аганима</h3>
+            <div class="upgrades-grid">
+                
+                <div class="upgrade-card scepter">
+                    <div class="upgrade-header">
+                        <img src="https://cdn.steamstatic.com/apps/dota2/images/dota_react/items/ultimate_scepter.png" class="item-icon" alt="Scepter">
+                        <span class="plus">+</span>
+                        <img id="skill-upg-1" src="https://static.wikia.nocookie.net/dota2_gamepedia/images/0/02/Compass_of_the_Rising_Gale_Windrun_icon.png" class="skill-icon-small" alt="Windrun">
+                    </div>
+                    <h4>Windrun Upgrade</h4>
+                    <p>Дарует <b>невидимость</b> (не спадает при атаке) и снижает получаемый физический урон на <b>35%</b>.</p>
+                </div>
+
+                <div class="upgrade-card shard">
+                    <div class="upgrade-header">
+                        <img src="https://cdn.steamstatic.com/apps/dota2/images/dota_react/items/aghanims_shard.png" class="item-icon" alt="Shard">
+                        <span class="plus">+</span>
+                        <img src="https://cdn.steamstatic.com/apps/dota2/images/dota_react/abilities/windrunner_gale_force.png" class="skill-icon-small" alt="Gale Force">
+                    </div>
+                    <h4>Новая способность: Gale Force</h4>
+                    <p>Векторный порыв ветра: <b>толкает</b> всех врагов в области в выбранном направлении.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <section>
+            <h3>Мой Актуальный Билд</h3>
+            <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3295760955" target="_blank" class="steam-guide-link">
+                <div class="steam-content">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" alt="Steam" class="steam-icon-fixed">
+                    <div class="guide-text">
+                        <h4>Windranger Support Build</h4>
+                        <span class="view-btn">Смотреть в Steam</span>
+                    </div>
+                </div>
+            </a>
+        </section>
+
+        <section class="facts-section">
+            <h3>Интересные факты</h3>
+            <ul>
+                <li>Аркана "Compass of the Rising Gale" меняет не только модель, но и лор: Лиралей становится сущностью ветра, забывая свое человеческое прошлое.</li>
+                <li>Её имя в DotA Allstars было <b>Alleria</b> (в честь героя Warcraft), но в Dota 2 его изменили на Lyralei из-за авторских прав Blizzard.</li>
+                <li>Один из немногих героев, способных атаковать, не прерывая движение (благодаря ультимейту).</li>
+                <li>Если убить врага с Арканой, на месте смерти вырастают цветы, а ветер уносит "душу" жертвы.</li>
+                <li>В озвучке Арканы она часто обращается к "Отцу" и "Матери", подразумевая Ветер и Дождь, которые её воспитали.</li>
+            </ul>
+        </section>
+
+    </div>
+
+    <div class="patch-version">
+        Patch: <span>7.40c</span>
+    </div>
+
+    <script>
+        // Иконки Стиль 1 (Зеленый)
+        const style1 = {
+            s1: "https://static.wikia.nocookie.net/dota2_gamepedia/images/7/73/Compass_of_the_Rising_Gale_Shackleshot_icon.png",
+            s2: "https://static.wikia.nocookie.net/dota2_gamepedia/images/5/5e/Compass_of_the_Rising_Gale_Powershot_icon.png",
+            s3: "https://static.wikia.nocookie.net/dota2_gamepedia/images/0/02/Compass_of_the_Rising_Gale_Windrun_icon.png",
+            ult: "https://static.wikia.nocookie.net/dota2_gamepedia/images/4/43/Compass_of_the_Rising_Gale_Focus_Fire_icon.png"
+        };
+
+        // Иконки Стиль 2 (Оранжевый)
+        const style2 = {
+            s1: "https://static.wikia.nocookie.net/dota2_gamepedia/images/b/b9/Compass_of_the_Rising_Gale_Alt_Shackleshot_icon.png/revision/latest?cb=20200905122630",
+            s2: "https://static.wikia.nocookie.net/dota2_gamepedia/images/8/8f/Compass_of_the_Rising_Gale_Alt_Powershot_icon.png/revision/latest?cb=20200905122809",
+            s3: "https://static.wikia.nocookie.net/dota2_gamepedia/images/9/95/Compass_of_the_Rising_Gale_Alt_Windrun_icon.png/revision/latest?cb=20200905122909",
+            ult: "https://static.wikia.nocookie.net/dota2_gamepedia/images/8/8f/Compass_of_the_Rising_Gale_Alt_Focus_Fire_icon.png/revision/latest?cb=20200905122245"
+        };
+
+        let isAltStyle = false;
+
+        function toggleArcanaStyle() {
+            const body = document.body;
+            const switcher = document.querySelector('.style-switcher');
+            const label = document.getElementById('style-name');
+
+            isAltStyle = !isAltStyle;
+
+            if (isAltStyle) {
+                // Включаем 2 стиль
+                body.classList.add('style-reflections');
+                switcher.classList.add('active');
+                label.textContent = "Стиль 2";
+                updateIcons(style2);
+            } else {
+                // Возвращаем 1 стиль
+                body.classList.remove('style-reflections');
+                switcher.classList.remove('active');
+                label.textContent = "Стиль 1";
+                updateIcons(style1);
+            }
+        }
+
+        function updateIcons(icons) {
+            document.getElementById('skill-1').src = icons.s1;
+            document.getElementById('skill-2').src = icons.s2;
+            document.getElementById('skill-3').src = icons.s3;
+            document.getElementById('skill-ult').src = icons.ult;
+            
+            // Маленькая иконка в аганиме (виндран)
+            document.getElementById('skill-upg-1').src = icons.s3;
+        }
+    </script>
+
+</body>
+</html>

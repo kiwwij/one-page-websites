@@ -46,6 +46,7 @@ const mangaData = {
         { name: "peter h. l.", link: "https://hentaiera.com/artist/peter-h-l/", desc: "Огромные сиськи и бедра.", poster: "https://m10.hentaiera.com/029/dyv5a07ju3/1.webp" },
         { name: "tapeworm", link: "https://hentaiera.com/artist/tapeworm/", desc: "Рисует девушек с огромными формами.", poster: "https://m10.hentaiera.com/029/jxd9el35ys/1.webp" },
         { name: "rampage", link: "https://hentaiera.com/artist/rampage/", desc: "Рисует девушек с огромными формами (иногда футанари).", poster: "https://m5.hentaiera.com/018/ckywqzox42/1.jpg" },
+        { name: "leebo", link: "https://hentaiera.com/artist/leebo/", desc: "Рисует девушек с большими формами.", poster: "https://m10.hentaiera.com/031/q7ok9n0bga/188.webp" },
     ],
     "Высокая девушка": [
         { name: "hachimitsu", link: "https://hentaiera.com/artist/hachimitsu/", desc: "Невероятно высокие девушки и мальчики.", poster: "https://m9.hentaiera.com/027/c5zip8kq6j/1.jpg" },
