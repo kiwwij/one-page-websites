@@ -173,6 +173,7 @@ h1 {
     pointer-events: none;
     z-index: 2;
     text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    transition: opacity 0.3s ease;
 }
 
 /* Lightbox (Modal) */
@@ -197,6 +198,13 @@ h1 {
     animation: zoom 0.3s;
 }
 
+/* UPDATED: Специфичный стиль для видео в лайтбоксе */
+video.lightbox-content {
+    object-fit: contain; /* Показывает видео целиком, не обрезая */
+    background: #000; /* Черный фон для полос по бокам */
+    outline: none;
+}
+
 @keyframes zoom {
     from {transform:scale(0)} 
     to {transform:scale(1)}
@@ -211,6 +219,7 @@ h1 {
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s;
+    z-index: 1001;
 }
 
 .close-btn:hover {

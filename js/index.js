@@ -2,7 +2,6 @@
 const username = 'kiwwij';
 const repo = 'my-projects';
 const folder = 'html';
-const steamLogin = '76561199023917285';
 const configUrl = 'projects.json'; 
 
 // Скрытые проекты, которые не должны отображаться без кода
@@ -242,28 +241,31 @@ function getRandomColor() {
 
 async function updateSteamAvatar() {
     const avatarElement = document.querySelector('.avatar');
-    if (!avatarElement) return; // Если элемента нет, ничего не делаем
+    if (!avatarElement) return;
+
+    const dataUrl = 'https://kiwwij.github.io/kiwwij-anime-tier-list/data/steam-profile-data.js';
 
     try {
-        // Добавляем timestamp (new Date().getTime()), чтобы избежать кэширования
-        // Это заставляет браузер думать, что это новый запрос каждый раз
-        const response = await fetch(`https://playerdb.co/api/player/steam/${steamLogin}?t=${new Date().getTime()}`);
+        const response = await fetch(dataUrl);
         
         if (response.ok) {
-            const data = await response.json();
+            const scriptContent = await response.text();
             
-            // Проверяем, есть ли данные об игроке
-            if (data.success && data.data.player && data.data.player.avatar) {
-                const newAvatarUrl = data.data.player.avatar;
+            const match = scriptContent.match(/["']avatar["']\s*:\s*["']([^"']+)["']/);
+            
+            if (match && match[1]) {
+                const newAvatarUrl = match[1];
                 
-                // Меняем картинку только если ссылка отличается (хотя браузер и так это оптимизирует)
+                // Обновляем картинку
                 if (avatarElement.src !== newAvatarUrl) {
                     avatarElement.src = newAvatarUrl;
                 }
+            } else {
+                console.warn('Не удалось найти ссылку на аватар в файле данных.');
             }
         }
     } catch (err) {
-        console.log('Не удалось загрузить аватар Steam, остается стандартный.', err);
+        console.error('Ошибка при загрузке данных с kiwwij-anime-tier-list:', err);
     }
 }
 
