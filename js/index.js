@@ -5,7 +5,7 @@ const folder = 'html';
 const configUrl = 'projects.json'; 
 
 // Скрытые проекты, которые не должны отображаться без кода
-const HIDDEN_FILES = ['manga.html', 'girls-inst.html',  '.html'];
+const HIDDEN_FILES = ['manga.html', 'girls-inst.html',  'rezero-arc-8.html'];
 const SECRET_CODE = 'hentaif'; // Код для разблокировки
 let inputBuffer = '';
 
@@ -300,6 +300,23 @@ function initTheme() {
 
 searchInput.addEventListener('input', (e) => {
     const val = e.target.value.toLowerCase();
+
+    // --- ПРОВЕРКА НА СЕКРЕТНЫЙ КОД ---
+    if (val === SECRET_CODE) {
+        const isCurrentlyUnlocked = localStorage.getItem('unlock_hidden') === 'true';
+        if (!isCurrentlyUnlocked) {
+            localStorage.setItem('unlock_hidden', 'true');
+            showToast('<i class="bx bx-lock-open-alt"></i> Secret mode activated! 🔓');
+        } else {
+            localStorage.removeItem('unlock_hidden');
+            showToast('<i class="bx bx-lock-alt"></i> Secret mode deactivated. 🔒');
+        }
+        
+        searchInput.value = ''; // Очищаем поле ввода, чтобы никто не палил
+        setTimeout(() => location.reload(), 1200);
+        return;
+    }
+
     allProjects.forEach(card => card.style.display = card.getAttribute('data-name').includes(val) ? 'flex' : 'none');
     updateProjectCount();
 });

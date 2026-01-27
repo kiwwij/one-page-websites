@@ -132,7 +132,12 @@
   },
   "dota2-signature-heroes.html": {
     "image": "bx bxl-steam",
-    "description": "Личный гид по моим любимым героям Dota 2 для патча 7.40c. Включает подробное описание способностей, стилей Arcana и наборов предметов для повышения рейтинга.",
+    "description": "My personal guide to my favorite Dota 2 heroes for patch 7.40c. Includes detailed descriptions of abilities, Arcana styles, and item sets for improving your rating.",
+    "stack": ["html", "css", "js", "github"]
+  },
+  "rezero-arc-8.html": {
+    "image": "html/rezero-arc-8/rezero-arc-8.jpg",
+    "description": "The most detailed retelling of the 8th arc of Re: Zero.",
     "stack": ["html", "css", "js", "github"]
   },
   ".html": {
