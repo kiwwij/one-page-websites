@@ -140,6 +140,11 @@
     "description": "The most detailed retelling of the 8th arc of Re: Zero.",
     "stack": ["html", "css", "js", "github"]
   },
+  "dota2-match-analyzer.html": {
+    "image": "bx bxl-steam",
+    "description": "Dota 2 match analyzer with detailed statistics.",
+    "stack": ["html", "css", "js", "github"]
+  },
   ".html": {
     "image": "",
     "description": "",

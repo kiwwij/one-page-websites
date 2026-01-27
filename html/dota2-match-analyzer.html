@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dota 2 Ultimate Tracker</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/dota2-match-analyzer.css">
+</head>
+<body>
+
+    <div id="errorModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-icon"><i class='bx bxs-error-circle'></i></div>
+            <h2 id="errorTitle">Player Not Found</h2>
+            <p id="errorMessage">Please check the Steam ID and try again.</p>
+            <button onclick="closeError()">Close</button>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <nav class="navbar">
+            <div class="logo">OPEN DOTA <span class="highlight">ANALYZER</span> <i class='bx bxs-analyse'></i></div>
+            <div class="search-bar">
+                <input type="text" id="playerIdInput" placeholder="Enter Steam ID (e.g. 33097659)">
+                <button onclick="fullAnalysis()"><i class='bx bx-search'></i></button>
+            </div>
+        </nav>
+
+        <div id="loader" class="loader hidden">
+            <div class="spinner"></div>
+            <span>Scanning Ancient Data...</span>
+        </div>
+
+        <main id="dashboard" class="dashboard hidden">
+            
+            <div id="privacyWarning" class="privacy-banner hidden">
+                <i class='bx bxs-lock-alt'></i>
+                <div class="privacy-text">
+                    <strong>Missing match history?</strong> 
+                    Valve hides matches by default. To see full stats: 
+                    Open Dota 2 Settings -> Social -> Enable <span>"Expose Public Match Data"</span>.
+                </div>
+                <button class="close-banner" onclick="this.parentElement.style.display='none'"><i class='bx bx-x'></i></button>
+            </div>
+
+            <div class="profile-header-wide">
+                <div class="ph-bg-overlay"></div>
+                <div class="ph-content">
+                    <div class="ph-left">
+                        <div class="avatar-wrapper">
+                            <img id="avatar" src="" class="avatar-big">
+                            <div class="rank-badge-wrap" id="rankContainer"></div>
+                        </div>
+                        <div class="ph-info">
+                            <h1 id="personaName">NickName</h1>
+                            <a id="steamLink" href="#" target="_blank" class="steam-link">
+                                <i class='bx bxl-steam'></i> Steam Profile
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ph-stats">
+                        <div class="ph-stat-box">
+                            <span class="ph-label">Wins</span>
+                            <span class="ph-val win" id="headerWins">0</span>
+                        </div>
+                        <div class="ph-stat-box">
+                            <span class="ph-label">Losses</span>
+                            <span class="ph-val loss" id="headerLosses">0</span>
+                        </div>
+                        <div class="ph-stat-box">
+                            <span class="ph-label">Winrate</span>
+                            <span class="ph-val" id="headerWinrate">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tabs-nav">
+                <button class="tab-btn active" onclick="switchTab('matches')">Matches</button>
+                <button class="tab-btn" onclick="switchTab('heroes')">Heroes</button>
+                <button class="tab-btn" onclick="switchTab('peers')">Teammates</button>
+            </div>
+
+            <section id="tab-matches" class="tab-content active">
+                <div class="content-wrapper">
+                    <aside class="sidebar-stats">
+                        <div class="card glass-panel">
+                            <h3><i class='bx bx-equalizer'></i> Average Stats</h3>
+                            <div id="lifetimeStats" class="detailed-stats-grid"></div>
+                        </div>
+                    </aside>
+                    <div class="main-matches">
+                        <div class="matches-header-info">
+                            <span>Recent Games</span>
+                            <div class="legend">
+                                <span class="dot-win"></span> Win
+                                <span class="dot-loss"></span> Loss
+                            </div>
+                        </div>
+                        <div id="matchesGrid" class="matches-grid"></div>
+                        <button id="loadMoreBtn" class="load-more-btn" onclick="loadMoreMatches()">Load More History</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tab-heroes" class="tab-content">
+                <div class="card full-width glass-panel">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Hero</th>
+                                <th>Matches</th>
+                                <th>Win %</th>
+                                <th>With</th>
+                                <th>Against</th>
+                            </tr>
+                        </thead>
+                        <tbody id="heroesTableBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+             <section id="tab-peers" class="tab-content">
+                <div class="card full-width glass-panel">
+                    <!-- <div class="table-info-header">Click on a row to analyze teammate</div> -->
+                    <table class="data-table interactable">
+                        <thead>
+                            <tr>
+                                <th>Player</th>
+                                <th>Matches Together</th>
+                                <th>Win Rate</th>
+                            </tr>
+                        </thead>
+                        <tbody id="peersTableBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="../js/dota2-match-analyzer.js"></script>
+</body>
+</html>

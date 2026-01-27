@@ -248,8 +248,34 @@ main { display: flex; flex-direction: column; gap: 60px; }
 
 /* Адаптив */
 @media (max-width: 768px) {
-    .container { grid-template-columns: 1fr; }
-    aside { display: none; } /* На мобилках можно скрыть или сделать бургер */
+    .container { 
+        grid-template-columns: 1fr; 
+        gap: 30px;
+    }
+
+    /* Раньше тут было display: none */
+    aside { 
+        display: block; 
+        position: relative; /* Отключаем "липкость" на телефоне */
+        top: 0;
+        width: 100%;
+        max-height: 300px; /* Ограничиваем высоту, чтобы меню не занимало 5 экранов */
+        overflow-y: auto;  /* Добавляем прокрутку внутри меню */
+        margin-bottom: 10px;
+        z-index: 10;
+    }
+
+    /* Немного уменьшаем отступы в карточке меню */
+    .nav-card {
+        padding: 15px;
+        border: 2px solid var(--accent-secondary); /* Добавим рамку, чтобы выделить меню */
+    }
+
     header h1 { font-size: 1.8rem; }
-    .chapter-card { padding: 20px; }
+    
+    .chapter-card { 
+        padding: 20px; 
+        margin: 0 -10px; /* Чуть расширим карточки к краям экрана */
+        border-radius: 8px;
+    }
 }
