@@ -145,6 +145,16 @@
     "description": "Dota 2 match analyzer with detailed statistics.",
     "stack": ["html", "css", "js", "github"]
   },
+  "holidays.html": {
+    "image": "bx bx-calendar-star",
+    "description": "A daily holiday tracker covering all 366 days of the year.",
+    "stack": ["html", "css", "js", "github"]
+  },
+  "the-most-responsible-test-in-the-world.html": {
+    "image": "bx bx-heart-circle",
+    "description": "A unique interactive questionnaire created as a personal gift.",
+    "stack": ["html", "css", "js", "github"]
+  },
   ".html": {
     "image": "",
     "description": "",

@@ -1,0 +1,192 @@
+:root {
+    --primary: #ff9aa2;
+    --primary-light: #fff0f3;
+    --text-dark: #2d2d2d;
+    --bg: #fdfdfd;
+    --shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text-dark);
+    padding-bottom: 80px
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    padding-top: 80px;
+}
+
+/* --- ПЛАВАЮЩИЙ ХЕДЕР С БАЛЛАМИ --- */
+.sticky-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 15px 0;
+    text-align: center;
+    box-shadow: var(--shadow);
+    z-index: 1000;
+    border-bottom: 2px solid var(--primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.3s ease; /* Добавил плавность исчезновения */
+}
+
+.score-label {
+    font-weight: 600;
+    color: #666;
+}
+
+#score-value {
+    background: var(--primary);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: 1.2rem;
+}
+
+.main-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Карточка вопроса */
+.script-card {
+    background: white;
+    border: 2px solid #f0f0f0;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: var(--shadow);
+}
+
+/* Заголовки разделов */
+.section-title {
+    text-align: center;
+    color: var(--primary);
+    margin: 40px 0 20px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    font-weight: 800;
+}
+
+/* Мои реплики */
+.host-replica {
+    background: var(--primary-light);
+    border-left: 5px solid var(--primary);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.host-replica strong {
+    color: #e65b65;
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+
+.host-replica i {
+    margin-right: 5px;
+}
+
+/* Вопросы */
+h3 {
+    margin-top: 0;
+    font-size: 1.15rem;
+    line-height: 1.4;
+}
+
+.note {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 10px;
+    font-style: italic;
+    display: block;
+    background: #f9f9f9;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+/* Кнопки ответов */
+.options-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.opt-btn {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid var(--primary);
+    background: white;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    font-family: inherit;
+    transition: 0.2s;
+    min-width: 120px;
+}
+
+.opt-btn:active {
+    transform: scale(0.95);
+}
+
+.opt-btn.selected {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 4px 10px rgba(255, 154, 162, 0.4);
+}
+
+/* Результат */
+.verdict-section {
+    text-align: center;
+    margin: 40px 0;
+    padding: 30px 20px;
+    background: #fffafa;
+    border-radius: 24px;
+    border: 2px dashed var(--primary);
+}
+
+.btn-primary {
+    background: var(--text-dark);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    width: 100%;
+}
+
+.verdict-text {
+    margin-top: 20px;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--primary);
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.hidden { display: none; }

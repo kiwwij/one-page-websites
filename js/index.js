@@ -5,7 +5,7 @@ const folder = 'html';
 const configUrl = 'projects.json'; 
 
 // Скрытые проекты, которые не должны отображаться без кода
-const HIDDEN_FILES = ['manga.html', 'girls-inst.html',  'rezero-arc-8.html'];
+const HIDDEN_FILES = ['manga.html', 'girls-inst.html',  'rezero-arc-8.html', 'the-most-responsible-test-in-the-world.html'];
 const SECRET_CODE = 'hentaif'; // Код для разблокировки
 let inputBuffer = '';
 

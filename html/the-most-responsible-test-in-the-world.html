@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лучшее Интервью Ever</title>
+    <link rel="icon" href="https://i.pinimg.com/736x/40/4f/bc/404fbc51de67cdf4d37000e279621988.jpg"> 
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../css/the-most-responsible-test-in-the-world.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div id="sticky-header" class="sticky-header">
+        <span class="score-label">Твои баллы:</span>
+        <span id="score-value">0</span>
+    </div>
+
+    <div class="container">
+        
+        <header class="main-header">
+            <h1>📄 Интервью</h1>
+            <p class="subtitle">Листай вниз. Баллы считаются автоматически, вердикт будет в середине.</p>
+        </header>
+
+        <div id="part-one-feed"></div>
+
+        <div class="verdict-section">
+            <button class="btn-primary" onclick="showVerdict()">🎲 Узнать, кто ты</button>
+            <div id="final-verdict" class="verdict-text hidden"></div>
+        </div>
+
+        <div id="part-two-feed"></div>
+
+        <div id="emergency-feed"></div>
+
+    </div>
+
+    <script src="../js/the-most-responsible-test-in-the-world.js"></script>
+</body>
+</html>
