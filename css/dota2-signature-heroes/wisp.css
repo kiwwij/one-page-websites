@@ -30,7 +30,7 @@ body {
     content: '';
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background-image: url('https://static.wikia.nocookie.net/dota2_gamepedia/images/8/8a/Benevolent_Companion_Preview_10.jpg/revision/latest?cb=20170518205157');
+    background-image: url('../../html/dota2-signature-heroes/wisp.webp');
     background-size: cover;
     /* ИЗМЕНЕНО: Подняли фон (было center top) */
     background-position: center 65%; 

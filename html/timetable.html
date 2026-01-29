@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Розклад 5ПІ-24б</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../css/timetable.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="settings-bar">
+        <select id="group-select" class="settings-select">
+            <option value="5pi-24b">5ПІ-24б</option>
+            </select>
+        <select id="subgroup-select" class="settings-select">
+            <option value="1">1 підгрупа</option>
+            <option value="2">2 підгрупа</option>
+        </select>
+    </div>
+
+    <div class="status-card">
+        <h1 id="status-title">Завантаження...</h1>
+        <div class="timer-big" id="main-timer">--:--</div>
+        <div class="status-detail" id="status-subtitle">
+            <i class='bx bx-time-five'></i> <span id="time-left-desc">Оновлення</span>
+        </div>
+    </div>
+
+    <div class="controls">
+        <div class="date-display" id="current-date">--.--.----</div>
+        <div>
+            <span id="week-badge" class="week-badge">Тиждень 1</span>
+        </div>
+    </div>
+
+    <div class="days-nav" id="days-nav">
+        <button class="day-btn" onclick="selectDay(1)">Пн</button>
+        <button class="day-btn" onclick="selectDay(2)">Вт</button>
+        <button class="day-btn" onclick="selectDay(3)">Ср</button>
+        <button class="day-btn" onclick="selectDay(4)">Чт</button>
+        <button class="day-btn" onclick="selectDay(5)">Пт</button>
+    </div>
+
+    <div class="schedule-list" id="schedule-container">
+        </div>
+</div>
+
+<script src="../js/timetable.js"></script>
+</body>
+</html>

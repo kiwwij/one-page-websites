@@ -155,6 +155,12 @@
     "description": "A unique interactive questionnaire created as a personal gift.",
     "stack": ["html", "css", "js", "github"]
   },
+  "day-x.html": {
+    "image": "bx bx-gift",
+    "description": "If your name is Max, do NOT click. A small gift for my friend.",
+    "stack": ["html", "css", "js", "github"],
+    "url": "https://kiwwij.github.io/day-x/countdown.html"
+  },
   ".html": {
     "image": "",
     "description": "",

@@ -30,7 +30,7 @@ body {
     content: '';
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background-image: url('https://gameinside.ua/wp-content/uploads/2020/12/hoodwink-guide-na-geroya-dota2-gameinsideua.png');
+    background-image: url('../../html/dota2-signature-heroes/hoodwink.png');
     background-size: cover;
     background-position: center center;
     z-index: -1;

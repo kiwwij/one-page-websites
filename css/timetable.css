@@ -1,0 +1,218 @@
+:root {
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --text-main: #e0e0e0;
+    --text-muted: #a0a0a0;
+    --accent: #3b82f6;
+    
+    --lec-color: #3b82f6; /* Лекції */
+    --prac-color: #10b981; /* Практики */
+    --lab-color: #f59e0b; /* Лаби */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Налаштування (Select) */
+.settings-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.settings-select {
+    background: var(--card-bg);
+    color: var(--text-main);
+    border: 1px solid #333;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    outline: none;
+    flex: 1;
+}
+
+.settings-select:focus {
+    border-color: var(--accent);
+}
+
+/* Status Card */
+.status-card {
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.status-card h1 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.timer-big {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 10px 0;
+    font-variant-numeric: tabular-nums;
+}
+
+.status-detail {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Controls */
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    background: var(--card-bg);
+    padding: 10px 15px;
+    border-radius: 12px;
+}
+
+.date-display {
+    font-weight: 600;
+    color: var(--text-main);
+    text-transform: capitalize;
+}
+
+.week-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+.week-1 { background-color: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+.week-2 { background-color: rgba(16, 185, 129, 0.2); color: #34d399; }
+
+/* Tabs */
+.days-nav {
+    display: flex;
+    overflow-x: auto;
+    gap: 8px;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    -webkit-overflow-scrolling: touch;
+}
+
+.days-nav::-webkit-scrollbar { height: 0; width: 0; }
+
+.day-btn {
+    background: var(--card-bg);
+    border: none;
+    color: var(--text-muted);
+    padding: 8px 16px;
+    border-radius: 20px;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: 0.2s;
+}
+
+.day-btn.active {
+    background: var(--text-main);
+    color: var(--bg-color);
+    font-weight: 600;
+}
+
+/* Schedule List */
+.schedule-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.lesson-card {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    padding: 15px;
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    gap: 15px;
+    border-left: 4px solid transparent;
+    transition: transform 0.2s;
+}
+
+.lesson-card.active {
+    border: 2px solid var(--accent);
+    transform: scale(1.02);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.lesson-card.past { opacity: 0.5; }
+
+/* Colors for types */
+.type-LK { border-left-color: var(--lec-color); }
+.type-PZ { border-left-color: var(--prac-color); }
+.type-LR { border-left-color: var(--lab-color); }
+
+.time-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    border-right: 1px solid #333;
+    padding-right: 15px;
+}
+
+.lesson-num {
+    font-size: 1.2rem;
+    color: var(--text-main);
+}
+
+.info-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.subject-name {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 4px;
+}
+
+.lesson-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.detail-item { display: flex; align-items: center; gap: 4px; }
+.teacher-name { color: #888; }
+
+.empty-day {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-muted);
+}
