@@ -161,6 +161,11 @@
     "stack": ["html", "css", "js", "github"],
     "url": "https://kiwwij.github.io/day-x/countdown.html"
   },
+  "timetable.html": {
+    "image": "bx bx-calendar-event",
+    "description": "VNTU schedule for February.",
+    "stack": ["html", "css", "js", "github"]
+  },
   ".html": {
     "image": "",
     "description": "",
