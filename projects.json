@@ -176,6 +176,11 @@
     "description": "A postcard website for my bro on February 14!",
     "stack": ["html", "css", "js", "github"]
   },
+  "tg-alt.html": {
+    "image": "html/tg-alt/ass/1 (52).jpg",
+    "description": "Saved photos and videos from the Telegram channel",
+    "stack": ["html", "css", "js", "github"]
+  },
   ".html": {
     "image": "",
     "description": "",

@@ -192,14 +192,12 @@ function renderTabs() {
     });
 }
 
+// В функции renderSchedule замени основной цикл на этот:
 function renderSchedule() {
     const container = document.getElementById('schedule-container');
     container.innerHTML = '';
 
     const allLessons = scheduleData[currentWeek][selectedDay];
-    
-    // Фільтрація по підгрупі
-    // Показуємо якщо: немає підгрупи (загальне) АБО підгрупа співпадає з обраною
     const lessons = allLessons ? allLessons.filter(l => !l.subgroup || l.subgroup === currentSettings.subgroup) : [];
 
     if (!lessons || lessons.length === 0) {
@@ -207,37 +205,57 @@ function renderSchedule() {
         return;
     }
 
-    lessons.forEach(lesson => {
+    // Определяем максимальный номер пары на сегодня
+    const maxLessonNum = Math.max(...lessons.map(l => l.num));
+
+    // Названия типов на украинском
+    const typeLabels = { 'LK': 'ЛК', 'PZ': 'ПЗ', 'LR': 'ЛР' };
+    titleEl.innerText = `Зараз: ${activeLesson.subj} (${typeLabels[activeLesson.type]})`;
+
+    for (let i = 1; i <= maxLessonNum; i++) {
+        const lesson = lessons.find(l => l.num === i);
         const card = document.createElement('div');
-        card.className = `lesson-card type-${lesson.type}`;
-        card.id = `lesson-${lesson.num}`; 
 
-        const now = new Date();
-        const isToday = selectedDay === (now.getDay() === 0 ? 7 : now.getDay());
-        if (isToday) {
-            const [endH, endM] = lesson.end.split(':').map(Number);
-            const lessonEnd = new Date();
-            lessonEnd.setHours(endH, endM, 0);
-            if (now > lessonEnd) card.classList.add('past');
-        }
+        if (lesson) {
+            card.className = `lesson-card type-${lesson.type}`;
+            card.id = `lesson-${lesson.num}`;
+            
+            // Проверка на прошедшую пару (твой существующий код)
+            const now = new Date();
+            if (selectedDay === (now.getDay() === 0 ? 7 : now.getDay())) {
+                const [endH, endM] = lesson.end.split(':').map(Number);
+                const lessonEnd = new Date();
+                lessonEnd.setHours(endH, endM, 0);
+                if (now > lessonEnd) card.classList.add('past');
+            }
 
-        card.innerHTML = `
-            <div class="time-box">
-                <div class="lesson-num">${lesson.num}</div>
-                <div>${lesson.start}</div>
-                <div style="font-size: 0.75rem; opacity: 0.7">${lesson.end}</div>
-            </div>
-            <div class="info-box">
-                <div class="subject-name">${lesson.subj}</div>
-                <div class="lesson-details">
-                    <div class="detail-item"><i class='bx bx-user'></i> <span class="teacher-name">${lesson.teacher}</span></div>
-                    <div class="detail-item"><i class='bx bx-building'></i> <span>${lesson.room}</span></div>
-                    <div class="detail-item"><i class='bx bx-purchase-tag-alt'></i> <span>${lesson.type}</span></div>
+            card.innerHTML = `
+                <div class="time-box">
+                    <div class="lesson-num">${lesson.num}</div>
+                    <div>${lesson.start}</div>
+                    <div style="font-size: 0.75rem; opacity: 0.7">${lesson.end}</div>
                 </div>
-            </div>
-        `;
+                <div class="info-box">
+                    <div class="subject-name">${lesson.subj}</div>
+                    <div class="lesson-details">
+                        <div class="detail-item"><i class='bx bx-user'></i> <span class="teacher-name">${lesson.teacher}</span></div>
+                        <div class="detail-item"><i class='bx bx-building'></i> <span>${lesson.room}</span></div>
+                        <div class="detail-item"><i class='bx bx-purchase-tag-alt'></i> <span>${typeLabels[lesson.type]}</span></div>
+                    </div>
+                </div>`;
+        } else {
+            // Карточка для отсутствующей пары
+            card.className = 'lesson-card empty-lesson';
+            card.innerHTML = `
+                <div class="time-box">
+                    <div class="lesson-num">${i}</div>
+                </div>
+                <div class="info-box">
+                    <div class="subject-name" style="color: var(--text-muted); font-weight: 400;">Пари немає</div>
+                </div>`;
+        }
         container.appendChild(card);
-    });
+    }
 }
 
 function updateStatus() {

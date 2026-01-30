@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Gallery</title>
+    <link rel="icon" href="https://i.pinimg.com/736x/dd/a1/ce/dda1ce5fca6d12d2eeb5a040f26c3b82.jpg">
+    <link rel="stylesheet" href="../css/tg-alt.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="logo">
+            <i class='bx bxs-heart'></i>
+            <span>Gallery</span>
+        </div>
+        <ul id="category-list">
+            </ul>
+    </nav>
+
+    <main class="main-content">
+        <header>
+            <div class="header-info">
+                <h1 id="current-category-title">Select Category</h1>
+                <p class="disclaimer">
+                    Saved photos and videos from the Telegram channel.
+                </p>
+            </div>
+        </header>
+
+        <div class="gallery-grid" id="gallery-grid">
+            </div>
+    </main>
+
+    <div id="lightbox" class="lightbox">
+        <span class="close-btn">&times;</span>
+        
+        <img class="lightbox-content" id="lightbox-img" style="display: none;">
+        
+        <video class="lightbox-content" id="lightbox-video" controls style="display: none;"></video>
+    </div>
+
+    <script src="../js/tg-alt/tg-alt-girls-data.js"></script>
+    <script src="../js/tg-alt.js"></script>
+</body>
+</html>

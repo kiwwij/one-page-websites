@@ -4,10 +4,9 @@
     --text-main: #e0e0e0;
     --text-muted: #a0a0a0;
     --accent: #3b82f6;
-    
-    --lec-color: #3b82f6; /* Лекції */
-    --prac-color: #10b981; /* Практики */
-    --lab-color: #f59e0b; /* Лаби */
+    --lec-color: #f59e0b;  /* ЛК - Желтый */
+    --prac-color: #10b981; /* ПЗ - Зеленый */
+    --lab-color: #3b82f6;  /* ЛР - Синий */
 }
 
 body {
@@ -144,6 +143,12 @@ body {
     display: flex;
     flex-direction: column;
     gap: 12px;
+}
+
+.lesson-card.empty-lesson {
+    opacity: 0.4;
+    border-left: 4px solid #333;
+    min-height: 60px;
 }
 
 .lesson-card {

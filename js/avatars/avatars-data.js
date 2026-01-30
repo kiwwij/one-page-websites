@@ -48,6 +48,26 @@ export const characters = [
     },
 
     {
+        id: "beatrice_rezero",
+        images: [
+            "https://i.pinimg.com/736x/b6/64/e5/b664e5f267e2879c024c346136a4a8db.jpg",
+            "https://i.pinimg.com/736x/14/5d/0f/145d0ff4d4cc29f0da72b98c35d4c274.jpg"
+        ],
+        name: {
+            en: "Beatrice",
+            ru: "Беатрис",
+            uk: "Беатріс",
+            ja: "ベアトリス"
+        },
+        source: {
+            en: "Re:Zero",
+            ru: "Re:Zero",
+            uk: "Re:Zero",
+            ja: "Re:ゼロ"
+        }
+    },
+
+    {
         id: "ryuu_lion_danmachi",
         images: [
             "https://i.pinimg.com/1200x/5f/50/9b/5f509b1ef81342372d29974be2a12eab.jpg",
