@@ -157,13 +157,18 @@
   },
   "day-x.html": {
     "image": "bx bx-gift",
-    "description": "If your name is Max, do NOT click. A small gift for my friend.",
+    "description": "If your name is Max, DON'T open. A small gift for my friend.",
     "stack": ["html", "css", "js", "github"],
     "url": "https://kiwwij.github.io/day-x/countdown.html"
   },
   "timetable.html": {
     "image": "bx bx-calendar-event",
     "description": "VNTU schedule for February.",
+    "stack": ["html", "css", "js", "github"]
+  },
+  "avatars.html": {
+    "image": "bx bx-image",
+    "description": "A selection of anime avatars.",
     "stack": ["html", "css", "js", "github"]
   },
   ".html": {

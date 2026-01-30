@@ -46,7 +46,7 @@ async function loadProjects() {
             { name: 'online-library' },
             { name: 'Caterpillar-game' },
             { name: 'image-translator-ai' },
-            { name: 'day-x' },
+            { name: 'day-x.html' },
         ];
         
         htmlFiles.push(...manualProjects);

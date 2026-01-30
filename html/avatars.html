@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avatar Previewer</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../css/avatars.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <i class='bx bxs-ghost'></i> Anime Avatars
+        </div>
+        <div class="controls">
+            
+            <div class="filter-box">
+                <i class='bx bx-filter-alt'></i>
+                <select id="sourceFilter">
+                    <option value="all">All Sources</option>
+                    </select>
+            </div>
+
+            <div class="custom-select" id="langSwitcher">
+                <button class="select-btn">
+                    <span id="currentLangFlag">🇺🇸</span>
+                    <span id="currentLangName">English</span>
+                    <i class='bx bx-chevron-down'></i>
+                </button>
+                <ul class="select-options hidden">
+                    <li data-lang="en"><span class="flag">🇺🇸</span> English</li>
+                    <li data-lang="uk"><span class="flag">🇺🇦</span> Українська</li>
+                    <li data-lang="ru"><span class="flag">🇷🇺</span> Русский</li>
+                    <li data-lang="ja"><span class="flag">🇯🇵</span> 日本語</li>
+                </ul>
+            </div>
+
+            <button id="themeToggle" class="icon-btn">
+                <i class='bx bx-moon'></i>
+            </button>
+        </div>
+    </header>
+
+    <main id="gallery" class="gallery-grid">
+        </main>
+
+    <div id="previewModal" class="modal hidden">
+        <button class="close-btn"><i class='bx bx-x'></i></button>
+        
+        <div class="modal-content">
+            <div class="sidebar">
+                <div class="sidebar-header">
+                    <h2 id="charName">Character</h2>
+                    <p id="charSource" class="subtitle">Source</p>
+                </div>
+                
+                <div class="main-image-container">
+                    <button id="prevImg" class="nav-btn"><i class='bx bx-chevron-left'></i></button>
+                    <img src="" id="mainPreview" alt="Avatar">
+                    <button id="nextImg" class="nav-btn"><i class='bx bx-chevron-right'></i></button>
+                </div>
+                <div class="img-counter" id="imgCounter">1 / 1</div>
+            </div>
+
+            <div class="previews-container">
+                <h3>Preview</h3>
+                
+                <div class="mockup telegram">
+                    <div class="mock-avatar-circle">
+                        <img class="apply-avatar" src="" alt="">
+                    </div>
+                    <div class="mock-info">
+                        <div class="mock-name translation-target">Name</div>
+                        <div class="mock-status">last seen recently</div>
+                    </div>
+                </div>
+
+                <div class="mockup steam">
+                    <div class="mock-avatar-square">
+                        <img class="apply-avatar" src="" alt="">
+                    </div>
+                    <div class="mock-info">
+                        <div class="mock-name translation-target">Name</div>
+                        <div class="mock-status online">Online</div>
+                    </div>
+                </div>
+
+                <div class="mockup instagram">
+                    <div class="insta-header">
+                        <div class="mock-avatar-small">
+                            <img class="apply-avatar" src="" alt="">
+                        </div>
+                        <span class="mock-name translation-target">Name</span>
+                    </div>
+                    <div class="insta-post">
+                        <div class="fake-image"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="../js/avatars.js"></script>
+</body>
+</html>
