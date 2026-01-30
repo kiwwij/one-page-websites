@@ -208,9 +208,8 @@ function renderSchedule() {
     // Определяем максимальный номер пары на сегодня
     const maxLessonNum = Math.max(...lessons.map(l => l.num));
 
-    // Названия типов на украинском
+    // Названия типов на украинском (это оставляем для карточек ниже)
     const typeLabels = { 'LK': 'ЛК', 'PZ': 'ПЗ', 'LR': 'ЛР' };
-    titleEl.innerText = `Зараз: ${activeLesson.subj} (${typeLabels[activeLesson.type]})`;
 
     for (let i = 1; i <= maxLessonNum; i++) {
         const lesson = lessons.find(l => l.num === i);
