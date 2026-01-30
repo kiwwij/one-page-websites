@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For my Best Bro | 14.02</title>
+    <link rel="icon" href="https://fav.farm/🌸">
+    <link rel="stylesheet" href="../css/st.valentinesday.css">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="sakura-container"></div>
+
+    <main class="container">
+        <header class="card hero">
+            <div class="icon-wrapper">
+                <i class='bx bxs-勲章 magic-icon'></i>
+            </div>
+            <h1>С 14 Февраля!</h1>
+            <p class="subtitle">Легендарный путь продолжается</p>
+            <div id="timer-box">
+                <span class="approx">≈</span> <span id="days-count">0</span> дней дружбы
+            </div>
+        </header>
+
+        <section class="card quiz-section" id="quiz">
+            <h2><i class='bx bxs-zap'></i> Квест: Хранитель Истории</h2>
+            <div id="question-container">
+                <p id="question-text">Готов ли ты доказать, что действительно дружыл со мной, а не делал вид?</p>
+                <button onclick="startQuiz()" class="btn-main">Запустить тест</button>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar"><div id="progress" style="width: 0%"></div></div>
+            </div>
+        </section>
+
+        <section class="card generator">
+            <h3><i class='bx bxs-capsule'></i> Рандомайзер баффов</h3>
+            <div class="wish-display">
+                <p id="wish-text">Нажми на кнопку, чтобы получить рандомный бафф на сегодня...</p>
+            </div>
+            <button class="btn-gen" onclick="generateWish()">
+                <i class='bx bx-refresh'></i> Последний деп
+            </button>
+        </section>
+
+        <section class="card final-zone">
+            <h3>Вопрос на засыпку</h3>
+            <p>Сосал?</p>
+            <div class="btn-group">
+                <button class="yes-btn" onclick="showLove()">ЕСТЕСТВЕННО!</button>
+                <button class="no-btn">НЕ-А</button>
+            </div>
+        </section>
+
+        <p class="footer-note">
+            P.S. Знаешь, мы знакомы так долго, что с каждым годом придумывать новые и новые открытки становится всё тяжелее... Но для тебя — всегда пожалуйста.
+        </p>
+    </main>
+
+    <script src="../js/st.valentinesday.js"></script>
+</body>
+</html>

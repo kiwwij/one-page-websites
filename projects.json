@@ -171,9 +171,15 @@
     "description": "A selection of anime avatars.",
     "stack": ["html", "css", "js", "github"]
   },
+  "st.valentinesday.html": {
+    "image": "bx bx-heart-circle",
+    "description": "A postcard website for my bro on February 14!",
+    "stack": ["html", "css", "js", "github"]
+  },
   ".html": {
     "image": "",
     "description": "",
-    "stack": ["html", "css", "js", "github"]
+    "stack": ["html", "css", "js", "github"],
+    "url": ""
   }
 }
