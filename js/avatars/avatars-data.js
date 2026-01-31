@@ -11,6 +11,18 @@ export const characters = [
             "https://i.pinimg.com/1200x/52/75/85/52758590cd01b32e11a7e90f7317577b.jpg",
             "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=1200,height=675/catalog/crunchyroll/12a7a67585b8910c6eb9d02aff42f5eb.jpg",
             "https://otakuusamagazine.com/wp-content/uploads/2021/06/frozen-bond-ova.png",
+            "https://i.pinimg.com/1200x/63/82/1d/63821ddae59ed4825f5bd098a8bdd710.jpg",
+            "https://i.pinimg.com/736x/c8/da/67/c8da670464d32357dcd73f1cb322a289.jpg",
+            "https://i.pinimg.com/1200x/3b/42/d0/3b42d09f86de4ade3b98951960910105.jpg",
+            "https://i.pinimg.com/736x/6e/85/04/6e85046b1b0cbca41d052ea55475705a.jpg",
+            "https://i.pinimg.com/1200x/9b/b8/74/9bb874658a9157d6dcfee017d5f35b6b.jpg",
+            "https://i.pinimg.com/1200x/65/d4/4e/65d44ee268c4f98438f1b44135d87f28.jpg",
+            "https://i.pinimg.com/1200x/93/0f/42/930f4260d14712c30c755c58fb9133b3.jpg",
+            "https://i.pinimg.com/1200x/e9/b1/b8/e9b1b8bbc14a25466f2f79f157c140b3.jpg",
+            "https://i.pinimg.com/474x/34/ef/68/34ef688b3501aef8bf40057104d03ef5.jpg",
+            "https://i.pinimg.com/736x/95/e8/14/95e814e737cbb8694cc9a956c986f809.jpg",
+            "https://i.pinimg.com/1200x/91/82/f7/9182f7a35b1248f4e1f82005a0140cc4.jpg",
+            "https://i.pinimg.com/736x/13/eb/4d/13eb4dcdb610b2ac72452bbd4acbf3aa.jpg",
         ],
         name: {
             en: "Emilia",
@@ -32,6 +44,8 @@ export const characters = [
             "https://i.pinimg.com/736x/75/9c/6a/759c6a63fe0fea375d58250f3273adec.jpg",
             "https://i.pinimg.com/736x/fb/37/53/fb3753d49e054d11291525910ced34ed.jpg",
             "https://i.pinimg.com/1200x/16/91/e1/1691e14d31faf4dec0e5d542cc182a60.jpg",
+            "https://i.pinimg.com/1200x/09/34/4a/09344ac6f3441c357235d99c5f9873af.jpg",
+            "https://i.pinimg.com/736x/58/75/1e/58751e15e22ccd46f120a6f650670ea9.jpg",
         ],
         name: {
             en: "Shaula",
@@ -109,6 +123,34 @@ export const characters = [
             ru: "Может, я встречу тебя в подземелье?",
             uk: "Може, я зустріну тебе в підземеллі?",
             ja: "ダンジョンに出会いを求めるのは間違っているだろうか?"
+        }
+    },
+
+    {
+        id: "cc_codegeass",
+        images: [
+            "https://i.pinimg.com/736x/d3/08/7f/d3087f92e4ed5a5947d2d7f4b2ec76cf.jpg",
+            "https://i.pinimg.com/1200x/f2/e1/a5/f2e1a5eaada53615f13234193a3f91c2.jpg",
+            "https://i.pinimg.com/1200x/62/7c/87/627c87a73f63d38ac7bbf20e0718cab6.jpg",
+            "https://i.pinimg.com/736x/87/3c/75/873c759b00761f56919cdae034500593.jpg",
+            "https://i.pinimg.com/1200x/ef/b9/28/efb928390012b756ff86aaf67227027a.jpg",
+            "https://i.pinimg.com/1200x/49/3e/b0/493eb0330edae66f9d4bdedb1ca7b780.jpg",
+            "https://i.pinimg.com/736x/7e/d7/4c/7ed74c07a45531aa6e66c919936c7a70.jpg",
+            "https://i.pinimg.com/474x/b5/49/6c/b5496cc8595029c1dc178ae836a61ba8.jpg",
+            "https://i.pinimg.com/1200x/92/00/78/9200782170a40cc69352c4736757e351.jpg",
+            "https://i.pinimg.com/1200x/df/b0/e8/dfb0e835024380e492a6b06b1d7cf780.jpg",
+        ],
+        name: {
+            en: "C.C.",
+            ru: "C.C.",
+            uk: "C.C.",
+            ja: "シー・ツー"
+        },
+        source: {
+            en: "Code Geass",
+            ru: "Код Геасс",
+            uk: "Код Ґіасс",
+            ja: "コードギアス"
         }
     },
 ];
