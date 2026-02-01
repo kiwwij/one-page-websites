@@ -3,7 +3,7 @@ const volumes = {
     35: { start: 16, end: 28, title: "Том 35", img: "https://static.wikia.nocookie.net/rezero/images/9/92/Re_Zero_Volume_35_Cover.png" },
     36: { start: 29, end: 43, title: "Том 36", img: "https://static.wikia.nocookie.net/rezero/images/3/3f/Re_Zero_Volume_36_Cover.png" },
     37: { start: 44, end: 57, title: "Том 37", img: "https://static.wikia.nocookie.net/rezero/images/a/aa/Re_Zero_Volume_37_Cover.png" },
-    38: { start: 58, end: 75, title: "Том 38", img: "https://static.wikia.nocookie.net/rezero/images/8/85/Re_Zero_Volume_38_Cover.webp/revision/latest/scale-to-width-down/536?cb=20241110185657&path-prefix=ru" }
+    38: { start: 58, end: 75, title: "Том 38", img: "../html/rezero-arc-8/Re_Zero_Volume_38_Cover.webp" }
 };
 
 // --- НАЗВАНИЯ ГЛАВ (ПОЛНЫЙ СПИСОК 1-75) ---
