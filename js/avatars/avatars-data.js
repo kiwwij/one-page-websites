@@ -23,6 +23,11 @@ export const characters = [
             "https://i.pinimg.com/736x/95/e8/14/95e814e737cbb8694cc9a956c986f809.jpg",
             "https://i.pinimg.com/1200x/91/82/f7/9182f7a35b1248f4e1f82005a0140cc4.jpg",
             "https://i.pinimg.com/736x/13/eb/4d/13eb4dcdb610b2ac72452bbd4acbf3aa.jpg",
+            "https://i.pinimg.com/1200x/1b/97/a1/1b97a140108f3d41a28b1bb40a37b3ba.jpg",
+            "https://i.pinimg.com/1200x/27/18/85/27188520aafd3c98a623be1f5c3198ed.jpg",
+            "https://i.pinimg.com/736x/ca/dd/f3/caddf3fa2bc389d030b5ae194c813e03.jpg",
+            "https://i.pinimg.com/736x/f0/f8/16/f0f8163e1fced02099cd6593f1f464af.jpg",
+            "https://i.pinimg.com/736x/9e/b5/3c/9eb53c755c7fb880af3fdca8c827d52b.jpg",
         ],
         name: {
             en: "Emilia",
@@ -88,6 +93,7 @@ export const characters = [
             "https://i.pinimg.com/1200x/fc/a0/45/fca0455695f6009d30be97ca62f8469a.jpg",
             "https://i.pinimg.com/736x/d2/49/7d/d2497d2a079ef9bff466c1556f1ae31f.jpg",
             "https://i.pinimg.com/1200x/34/90/9d/34909d54ba22b280bd0ae56098025fdd.jpg",
+            "https://i.pinimg.com/1200x/ee/6e/14/ee6e1464c886faafc80e61b1e5414b59.jpg",
         ],
         name: {
             en: "Ryuu Lion",
