@@ -1,0 +1,307 @@
+:root {
+    --primary-color: #6C63FF;
+    --bg-color: #f4f6f8;
+    --card-bg: #ffffff;
+    --text-color: #333333;
+    --text-secondary: #666666;
+    --border-color: #e0e0e0;
+    --shadow: 0 4px 6px rgba(0,0,0,0.05);
+    --roadmap-line: #cbd5e1;
+    --badge-bg: #e0e7ff;
+    --badge-text: #4338ca;
+}
+
+[data-theme="dark"] {
+    --primary-color: #8b85ff;
+    --bg-color: #1a1a2e;
+    --card-bg: #16213e;
+    --text-color: #eaeaea;
+    --text-secondary: #b0b0b0;
+    --border-color: #2f3640;
+    --shadow: 0 4px 6px rgba(0,0,0,0.3);
+    --roadmap-line: #2f3640;
+    --badge-bg: #312e81;
+    --badge-text: #e0e7ff;
+}
+
+/* --- Базовые стили --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* --- Хедер --- */
+header {
+    background-color: var(--card-bg);
+    padding: 1rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.theme-toggle {
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--text-color);
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-toggle:hover {
+    background-color: var(--border-color);
+}
+
+/* --- Главный контейнер --- */
+.container {
+    max-width: 900px;
+    margin: 3rem auto;
+    padding: 0 1.5rem;
+}
+
+.intro {
+    text-align: center;
+    margin-bottom: 3.5rem;
+}
+
+.intro h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.intro p {
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* --- Блок Книги --- */
+.book-recommendation {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 1.5rem;
+    border-radius: 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+    box-shadow: var(--shadow);
+}
+
+.book-icon {
+    font-size: 3.5rem;
+    color: var(--primary-color);
+    background: var(--bg-color);
+    padding: 1rem;
+    border-radius: 12px;
+    display: flex;
+}
+
+.book-info h3 {
+    margin-bottom: 0.8rem;
+    color: var(--text-color);
+}
+
+.book-info p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+/* --- Roadmap Timeline --- */
+.roadmap {
+    position: relative;
+    padding-left: 2rem;
+}
+
+/* --- Линия таймлайна --- */
+.roadmap::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    bottom: 0;
+    width: 3px;
+    background-color: var(--roadmap-line);
+    border-radius: 2px;
+}
+
+.step {
+    position: relative;
+    margin-bottom: 3rem;
+    padding-left: 2.5rem;
+}
+
+/* --- Точка на таймлайне --- */
+.step::before {
+    content: '';
+    position: absolute;
+    left: -2.55rem;
+    top: 1.5rem;
+    width: 18px;
+    height: 18px;
+    background-color: var(--primary-color);
+    border: 4px solid var(--bg-color);
+    border-radius: 50%;
+    z-index: 1;
+    box-shadow: 0 0 0 4px var(--bg-color);
+}
+
+.step-card {
+    background-color: var(--card-bg);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.step-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+.step-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.2rem;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.step-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--text-color);
+}
+
+.step-badge {
+    background-color: var(--badge-bg);
+    color: var(--badge-text);
+    padding: 0.3rem 0.9rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.step-badge.highlight {
+    background-color: #fef3c7;
+    color: #d97706;
+}
+[data-theme="dark"] .step-badge.highlight {
+    background-color: #78350f;
+    color: #fcd34d;
+}
+
+.step-content p {
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+}
+
+.step-content ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 1.5rem;
+}
+
+.step-content li {
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.step-content li i {
+    color: var(--primary-color);
+    margin-top: 4px;
+    flex-shrink: 0;
+}
+
+/* --- Кнопка --- */
+.learn-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.7rem 1.4rem;
+    background-color: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.learn-btn:hover {
+    background-color: var(--primary-color);
+    color: #ffffff;
+}
+
+/* --- Футер --- */
+footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-top: 2rem;
+    border-top: 1px solid var(--border-color);
+}
+
+/* --- Адаптив --- */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1rem;
+    }
+    .roadmap {
+        padding-left: 1rem;
+    }
+    .step {
+        padding-left: 1.5rem;
+    }
+    .step::before {
+        left: -1.6rem;
+    }
+    .book-recommendation {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+    .step-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

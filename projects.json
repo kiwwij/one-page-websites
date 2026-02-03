@@ -181,6 +181,11 @@
     "description": "Saved photos and videos from the Telegram channel",
     "stack": ["html", "css", "js", "github"]
   },
+  "qa-engineer-roadmap.html": {
+    "image": "bx bx-map-alt",
+    "description": "Interactive roadmap to become a QA Engineer with 2026 trends.",
+    "stack": ["html", "css", "js", "github"]
+  },
   ".html": {
     "image": "",
     "description": "",
