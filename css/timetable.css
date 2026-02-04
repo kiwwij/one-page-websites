@@ -96,6 +96,36 @@ body {
     font-weight: 600;
     color: var(--text-main);
     text-transform: capitalize;
+    font-size: 0.95rem;
+}
+
+.week-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-btn {
+    background: transparent;
+    border: 1px solid #333;
+    color: var(--text-muted);
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.nav-btn:hover {
+    background: #333;
+    color: var(--text-main);
+}
+
+.nav-btn i {
+    font-size: 1.2rem;
 }
 
 .week-badge {
@@ -104,9 +134,23 @@ body {
     border-radius: 4px;
     font-size: 0.75rem;
     font-weight: bold;
+    min-width: 70px;
+    text-align: center;
 }
+
 .week-1 { background-color: rgba(59, 130, 246, 0.2); color: #60a5fa; }
 .week-2 { background-color: rgba(16, 185, 129, 0.2); color: #34d399; }
+
+.reset-view {
+    text-align: center;
+    margin-top: 15px;
+    color: var(--accent);
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-decoration: underline;
+    opacity: 0.8;
+}
+.reset-view:hover { opacity: 1; }
 
 /* Tabs */
 .days-nav {

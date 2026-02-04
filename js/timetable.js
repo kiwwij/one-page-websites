@@ -6,7 +6,7 @@
 */
 
 const scheduleData = {
-    // Неділя 1 (Чисельник)
+    // Неділя 1 (Верхня)
     1: {
         1: [ // Понеділок
             { num: 5, start: "11:35", end: "12:10", subj: "Метрол. оцінювання ПЗ", type: "LK", room: "12 Зал", teacher: "Дудатьєв І.А." },
@@ -23,25 +23,25 @@ const scheduleData = {
         3: [ // Середа
             { num: 1, start: "08:15", end: "08:50", subj: "Графічні редактори", type: "PZ", room: "2247A", teacher: "Чехместрук Р.Ю." },
             { num: 2, start: "09:05", end: "09:40", subj: "Архітектура та проект. ПЗ", type: "LK", room: "2247A", teacher: "Бабюк Н.П." },
-            { num: 3, start: "09:55", end: "10:30", subj: "Графічні редактори", type: "LK", room: "1518", teacher: "Чехместрук Р.Ю." },
-            { num: 4, start: "10:45", end: "11:20", subj: "Графічні редактори", type: "LK", room: "1518", teacher: "Чехместрук Р.Ю." },
-            { num: 5, start: "11:35", end: "12:10", subj: "Графічні редактори", type: "PZ", room: "1518", teacher: "Чехместрук Р.Ю." },
+            { num: 3, start: "09:55", end: "10:30", subj: "Графічні редактори", type: "LK", room: "1318", teacher: "Чехместрук Р.Ю." },
+            { num: 4, start: "10:45", end: "11:20", subj: "Графічні редактори", type: "LK", room: "1318", teacher: "Чехместрук Р.Ю." },
+            { num: 5, start: "11:35", end: "12:10", subj: "Графічні редактори", type: "PZ", room: "1318", teacher: "Чехместрук Р.Ю." },
             { num: 6, start: "12:25", end: "13:00", subj: "Архітектура та проект. ПЗ", type: "PZ", room: "2247A", teacher: "Бабюк Н.П." }
         ],
         4: [ // Четвер
             { num: 1, start: "08:15", end: "08:50", subj: "Політ. історія України", type: "PZ", room: "2257", teacher: "Пономаренко А.Б." },
             { num: 2, start: "09:05", end: "09:40", subj: "Теор. ймов. та мат. стат.", type: "LK", room: "2248", teacher: "Ракитянська Г.Б." },
             // Поділ на підгрупи
-            { num: 3, start: "09:55", end: "10:30", subj: "Арх. та проект. ПЗ", type: "LR", room: "2110", teacher: "Барчук Н.С.", subgroup: 1 },
+            { num: 3, start: "09:55", end: "10:30", subj: "Арх. та проект. ПЗ", type: "LR", room: "2110", teacher: "Барчук Н.Є.", subgroup: 1 },
             { num: 3, start: "09:55", end: "10:30", subj: "Метрол. оцінювання", type: "LR", room: "1310", teacher: "Дудатьєв І.А.", subgroup: 2 },
             
-            { num: 4, start: "10:45", end: "11:20", subj: "Арх. та проект. ПЗ", type: "LR", room: "2110", teacher: "Барчук Н.С.", subgroup: 1 },
+            { num: 4, start: "10:45", end: "11:20", subj: "Арх. та проект. ПЗ", type: "LR", room: "2110", teacher: "Барчук Н.Є.", subgroup: 1 },
             { num: 4, start: "10:45", end: "11:20", subj: "Метрол. оцінювання", type: "LR", room: "1310", teacher: "Дудатьєв І.А.", subgroup: 2 },
             
-            { num: 5, start: "11:35", end: "12:10", subj: "Іноземна мова", type: "PZ", room: "3317", teacher: "Кухарчук Г.В.", subgroup: 1 },
+            { num: 5, start: "11:35", end: "12:10", subj: "Теор. ймов. та мат. стат.", type: "LR", room: "2210", teacher: "Васильківський М.В.", subgroup: 1 },
             { num: 5, start: "11:35", end: "12:10", subj: "Іноземна мова", type: "PZ", room: "3425", teacher: "Чопик В.В.", subgroup: 2 },
             
-            { num: 6, start: "12:25", end: "13:00", subj: "Іноземна мова", type: "PZ", room: "3317", teacher: "Кухарчук Г.В.", subgroup: 1 },
+            { num: 6, start: "12:25", end: "13:00", subj: "Теор. ймов. та мат. стат.", type: "LR", room: "2210", teacher: "Васильківський М.В.", subgroup: 1 },
             { num: 6, start: "12:25", end: "13:00", subj: "Іноземна мова", type: "PZ", room: "3425", teacher: "Чопик В.В.", subgroup: 2 },
             
             { num: 7, start: "13:20", end: "13:55", subj: "Основи прогр. інженерії", type: "LR", room: "2108", teacher: "Денисюк А.В.", subgroup: 1 },
@@ -50,6 +50,7 @@ const scheduleData = {
         5: [ // П'ятниця
             { num: 2, start: "09:05", end: "09:40", subj: "Основи прогр. інженерії", type: "LK", room: "2247A", teacher: "Коваленко О.О." },
             { num: 3, start: "09:55", end: "10:30", subj: "Основи прогр. інженерії", type: "LK", room: "2247A", teacher: "Коваленко О.О." },
+            { num: 4, start: "10:45", end: "11:20", subj: "Основи прогр. інженерії", type: "LK", room: "2247A", teacher: "Коваленко О.О." },
             
             { num: 5, start: "11:35", end: "12:10", subj: "Іноземна мова", type: "PZ", room: "3317", teacher: "Кухарчук Г.В.", subgroup: 1 },
             { num: 5, start: "11:35", end: "12:10", subj: "Теор. ймов.", type: "LR", room: "2320", teacher: "Васильківський", subgroup: 2 },
@@ -57,14 +58,17 @@ const scheduleData = {
             { num: 6, start: "12:25", end: "13:00", subj: "Іноземна мова", type: "PZ", room: "3317", teacher: "Кухарчук Г.В.", subgroup: 1 },
             { num: 6, start: "12:25", end: "13:00", subj: "Теор. ймов.", type: "LR", room: "2320", teacher: "Васильківський", subgroup: 2 },
             
-            { num: 7, start: "13:20", end: "13:55", subj: "Арх. та проект. ПЗ", type: "LR", room: "2110", teacher: "Барчук Н.С.", subgroup: 2 }
+            { num: 7, start: "13:20", end: "13:55", subj: "Арх. та проект. ПЗ", type: "LR", room: "2110", teacher: "Барчук Н.Є.", subgroup: 1 }
         ]
     },
-    // Неділя 2 (Знаменник)
+    // Неділя 2 (Нижня)
     2: {
         1: [ // Понеділок
-            { num: 5, start: "11:35", end: "12:10", subj: "Метрол. оцінювання ПЗ", type: "LK", room: "12 Зал", teacher: "Дудатьєв І.А." },
-            { num: 6, start: "12:25", end: "13:00", subj: "Метрол. оцінювання ПЗ", type: "LK", room: "12 Зал", teacher: "Дудатьєв І.А." }
+            { num: 1, start: "08:15", end: "08:50", subj: "БЗВП", type: "PZ", room: "", teacher: "" },
+            { num: 2, start: "09:05", end: "09:40", subj: "БЗВП", type: "PZ", room: "", teacher: "" },
+            { num: 3, start: "09:55", end: "10:30", subj: "БЗВП", type: "PZ", room: "", teacher: "" },
+            { num: 4, start: "10:45", end: "11:20", subj: "БЗВП", type: "PZ", room: "", teacher: "" },
+            { num: 5, start: "11:35", end: "12:10", subj: "Метрол. оцінювання ПЗ", type: "LK", room: "12 Зал", teacher: "Дудатьєв І.А." }
         ],
         2: [ // Вівторок
             { num: 2, start: "09:05", end: "09:40", subj: "Політ. історія України", type: "LK", room: "2363", teacher: "Пономаренко А.Б." },
@@ -87,41 +91,38 @@ const scheduleData = {
             { num: 2, start: "09:05", end: "09:40", subj: "Теор. ймов. та мат. стат.", type: "LK", room: "2248", teacher: "Ракитянська Г.Б." },
             
             { num: 3, start: "09:55", end: "10:30", subj: "Метрол. оцінювання", type: "LR", room: "1310", teacher: "Дудатьєв І.А.", subgroup: 1 },
-            { num: 3, start: "09:55", end: "10:30", subj: "Арх. та проект. ПЗ", type: "LR", room: "2110", teacher: "Барчук Н.С.", subgroup: 2 },
+            { num: 3, start: "09:55", end: "10:30", subj: "Арх. та проект. ПЗ", type: "LR", room: "2110", teacher: "Барчук Н.Є.", subgroup: 2 },
             
             { num: 4, start: "10:45", end: "11:20", subj: "Метрол. оцінювання", type: "LR", room: "1310", teacher: "Дудатьєв І.А.", subgroup: 1 },
-            { num: 4, start: "10:45", end: "11:20", subj: "Арх. та проект. ПЗ", type: "LR", room: "2110", teacher: "Барчук Н.С.", subgroup: 2 },
+            { num: 4, start: "10:45", end: "11:20", subj: "Арх. та проект. ПЗ", type: "LR", room: "2110", teacher: "Барчук Н.Є.", subgroup: 2 },
             
-            { num: 5, start: "11:35", end: "12:10", subj: "Іноземна мова", type: "PZ", room: "3425", teacher: "Чопик В.В.", subgroup: 1 },
+            { num: 5, start: "11:35", end: "12:10", subj: "Теор. ймов. та мат. стат.", type: "PZ", room: "2110", teacher: "Васильківський М.В.", subgroup: 1 },
             { num: 5, start: "11:35", end: "12:10", subj: "Іноземна мова", type: "PZ", room: "3317", teacher: "Кухарчук Г.В.", subgroup: 2 },
             
-            { num: 6, start: "12:25", end: "13:00", subj: "Іноземна мова", type: "PZ", room: "3425", teacher: "Чопик В.В.", subgroup: 1 },
+            { num: 6, start: "12:25", end: "13:00", subj: "Теор. ймов. та мат. стат.", type: "PZ", room: "2110", teacher: "Васильківський М.В.", subgroup: 1 },
             { num: 6, start: "12:25", end: "13:00", subj: "Іноземна мова", type: "PZ", room: "3317", teacher: "Кухарчук Г.В.", subgroup: 2 },
             
             { num: 7, start: "13:20", end: "13:55", subj: "Основи прогр. інженерії", type: "LR", room: "2108", teacher: "Денисюк А.В.", subgroup: 2 },
             { num: 8, start: "14:05", end: "14:40", subj: "Основи прогр. інженерії", type: "LR", room: "2108", teacher: "Денисюк А.В.", subgroup: 2 }
         ],
         5: [ // П'ятниця
-            { num: 1, start: "08:15", end: "08:50", subj: "Політ. історія України", type: "PZ", room: "2257", teacher: "Пономаренко А.Б." },
-            { num: 2, start: "09:05", end: "09:40", subj: "Теор. ймов. та мат. стат.", type: "LK", room: "2248", teacher: "Ракитянська Г.Б." },
+            { num: 2, start: "09:05", end: "09:40", subj: "Основи прогр. інженерії", type: "LK", room: "2247A", teacher: "Коваленко О.О." },
+            { num: 3, start: "09:55", end: "10:30", subj: "Основи прогр. інженерії", type: "LK", room: "2247A", teacher: "Коваленко О.О." },
+            { num: 4, start: "10:45", end: "11:20", subj: "Основи прогр. інженерії", type: "LK", room: "2247A", teacher: "Коваленко О.О." },
             
-            { num: 3, start: "09:55", end: "10:30", subj: "Метрол. оцінювання", type: "LR", room: "1310", teacher: "Дудатьєв І.А.", subgroup: 2 },
-            { num: 3, start: "09:55", end: "10:30", subj: "Арх. та проект. ПЗ", type: "LR", room: "2110", teacher: "Барчук Н.С.", subgroup: 1 },
-
-            { num: 4, start: "10:45", end: "11:20", subj: "Метрол. оцінювання", type: "LR", room: "1310", teacher: "Дудатьєв І.А.", subgroup: 2 },
-            { num: 4, start: "10:45", end: "11:20", subj: "Арх. та проект. ПЗ", type: "LR", room: "2110", teacher: "Барчук Н.С.", subgroup: 1 },
-
-            { num: 5, start: "11:35", end: "12:10", subj: "Теор. ймов.", type: "LR", room: "2320", teacher: "Васильківський", subgroup: 2 },
             { num: 5, start: "11:35", end: "12:10", subj: "Іноземна мова", type: "PZ", room: "3317", teacher: "Кухарчук Г.В.", subgroup: 1 },
-
+            { num: 5, start: "11:35", end: "12:10", subj: "Теор. ймов.", type: "LR", room: "2320", teacher: "Васильківський", subgroup: 2 },
+            
+            { num: 6, start: "12:25", end: "13:00", subj: "Іноземна мова", type: "PZ", room: "3317", teacher: "Кухарчук Г.В.", subgroup: 1 },
             { num: 6, start: "12:25", end: "13:00", subj: "Теор. ймов.", type: "LR", room: "2320", teacher: "Васильківський", subgroup: 2 },
-            { num: 6, start: "12:25", end: "13:00", subj: "Іноземна мова", type: "PZ", room: "3317", teacher: "Кухарчук Г.В.", subgroup: 1 }
+            
+            { num: 7, start: "13:20", end: "13:55", subj: "Арх. та проект. ПЗ", type: "LR", room: "2110", teacher: "Барчук Н.Є.", subgroup: 2 }
         ]
     }
 };
 
 // --- Логіка ---
-
+let viewDate = new Date(); // Дата, яку ми переглядаємо зараз
 let selectedDay = new Date().getDay();
 if (selectedDay === 0 || selectedDay === 6) selectedDay = 1;
 
@@ -145,42 +146,108 @@ document.getElementById('subgroup-select').addEventListener('change', (e) => {
     updateStatus();
 });
 
-function getCurrentWeek() {
-    const now = new Date();
+// Функція розрахунку типу тижня (1 або 2) для конкретної дати
+function getWeekType(date) {
     const startSemester = new Date('2026-02-02T00:00:00');
+    // Коригуємо час, щоб уникнути проблем з часовими поясами
+    const target = new Date(date);
+    target.setHours(0,0,0,0);
     
-    const diffTime = now.getTime() - startSemester.getTime();
+    const diffTime = target.getTime() - startSemester.getTime();
     const diffDays = Math.floor(diffTime / (1000 * 3600 * 24));
     
+    // Якщо дата до початку семестру, вважаємо що це 1 тиждень
     if (diffDays < 0) return 1;
     
     const weeksPassed = Math.floor((diffDays + (startSemester.getDay() || 7) - 1) / 7);
     return (weeksPassed % 2 === 0) ? 1 : 2; 
 }
 
-let currentWeek = getCurrentWeek();
-
 function init() {
-    updateDate();
+    updateDateDisplay();
     renderTabs();
     renderSchedule();
     updateStatus();
     setInterval(updateStatus, 1000);
 }
 
-function updateDate() {
-    const now = new Date();
-    const options = { weekday: 'long', day: 'numeric', month: 'long' };
-    document.getElementById('current-date').innerText = now.toLocaleDateString('uk-UA', options);
+// Навігація по тижнях
+function changeWeek(offset) {
+    // Додаємо/віднімаємо 7 днів
+    viewDate.setDate(viewDate.getDate() + (offset * 7));
     
+    // Перевірка, чи ми "сьогодні"
+    checkIfTodayView();
+    
+    updateDateDisplay();
+    renderSchedule();
+    updateStatus(); // Оновити таймер (сховати його, якщо ми в майбутньому)
+}
+
+function resetToToday() {
+    viewDate = new Date();
+    selectedDay = new Date().getDay();
+    if (selectedDay === 0 || selectedDay === 6) selectedDay = 1;
+    
+    renderTabs();
+    checkIfTodayView();
+    updateDateDisplay();
+    renderSchedule();
+    updateStatus();
+}
+
+function checkIfTodayView() {
+    const today = new Date();
+    // Порівнюємо тиждень viewDate і today
+    const sameWeek = isSameWeek(viewDate, today);
+    const btn = document.getElementById('reset-view-btn');
+    
+    if (sameWeek) {
+        btn.style.display = 'none';
+    } else {
+        btn.style.display = 'block';
+    }
+}
+
+// Допоміжна функція: чи належать дати одному тижню
+function isSameWeek(d1, d2) {
+    const one = new Date(d1);
+    const two = new Date(d2);
+    // Зводимо до понеділка
+    const day1 = one.getDay() || 7;
+    const day2 = two.getDay() || 7;
+    one.setHours(0,0,0,0);
+    two.setHours(0,0,0,0);
+    one.setDate(one.getDate() - day1 + 1);
+    two.setDate(two.getDate() - day2 + 1);
+    return one.getTime() === two.getTime();
+}
+
+function updateDateDisplay() {
+    // Знаходимо дату для selectedDay в межах тижня viewDate
+    const currentViewDayIndex = viewDate.getDay() || 7; // 1 (Пн) - 7 (Нд)
+    
+    // Різниця між обраним днем (напр. Вівторок=2) і реальним днем viewDate
+    // Якщо viewDate = Середа (3), а selectedDay = Вівторок (2), треба відняти 1 день
+    const diff = selectedDay - currentViewDayIndex;
+    
+    const displayDate = new Date(viewDate);
+    displayDate.setDate(viewDate.getDate() + diff);
+    
+    const options = { weekday: 'long', day: 'numeric', month: 'long' };
+    document.getElementById('current-date').innerText = displayDate.toLocaleDateString('uk-UA', options);
+    
+    // Оновлюємо бейдж тижня
+    const weekType = getWeekType(viewDate);
     const badge = document.getElementById('week-badge');
-    badge.innerText = currentWeek === 1 ? "Верхній тиждень" : "Нижній тиждень";
-    badge.className = `week-badge week-${currentWeek}`;
+    badge.innerText = weekType === 1 ? "Тиждень 1" : "Тиждень 2";
+    badge.className = `week-badge week-${weekType}`;
 }
 
 function selectDay(dayIndex) {
     selectedDay = dayIndex;
     renderTabs();
+    updateDateDisplay(); // Дата зміниться, бо ми клікнули інший день
     renderSchedule();
 }
 
@@ -192,12 +259,12 @@ function renderTabs() {
     });
 }
 
-// В функции renderSchedule замени основной цикл на этот:
 function renderSchedule() {
     const container = document.getElementById('schedule-container');
     container.innerHTML = '';
 
-    const allLessons = scheduleData[currentWeek][selectedDay];
+    const currentWeekType = getWeekType(viewDate);
+    const allLessons = scheduleData[currentWeekType][selectedDay];
     const lessons = allLessons ? allLessons.filter(l => !l.subgroup || l.subgroup === currentSettings.subgroup) : [];
 
     if (!lessons || lessons.length === 0) {
@@ -205,11 +272,13 @@ function renderSchedule() {
         return;
     }
 
-    // Определяем максимальный номер пары на сегодня
     const maxLessonNum = Math.max(...lessons.map(l => l.num));
-
-    // Названия типов на украинском (это оставляем для карточек ниже)
     const typeLabels = { 'LK': 'ЛК', 'PZ': 'ПЗ', 'LR': 'ЛР' };
+
+    // Визначаємо, чи показувати стилі "минулої" пари
+    // Це робимо ТІЛЬКИ якщо ми дивимось на "сьогодні"
+    const isToday = isSameDate(viewDate, new Date()) && (selectedDay === (new Date().getDay() || 7));
+    const now = new Date();
 
     for (let i = 1; i <= maxLessonNum; i++) {
         const lesson = lessons.find(l => l.num === i);
@@ -219,9 +288,7 @@ function renderSchedule() {
             card.className = `lesson-card type-${lesson.type}`;
             card.id = `lesson-${lesson.num}`;
             
-            // Проверка на прошедшую пару (твой существующий код)
-            const now = new Date();
-            if (selectedDay === (now.getDay() === 0 ? 7 : now.getDay())) {
+            if (isToday) {
                 const [endH, endM] = lesson.end.split(':').map(Number);
                 const lessonEnd = new Date();
                 lessonEnd.setHours(endH, endM, 0);
@@ -243,7 +310,6 @@ function renderSchedule() {
                     </div>
                 </div>`;
         } else {
-            // Карточка для отсутствующей пары
             card.className = 'lesson-card empty-lesson';
             card.innerHTML = `
                 <div class="time-box">
@@ -259,12 +325,22 @@ function renderSchedule() {
 
 function updateStatus() {
     const now = new Date();
-    const dayOfWeek = now.getDay() === 0 ? 7 : now.getDay();
     
-    // Беремо уроки для поточного дня і поточної підгрупи для статусу
+    // Якщо ми не дивимося поточний тиждень/день, таймер не актуальний
+    // Перевіряємо, чи viewDate в межах поточного реального тижня
+    if (!isSameWeek(viewDate, now)) {
+        document.getElementById('status-title').innerText = "Перегляд розкладу";
+        document.getElementById('main-timer').innerText = "--:--";
+        document.getElementById('time-left-desc').innerText = "Інший тиждень";
+        return;
+    }
+
+    const dayOfWeek = now.getDay() === 0 ? 7 : now.getDay();
+    const currentWeekType = getWeekType(now);
+    
     let lessons = [];
-    if (scheduleData[currentWeek][dayOfWeek]) {
-        lessons = scheduleData[currentWeek][dayOfWeek].filter(l => !l.subgroup || l.subgroup === currentSettings.subgroup);
+    if (scheduleData[currentWeekType][dayOfWeek]) {
+        lessons = scheduleData[currentWeekType][dayOfWeek].filter(l => !l.subgroup || l.subgroup === currentSettings.subgroup);
     }
     
     const titleEl = document.getElementById('status-title');
@@ -273,7 +349,7 @@ function updateStatus() {
 
     if (!lessons || lessons.length === 0) {
         titleEl.innerText = "Сьогодні вихідний";
-        timerEl.innerText = "Chill";
+        timerEl.innerText = "Відпочивай";
         subtitleEl.innerText = "Пар немає";
         return;
     }
@@ -299,6 +375,7 @@ function updateStatus() {
         }
     }
 
+    // Знімаємо активний клас з карток
     document.querySelectorAll('.lesson-card').forEach(c => c.classList.remove('active'));
 
     if (activeLesson) {
@@ -310,7 +387,8 @@ function updateStatus() {
         timerEl.innerText = formatTime(diff);
         subtitleEl.innerHTML = "<i class='bx bx-timer'></i> до перерви";
         
-        if (selectedDay === dayOfWeek) {
+        // Підсвічуємо картку тільки якщо ми дивимось на СЬОГОДНІШНІЙ день в интерфейсі
+        if (isSameDate(viewDate, now) && selectedDay === dayOfWeek) {
             const activeCard = document.getElementById(`lesson-${activeLesson.num}`);
             if (activeCard) activeCard.classList.add('active');
         }
@@ -331,7 +409,14 @@ function updateStatus() {
     }
 }
 
+function isSameDate(d1, d2) {
+    return d1.getFullYear() === d2.getFullYear() &&
+           d1.getMonth() === d2.getMonth() &&
+           d1.getDate() === d2.getDate();
+}
+
 function formatTime(ms) {
+    if (ms < 0) return "00:00";
     const totalSeconds = Math.floor(ms / 1000);
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);

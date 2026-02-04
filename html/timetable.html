@@ -14,14 +14,14 @@
     <div class="settings-bar">
         <select id="group-select" class="settings-select">
             <option value="5pi-24b">5ПІ-24б</option>
-            </select>
+        </select>
         <select id="subgroup-select" class="settings-select">
             <option value="1">1 підгрупа</option>
             <option value="2">2 підгрупа</option>
         </select>
     </div>
 
-    <div class="status-card">
+    <div class="status-card" id="status-card">
         <h1 id="status-title">Завантаження...</h1>
         <div class="timer-big" id="main-timer">--:--</div>
         <div class="status-detail" id="status-subtitle">
@@ -31,8 +31,10 @@
 
     <div class="controls">
         <div class="date-display" id="current-date">--.--.----</div>
-        <div>
+        <div class="week-nav">
+            <button class="nav-btn" onclick="changeWeek(-1)"><i class='bx bx-chevron-left'></i></button>
             <span id="week-badge" class="week-badge">Тиждень 1</span>
+            <button class="nav-btn" onclick="changeWeek(1)"><i class='bx bx-chevron-right'></i></button>
         </div>
     </div>
 
@@ -44,8 +46,11 @@
         <button class="day-btn" onclick="selectDay(5)">Пт</button>
     </div>
 
-    <div class="schedule-list" id="schedule-container">
-        </div>
+    <div class="schedule-list" id="schedule-container"></div>
+    
+    <div id="reset-view-btn" class="reset-view" onclick="resetToToday()" style="display: none;">
+        Повернутися до сьогодні
+    </div>
 </div>
 
 <script src="../js/timetable.js"></script>
