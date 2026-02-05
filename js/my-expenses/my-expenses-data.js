@@ -8,14 +8,12 @@ const database = {
         weeks: {
             1: {
                 food: 125.56 + 26.99,
-                snacks: 200.07 + 242.95,
+                snacks: 446.02,
                 services: 34.16,
                 games: 0,
                 other: 0
             },
-            2: {
-
-            },
+            2: {},
             3: {},
             4: {},
             5: {}

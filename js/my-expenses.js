@@ -8,6 +8,8 @@ const nextMonthBtn = document.getElementById('next-month');
 const weekBtns = document.querySelectorAll('.week-btn');
 const statsTitle = document.getElementById('stats-title');
 const themeToggle = document.getElementById('theme-toggle');
+// Находим элемент подписи "Доход", чтобы менять его на "Было"
+const incomeLabel = incomeEl.previousElementSibling; 
 
 // Настройки
 const categoryConfig = {
@@ -22,18 +24,14 @@ const categoryConfig = {
     other: { label: 'Другое', icon: 'bx-question-mark', color: 'cat-other' }
 };
 
-// АВТОМАТИЧЕСКОЕ ОПРЕДЕЛЕНИЕ ДАТЫ
-// При запуске берется текущая дата на устройстве
 let currentDate = new Date(); 
 let currentWeek = 'all';
 
-// Инициализация
 function init() {
-    updateMonthLabel(); // Пишем "Февраль 2026" в заголовок
-    render();           // Рисуем графики
+    updateMonthLabel();
+    render();
 }
 
-// Обновление заголовка (Например: "Февраль 2026")
 function updateMonthLabel() {
     const monthNames = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
     const year = currentDate.getFullYear();
@@ -41,71 +39,104 @@ function updateMonthLabel() {
     currentMonthLabel.innerText = `${monthNames[month]} ${year}`;
 }
 
-// Главная функция отрисовки
 function render() {
     statsContainer.innerHTML = '';
     
-    // Формируем ключ для базы данных: "YYYY-MM" (например "2026-02")
     const year = currentDate.getFullYear();
-    // getMonth() возвращает 0-11, поэтому +1. padStart добавляет 0 перед числом (02, 03)
     const month = String(currentDate.getMonth() + 1).padStart(2, '0');
     const key = `${year}-${month}`;
 
-    // Ищем данные в файле data.js
     const monthData = (typeof database !== 'undefined' && database[key]) ? database[key] : null;
 
     if (!monthData) {
         setValues(0, 0);
-        statsContainer.innerHTML = `
-            <div style="text-align:center; opacity:0.5; margin-top:20px;">
-                <i class='bx bx-calendar-x' style="font-size: 3rem; margin-bottom: 10px;"></i>
-                <p>Нет данных за этот месяц (${key})</p>
-                <p style="font-size: 0.8rem;">Проверь файл data.js</p>
-            </div>`;
+        statsContainer.innerHTML = `<div style="text-align:center; opacity:0.5; margin-top:20px;"><p>Нет данных (${key})</p></div>`;
         return;
     }
 
-    // 1. Считаем ДОХОД
-    const totalIncome = (monthData.income.fix || 0) + (monthData.income.extra || 0);
+    // 1. Изначальный доход за месяц
+    const totalMonthIncome = (monthData.income.fix || 0) + (monthData.income.extra || 0);
 
-    // 2. Считаем РАСХОДЫ (учитывая выбранную неделю)
-    let totalExpenses = 0;
-    let categories = {};
+    // 2. Логика расчета "Водопадом"
+    let startBalanceForView = totalMonthIncome; // С какой суммы начинаем считать
+    let expensesForView = 0; // Сколько потратили в выбранном периоде
+    let categoriesForView = {}; // Категории для графика
 
-    // Если выбрано 'all', берем недели 1,2,3,4,5. Если '1' — только 1.
-    const weeksToProcess = (currentWeek === 'all') ? ['1', '2', '3', '4', '5'] : [currentWeek];
+    if (currentWeek === 'all') {
+        // Если "Весь месяц": Доход = ЗП, Траты = Сумма всех недель
+        incomeLabel.innerText = "Доход";
+        startBalanceForView = totalMonthIncome;
+        
+        ['1', '2', '3', '4', '5'].forEach(w => {
+            const weekStats = getWeekStats(monthData, w);
+            expensesForView += weekStats.total;
+            mergeCategories(categoriesForView, weekStats.categories);
+        });
 
-    weeksToProcess.forEach(w => {
-        if (monthData.weeks && monthData.weeks[w]) {
-            const weekObj = monthData.weeks[w];
-            // Пробегаемся по категориям внутри недели
-            for (const [cat, amount] of Object.entries(weekObj)) {
-                if (amount > 0) {
-                    if (!categories[cat]) categories[cat] = 0;
-                    categories[cat] += amount;
-                    totalExpenses += amount;
-                }
+    } else {
+        // Если выбрана конкретная неделя (например, 2)
+        // Нам нужно вычесть траты ВСЕХ предыдущих недель из Дохода
+        
+        const weekNum = parseInt(currentWeek);
+        let previousExpenses = 0;
+
+        // Считаем траты за прошлые недели
+        for (let i = 1; i < weekNum; i++) {
+            const weekStats = getWeekStats(monthData, i.toString());
+            previousExpenses += weekStats.total;
+        }
+
+        // "Доход" для этой недели — это то, что осталось от ЗП
+        startBalanceForView = totalMonthIncome - previousExpenses;
+        
+        // Меняем подпись, чтобы было понятно
+        incomeLabel.innerText = weekNum === 1 ? "Доход" : "На начало недели";
+
+        // Траты считаем ТОЛЬКО за текущую неделю
+        const currentWeekStats = getWeekStats(monthData, currentWeek);
+        expensesForView = currentWeekStats.total;
+        categoriesForView = currentWeekStats.categories;
+    }
+
+    // 3. Вывод
+    setValues(startBalanceForView, expensesForView);
+    renderStats(categoriesForView, expensesForView);
+}
+
+// Вспомогательная функция: считает сумму и категории одной недели
+function getWeekStats(monthData, weekKey) {
+    let total = 0;
+    let cats = {};
+    
+    if (monthData.weeks && monthData.weeks[weekKey]) {
+        for (const [cat, amount] of Object.entries(monthData.weeks[weekKey])) {
+            if (amount > 0) {
+                if (!cats[cat]) cats[cat] = 0;
+                cats[cat] += amount;
+                total += amount;
             }
         }
-    });
+    }
+    return { total: total, categories: cats };
+}
 
-    // 3. Обновляем цифры на экране
-    setValues(totalIncome, totalExpenses);
-
-    // 4. Рисуем полоски категорий
-    renderStats(categories, totalExpenses);
+// Вспомогательная функция: объединяет категории (для режима "Весь месяц")
+function mergeCategories(target, source) {
+    for (const [cat, amount] of Object.entries(source)) {
+        if (!target[cat]) target[cat] = 0;
+        target[cat] += amount;
+    }
 }
 
 function setValues(income, expense) {
     const balance = income - expense;
-    incomeEl.innerText = `+${income} ₴`;
+    incomeEl.innerText = `+${income.toFixed(0)} ₴`; // Убрал копейки у дохода для красоты
     expenseEl.innerText = `-${expense.toFixed(2)} ₴`;
     balanceEl.innerText = `${balance.toFixed(2)} ₴`;
     balanceEl.style.color = balance >= 0 ? 'var(--success)' : 'var(--danger)';
 }
 
 function renderStats(categories, totalExpenses) {
-    // Сортировка от большего к меньшему
     const sortedCats = Object.keys(categories).sort((a, b) => categories[b] - categories[a]);
 
     if (sortedCats.length === 0) {
@@ -133,29 +164,19 @@ function renderStats(categories, totalExpenses) {
     });
 }
 
-// Кнопки недель
 weekBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         weekBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        
         currentWeek = btn.dataset.week;
         statsTitle.innerText = currentWeek === 'all' ? 'Расходы: Весь месяц' : `Расходы: Неделя ${currentWeek}`;
         render();
     });
 });
 
-// Кнопки "Вперед/Назад" по месяцам
-prevMonthBtn.addEventListener('click', () => {
-    currentDate.setMonth(currentDate.getMonth() - 1);
-    init();
-});
-nextMonthBtn.addEventListener('click', () => {
-    currentDate.setMonth(currentDate.getMonth() + 1);
-    init();
-});
+prevMonthBtn.addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() - 1); init(); });
+nextMonthBtn.addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() + 1); init(); });
 
-// Тема
 themeToggle.addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
     const icon = themeToggle.querySelector('i');
@@ -163,5 +184,4 @@ themeToggle.addEventListener('click', () => {
     icon.classList.toggle('bx-sun');
 });
 
-// ЗАПУСК
 init();
