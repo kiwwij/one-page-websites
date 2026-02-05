@@ -186,6 +186,11 @@
     "description": "Interactive roadmap to become a QA Engineer with 2026 trends.",
     "stack": ["html", "css", "js", "github"]
   },
+  "my-expenses.html": {
+    "image": "bx bxs-wallet-alt",
+    "description": "My personal expense tracker.",
+    "stack": ["html", "css", "js", "github"]
+  },
   ".html": {
     "image": "",
     "description": "",

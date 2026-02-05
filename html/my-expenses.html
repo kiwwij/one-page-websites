@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой Бюджет</title>
+    <link rel="stylesheet" href="../css/my-expenses.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="main-wrapper">
+        <header>
+            <div class="logo-area">
+                <h1><i class='bx bxs-pie-chart-alt-2'></i> ФинТрекер</h1>
+            </div>
+            <button id="theme-toggle" class="icon-btn" title="Сменить тему">
+                <i class='bx bx-moon'></i>
+            </button>
+        </header>
+
+        <div class="month-nav">
+            <button id="prev-month" class="nav-btn" title="Предыдущий месяц">
+                <i class='bx bx-chevron-left'></i>
+            </button>
+            <h2 id="current-month-label">Загрузка...</h2>
+            <button id="next-month" class="nav-btn" title="Следующий месяц">
+                <i class='bx bx-chevron-right'></i>
+            </button>
+        </div>
+
+        <div class="content-grid">
+            <div class="left-col">
+                <div class="card balance-card">
+                    <h3>Баланс за месяц</h3>
+                    <div class="balance-total">
+                        <span>Остаток:</span>
+                        <h2 id="display-balance">0 ₴</h2>
+                    </div>
+                    <hr>
+                    <div class="balance-row">
+                        <div class="bal-item">
+                            <span>Доход</span>
+                            <strong id="display-income" class="plus">+0 ₴</strong>
+                        </div>
+                        <div class="bal-item">
+                            <span>Траты</span>
+                            <strong id="display-expense" class="minus">-0 ₴</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-col">
+                <div class="card week-selector">
+                    <button class="week-btn active" data-week="all">Весь месяц</button>
+                    <button class="week-btn" data-week="1">1</button>
+                    <button class="week-btn" data-week="2">2</button>
+                    <button class="week-btn" data-week="3">3</button>
+                    <button class="week-btn" data-week="4">4</button>
+                    <button class="week-btn" data-week="5">5</button>
+                </div>
+
+                <div class="card stats-container">
+                    <h3 id="stats-title">Расходы: Весь месяц</h3>
+                    <div id="categories-stats">
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/my-expenses/my-expenses-data.js"></script>
+    <script src="../js/my-expenses.js"></script>
+</body>
+</html>
