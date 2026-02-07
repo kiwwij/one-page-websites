@@ -1,40 +1,126 @@
-// Структура: "ГОД-МЕСЯЦ": { income: ..., weeks: { 1: ..., 2: ... } }
 const database = {
     "2026-02": {
-        // Доход: fix - стипендия/зп, extra - подарки
+        // Доход: fix - стипендия/пенсия/зп, extra - подарки
         income: { fix: 7643, extra: 0 },
-        
-        // Траты по неделям. Просто пиши сумму. Можно использовать сложение (50 + 20).
+
         weeks: {
             1: {
-                food: 125.56 + 26.99,
-                snacks: 446.02,
+                food: 125.56 + 26.99 + 11.99,
+                snacks: 446.02 + 35 + 153.01 + 70.35,
                 services: 34.16,
                 games: 0,
-                other: 0
+                tech: 0,
+                health: 0,
+                clothes: 0,
+                saved: 0,
+                other: 0,
             },
-            2: {},
-            3: {},
-            4: {},
-            5: {}
+            2: {
+                food: 0,
+                snacks: 0,
+                services: 99,
+                games: 0,
+                tech: 0,
+                health: 0,
+                clothes: 0,
+                saved: 0,
+                other: 0,
+            },
+            3: {
+                food: 0,
+                snacks: 0,
+                services: 0,
+                games: 0,
+                tech: 0,
+                health: 0,
+                clothes: 0,
+                saved: 0,
+                other: 0,
+            },
+            4: {
+                food: 0,
+                snacks: 0,
+                services: 0,
+                games: 0,
+                tech: 0,
+                health: 0,
+                clothes: 0,
+                saved: 0,
+                other: 0,
+            },
+            5: {
+                food: 0,
+                snacks: 0,
+                services: 0,
+                games: 0,
+                tech: 0,
+                health: 0,
+                clothes: 0,
+                saved: 0,
+                other: 0,
+            }
         }
     },
 
     "2026-03": {
-            income: { fix: 7643, extra: 0 },
-            
-            weeks: {
-                1: {
-                    food: 0,
-                    snacks: 0,
-                    services: 0,
-                    games: 0,
-                    other: 0
-                },
-                2: {},
-                3: {},
-                4: {},
-                5: {}
+        income: { fix: 7643, extra: 0 },
+
+        weeks: {
+            1: {
+                food: 0,
+                snacks: 0,
+                services: 99,
+                games: 0,
+                tech: 0,
+                health: 0,
+                clothes: 0,
+                saved: 0,
+                other: 0,
+            },
+            2: {
+                food: 0,
+                snacks: 0,
+                services: 0,
+                games: 0,
+                tech: 0,
+                health: 0,
+                clothes: 0,
+                saved: 0,
+                other: 0,
+            },
+            3: {
+                food: 0,
+                snacks: 0,
+                services: 0,
+                games: 0,
+                tech: 0,
+                health: 0,
+                clothes: 0,
+                saved: 0,
+                other: 0,
+            },
+            4: {
+                food: 0,
+                snacks: 0,
+                services: 0,
+                games: 0,
+                tech: 0,
+                health: 0,
+                clothes: 0,
+                saved: 0,
+                other: 0,
+            },
+            5: {
+                food: 0,
+                snacks: 0,
+                services: 0,
+                games: 0,
+                tech: 0,
+                health: 0,
+                clothes: 0,
+                saved: 0,
+                other: 0,
             }
         }
+    },
 };
