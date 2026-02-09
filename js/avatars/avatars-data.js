@@ -51,6 +51,8 @@ export const characters = [
             "https://i.pinimg.com/1200x/16/91/e1/1691e14d31faf4dec0e5d542cc182a60.jpg",
             "https://i.pinimg.com/1200x/09/34/4a/09344ac6f3441c357235d99c5f9873af.jpg",
             "https://i.pinimg.com/736x/58/75/1e/58751e15e22ccd46f120a6f650670ea9.jpg",
+            "https://i.pinimg.com/736x/12/e9/0b/12e90b8bfa7df371315712faff4513a5.jpg",
+            "../../html/avatars/shaula1.png",
         ],
         name: {
             en: "Shaula",
@@ -77,6 +79,25 @@ export const characters = [
             ru: "Беатрис",
             uk: "Беатріс",
             ja: "ベアトリス"
+        },
+        source: {
+            en: "Re:Zero",
+            ru: "Re:Zero",
+            uk: "Re:Zero",
+            ja: "Re:ゼロ"
+        }
+    },
+
+    {
+        id: "echidna_rezero",
+        images: [
+            "https://i.pinimg.com/736x/cf/c3/ef/cfc3efe89dda354ee873a82564474076.jpg",
+        ],
+        name: {
+            en: "Echidna",
+            ru: "Ехидна",
+            uk: "Єхидна",
+            ja: "エキドナ"
         },
         source: {
             en: "Re:Zero",
@@ -157,6 +178,55 @@ export const characters = [
             ru: "Код Геасс",
             uk: "Код Ґіасс",
             ja: "コードギアス"
+        }
+    },
+
+    {
+        id: "huntress_wizard_adventuretime",
+        images: [
+            "https://i.pinimg.com/1200x/99/da/c9/99dac95ac6bd0d365f6d953dbcfe7647.jpg",
+            "https://i.pinimg.com/1200x/8f/d2/29/8fd22933679d26440f454da71eaa32d3.jpg",
+        ],
+        name: {
+            en: "Huntress wizard",
+            ru: "Колдунья-охотница",
+            uk: "Чаклунка-мисливця",
+            ja: "魔女狩り"
+        },
+        source: {
+            en: "Adventure Time",
+            ru: "Время приключений",
+            uk: "Час Пригод",
+            ja: "アドベンチャー・タイム"
+        }
+    },
+
+    {
+        id: "rize_tokyoghoul",
+        images: [
+            "https://i.pinimg.com/736x/cf/9d/90/cf9d90f85b0049da7c42a661ad385dbe.jpg",
+            "https://i.pinimg.com/736x/b6/ae/8b/b6ae8b434958647310f0fa7edc91a715.jpg",
+            "https://i.pinimg.com/736x/1a/27/5f/1a275fa0875cc45036ab7583e1ac9b98.jpg",
+            "https://i.pinimg.com/736x/07/38/b6/0738b64e9a2bc6a0081e3c240e6f4933.jpg",
+            "https://i.pinimg.com/736x/2c/42/b4/2c42b4f5bb79e8b6ee98d19abe999f57.jpg",
+            "https://i.pinimg.com/736x/27/79/eb/2779eb9579d86d16d15c1edee405aed9.jpg",
+            "https://i.pinimg.com/1200x/c0/c7/44/c0c7442db7f9b1adf8995b5f9ca15613.jpg",
+            "https://i.pinimg.com/736x/96/fd/72/96fd7233dc54207fc85a8b3f461296b3.jpg",
+            "https://i.pinimg.com/736x/a2/82/a0/a282a0ea7e531f0aab8f3657156617a6.jpg",
+            "https://i.pinimg.com/736x/f8/e3/89/f8e38956e6303ac20b414dd5753affd4.jpg",
+            "https://i.pinimg.com/736x/60/4d/54/604d54d6d454127eb1fad6a76daf2133.jpg"
+        ],
+        name: {
+            en: "Rize",
+            ru: "Ризе",
+            uk: "Різе",
+            ja: ""
+        },
+        source: {
+            en: "Tokyo Ghoul",
+            ru: "Токийский гуль",
+            uk: "Токійський Гуль",
+            ja: "東京喰種-トーキョーグール"
         }
     },
 ];

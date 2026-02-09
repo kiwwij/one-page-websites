@@ -8,8 +8,8 @@ const nextMonthBtn = document.getElementById('next-month');
 const weekBtns = document.querySelectorAll('.week-btn');
 const statsTitle = document.getElementById('stats-title');
 const themeToggle = document.getElementById('theme-toggle');
-// Находим элемент подписи "Доход", чтобы менять его на "Было"
-const incomeLabel = incomeEl.previousElementSibling; 
+const incomeLabel = incomeEl.previousElementSibling;
+const globalSavingsEl = document.getElementById('global-savings');
 
 // Настройки
 const categoryConfig = {
@@ -30,6 +30,8 @@ let currentWeek = 'all';
 function init() {
     updateMonthLabel();
     render();
+    // НОВОЕ: Вызываем подсчет общей копилки при запуске
+    renderGlobalSavings();
 }
 
 function updateMonthLabel() {
@@ -103,6 +105,70 @@ function render() {
     renderStats(categoriesForView, expensesForView);
 }
 
+// НОВОЕ: Функция подсчета всех сэкономленных денег
+function renderGlobalSavings() {
+    if (!globalSavingsEl) return; // Если элемента нет в HTML, выходим
+
+    let totalSaved = 0;
+    
+    // Получаем текущую реальную дату
+    const now = new Date();
+    const currentRealYear = now.getFullYear();
+    const currentRealMonth = now.getMonth() + 1; // Месяцы в JS 0-11, делаем 1-12
+
+    // Проходимся по всей базе данных
+    for (const key in database) {
+        // key формата "2026-02"
+        const [yearStr, monthStr] = key.split('-');
+        const year = parseInt(yearStr);
+        const month = parseInt(monthStr);
+
+        // --- ФИЛЬТРЫ ---
+        
+        // 1. Игнорируем все года до 2026
+        if (year < 2026) continue;
+
+        // 2. В 2026 году игнорируем Январь (month < 2)
+        if (year === 2026 && month < 2) continue;
+
+        // 3. Игнорируем будущее (то, что написано заранее)
+        // Если год записи больше текущего реального года -> пропускаем
+        if (year > currentRealYear) continue;
+        // Если год тот же, но месяц записи больше текущего реального -> пропускаем
+        if (year === currentRealYear && month > currentRealMonth) continue;
+
+
+        // --- РАСЧЕТ ---
+        const monthData = database[key];
+        
+        // Считаем доход за месяц
+        const income = (monthData.income.fix || 0) + (monthData.income.extra || 0);
+        
+        // Считаем расход за месяц (сумма всех недель)
+        let expense = 0;
+        if (monthData.weeks) {
+            Object.values(monthData.weeks).forEach(week => {
+                Object.values(week).forEach(amount => {
+                    expense += amount;
+                });
+            });
+        }
+
+        // Прибавляем остаток (Доход - Расход) к общей сумме
+        totalSaved += (income - expense);
+    }
+
+    // Вывод в HTML
+    globalSavingsEl.innerText = `${totalSaved.toFixed(0)} ₴`;
+    
+    // Красим в зеленый, если мы в плюсе, в красный, если в минусе
+    if (totalSaved >= 0) {
+        globalSavingsEl.style.color = 'var(--success)';
+    } else {
+        globalSavingsEl.style.color = 'var(--danger)';
+    }
+}
+
 // Вспомогательная функция: считает сумму и категории одной недели
 function getWeekStats(monthData, weekKey) {
     let total = 0;
@@ -130,7 +196,7 @@ function mergeCategories(target, source) {
 
 function setValues(income, expense) {
     const balance = income - expense;
-    incomeEl.innerText = `+${income.toFixed(0)} ₴`; // Убрал копейки у дохода для красоты
+    incomeEl.innerText = `+${income.toFixed(0)} ₴`; 
     expenseEl.innerText = `-${expense.toFixed(2)} ₴`;
     balanceEl.innerText = `${balance.toFixed(2)} ₴`;
     balanceEl.style.color = balance >= 0 ? 'var(--success)' : 'var(--danger)';

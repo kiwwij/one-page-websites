@@ -69,7 +69,7 @@ const database = {
             1: {
                 food: 0,
                 snacks: 0,
-                services: 99,
+                services: 0,
                 games: 0,
                 tech: 0,
                 health: 0,
