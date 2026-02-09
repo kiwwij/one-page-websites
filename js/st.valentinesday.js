@@ -223,3 +223,29 @@ window.addEventListener('keydown', (e) => {
 function showLove() {
     showAlert("Я и не сомневался! Вместе до конца! ❤️");
 }
+
+// --- 6. ЛАЙТБОКС (Просмотр фото) ---
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+
+function openLightbox(element) {
+    // Устанавливаем src большого фото таким же, как у нажатой миниатюры
+    lightboxImg.src = element.src; 
+    lightbox.style.display = "flex"; // Показываем блок
+    
+    // Блокируем прокрутку основной страницы
+    document.body.style.overflow = 'hidden'; 
+}
+
+function closeLightbox() {
+    lightbox.style.display = "none";
+    // Возвращаем прокрутку
+    document.body.style.overflow = 'auto'; 
+}
+
+// Закрытие по клавише Escape
+document.addEventListener('keydown', function(event) {
+    if (event.key === "Escape") {
+        closeLightbox();
+    }
+});
