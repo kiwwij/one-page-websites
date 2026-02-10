@@ -28,6 +28,7 @@ export const characters = [
             "https://i.pinimg.com/736x/ca/dd/f3/caddf3fa2bc389d030b5ae194c813e03.jpg",
             "https://i.pinimg.com/736x/f0/f8/16/f0f8163e1fced02099cd6593f1f464af.jpg",
             "https://i.pinimg.com/736x/9e/b5/3c/9eb53c755c7fb880af3fdca8c827d52b.jpg",
+            "https://i.pinimg.com/1200x/93/de/21/93de216d2537fa80e0895f1225eabba5.jpg",
         ],
         name: {
             en: "Emilia",
@@ -214,7 +215,11 @@ export const characters = [
             "https://i.pinimg.com/736x/96/fd/72/96fd7233dc54207fc85a8b3f461296b3.jpg",
             "https://i.pinimg.com/736x/a2/82/a0/a282a0ea7e531f0aab8f3657156617a6.jpg",
             "https://i.pinimg.com/736x/f8/e3/89/f8e38956e6303ac20b414dd5753affd4.jpg",
-            "https://i.pinimg.com/736x/60/4d/54/604d54d6d454127eb1fad6a76daf2133.jpg"
+            "https://i.pinimg.com/736x/60/4d/54/604d54d6d454127eb1fad6a76daf2133.jpg",
+            "https://i.pinimg.com/736x/2e/30/92/2e3092fc850d71361811eb0ccf690789.jpg",
+            "https://i.pinimg.com/736x/ff/44/85/ff4485290385bda00600bc1c4b028826.jpg",
+            "https://i.pinimg.com/736x/a3/06/c8/a306c828dee1c9c1d7f21c6a0c3b5573.jpg",
+            "https://i.pinimg.com/736x/3c/8a/b8/3c8ab837e5d473cd51d277917560aaa6.jpg",
         ],
         name: {
             en: "Rize",

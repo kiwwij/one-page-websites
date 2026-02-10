@@ -96,10 +96,10 @@ const scheduleData = {
             { num: 4, start: "10:45", end: "11:20", subj: "Метрол. оцінювання", type: "LR", room: "1310", teacher: "Дудатьєв І.А.", subgroup: 1 },
             { num: 4, start: "10:45", end: "11:20", subj: "Арх. та проект. ПЗ", type: "LR", room: "2110", teacher: "Барчук Н.Є.", subgroup: 2 },
             
-            { num: 5, start: "11:35", end: "12:10", subj: "Теор. ймов. та мат. стат.", type: "PZ", room: "2110", teacher: "Васильківський М.В.", subgroup: 1 },
+            { num: 5, start: "11:35", end: "12:10", subj: "Теор. ймов. та мат. стат.", type: "LR", room: "2110", teacher: "Васильківський М.В.", subgroup: 1 },
             { num: 5, start: "11:35", end: "12:10", subj: "Іноземна мова", type: "PZ", room: "3317", teacher: "Кухарчук Г.В.", subgroup: 2 },
             
-            { num: 6, start: "12:25", end: "13:00", subj: "Теор. ймов. та мат. стат.", type: "PZ", room: "2110", teacher: "Васильківський М.В.", subgroup: 1 },
+            { num: 6, start: "12:25", end: "13:00", subj: "Теор. ймов. та мат. стат.", type: "LR", room: "2110", teacher: "Васильківський М.В.", subgroup: 1 },
             { num: 6, start: "12:25", end: "13:00", subj: "Іноземна мова", type: "PZ", room: "3317", teacher: "Кухарчук Г.В.", subgroup: 2 },
             
             { num: 7, start: "13:20", end: "13:55", subj: "Основи прогр. інженерії", type: "LR", room: "2108", teacher: "Денисюк А.В.", subgroup: 2 },
