@@ -191,6 +191,16 @@
     "description": "My personal expense tracker.",
     "stack": ["html", "css", "js", "github"]
   },
+  "history.html": {
+    "image": "bx bxs-ship",
+    "description": "History of Vinland discovery, Saga parallels, and interactive map.",
+    "stack": ["html", "css", "js", "github"]
+  },
+  "4th-semester-at-VNTU.html": {
+    "image": "bx bxs-graduation",
+    "description": "Exam preparation tool for VNTU (APPZ, OPI, Graphics). Project is abandoned.",
+    "stack": ["html", "css", "js", "github"]
+  },
   ".html": {
     "image": "",
     "description": "",

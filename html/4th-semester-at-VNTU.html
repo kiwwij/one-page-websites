@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Prep | VNTU FITKI</title>
+    <link rel="stylesheet" href="../css/4th-semester-at-VNTU.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <h1>🎓 FITKI Exam Prep</h1>
+            <p>Тренажер для підготовки до сесії</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="controls">
+            <div class="select-wrapper">
+                <label for="subject-select">Обери предмет:</label>
+                <select id="subject-select">
+                    <option value="appz">АППЗ</option>
+                    <option value="opi">ОПІ</option>
+                    <option value="graphics">Графічні редактори</option>
+                </select>
+            </div>
+            
+            <div class="mode-buttons">
+                <button id="btn-random" class="active" onclick="setMode('random')">🎲 Випадково</button>
+                <button id="btn-linear" onclick="setMode('linear')">➡️ По порядку</button>
+            </div>
+        </div>
+
+        <div class="scene">
+            <div class="card">
+                <div class="card__face card__face--front">
+                    <span class="card-label">Питання:</span>
+                    <p id="question-text">Завантаження...</p>
+                    <div class="hint">Клікни, щоб перевернути</div>
+                </div>
+                <div class="card__face card__face--back">
+                    <span class="card-label">Відповідь:</span>
+                    <div id="answer-content" class="answer-scroll">
+                        </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button id="prev-btn" onclick="prevQuestion()">❮ Назад</button>
+            <div class="progress-bar">
+                <span id="counter">0 / 0</span>
+            </div>
+            <button id="next-btn" onclick="nextQuestion()">Вперед ❯</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>Created for kiwwij based on VNTU materials</p>
+    </footer>
+
+    <script src="../js/4th-semester-at-VNTU.js" charset="UTF-8"></script>
+</body>
+</html>

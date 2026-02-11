@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journey to Vinland</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <link rel="stylesheet" href="../css/history.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <i class='bx bxs-ship'></i> <span data-i18n="nav_title">Vinland History</span>
+        </div>
+        <div class="controls">
+            <select id="lang-switch">
+                <option value="en">English</option>
+                <option value="uk">Українська</option>
+                <option value="ru">Русский</option>
+                <option value="ja">日本語</option>
+            </select>
+            <button id="theme-toggle" aria-label="Toggle Theme">
+                <i class='bx bx-sun'></i>
+            </button>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 data-i18n="hero_title">The Discovery of Vinland</h1>
+            <p data-i18n="hero_subtitle">Where History Meets Saga</p>
+            <a href="#timeline" class="btn" data-i18n="btn_explore">Start Journey</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="timeline" class="container section">
+            <div class="section-header">
+                <i class='bx bx-time-five'></i>
+                <h2 data-i18n="timeline_header">Timeline of Discovery</h2>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item left">
+                    <div class="content">
+                        <h3>982 AD</h3>
+                        <p data-i18n="event_982">Erik the Red is exiled from Iceland and settles in Greenland.</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="content">
+                        <h3>~1000 AD</h3>
+                        <p data-i18n="event_1000">Leif Erikson sails west and discovers Helluland, Markland, and Vinland.</p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="content">
+                        <h3>~1009 AD</h3>
+                        <p data-i18n="event_1009">Thorfinn Karlsefni attempts to establish a permanent settlement (as seen in the Saga).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="manga" class="container section alt-bg">
+            <div class="section-header">
+                <i class='bx bxs-invader'></i>
+                <h2 data-i18n="manga_header">Vinland Saga Parallels</h2>
+            </div>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon"><i class='bx bx-user'></i></div>
+                    <h3 data-i18n="char_thorfinn">Thorfinn Karlsefni</h3>
+                    <p data-i18n="desc_thorfinn">In history, he was a wealthy explorer. In the manga, a warrior seeking redemption.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class='bx bx-compass'></i></div>
+                    <h3 data-i18n="char_leif">Leif Erikson</h3>
+                    <p data-i18n="desc_leif">The discoverer. In anime, a jovial sailor telling tales of a "Golden Land".</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class='bx bx-shield-alt-2'></i></div>
+                    <h3 data-i18n="char_askeladd">Askeladd</h3>
+                    <p data-i18n="desc_askeladd">A complex manga character based on Lucius Artorius Castus, not directly involved in Vinland discovery historically.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="location" class="container section">
+            <div class="section-header">
+                <i class='bx bx-map-alt'></i>
+                <h2 data-i18n="map_header">The Journey Map</h2>
+            </div>
+            <p class="center-text" data-i18n="map_desc">Follow the path from Iceland to the New World.</p>
+            
+            <div id="vinland-map"></div>
+            
+            <div class="map-info">
+                <div class="info-item"><i class='bx bx-globe'></i> <span data-i18n="loc_country">Canada</span></div>
+                <div class="info-item"><i class='bx bxs-landmark'></i> <span data-i18n="loc_spot">L'Anse aux Meadows</span></div>
+            </div>
+        </section>
+
+        <section id="facts" class="container section">
+            <div class="section-header">
+                <i class='bx bxs-bulb'></i>
+                <h2 data-i18n="facts_header">Did You Know?</h2>
+            </div>
+            <ul class="facts-list">
+                <li><i class='bx bx-run'></i> <span data-i18n="fact_1">"Vinland" likely means "Land of Wine".</span></li>
+                <li><i class='bx bx-x-circle'></i> <span data-i18n="fact_2">Conflict with "Skrælings" ended the settlement.</span></li>
+                <li><i class='bx bx-search-alt'></i> <span data-i18n="fact_3">Discovered by archaeologists in 1960.</span></li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 Vinland Project. <span data-i18n="footer_text">Made for fans.</span></p>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="../js/history.js"></script>
+</body>
+</html>
