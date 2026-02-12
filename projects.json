@@ -201,6 +201,11 @@
     "description": "Exam preparation tool for VNTU (APPZ, OPI, Graphics). Project is abandoned.",
     "stack": ["html", "css", "js", "github"]
   },
+  "wishlist-feb-2026-data.html": {
+    "image": "bx bxs-joystick",
+    "description": "Personal game backlog and wishlist with Steam integration.",
+    "stack": ["html", "css", "js", "github"]
+  },
   ".html": {
     "image": "",
     "description": "",

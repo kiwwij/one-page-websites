@@ -1,0 +1,339 @@
+:root {
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --text-main: #e0e0e0;
+    --text-muted: #a0a0a0;
+    --accent: #7c4dff; /* Deep Purple */
+    --accent-hover: #651fff;
+    --steam-blue: #1b2838;
+    --success: #00c853;     /* Green for good score/price */
+    --warning: #ffeb3b;     /* Yellow for mixed score */
+    --danger: #ff1744;      /* Red for bad score */
+    --font-main: 'Inter', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: var(--font-main);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+}
+
+/* Header */
+.profile-header {
+    background: linear-gradient(180deg, rgba(30,30,30,1) 0%, rgba(18,18,18,0) 100%);
+    padding: 40px 0;
+    border-bottom: 1px solid #333;
+    margin-bottom: 30px;
+}
+
+.profile-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.profile-avatar img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    object-fit: cover;
+}
+
+.profile-avatar i {
+    font-size: 80px; 
+    color: var(--accent);
+}
+
+.profile-info h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.profile-links {
+    display: flex;
+    gap: 15px;
+}
+
+.btn-steam, .btn-wishlist {
+    text-decoration: none;
+    color: #fff;
+    background-color: #2a2a2a;
+    padding: 8px 16px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.3s;
+    font-size: 0.9rem;
+}
+
+.btn-steam:hover { background-color: #2b4968; }
+.btn-wishlist:hover { background-color: var(--accent); }
+
+.lang-switch button {
+    background: none;
+    border: 1px solid #444;
+    color: var(--text-muted);
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: 5px;
+}
+
+.lang-switch button:hover {
+    color: #fff;
+    border-color: #fff;
+}
+
+/* Categories */
+.category-section {
+    margin-bottom: 60px;
+}
+
+.category-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: var(--accent);
+    border-left: 4px solid var(--accent);
+    padding-left: 15px;
+    display: flex;
+    align-items: center;
+}
+
+/* Grid */
+.games-grid {
+    display: grid;
+    /* Desktop: min 280px */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+/* Game Card */
+.game-card {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border: 1px solid #333;
+}
+
+.game-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    border-color: var(--accent);
+}
+
+.card-poster {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    background-color: #000;
+}
+
+.card-body {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.game-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    line-height: 1.3;
+}
+
+.game-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 15px;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 5px; 
+}
+
+.meta-item i {
+    font-size: 1.1em;
+    vertical-align: middle;
+}
+
+.game-desc {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin-bottom: 15px;
+    flex-grow: 1;
+}
+
+.game-footer {
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: end; /* Align to bottom */
+}
+
+/* Price styling update */
+.price-block {
+    display: flex;
+    flex-direction: column;
+}
+
+.price-main {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text-main);
+}
+
+.price-sub {
+    font-size: 0.8rem;
+    color: var(--success);
+    margin-top: 2px;
+}
+
+.price-sub.tba {
+    color: var(--text-muted);
+}
+
+/* Rating Badges Metacritic Style */
+.meta-score {
+    padding: 4px 6px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 35px;
+    justify-content: center;
+}
+
+.score-green { background-color: #00ce7a; } /* Metacritic Green */
+.score-yellow { background-color: #ffbd3f; color: #000; } /* Metacritic Yellow */
+.score-red { background-color: #ff6874; } /* Metacritic Red */
+.score-tba { background-color: #333; color: #aaa; }
+
+.footer-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.steam-link-icon {
+    font-size: 1.6rem;
+    color: var(--text-muted);
+    transition: color 0.2s;
+}
+.steam-link-icon:hover { color: #fff; }
+
+/* Main Footer */
+.main-footer {
+    margin-top: auto;
+    border-top: 1px solid #333;
+    background-color: #1a1a1a;
+    padding: 30px 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-socials a {
+    color: var(--text-main);
+    font-size: 1.5rem;
+    margin-left: 15px;
+    transition: color 0.3s;
+}
+
+.footer-socials a:hover {
+    color: var(--accent);
+}
+
+/* --- Mobile / Adaptive --- */
+@media (max-width: 768px) {
+    .profile-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .games-grid {
+        /* Mobile: show 2 columns using smaller min-width */
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 15px;
+    }
+
+    .game-card .card-poster {
+        height: 120px; /* Smaller image height */
+    }
+
+    .card-body {
+        padding: 12px;
+    }
+
+    .game-title {
+        font-size: 0.95rem; /* Smaller title */
+        margin-bottom: 6px;
+    }
+
+    .game-meta {
+        font-size: 0.75rem;
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+    
+    .game-desc {
+        display: none; /* Hide description on mobile to save space */
+    }
+
+    .game-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .footer-right {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
