@@ -73,7 +73,8 @@ export const characters = [
         id: "beatrice_rezero",
         images: [
             "https://i.pinimg.com/736x/b6/64/e5/b664e5f267e2879c024c346136a4a8db.jpg",
-            "https://i.pinimg.com/736x/14/5d/0f/145d0ff4d4cc29f0da72b98c35d4c274.jpg"
+            "https://i.pinimg.com/736x/14/5d/0f/145d0ff4d4cc29f0da72b98c35d4c274.jpg",
+            "https://i.pinimg.com/1200x/10/ea/e3/10eae3fc102e24c68a31f1e007719448.jpg",
         ],
         name: {
             en: "Beatrice",
@@ -187,6 +188,7 @@ export const characters = [
         images: [
             "https://i.pinimg.com/1200x/99/da/c9/99dac95ac6bd0d365f6d953dbcfe7647.jpg",
             "https://i.pinimg.com/1200x/8f/d2/29/8fd22933679d26440f454da71eaa32d3.jpg",
+            "https://i.pinimg.com/736x/c4/37/dc/c437dc04873a861b9b0b367aa624ce43.jpg",
         ],
         name: {
             en: "Huntress wizard",

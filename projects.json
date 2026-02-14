@@ -201,9 +201,14 @@
     "description": "Exam preparation tool for VNTU (APPZ, OPI, Graphics). Project is abandoned.",
     "stack": ["html", "css", "js", "github"]
   },
-  "wishlist-feb-2026-data.html": {
+  "wishlist-feb-2026.html": {
     "image": "bx bxs-joystick",
     "description": "Personal game backlog and wishlist with Steam integration.",
+    "stack": ["html", "css", "js", "github"]
+  },
+  "web2k.html": {
+    "image": "bx bx-window-alt",
+    "description": "A retro Web 1.0 BBS simulator with interactive ENG, CIS, and JP themes.",
     "stack": ["html", "css", "js", "github"]
   },
   ".html": {

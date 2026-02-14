@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to the OLDSCHOOL ZONE BBS</title>
+    <link rel="stylesheet" href="../css/web2k.css">
+</head>
+<body>
+
+    <marquee scrollamount="10" id="topMarquee">Welcome to the Cyber-Highway! *** Don't forget to sign my Guestbook! *** H4ck th3 pl4n3t!</marquee>
+
+    <div class="main-container" id="mainBox">
+        
+        <header class="header">
+            <h1 id="siteTitle"><u>THE CYBER-ZONE BBS</u></h1>
+            <p>
+                <img id="mainLogo" src="" alt="Logo" class="responsive-img">
+            </p>
+            
+            <div class="lang-switcher">
+                <label for="langSelect">CHOOSE YOUR REALITY:</label>
+                <select id="langSelect">
+                    <option value="eng">🇺🇸 ENG (Web 1.0)</option>
+                    <option value="cis">🌐 СНГ (Рунет '05)</option>
+                    <option value="jp">🇯🇵 JP (Anime BBS '02)</option>
+                </select>
+            </div>
+        </header>
+
+        <hr color="red" size="5">
+
+        <div class="easter-eggs-mobile">
+            <div class="easter-egg" id="eggLeft">
+                <img id="leftGif" src="https://placehold.co/150x200/ff0000/ffff00?text=Dancing+Baby+GIF" alt="Cool GIF" class="responsive-img">
+                <br>
+                <span class="blink" id="leftBlinkText">NEW! COOL!</span>
+            </div>
+            <div class="easter-egg" id="eggRight">
+                <img id="rightGif" src="https://placehold.co/150x200/00ff00/000000?text=Alien+Spin+GIF" alt="Cool GIF" class="responsive-img">
+            </div>
+        </div>
+
+        <div class="post-form-box" id="formBox">
+            <h3 id="formTitle">Create New Thread ::..</h3>
+            <form id="postForm">
+                <div class="form-group">
+                    <label for="name" id="labelName">Name:</label>
+                    <input type="text" id="name" name="name" value="Anonymous">
+                </div>
+                <div class="form-group">
+                    <label for="subject" id="labelSubject">Subject:</label>
+                    <input type="text" id="subject" name="subject">
+                </div>
+                <div class="form-group">
+                    <label for="comment" id="labelComment">Comment:</label>
+                    <textarea id="comment" name="comment" rows="5"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>File:</label>
+                    <input type="file" style="background: none; border: none;">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn" id="submitBtn">POST IT!</button>
+                    <button type="reset" class="reset-btn">Reset form</button>
+                </div>
+            </form>
+        </div>
+
+        <hr color="red" size="5">
+
+        <div class="thread" id="demoThread">
+            <div class="post-header" id="postHeader">
+                <input type="checkbox"> 
+                <span class="post-subject" id="demoSubject">::: MATRIX SECRETS :::</span> 
+                <span class="post-name">Neo_Haxxor_99</span> 
+                1999/04/05(Tue)23:14 No.1337
+            </div>
+            <div class="post-message" id="demoMessage">
+                Is the world real? I took the red pill guys. <br><br>
+                Also check out this cool dancing hamster link! <br>
+                All your base are belong to us.
+            </div>
+        </div>
+
+        <br><br>
+
+        <footer class="footer">
+            <p class="blink" id="footerWarning">WARNING: This site is optimzed for Internet Explorer 5.0 and 800x600 resolution!</p>
+            
+            <div class="counter-box">
+                <span>YOU ARE VISITOR: </span>
+                <img src="https://placehold.co/80x20/000000/00ff00?text=004512" alt="Counter">
+            </div>
+
+            <div class="footer-badges">
+                <img src="https://placehold.co/88x31/c0c0c0/000000?text=IE+Now!" alt="IE Button">
+                <img src="https://placehold.co/88x31/c0c0c0/000000?text=Netscape" alt="Netscape Button">
+                <img src="https://placehold.co/88x31/c0c0c0/000000?text=Notepad" alt="Made with Notepad">
+                <img id="localBadge" src="https://placehold.co/88x31/c0c0c0/000000?text=Geocities" alt="Host Button">
+            </div>
+            <p id="copyright">© 1998-2001 Webmaster John. Don't steal my graphics!</p>
+        </footer>
+
+    </div>
+
+    <script src="../js/web2k.js"></script>
+</body>
+</html>

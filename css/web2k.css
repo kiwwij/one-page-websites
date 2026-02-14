@@ -1,0 +1,228 @@
+/* --- БАЗОВЫЕ НАСТРОЙКИ --- */
+* {
+    box-sizing: border-box; /* Обязательно для адаптива */
+}
+
+body {
+    background-color: #000033;
+    background-image: url('https://placehold.co/100x100/000033/FFFFFF?text=Stars+BG+Gif');
+    color: yellow;
+    font-family: "Comic Sans MS", "Arial Black", cursive;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    cursor: url('https://placehold.co/32x32/ff00ff/ffffff?text=Cursor'), auto;
+}
+
+.blink {
+    animation: blinker 1s linear infinite;
+    color: red;
+    font-weight: bold;
+}
+@keyframes blinker { 50% { opacity: 0; } }
+
+.responsive-img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* --- ГЛАВНЫЙ КОНТЕЙНЕР --- */
+.main-container {
+    width: 95%;
+    max-width: 800px; /* Ограничиваем максимальную ширину для ПК */
+    margin: 10px auto;
+    background-color: #0000FF;
+    border: 8px ridge gold;
+    padding: 15px;
+    overflow-x: hidden; /* Защита от горизонтального скролла */
+}
+
+/* --- ШАПКА И ТЕКСТ --- */
+.header {
+    border-bottom: 4px dashed red;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+h1 {
+    text-transform: uppercase;
+    text-shadow: 3px 3px #FF00FF;
+    font-size: clamp(1.5em, 5vw, 3em); /* Адаптивный размер шрифта */
+    margin: 10px 0;
+    word-wrap: break-word;
+}
+
+.lang-switcher {
+    background: #c0c0c0;
+    border: 3px outset white;
+    padding: 5px;
+    display: inline-block;
+    color: black;
+    font-family: Tahoma, sans-serif;
+    margin-top: 10px;
+}
+
+/* --- ФОРМА В СТИЛЕ WIN 98 --- */
+.post-form-box {
+    background-color: #c0c0c0;
+    border: 4px outset white;
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 15px;
+    color: black;
+    text-align: left;
+}
+
+.form-group {
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap; /* Позволяет инпутам переноситься на мобилках */
+    align-items: flex-start;
+}
+
+.form-group label {
+    width: 80px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.form-group input[type="text"], 
+.form-group textarea {
+    flex-grow: 1;
+    min-width: 200px; /* Чтобы не сжимались слишком сильно */
+    width: 100%;
+    border: 2px inset white;
+    background-color: #fff;
+    font-family: "Courier New", monospace;
+    padding: 5px;
+}
+
+.form-actions {
+    text-align: right;
+    margin-top: 15px;
+}
+
+.submit-btn, .reset-btn {
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px 10px;
+    margin-left: 5px;
+}
+.submit-btn {
+    background-color: #00FF00;
+    border: 3px outset #00FF00;
+}
+.reset-btn {
+    background-color: #c0c0c0;
+    border: 3px outset white;
+}
+.submit-btn:active, .reset-btn:active { border-style: inset; }
+
+/* --- ПОСТЫ (ТРЕДЫ) --- */
+.thread {
+    background-color: #FF00FF;
+    border: 3px dotted yellow;
+    margin-top: 20px;
+    padding: 10px;
+    color: white;
+    text-align: left;
+    word-wrap: break-word;
+}
+.post-header {
+    font-size: 0.9em;
+    margin-bottom: 5px;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    padding-bottom: 5px;
+}
+.post-name { color: #00FF00; font-weight: bold; }
+.post-subject { color: yellow; font-weight: bold; }
+.post-message {
+    font-family: "Times New Roman", serif;
+    font-size: 1.1em;
+    background-color: #330033;
+    padding: 10px;
+    border: 1px solid black;
+}
+
+/* --- ПАСХАЛКИ (ПО УМОЛЧАНИЮ ДЛЯ ПК) --- */
+
+#eggLeft { position: fixed; top: 100px; left: 2vw; width: 150px; z-index: 10; }
+#eggRight { position: fixed; top: 100px; right: 2vw; width: 150px; z-index: 10; }
+
+/* --- ФУТЕР --- */
+.footer {
+    border-top: 4px dashed red;
+    padding-top: 10px;
+}
+.counter-box {
+    background: black; 
+    border: 2px inset gray; 
+    display: inline-block; 
+    padding: 5px;
+    margin-bottom: 10px;
+}
+.counter-box span {
+    color: lime; 
+    font-family: monospace;
+}
+.footer-badges img {
+    margin: 5px;
+    border: 1px solid white;
+}
+marquee {
+    font-size: 1.2em;
+    color: cyan;
+    background-color: black;
+    border: 2px solid red;
+    width: 100%;
+}
+
+/* =========================================
+   АДАПТИВНОСТЬ (МЕДИАЗАПРОСЫ)
+========================================= */
+
+/* Для планшетов и мобильных (экраны меньше 1050px, чтобы гифки не наезжали на контент) */
+@media (max-width: 1050px) {
+    /* Отключаем фиксированное позиционирование гифок */
+    #eggLeft, #eggRight {
+        position: static;
+        width: 120px; /* Делаем их чуть меньше */
+    }
+    
+    /* Включаем отображение гифок внутри основного контейнера */
+    .easter-eggs-mobile {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin-bottom: 20px;
+        background: rgba(0,0,0,0.5);
+        border: 2px dashed cyan;
+        padding: 10px;
+    }
+}
+
+/* Для совсем маленьких экранов (телефоны) */
+@media (max-width: 500px) {
+    .main-container {
+        border-width: 4px; /* Уменьшаем рамку для экономии места */
+        padding: 10px;
+    }
+    
+    .form-group label {
+        width: 100%; /* Лейблы над инпутами, а не сбоку */
+        margin-bottom: 2px;
+    }
+    
+    .form-actions {
+        text-align: center; /* Центрируем кнопки на мобилках */
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .submit-btn, .reset-btn {
+        width: 100%;
+        margin: 0;
+        padding: 10px;
+    }
+}
