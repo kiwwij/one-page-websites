@@ -211,6 +211,11 @@
     "description": "A retro Web 1.0 BBS simulator with interactive ENG, CIS, and JP themes.",
     "stack": ["html", "css", "js", "github"]
   },
+  "2048.html": {
+    "image": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23edcf72'/><text x='50' y='66' font-family='Arial' font-size='38' font-weight='bold' fill='%23ffffff' text-anchor='middle'>2048</text></svg>",
+    "description": "Browser version of the game 2048. 4x4 and 5x5 modes, auto-play speed adjustment, and record saving.",
+    "stack": ["html", "css", "js", "github"]
+  },
   ".html": {
     "image": "",
     "description": "",

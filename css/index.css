@@ -321,6 +321,15 @@ h2 {
     border-style: solid;
 }
 
+.project-card[data-name="2048"] {
+    color: var(--text-muted);
+    border-style: dashed;
+}
+.project-card[data-name="2048"]:hover {
+    color: var(--text-main);
+    border-style: solid;
+}
+
 /* .project-card[data-name=""] {
     color: var(--text-muted);
     border-style: dashed;
@@ -329,7 +338,6 @@ h2 {
     color: var(--text-main);
     border-style: solid;
 } */
-
 
 
 
