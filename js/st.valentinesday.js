@@ -65,12 +65,6 @@ function updateCountdown() {
     }
 }
 
-// Запускаем проверку немедленно
-if (!checkAccess()) {
-    // Весь остальной код инициализируется только если доступ открыт
-    initApp();
-}
-
 function initApp() {
     updateTimer();
     setInterval(createPetal, 500);
@@ -83,7 +77,6 @@ function updateTimer() {
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     document.getElementById('days-count').innerText = days.toLocaleString();
 }
-updateTimer();
 
 // --- 2. КРАСИВЫЕ УВЕДОМЛЕНИЯ ---
 function showAlert(text) {
@@ -187,16 +180,20 @@ function generateWish() {
 
 // --- 5. ЛОГИКА ИНТЕРФЕЙСА ---
 const noBtn = document.querySelector('.no-btn');
-noBtn.addEventListener('mouseover', () => {
-    const x = Math.random() * (window.innerWidth - 120);
-    const y = Math.random() * (window.innerHeight - 60);
-    noBtn.style.left = `${x}px`;
-    noBtn.style.top = `${y}px`;
-    noBtn.style.zIndex = "999";
-});
+if (noBtn) {
+    noBtn.addEventListener('mouseover', () => {
+        const x = Math.random() * (window.innerWidth - 120);
+        const y = Math.random() * (window.innerHeight - 60);
+        noBtn.style.left = `${x}px`;
+        noBtn.style.top = `${y}px`;
+        noBtn.style.zIndex = "999";
+    });
+}
 
 function createPetal() {
     const container = document.getElementById('sakura-container');
+    if (!container) return; // Защита от ошибки, если контейнера нет на странице
+    
     const petal = document.createElement('div');
     petal.className = 'petal';
     petal.style.left = Math.random() * 100 + 'vw';
@@ -207,7 +204,6 @@ function createPetal() {
     container.appendChild(petal);
     setTimeout(() => petal.remove(), 6000);
 }
-setInterval(createPetal, 500);
 
 // Пасхалка
 let keys = "";
@@ -229,6 +225,8 @@ const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightbox-img');
 
 function openLightbox(element) {
+    if (!lightbox || !lightboxImg) return;
+    
     // Устанавливаем src большого фото таким же, как у нажатой миниатюры
     lightboxImg.src = element.src; 
     lightbox.style.display = "flex"; // Показываем блок
@@ -238,6 +236,7 @@ function openLightbox(element) {
 }
 
 function closeLightbox() {
+    if (!lightbox) return;
     lightbox.style.display = "none";
     // Возвращаем прокрутку
     document.body.style.overflow = 'auto'; 
@@ -249,3 +248,13 @@ document.addEventListener('keydown', function(event) {
         closeLightbox();
     }
 });
+
+
+// ==========================================
+// --- ТОЧКА ВХОДА (ЗАПУСК ПРИЛОЖЕНИЯ) ---
+// ==========================================
+
+// Запускаем проверку немедленно. Весь остальной код инициализируется только если доступ открыт
+if (!checkAccess()) {
+    initApp();
+}
