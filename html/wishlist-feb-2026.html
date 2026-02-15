@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kiwwij's Game Backlog & Wishlist</title>
     
+    <link rel="icon" href="https://store.steampowered.com/favicon.ico">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -19,7 +21,8 @@
         <div class="container">
             <div class="profile-content">
                 <div class="profile-avatar">
-                    <i class='bx bxs-user-circle'></i> </div>
+                    <i class='bx bxs-user-circle'></i> 
+                </div>
                 
                 <div class="profile-info">
                     <h1 id="profile-name">Kiwwij's Library</h1>
@@ -30,6 +33,9 @@
                         <a href="https://store.steampowered.com/wishlist/id/serhiosergey/" target="_blank" class="btn-wishlist">
                             <i class='bx bxs-heart'></i> <span data-i18n="wishlist">Wishlist</span>
                         </a>
+                        <button id="toggle-status-btn" class="btn-toggle-status" onclick="toggleStatusMode()">
+                            <i class='bx bx-show'></i> <span data-i18n="btn_show_status">Show Progress</span>
+                        </button>
                     </div>
                 </div>
                 <div class="lang-switch">

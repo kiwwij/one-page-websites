@@ -189,6 +189,7 @@ export const characters = [
             "https://i.pinimg.com/1200x/99/da/c9/99dac95ac6bd0d365f6d953dbcfe7647.jpg",
             "https://i.pinimg.com/1200x/8f/d2/29/8fd22933679d26440f454da71eaa32d3.jpg",
             "https://i.pinimg.com/736x/c4/37/dc/c437dc04873a861b9b0b367aa624ce43.jpg",
+            "https://i.pinimg.com/736x/a9/1a/62/a91a62aac3f70cb92edd96cd6396b157.jpg",
         ],
         name: {
             en: "Huntress wizard",

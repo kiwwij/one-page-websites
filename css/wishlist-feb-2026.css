@@ -73,6 +73,7 @@ body {
 .profile-links {
     display: flex;
     gap: 15px;
+    flex-wrap: wrap;
 }
 
 .btn-steam, .btn-wishlist {
@@ -90,6 +91,31 @@ body {
 
 .btn-steam:hover { background-color: #2b4968; }
 .btn-wishlist:hover { background-color: var(--accent); }
+
+/* Toggle Status Button */
+.btn-toggle-status {
+    background-color: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-toggle-status:hover {
+    background-color: rgba(124, 77, 255, 0.1);
+}
+
+.btn-toggle-status.active {
+    background-color: var(--accent);
+    color: #fff;
+}
 
 .lang-switch button {
     background: none;
@@ -124,7 +150,6 @@ body {
 /* Grid */
 .games-grid {
     display: grid;
-    /* Desktop: min 280px */
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 25px;
 }
@@ -134,25 +159,65 @@ body {
     background-color: var(--card-bg);
     border-radius: 12px;
     overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    display: flex;
-    flex-direction: column;
     position: relative;
     border: 1px solid #333;
 }
 
-.game-card:hover {
+.card-inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
+}
+
+.game-card:hover .card-inner {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.5);
     border-color: var(--accent);
 }
 
-.card-poster {
+/* Dropped/Paused State (Grayed out) */
+.game-card-dropped {
+    filter: grayscale(0.85);
+    opacity: 0.7;
+}
+
+.game-card:hover .game-card-dropped {
+    filter: grayscale(0.2);
+    opacity: 1;
+}
+
+/* Status Overlay Badge */
+.poster-container {
+    position: relative;
     width: 100%;
     height: 180px;
+}
+
+.card-poster {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     background-color: #000;
 }
+
+.status-overlay {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+}
+
+.status-badge-playing { background-color: rgba(41, 121, 255, 0.85); border: 1px solid #2979ff;}
+.status-badge-dropped { background-color: rgba(117, 117, 117, 0.85); border: 1px solid #757575;}
+.status-badge-completed { background-color: rgba(0, 200, 83, 0.85); border: 1px solid #00c853;}
+.status-badge-not_started { background-color: rgba(30, 30, 30, 0.85); border: 1px solid #555;}
 
 .card-body {
     padding: 20px;
@@ -201,13 +266,13 @@ body {
     border-top: 1px solid #333;
     display: flex;
     justify-content: space-between;
-    align-items: end; /* Align to bottom */
+    align-items: end; 
 }
 
-/* Price styling update */
 .price-block {
     display: flex;
     flex-direction: column;
+    gap: 5px; /* Spacing between price and review btn */
 }
 
 .price-main {
@@ -219,14 +284,31 @@ body {
 .price-sub {
     font-size: 0.8rem;
     color: var(--success);
-    margin-top: 2px;
 }
 
 .price-sub.tba {
     color: var(--text-muted);
 }
 
-/* Rating Badges Metacritic Style */
+/* Review Button */
+.review-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.8rem;
+    color: var(--text-main);
+    background-color: #333;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background 0.3s;
+    width: fit-content;
+}
+
+.review-btn:hover {
+    background-color: var(--accent);
+}
+
 .meta-score {
     padding: 4px 6px;
     border-radius: 4px;
@@ -240,10 +322,9 @@ body {
     justify-content: center;
 }
 
-.score-green { background-color: #00ce7a; } /* Metacritic Green */
-.score-yellow { background-color: #ffbd3f; color: #000; } /* Metacritic Yellow */
-.score-red { background-color: #ff6874; } /* Metacritic Red */
-.score-tba { background-color: #333; color: #aaa; }
+.score-green { background-color: #00ce7a; } 
+.score-yellow { background-color: #ffbd3f; color: #000; } 
+.score-red { background-color: #ff6874; } 
 
 .footer-right {
     display: flex;
@@ -259,7 +340,6 @@ body {
 }
 .steam-link-icon:hover { color: #fff; }
 
-/* Main Footer */
 .main-footer {
     margin-top: auto;
     border-top: 1px solid #333;
@@ -288,21 +368,24 @@ body {
     color: var(--accent);
 }
 
-/* --- Mobile / Adaptive --- */
+/* Mobile */
 @media (max-width: 768px) {
     .profile-content {
         flex-direction: column;
         text-align: center;
     }
     
+    .profile-links {
+        justify-content: center;
+    }
+
     .games-grid {
-        /* Mobile: show 2 columns using smaller min-width */
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
         gap: 15px;
     }
 
-    .game-card .card-poster {
-        height: 120px; /* Smaller image height */
+    .poster-container {
+        height: 120px;
     }
 
     .card-body {
@@ -310,7 +393,7 @@ body {
     }
 
     .game-title {
-        font-size: 0.95rem; /* Smaller title */
+        font-size: 0.95rem;
         margin-bottom: 6px;
     }
 
@@ -321,7 +404,7 @@ body {
     }
     
     .game-desc {
-        display: none; /* Hide description on mobile to save space */
+        display: none; 
     }
 
     .game-footer {
@@ -335,5 +418,10 @@ body {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+    }
+    
+    .status-overlay {
+        font-size: 0.7rem;
+        padding: 2px 6px;
     }
 }

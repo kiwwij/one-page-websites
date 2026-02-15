@@ -1,5 +1,3 @@
-// js/wishlist-feb-2026-data.js
-
 const gamesData = [
     // --- OWNED (Куплено) ---
     {
@@ -14,7 +12,9 @@ const gamesData = [
         price_uah: 1699,
         discount_percent: 50,
         release_date: "2025",
-        rating: "92"
+        rating: "92",
+        play_status: "playing", // "playing", "dropped", "completed", "not_started"
+        review_link: ""
     },
     {
         category: "cat_owned",
@@ -28,7 +28,9 @@ const gamesData = [
         price_uah: 1999,
         discount_percent: 25,
         release_date: "2025",
-        rating: "81"
+        rating: "81",
+        play_status: "not_started",
+        review_link: ""
     },
     {
         category: "cat_owned",
@@ -42,7 +44,9 @@ const gamesData = [
         price_uah: 466,
         discount_percent: 65,
         release_date: "2017",
-        rating: "88"
+        rating: "88",
+        play_status: "not_started",
+        review_link: ""
     },
     {
         category: "cat_owned",
@@ -56,7 +60,9 @@ const gamesData = [
         price_uah: 1125,
         discount_percent: 25,
         release_date: "2025",
-        rating: "88"
+        rating: "88",
+        play_status: "not_started",
+        review_link: ""
     },
     {
         category: "cat_owned",
@@ -70,7 +76,9 @@ const gamesData = [
         price_uah: 700,
         discount_percent: 60,
         release_date: "2018",
-        rating: "85"
+        rating: "85",
+        play_status: "dropped",
+        review_link: ""
     },
     {
         category: "cat_owned",
@@ -84,7 +92,9 @@ const gamesData = [
         price_uah: 1499,
         discount_percent: 50,
         release_date: "2024",
-        rating: "82"
+        rating: "82",
+        play_status: "dropped",
+        review_link: ""
     },
     {
         category: "cat_owned",
@@ -98,7 +108,25 @@ const gamesData = [
         price_uah: 699,
         discount_percent: 80,
         release_date: "2021",
-        rating: "68"
+        rating: "68",
+        play_status: "not_started",
+        review_link: ""
+    },
+    {
+        category: "cat_owned",
+        title: "The Elder Scrolls IV: Oblivion Remastered",
+        poster: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2623190/a7cee9165bb1bfc092c390c5cff215ce0e381dfc/header.jpg?t=1761681073",
+        desc_en: "Return to Cyrodiil in this fully remastered version of the classic RPG. Step into the vibrant open world and close the jaws of Oblivion.",
+        desc_ru: "Возвращайтесь в Сиродил в этом масштабном ремастере классической RPG. Исследуйте огромный открытый мир и закройте врата Обливиона.",
+        playtime: "50-100",
+        genres: ["RPG", "Open World", "Classic"],
+        steam_link: "https://store.steampowered.com/app/2623190/The_Elder_Scrolls_IV_Oblivion_Remastered/",
+        price_uah: 1799,
+        discount_percent: 20,
+        release_date: "2025",
+        rating: "80",
+        play_status: "",
+        review_link: ""
     },
 
     // --- HIGH WISH (Большое желание) ---
@@ -114,7 +142,9 @@ const gamesData = [
         price_uah: 1499,
         discount_percent: 20,
         release_date: "2025",
-        rating: "90"
+        rating: "90",
+        play_status: "not_started",
+        review_link: ""
     },
     {
         category: "cat_high_wish",
@@ -128,7 +158,9 @@ const gamesData = [
         price_uah: 519,
         discount_percent: 20,
         release_date: "2025",
-        rating: "72"
+        rating: "72",
+        play_status: "not_started",
+        review_link: ""
     },
 
     // --- CLOSURE (Закрыть гештальт) ---
@@ -144,7 +176,9 @@ const gamesData = [
         price_uah: 149,
         discount_percent: 10,
         release_date: "2022",
-        rating: "-"
+        rating: "-",
+        play_status: "not_started",
+        review_link: ""
     },
     {
         category: "cat_closure",
@@ -158,7 +192,9 @@ const gamesData = [
         price_uah: 187,
         discount_percent: 10,
         release_date: "2023",
-        rating: "-"
+        rating: "-",
+        play_status: "not_started",
+        review_link: ""
     },
     {
         category: "cat_closure",
@@ -172,7 +208,9 @@ const gamesData = [
         price_uah: 225,
         discount_percent: 30,
         release_date: "2025",
-        rating: "-"
+        rating: "-",
+        play_status: "not_started",
+        review_link: ""
     },
 
     // --- CURIOSITY (Интересно ознакомиться) ---
@@ -188,7 +226,9 @@ const gamesData = [
         price_uah: 700,
         discount_percent: 50,
         release_date: "2024",
-        rating: "-"
+        rating: "-",
+        play_status: "not_started",
+        review_link: ""
     },
     {
         category: "cat_curiosity",
@@ -202,7 +242,9 @@ const gamesData = [
         price_uah: 700,
         discount_percent: 50,
         release_date: "2024",
-        rating: "-"
+        rating: "-",
+        play_status: "not_started",
+        review_link: ""
     },
     {
         category: "cat_curiosity",
@@ -216,7 +258,9 @@ const gamesData = [
         price_uah: 0,
         discount_percent: 0,
         release_date: "2026",
-        rating: ""
+        rating: "",
+        play_status: "not_started",
+        review_link: ""
     },
     {
         category: "cat_curiosity",
@@ -230,7 +274,9 @@ const gamesData = [
         price_uah: 379,
         discount_percent: 70,
         release_date: "2016",
-        rating: "83"
+        rating: "83",
+        play_status: "not_started",
+        review_link: ""
     },
     {
         category: "cat_curiosity",
@@ -244,7 +290,9 @@ const gamesData = [
         price_uah: 429,
         discount_percent: 75,
         release_date: "2018",
-        rating: "81"
+        rating: "81",
+        play_status: "not_started",
+        review_link: ""
     },
 
     // --- SKEPTICAL (Боюсь не понравится) ---
@@ -260,7 +308,9 @@ const gamesData = [
         price_uah: 239,
         discount_percent: 60,
         release_date: "2014",
-        rating: "83"
+        rating: "83",
+        play_status: "not_started",
+        review_link: ""
     },
     {
         category: "cat_skeptical",
@@ -274,7 +324,9 @@ const gamesData = [
         price_uah: 279,
         discount_percent: 60,
         release_date: "2014",
-        rating: "79"
+        rating: "79",
+        play_status: "not_started",
+        review_link: ""
     },
     {
         category: "cat_skeptical",
@@ -288,7 +340,9 @@ const gamesData = [
         price_uah: 279,
         discount_percent: 60,
         release_date: "2015",
-        rating: "66"
+        rating: "66",
+        play_status: "not_started",
+        review_link: ""
     },
     {
         category: "cat_skeptical",
@@ -302,7 +356,9 @@ const gamesData = [
         price_uah: 1399,
         discount_percent: 50,
         release_date: "2024",
-        rating: "87"
+        rating: "87",
+        play_status: "not_started",
+        review_link: ""
     },
 
     // --- UNDECIDED (Не знаю куда) ---
@@ -318,7 +374,9 @@ const gamesData = [
         price_uah: 1499,
         discount_percent: 10,
         release_date: "2025",
-        rating: "92"
+        rating: "92",
+        play_status: "not_started",
+        review_link: ""
     },
     {
         category: "cat_undecided",
@@ -332,7 +390,9 @@ const gamesData = [
         price_uah: 600,
         discount_percent: 10,
         release_date: "2025",
-        rating: "87"
+        rating: "87",
+        play_status: "not_started",
+        review_link: ""
     },
     {
         category: "cat_undecided",
@@ -346,7 +406,9 @@ const gamesData = [
         price_uah: 1499,
         discount_percent: 30,
         release_date: "2025",
-        rating: "74"
+        rating: "74",
+        play_status: "not_started",
+        review_link: ""
     },
 
     // --- UPCOMING (Еще не вышли) ---
@@ -362,7 +424,9 @@ const gamesData = [
         price_uah: 0,
         discount_percent: 0,
         release_date: "",
-        rating: ""
+        rating: "",
+        play_status: "not_started",
+        review_link: ""
     },
     {
         category: "cat_upcoming",
@@ -376,7 +440,9 @@ const gamesData = [
         price_uah: 0,
         discount_percent: 0,
         release_date: "",
-        rating: ""
+        rating: "",
+        play_status: "not_started",
+        review_link: ""
     },
     {
         category: "cat_upcoming",
@@ -390,7 +456,9 @@ const gamesData = [
         price_uah: 0,
         discount_percent: 0,
         release_date: "",
-        rating: ""
+        rating: "",
+        play_status: "not_started",
+        review_link: ""
     },
     {
         category: "cat_upcoming",
@@ -404,7 +472,9 @@ const gamesData = [
         price_uah: 0,
         discount_percent: 0,
         release_date: "2026",
-        rating: ""
+        rating: "",
+        play_status: "not_started",
+        review_link: ""
     },
     {
         category: "cat_upcoming",
@@ -418,7 +488,9 @@ const gamesData = [
         price_uah: 0,
         discount_percent: 0,
         release_date: "",
-        rating: ""
+        rating: "",
+        play_status: "not_started",
+        review_link: ""
     },
     {
         category: "cat_upcoming",
@@ -432,6 +504,8 @@ const gamesData = [
         price_uah: 0,
         discount_percent: 0,
         release_date: "",
-        rating: ""
+        rating: "",
+        play_status: "not_started",
+        review_link: ""
     }
 ];

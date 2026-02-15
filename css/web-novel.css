@@ -1,0 +1,91 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { 
+  background: #000; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  height: 100vh; 
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+  overflow: hidden; 
+}
+
+#game-container { 
+  position: relative; 
+  /* Меняем эти две строчки: */
+  width: 100vw; 
+  height: 100vh; 
+  
+  background-color: #111; 
+  background-size: cover; /* Это свойство заставляет фон заполнять весь контейнер без пустот */
+  background-position: center; 
+  transition: background-image 0.8s ease-in-out; 
+}
+
+#character { 
+  position: absolute; 
+  bottom: 0; 
+  left: 50%; 
+  transform: translateX(-50%); 
+  max-height: 90%; 
+  transition: opacity 0.4s ease; 
+  opacity: 0; 
+  pointer-events: none; 
+}
+
+#ui-layer { 
+  position: absolute; 
+  bottom: 20px; 
+  left: 50%; 
+  transform: translateX(-50%); 
+  width: 90%; 
+  max-width: 800px; 
+  z-index: 10; 
+}
+
+#dialogue-box { 
+  background: rgba(10, 10, 15, 0.85); 
+  border: 2px solid #444; 
+  border-radius: 4px; 
+  padding: 25px; 
+  color: #eee; 
+  min-height: 150px; 
+  cursor: pointer; 
+  box-shadow: 0 4px 20px rgba(0,0,0,0.8); 
+  user-select: none; 
+}
+#dialogue-box:hover { border-color: #666; }
+
+#speaker-name { 
+  font-weight: bold; 
+  color: #a8c7fa; 
+  margin-bottom: 12px; 
+  font-size: 1.3em; 
+  display: none; 
+  text-shadow: 1px 1px 2px #000; 
+}
+
+#text { font-size: 1.2em; line-height: 1.5; }
+
+#choices { 
+  display: none; 
+  flex-direction: column; 
+  gap: 10px; 
+  margin-top: 20px; 
+}
+
+.choice-btn { 
+  background: rgba(40, 45, 55, 0.9); 
+  border: 1px solid #777; 
+  color: #fff; 
+  padding: 12px 20px; 
+  border-radius: 3px; 
+  cursor: pointer; 
+  font-size: 1.1em; 
+  transition: all 0.2s; 
+  text-align: center; 
+}
+.choice-btn:hover { 
+  background: #a8c7fa; 
+  color: #000; 
+  border-color: #a8c7fa; 
+}

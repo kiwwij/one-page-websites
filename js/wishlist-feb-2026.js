@@ -1,6 +1,3 @@
-// js/wishlist-feb-2026.js
-
-// Localization Strings
 const translations = {
     en: {
         steamProfile: "Steam Profile",
@@ -17,7 +14,15 @@ const translations = {
         sale: "Sale:",
         possible: "Possible:",
         footer_text: "Created by Kiwwij for personal use.",
-        metacritic: "Metacritic"
+        metacritic: "Metacritic",
+        // ВОТ ЭТИ ПЕРЕВОДЫ ПОТЕРЯЛИСЬ:
+        btn_show_status: "Show Progress",
+        btn_hide_status: "Hide Progress",
+        status_playing: "Playing",
+        status_dropped: "Dropped / Paused",
+        status_completed: "Completed",
+        status_not_started: "Not Started",
+        read_review: "Review"
     },
     ru: {
         steamProfile: "Профиль Steam",
@@ -34,13 +39,21 @@ const translations = {
         sale: "Скидка:",
         possible: "Возможно:",
         footer_text: "Создано Kiwwij для личного использования.",
-        metacritic: "Metacritic"
+        metacritic: "Metacritic",
+        // И ВОТ ЭТИ:
+        btn_show_status: "Показать прогресс",
+        btn_hide_status: "Скрыть прогресс",
+        status_playing: "В процессе",
+        status_dropped: "Отложил / Забросил",
+        status_completed: "Пройдено",
+        status_not_started: "Не начал",
+        read_review: "Обзор"
     }
 };
 
 let currentLang = 'en';
+let isStatusVisible = false; // Состояние отображения прогресса
 
-// Define render order
 const categoryOrder = [
     "cat_owned",
     "cat_high_wish",
@@ -61,6 +74,11 @@ function detectLanguage() {
 function setLanguage(lang) {
     currentLang = lang;
     localStorage.setItem('lang', lang);
+    render();
+}
+
+function toggleStatusMode() {
+    isStatusVisible = !isStatusVisible;
     render();
 }
 
@@ -90,7 +108,7 @@ async function updateSteamAvatar() {
 // Helper: Determine Metacritic Color
 function getRatingClass(rating) {
     const score = parseInt(rating);
-    if (isNaN(score)) return ""; // No class if invalid
+    if (isNaN(score)) return "";
 
     if (score >= 75) return "score-green";
     if (score >= 50) return "score-yellow";
@@ -100,13 +118,27 @@ function getRatingClass(rating) {
 function render() {
     const t = translations[currentLang];
 
-    // 1. Update static UI text
+    // Update static UI text
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (t[key]) {
             el.textContent = t[key];
         }
     });
+
+    // Update toggle button text based on state
+    const toggleBtn = document.getElementById('toggle-status-btn');
+    if (toggleBtn) {
+        toggleBtn.innerHTML = isStatusVisible 
+            ? `<i class='bx bx-hide'></i> ${t.btn_hide_status}`
+            : `<i class='bx bx-show'></i> ${t.btn_show_status}`;
+        
+        if(isStatusVisible) {
+            toggleBtn.classList.add('active');
+        } else {
+            toggleBtn.classList.remove('active');
+        }
+    }
 
     const container = document.getElementById('game-container');
     container.innerHTML = '';
@@ -116,12 +148,11 @@ function render() {
         return;
     }
 
-    // 2. Loop through categories
+    // Loop through categories
     categoryOrder.forEach(catKey => {
         const catGames = gamesData.filter(g => g.category === catKey);
         if (catGames.length === 0) return;
 
-        // Create Section
         const section = document.createElement('section');
         section.className = 'category-section';
 
@@ -133,12 +164,37 @@ function render() {
         const grid = document.createElement('div');
         grid.className = 'games-grid';
 
-        // Create Cards
         catGames.forEach(game => {
             const card = document.createElement('div');
             card.className = 'game-card';
 
-            // --- Logic for hiding elements if data is missing ---
+            // --- Status Logic ---
+            let statusOverlay = '';
+            let extraCardClass = '';
+            let reviewHtml = '';
+            
+            if (isStatusVisible) {
+                // ЗАЩИТА ОТ ОШИБОК: Если статус пустой (""), считаем, что игра "not_started"
+                let currentStatus = game.play_status || "not_started";
+                let statusTextKey = `status_${currentStatus}`;
+                let statusColorClass = `status-badge-${currentStatus}`;
+                
+                statusOverlay = `<div class="status-overlay ${statusColorClass}">${t[statusTextKey]}</div>`;
+
+                // If dropped/paused, apply grayscale class
+                if (currentStatus === 'dropped') {
+                    extraCardClass = 'game-card-dropped';
+                }
+
+                // If completed and has review link, show review button
+                if (currentStatus === 'completed' && game.review_link) {
+                    reviewHtml = `
+                        <a href="${game.review_link}" target="_blank" class="review-btn" title="Read Review">
+                            <i class='bx bxs-message-square-detail'></i> ${t.read_review}
+                        </a>
+                    `;
+                }
+            }
 
             // 1. Playtime HTML
             let playtimeHtml = '';
@@ -193,35 +249,41 @@ function render() {
                 }
             }
 
-            // Description based on Lang
             const description = currentLang === 'ru' ? game.desc_ru : game.desc_en;
             const linkAttr = game.steam_link === '#' ? 'style="pointer-events:none; opacity:0.5;"' : 'target="_blank"';
 
             card.innerHTML = `
-                <img src="${game.poster}" alt="${game.title}" class="card-poster">
-                <div class="card-body">
-                    <h3 class="game-title">${game.title}</h3>
-                    
-                    <div class="game-meta">
-                        <div class="meta-item" title="Genre">
-                            <i class='bx bxs-joystick'></i> ${game.genres[0]} 
-                        </div>
-                        ${playtimeHtml}
-                        ${dateHtml}
+                <div class="card-inner ${extraCardClass}">
+                    <div class="poster-container">
+                        <img src="${game.poster}" alt="${game.title}" class="card-poster">
+                        ${statusOverlay}
                     </div>
-
-                    <p class="game-desc">${description}</p>
-
-                    <div class="game-footer">
-                        <div class="price-block">
-                           ${priceHtml}
-                        </div>
+                    
+                    <div class="card-body">
+                        <h3 class="game-title">${game.title}</h3>
                         
-                        <div class="footer-right">
-                            ${ratingHtml}
-                            <a href="${game.steam_link}" ${linkAttr} class="steam-link-icon">
-                                <i class='bx bxl-steam'></i>
-                            </a>
+                        <div class="game-meta">
+                            <div class="meta-item" title="Genre">
+                                <i class='bx bxs-joystick'></i> ${game.genres[0] || 'Game'} 
+                            </div>
+                            ${playtimeHtml}
+                            ${dateHtml}
+                        </div>
+
+                        <p class="game-desc">${description}</p>
+
+                        <div class="game-footer">
+                            <div class="price-block">
+                               ${priceHtml}
+                               ${reviewHtml}
+                            </div>
+                            
+                            <div class="footer-right">
+                                ${ratingHtml}
+                                <a href="${game.steam_link}" ${linkAttr} class="steam-link-icon">
+                                    <i class='bx bxl-steam'></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
