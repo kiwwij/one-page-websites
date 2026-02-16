@@ -6,12 +6,22 @@ const statusDot = document.getElementById('status-dot');
 const turnText = document.getElementById('turn-text');
 const volumeSlider = document.getElementById('volume-slider');
 
+const setupContainer = document.getElementById('setup-container');
+const gameActionsCard = document.getElementById('game-actions-card');
+const btnPass = document.getElementById('btn-pass');
+const btnResign = document.getElementById('btn-resign');
+const btnRestart = document.getElementById('btn-restart');
+const modal = document.getElementById('end-modal');
+const finalResults = document.getElementById('final-results');
+const btnCloseModal = document.getElementById('btn-close-modal');
+
 let isBotMode = false;
 let myColor = null; 
 let isMyTurn = false;
 let score = { black: 0, white: 0 };
+let consecutivePasses = 0; // Для отслеживания взаимного паса
+let territoryToDraw = null; // Для отрисовки закрашенных территорий в конце
 
-// --- СИСТЕМА СОХРАНЕНИЙ (LocalStorage) ---
 const savedPrefs = {
     theme: localStorage.getItem('go_theme') || 'dark',
     gameMode: localStorage.getItem('go_gameMode') || 'p2p',
@@ -22,7 +32,6 @@ const savedPrefs = {
     volume: localStorage.getItem('go_volume') || '0.7'
 };
 
-// Применяем тему
 if (savedPrefs.theme === 'light') {
     document.body.classList.remove('dark-theme');
     themeToggle.innerHTML = "<i class='bx bx-moon'></i>";
@@ -35,13 +44,9 @@ themeToggle.addEventListener('click', () => {
     themeToggle.innerHTML = isDark ? "<i class='bx bx-sun'></i>" : "<i class='bx bx-moon'></i>";
 });
 
-// Применяем громкость
 volumeSlider.value = savedPrefs.volume;
-volumeSlider.addEventListener('change', (e) => {
-    localStorage.setItem('go_volume', e.target.value);
-});
+volumeSlider.addEventListener('change', (e) => localStorage.setItem('go_volume', e.target.value));
 
-// Применяем режим игры
 document.querySelector(`input[name="game-mode"][value="${savedPrefs.gameMode}"]`).checked = true;
 isBotMode = savedPrefs.gameMode === 'bot';
 p2pPanel.classList.toggle('hidden', isBotMode);
@@ -56,7 +61,6 @@ document.querySelectorAll('input[name="game-mode"]').forEach(radio => {
     });
 });
 
-// Функция для установки значения кастомного Dropdown при загрузке
 function setDropdownByValue(id, value) {
     const dropdown = document.getElementById(id);
     if (!dropdown) return;
@@ -72,13 +76,12 @@ function setDropdownByValue(id, value) {
     });
 }
 
-// Загружаем сохраненные настройки менюшек
 setDropdownByValue('board-size-select', savedPrefs.boardSize);
 setDropdownByValue('p2p-color-select', savedPrefs.p2pColor);
 setDropdownByValue('bot-difficulty', savedPrefs.botDiff);
 setDropdownByValue('bot-color-select', savedPrefs.botColor);
 
-// --- ЛОГИКА ВЫПАДАЮЩЕГО МЕНЮ (И ИСПРАВЛЕНИЕ ПЕРЕКРЫТИЯ) ---
+// Выпадающие списки
 document.querySelectorAll('.custom-dropdown').forEach(dropdown => {
     const header = dropdown.querySelector('.dropdown-header');
     const list = dropdown.querySelector('.dropdown-list');
@@ -87,66 +90,37 @@ document.querySelectorAll('.custom-dropdown').forEach(dropdown => {
 
     header.addEventListener('click', (e) => {
         e.stopPropagation();
-        
-        // Закрываем остальные меню и сбрасываем z-index их карточек
         document.querySelectorAll('.dropdown-list').forEach(l => {
-            if(l !== list) {
-                l.classList.remove('open');
-                l.parentElement.classList.remove('open');
-                const parentCard = l.closest('.bento-card');
-                if (parentCard) parentCard.style.zIndex = '1';
-            }
+            if(l !== list) { l.classList.remove('open'); l.parentElement.classList.remove('open'); l.closest('.bento-card').style.zIndex = '1'; }
         });
-        
         const isOpen = list.classList.toggle('open');
         dropdown.classList.toggle('open');
-        
-        // РЕШЕНИЕ ПРОБЛЕМЫ ПЕРЕКРЫТИЯ: Поднимаем карточку с открытым меню на передний план
-        const currentCard = dropdown.closest('.bento-card');
-        if (currentCard) {
-            currentCard.style.position = 'relative';
-            currentCard.style.zIndex = isOpen ? '100' : '1';
-        }
+        dropdown.closest('.bento-card').style.zIndex = isOpen ? '100' : '1';
     });
 
     items.forEach(item => {
         item.addEventListener('click', (e) => {
             e.stopPropagation();
             title.innerHTML = item.innerHTML;
-            const selectedValue = item.dataset.value;
-            dropdown.dataset.value = selectedValue;
-            
+            const val = item.dataset.value;
+            dropdown.dataset.value = val;
             items.forEach(i => i.classList.remove('selected'));
             item.classList.add('selected');
-            
             list.classList.remove('open');
             dropdown.classList.remove('open');
-            
-            const currentCard = dropdown.closest('.bento-card');
-            if (currentCard) currentCard.style.zIndex = '1';
+            dropdown.closest('.bento-card').style.zIndex = '1';
 
-            // Сохраняем выбор в LocalStorage
-            if (dropdown.id === 'board-size-select') {
-                localStorage.setItem('go_boardSize', selectedValue);
-                applyBoardSize(selectedValue);
-            }
-            if (dropdown.id === 'p2p-color-select') localStorage.setItem('go_p2pColor', selectedValue);
-            if (dropdown.id === 'bot-difficulty') localStorage.setItem('go_botDiff', selectedValue);
-            if (dropdown.id === 'bot-color-select') localStorage.setItem('go_botColor', selectedValue);
+            if (dropdown.id === 'board-size-select') { localStorage.setItem('go_boardSize', val); applyBoardSize(val); }
+            if (dropdown.id === 'p2p-color-select') localStorage.setItem('go_p2pColor', val);
+            if (dropdown.id === 'bot-difficulty') localStorage.setItem('go_botDiff', val);
+            if (dropdown.id === 'bot-color-select') localStorage.setItem('go_botColor', val);
         });
     });
 });
 
-// Закрытие меню при клике в пустую область
 document.addEventListener('click', () => {
-    document.querySelectorAll('.dropdown-list').forEach(l => {
-        l.classList.remove('open');
-        l.parentElement.classList.remove('open');
-        const parentCard = l.closest('.bento-card');
-        if (parentCard) parentCard.style.zIndex = '1';
-    });
+    document.querySelectorAll('.dropdown-list').forEach(l => { l.classList.remove('open'); l.parentElement.classList.remove('open'); l.closest('.bento-card').style.zIndex = '1'; });
 });
-
 
 function updateStatus(text, isActive) {
     turnText.innerText = text;
@@ -159,19 +133,26 @@ function updateScoreUI() {
     document.getElementById('score-white').innerText = score.white;
 }
 
-// Обновление размера доски при сигнале от друга (без сохранения в локальное хранилище хоста)
 function updateBoardSizeDropdown(size) {
-    const dropdown = document.getElementById('board-size-select');
-    dropdown.dataset.value = size;
-    const title = dropdown.querySelector('.dropdown-title');
-    if (size == 19) title.innerText = '📏 19x19 (Классика)';
-    if (size == 13) title.innerText = '📏 13x13 (Средняя)';
-    if (size == 9) title.innerText = '📏 9x9 (Быстрая игра)';
-    const items = dropdown.querySelectorAll('.dropdown-item');
-    items.forEach(i => {
-        i.classList.remove('selected');
-        if (i.dataset.value == size) i.classList.add('selected');
-    });
+    setDropdownByValue('board-size-select', size);
+}
+
+// --- УПРАВЛЕНИЕ ИГРОЙ (Скрытие настроек, показ кнопок) ---
+function enterGameMode() {
+    setupContainer.classList.add('hidden');
+    gameActionsCard.classList.remove('hidden');
+    btnResign.style.display = isBotMode ? 'block' : 'none'; // Убираем "Сдаться" в сетевой игре
+    territoryToDraw = null;
+    consecutivePasses = 0;
+}
+
+function exitGameMode() {
+    setupContainer.classList.remove('hidden');
+    gameActionsCard.classList.add('hidden');
+    territoryToDraw = null;
+    consecutivePasses = 0;
+    applyBoardSize(document.getElementById('board-size-select').dataset.value);
+    updateStatus("Ожидание настройки...", false);
 }
 
 // --- ЗВУК ---
@@ -181,22 +162,16 @@ const audioCtx = new AudioContext();
 function playStoneSound() {
     const volume = parseFloat(volumeSlider.value);
     if (volume === 0) return;
-
     if (audioCtx.state === 'suspended') audioCtx.resume();
-    
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
-    
     osc.type = 'sine';
     osc.frequency.setValueAtTime(350, audioCtx.currentTime);
     osc.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.04);
-    
     gain.gain.setValueAtTime(volume * 0.7, audioCtx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.04);
-    
     osc.connect(gain);
     gain.connect(audioCtx.destination);
-    
     osc.start();
     osc.stop(audioCtx.currentTime + 0.04);
 }
@@ -205,7 +180,6 @@ function playStoneSound() {
 const canvas = document.getElementById('go-board');
 const ctx = canvas.getContext('2d');
 const MARGIN = 15;
-
 let BOARD_SIZE = 19;
 let CELL_SIZE = 30;
 let boardState = [];
@@ -216,6 +190,7 @@ function applyBoardSize(size) {
     boardState = Array(BOARD_SIZE).fill().map(() => Array(BOARD_SIZE).fill(0));
     score = { black: 0, white: 0 };
     updateScoreUI();
+    territoryToDraw = null;
     drawBoard();
 }
 
@@ -233,13 +208,9 @@ function drawBoard() {
     ctx.stroke();
 
     const stars = [];
-    if (BOARD_SIZE === 19) {
-        [3, 9, 15].forEach(x => [3, 9, 15].forEach(y => stars.push({x, y})));
-    } else if (BOARD_SIZE === 13) {
-        [3, 6, 9].forEach(x => [3, 6, 9].forEach(y => stars.push({x, y})));
-    } else if (BOARD_SIZE === 9) {
-        stars.push({x:2,y:2}, {x:6,y:2}, {x:4,y:4}, {x:2,y:6}, {x:6,y:6});
-    }
+    if (BOARD_SIZE === 19) [3, 9, 15].forEach(x => [3, 9, 15].forEach(y => stars.push({x, y})));
+    else if (BOARD_SIZE === 13) [3, 6, 9].forEach(x => [3, 6, 9].forEach(y => stars.push({x, y})));
+    else if (BOARD_SIZE === 9) stars.push({x:2,y:2}, {x:6,y:2}, {x:4,y:4}, {x:2,y:6}, {x:6,y:6});
 
     ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
     stars.forEach(p => {
@@ -247,6 +218,22 @@ function drawBoard() {
         ctx.arc(MARGIN + p.x * CELL_SIZE, MARGIN + p.y * CELL_SIZE, Math.max(CELL_SIZE * 0.1, 2.5), 0, Math.PI * 2);
         ctx.fill();
     });
+
+    // Отрисовка закрашенных территорий в конце игры
+    if (territoryToDraw) {
+        const offset = CELL_SIZE * 0.35;
+        const size = CELL_SIZE * 0.7;
+        
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.4)'; // Территория черных (темный квадрат)
+        territoryToDraw.black.forEach(p => {
+            ctx.fillRect(MARGIN + p.x * CELL_SIZE - offset, MARGIN + p.y * CELL_SIZE - offset, size, size);
+        });
+
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.6)'; // Территория белых (светлый квадрат)
+        territoryToDraw.white.forEach(p => {
+            ctx.fillRect(MARGIN + p.x * CELL_SIZE - offset, MARGIN + p.y * CELL_SIZE - offset, size, size);
+        });
+    }
 
     for (let x = 0; x < BOARD_SIZE; x++) {
         for (let y = 0; y < BOARD_SIZE; y++) {
@@ -277,16 +264,14 @@ function drawStone(x, y, color) {
         gradient.addColorStop(0, '#fff');
         gradient.addColorStop(1, '#d1d5db');
     }
-
     ctx.fillStyle = gradient;
     ctx.fill();
     ctx.shadowColor = 'transparent';
 }
 
-// Загружаем сохраненный размер доски при старте
 applyBoardSize(savedPrefs.boardSize);
 
-// --- АЛГОРИТМ ЗАХВАТА ---
+// --- ЗАХВАТ ---
 function getGroupAndLiberties(startX, startY, color, tempBoard = boardState) {
     const visited = Array(BOARD_SIZE).fill().map(() => Array(BOARD_SIZE).fill(false));
     const group = [];
@@ -322,10 +307,7 @@ function processCaptures(x, y, color, tempBoard = boardState, applyScore = false
         if (n.x >= 0 && n.x < BOARD_SIZE && n.y >= 0 && n.y < BOARD_SIZE && tempBoard[n.x][n.y] === enemyColor) {
             const data = getGroupAndLiberties(n.x, n.y, enemyColor, tempBoard);
             if (data.liberties === 0) {
-                data.group.forEach(stone => {
-                    tempBoard[stone.x][stone.y] = 0;
-                    capturedStones++;
-                });
+                data.group.forEach(stone => { tempBoard[stone.x][stone.y] = 0; capturedStones++; });
             }
         }
     }
@@ -341,9 +323,121 @@ function processCaptures(x, y, color, tempBoard = boardState, applyScore = false
         else score.white += capturedStones;
         updateScoreUI();
     }
-
     return true;
 }
+
+// --- ПОДСЧЕТ ТЕРРИТОРИЙ (ФИНАЛ ИГРЫ) ---
+function calculateTerritories() {
+    const visited = Array(BOARD_SIZE).fill().map(() => Array(BOARD_SIZE).fill(false));
+    let tBlack = [];
+    let tWhite = [];
+
+    for (let x = 0; x < BOARD_SIZE; x++) {
+        for (let y = 0; y < BOARD_SIZE; y++) {
+            if (boardState[x][y] === 0 && !visited[x][y]) {
+                let queue = [{x, y}];
+                visited[x][y] = true;
+                let region = [];
+                let touchesBlack = false;
+                let touchesWhite = false;
+
+                while(queue.length > 0) {
+                    let curr = queue.shift();
+                    region.push(curr);
+                    const neighbors = [{x: curr.x+1, y: curr.y}, {x: curr.x-1, y: curr.y}, {x: curr.x, y: curr.y+1}, {x: curr.x, y: curr.y-1}];
+                    for (let n of neighbors) {
+                        if (n.x >= 0 && n.x < BOARD_SIZE && n.y >= 0 && n.y < BOARD_SIZE) {
+                            if (boardState[n.x][n.y] === 1) touchesBlack = true;
+                            else if (boardState[n.x][n.y] === 2) touchesWhite = true;
+                            else if (boardState[n.x][n.y] === 0 && !visited[n.x][n.y]) {
+                                visited[n.x][n.y] = true;
+                                queue.push({x: n.x, y: n.y});
+                            }
+                        }
+                    }
+                }
+                // Если пустая область касается только камней одного цвета - это их территория
+                if (touchesBlack && !touchesWhite) tBlack.push(...region);
+                if (touchesWhite && !touchesBlack) tWhite.push(...region);
+            }
+        }
+    }
+    territoryToDraw = { black: tBlack, white: tWhite };
+    drawBoard(); // Перерисовываем доску с цветными территориями
+
+    return { 
+        blackTerritory: tBlack.length, 
+        whiteTerritory: tWhite.length,
+        totalBlack: score.black + tBlack.length,
+        totalWhite: score.white + tWhite.length
+    };
+}
+
+function endGame(forcedWinner = null) {
+    isMyTurn = false;
+    updateStatus("Игра окончена", false);
+    
+    let resultHTML = "";
+    if (forcedWinner) {
+        const winnerText = forcedWinner === 'black' ? '⚫ Чёрные' : '⚪ Белые';
+        resultHTML = `<div class="winner-text">${winnerText} победили (Сдача противника)</div>`;
+    } else {
+        const finalScores = calculateTerritories();
+        const winnerText = finalScores.totalBlack > finalScores.totalWhite ? '⚫ Чёрные победили!' : (finalScores.totalWhite > finalScores.totalBlack ? '⚪ Белые победили!' : '🤝 Ничья!');
+        
+        resultHTML = `
+            <div class="winner-text">${winnerText}</div>
+            <div class="result-row"><span>⚫ Чёрные (Захват + Территория)</span> <span>${score.black} + ${finalScores.blackTerritory} = <b>${finalScores.totalBlack}</b></span></div>
+            <div class="result-row"><span>⚪ Белые (Захват + Территория)</span> <span>${score.white} + ${finalScores.whiteTerritory} = <b>${finalScores.totalWhite}</b></span></div>
+        `;
+    }
+
+    finalResults.innerHTML = resultHTML;
+    modal.classList.remove('hidden');
+}
+
+btnCloseModal.addEventListener('click', () => {
+    modal.classList.add('hidden');
+});
+
+// --- КНОПКИ УПРАВЛЕНИЯ В ИГРЕ ---
+btnRestart.addEventListener('click', () => {
+    if (!isBotMode && connection) connection.send({ type: 'restart' });
+    exitGameMode();
+});
+
+btnResign.addEventListener('click', () => {
+    // Доступно только с ботом
+    if (isBotMode) endGame(myColor === 'black' ? 'white' : 'black');
+});
+
+btnPass.addEventListener('click', () => {
+    if (!isMyTurn) return;
+    
+    consecutivePasses++;
+    isMyTurn = false;
+
+    if (isBotMode) {
+        updateStatus("Вы спасовали. Бот думает...", false);
+        setTimeout(() => {
+            // Бот проверяет доску. Если пустых клеток < 25%, он соглашается завершить.
+            let emptyCount = 0;
+            boardState.forEach(r => r.forEach(c => { if(c===0) emptyCount++; }));
+            if (emptyCount / (BOARD_SIZE * BOARD_SIZE) < 0.25 || Math.random() > 0.8) {
+                consecutivePasses++; // Бот тоже пасует
+                endGame();
+            } else {
+                consecutivePasses = 0; // Бот делает ход
+                botMakeMove();
+            }
+        }, 600);
+    } else {
+        updateStatus("Ожидание ответа друга на Пас...", false);
+        connection.send({ type: 'pass' });
+        if (consecutivePasses >= 2) endGame();
+    }
+});
+
 
 // --- БОТ ---
 function botMakeMove() {
@@ -352,15 +446,16 @@ function botMakeMove() {
     const playerColor = myColor === 'black' ? 1 : 2;
     let availableMoves = [];
 
-    for (let x = 0; x < BOARD_SIZE; x++) {
-        for (let y = 0; y < BOARD_SIZE; y++) {
-            if (boardState[x][y] === 0) availableMoves.push({x, y});
-        }
+    for (let x = 0; x < BOARD_SIZE; x++) for (let y = 0; y < BOARD_SIZE; y++) if (boardState[x][y] === 0) availableMoves.push({x, y});
+    if (availableMoves.length === 0) {
+        // Бот вынужден спасовать
+        consecutivePasses++;
+        if (consecutivePasses >= 2) endGame();
+        else { isMyTurn = true; updateStatus(`Бот спасовал. Твой ход`, true); }
+        return;
     }
-    if (availableMoves.length === 0) return;
 
     let move = null;
-
     if (diff === 'hard') {
         for (let pos of availableMoves) {
             let temp = boardState.map(row => [...row]);
@@ -384,9 +479,7 @@ function botMakeMove() {
         let attackMoves = [];
         for (let pos of availableMoves) {
             const neighbors = [{x: pos.x+1, y: pos.y}, {x: pos.x-1, y: pos.y}, {x: pos.x, y: pos.y+1}, {x: pos.x, y: pos.y-1}];
-            if (neighbors.some(n => n.x >= 0 && n.x < BOARD_SIZE && n.y >= 0 && n.y < BOARD_SIZE && boardState[n.x][n.y] === playerColor)) {
-                attackMoves.push(pos);
-            }
+            if (neighbors.some(n => n.x >= 0 && n.x < BOARD_SIZE && n.y >= 0 && n.y < BOARD_SIZE && boardState[n.x][n.y] === playerColor)) attackMoves.push(pos);
         }
         if (attackMoves.length > 0) move = attackMoves[Math.floor(Math.random() * attackMoves.length)];
     }
@@ -398,6 +491,7 @@ function botMakeMove() {
         playStoneSound();
         drawBoard();
         isMyTurn = true;
+        consecutivePasses = 0; // Сброс пасов, т.к. ход сделан
         updateStatus(`Твой ход (${myColor === 'black' ? 'Черные' : 'Белые'})`, true);
     } else {
         setTimeout(botMakeMove, 50);
@@ -409,12 +503,11 @@ document.getElementById('start-bot-btn').addEventListener('click', () => {
     myColor = colorPref === 'random' ? (Math.random() > 0.5 ? 'black' : 'white') : colorPref;
     isMyTurn = (myColor === 'black');
 
-    const selectedSize = document.getElementById('board-size-select').dataset.value;
-    applyBoardSize(selectedSize);
+    applyBoardSize(document.getElementById('board-size-select').dataset.value);
+    enterGameMode();
     
-    if (isMyTurn) {
-        updateStatus(`Игра началась. Твой ход (${myColor === 'black' ? 'Черные' : 'Белые'})`, true);
-    } else {
+    if (isMyTurn) updateStatus(`Игра началась. Твой ход (${myColor === 'black' ? 'Черные' : 'Белые'})`, true);
+    else {
         updateStatus(`Ход бота... (${myColor === 'black' ? 'Белые' : 'Черные'})`, false);
         setTimeout(botMakeMove, 500);
     }
@@ -433,9 +526,7 @@ document.getElementById('copy-btn').addEventListener('click', () => {
     setTimeout(() => icon.className = 'bx bx-copy', 2000);
 });
 
-peer.on('connection', (conn) => {
-    setupConnection(conn);
-});
+peer.on('connection', (conn) => setupConnection(conn));
 
 document.getElementById('connect-btn').addEventListener('click', () => {
     const friendId = document.getElementById('friend-id').value.trim();
@@ -446,18 +537,14 @@ document.getElementById('connect-btn').addEventListener('click', () => {
     isMyTurn = (myColor === 'black');
     
     const selectedSize = document.getElementById('board-size-select').dataset.value;
-    applyBoardSize(selectedSize);
 
     const conn = peer.connect(friendId);
     setupConnection(conn);
 
     conn.on('open', () => {
-        updateStatus("Подключение установлено!", true);
-        conn.send({ 
-            type: 'init', 
-            hostColor: myColor === 'black' ? 'white' : 'black',
-            boardSize: selectedSize
-        });
+        applyBoardSize(selectedSize);
+        enterGameMode();
+        conn.send({ type: 'init', hostColor: myColor === 'black' ? 'white' : 'black', boardSize: selectedSize });
         updateStatus(isMyTurn ? "Твой ход (Черные)" : "Ход друга...", isMyTurn);
     });
 });
@@ -469,9 +556,9 @@ function setupConnection(conn) {
         if (data.type === 'init') {
             applyBoardSize(data.boardSize);
             updateBoardSizeDropdown(data.boardSize);
-
             myColor = data.hostColor;
             isMyTurn = (myColor === 'black');
+            enterGameMode();
             updateStatus(isMyTurn ? "Твой ход (Черные)" : "Ход друга...", isMyTurn);
         }
         else if (data.type === 'move') {
@@ -481,14 +568,28 @@ function setupConnection(conn) {
             playStoneSound();
             drawBoard();
             isMyTurn = true;
+            consecutivePasses = 0; // Сброс пасов, т.к. друг походил
             updateStatus(`Твой ход (${myColor === 'black' ? 'Черные' : 'Белые'})`, true);
+        }
+        else if (data.type === 'pass') {
+            consecutivePasses++;
+            if (consecutivePasses >= 2) {
+                endGame();
+            } else {
+                isMyTurn = true;
+                updateStatus(`Противник спасовал. Твой ход или ответь Пасом`, true);
+            }
+        }
+        else if (data.type === 'restart') {
+            modal.classList.add('hidden');
+            exitGameMode();
         }
     });
 }
 
 // --- КЛИК ПО ДОСКЕ ---
 canvas.addEventListener('click', (event) => {
-    if (!isMyTurn || (!isBotMode && !connection)) return;
+    if (!isMyTurn || territoryToDraw !== null || (!isBotMode && !connection)) return;
 
     const rect = canvas.getBoundingClientRect();
     const x = Math.round((event.clientX - rect.left - MARGIN) / CELL_SIZE);
@@ -502,6 +603,7 @@ canvas.addEventListener('click', (event) => {
             playStoneSound();
             drawBoard();
             isMyTurn = false;
+            consecutivePasses = 0; // Ты походил, обнуляем пасы
             
             if (isBotMode) {
                 updateStatus("Бот думает...", false);

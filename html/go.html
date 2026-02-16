@@ -11,6 +11,15 @@
 </head>
 <body class="dark-theme">
 
+    <div id="end-modal" class="modal-overlay hidden">
+        <div class="bento-card modal-content">
+            <h2>🏆 Партия завершена</h2>
+            <div id="final-results" class="results-container">
+                </div>
+            <button id="btn-close-modal" class="btn primary-btn" style="width: 100%; margin-top: 15px;">Отлично</button>
+        </div>
+    </div>
+
     <div class="app-wrapper">
         
         <div class="sidebar-section">
@@ -25,91 +34,99 @@
                 <span id="turn-text" class="status-text">Ожидание настройки...</span>
             </div>
 
-            <div class="bento-card">
-                <label>Размер доски</label>
-                <div class="custom-dropdown" id="board-size-select" data-value="19">
-                    <div class="dropdown-header">
-                        <span class="dropdown-title">📏 19x19 (Классика)</span>
-                        <i class='bx bx-chevron-down'></i>
-                    </div>
-                    <ul class="dropdown-list">
-                        <li data-value="9" class="dropdown-item">📏 9x9</li>
-                        <li data-value="13" class="dropdown-item">📏 13x13</li>
-                        <li data-value="19" class="dropdown-item selected">📏 19x19</li>
-                    </ul>
+            <div id="game-actions-card" class="bento-card hidden">
+                <label>Управление</label>
+                <div class="actions-group">
+                    <button id="btn-pass" class="btn primary-btn" style="background: #10b981; color: white;">🚩 Завершить / Пас</button>
+                    <button id="btn-resign" class="btn primary-btn" style="background: #ef4444; color: white;">🏳️ Сдаться</button>
+                    <button id="btn-restart" class="btn action-btn" style="margin-top: 0;">🔄 Начать заново</button>
                 </div>
             </div>
 
-            <div class="bento-card mode-card">
-                <label>Режим игры</label>
-                <div class="segmented-control">
-                    <input type="radio" id="mode-p2p" name="game-mode" value="p2p" checked>
-                    <label for="mode-p2p">С другом</label>
-                    <input type="radio" id="mode-bot" name="game-mode" value="bot">
-                    <label for="mode-bot">С ботом</label>
-                </div>
-            </div>
-
-            <div id="p2p-panel" class="panel-group">
+            <div id="setup-container">
                 <div class="bento-card">
-                    <label>Твой ID</label>
-                    <div class="input-with-btn">
-                        <div id="my-id" class="code-display">Загрузка...</div>
-                        <button id="copy-btn" class="btn primary-btn" title="Копировать"><i class='bx bx-copy'></i></button>
-                    </div>
-                </div>
-
-                <div class="bento-card">
-                    <label>Подключиться к игре</label>
-                    
-                    <div class="custom-dropdown" id="p2p-color-select" data-value="random">
+                    <label>Размер доски</label>
+                    <div class="custom-dropdown" id="board-size-select" data-value="19">
                         <div class="dropdown-header">
-                            <span class="dropdown-title">🎲 Случайный цвет</span>
+                            <span class="dropdown-title">📏 19x19 (Классика)</span>
                             <i class='bx bx-chevron-down'></i>
                         </div>
                         <ul class="dropdown-list">
-                            <li data-value="black" class="dropdown-item">⚫ Чёрные</li>
-                            <li data-value="white" class="dropdown-item">⚪ Белые</li>
-                            <li data-value="random" class="dropdown-item selected">🎲 Случайный цвет</li>
+                            <li data-value="9" class="dropdown-item">📏 9x9 (Быстрая игра)</li>
+                            <li data-value="13" class="dropdown-item">📏 13x13 (Средняя)</li>
+                            <li data-value="19" class="dropdown-item selected">📏 19x19 (Классика)</li>
                         </ul>
-                    </div>
-
-                    <div class="input-with-btn" style="margin-top: 10px;">
-                        <input type="text" id="friend-id" class="modern-input" placeholder="Введи ID друга...">
-                        <button id="connect-btn" class="btn primary-btn"><i class='bx bx-right-arrow-alt'></i></button>
                     </div>
                 </div>
-            </div>
 
-            <div id="bot-panel" class="panel-group hidden">
-                <div class="bento-card">
-                    <label>Сложность ИИ</label>
-                    <div class="custom-dropdown" id="bot-difficulty" data-value="medium">
-                        <div class="dropdown-header">
-                            <span class="dropdown-title">⚔️ Средняя</span>
-                            <i class='bx bx-chevron-down'></i>
+                <div class="bento-card mode-card">
+                    <label>Режим игры</label>
+                    <div class="segmented-control">
+                        <input type="radio" id="mode-p2p" name="game-mode" value="p2p" checked>
+                        <label for="mode-p2p">С другом</label>
+                        <input type="radio" id="mode-bot" name="game-mode" value="bot">
+                        <label for="mode-bot">С ботом</label>
+                    </div>
+                </div>
+
+                <div id="p2p-panel" class="panel-group">
+                    <div class="bento-card">
+                        <label>Твой ID</label>
+                        <div class="input-with-btn">
+                            <div id="my-id" class="code-display">Загрузка...</div>
+                            <button id="copy-btn" class="btn primary-btn" title="Копировать"><i class='bx bx-copy'></i></button>
                         </div>
-                        <ul class="dropdown-list">
-                            <li data-value="easy" class="dropdown-item">🐣 Лёгкая</li>
-                            <li data-value="medium" class="dropdown-item selected">⚔️ Средняя</li>
-                            <li data-value="hard" class="dropdown-item">🧠 Сложная</li>
-                        </ul>
                     </div>
 
-                    <label style="margin-top: 15px;">Выбери цвет</label>
-                    <div class="custom-dropdown" id="bot-color-select" data-value="random">
-                        <div class="dropdown-header">
-                            <span class="dropdown-title">🎲 Случайный цвет</span>
-                            <i class='bx bx-chevron-down'></i>
+                    <div class="bento-card">
+                        <label>Подключиться к игре</label>
+                        <div class="custom-dropdown" id="p2p-color-select" data-value="random">
+                            <div class="dropdown-header">
+                                <span class="dropdown-title">🎲 Случайный цвет</span>
+                                <i class='bx bx-chevron-down'></i>
+                            </div>
+                            <ul class="dropdown-list">
+                                <li data-value="black" class="dropdown-item">⚫ Чёрные (Первый ход)</li>
+                                <li data-value="white" class="dropdown-item">⚪ Белые (Второй ход)</li>
+                                <li data-value="random" class="dropdown-item selected">🎲 Случайный цвет</li>
+                            </ul>
                         </div>
-                        <ul class="dropdown-list">
-                            <li data-value="black" class="dropdown-item">⚫ Чёрные</li>
-                            <li data-value="white" class="dropdown-item">⚪ Белые</li>
-                            <li data-value="random" class="dropdown-item selected">🎲 Случайный цвет</li>
-                        </ul>
+                        <div class="input-with-btn" style="margin-top: 10px;">
+                            <input type="text" id="friend-id" class="modern-input" placeholder="Введи ID друга...">
+                            <button id="connect-btn" class="btn primary-btn"><i class='bx bx-right-arrow-alt'></i></button>
+                        </div>
                     </div>
+                </div>
 
-                    <button id="start-bot-btn" class="btn action-btn">Начать партию</button>
+                <div id="bot-panel" class="panel-group hidden">
+                    <div class="bento-card">
+                        <label>Сложность ИИ</label>
+                        <div class="custom-dropdown" id="bot-difficulty" data-value="medium">
+                            <div class="dropdown-header">
+                                <span class="dropdown-title">⚔️ Средняя</span>
+                                <i class='bx bx-chevron-down'></i>
+                            </div>
+                            <ul class="dropdown-list">
+                                <li data-value="easy" class="dropdown-item">🐣 Лёгкая</li>
+                                <li data-value="medium" class="dropdown-item selected">⚔️ Средняя</li>
+                                <li data-value="hard" class="dropdown-item">🧠 Сложная</li>
+                            </ul>
+                        </div>
+
+                        <label style="margin-top: 15px;">Выбери цвет</label>
+                        <div class="custom-dropdown" id="bot-color-select" data-value="random">
+                            <div class="dropdown-header">
+                                <span class="dropdown-title">🎲 Случайный цвет</span>
+                                <i class='bx bx-chevron-down'></i>
+                            </div>
+                            <ul class="dropdown-list">
+                                <li data-value="black" class="dropdown-item">⚫ Чёрные</li>
+                                <li data-value="white" class="dropdown-item">⚪ Белые</li>
+                                <li data-value="random" class="dropdown-item selected">🎲 Случайный цвет</li>
+                            </ul>
+                        </div>
+                        <button id="start-bot-btn" class="btn action-btn">Начать партию</button>
+                    </div>
                 </div>
             </div>
 
@@ -117,13 +134,12 @@
                 <label><i class='bx bx-volume-full'></i> Громкость звука</label>
                 <input type="range" id="volume-slider" class="modern-slider" min="0" max="1" step="0.05" value="0.7">
             </div>
-
         </div>
 
         <div class="board-section">
             <div class="score-board bento-card">
-                <div class="score-badge black-score">Чёрные: <span id="score-black">0</span></div>
-                <div class="score-badge white-score">Белые: <span id="score-white">0</span></div>
+                <div class="score-badge black-score">⚫ Чёрные (Срублено): <span id="score-black">0</span></div>
+                <div class="score-badge white-score">⚪ Белые (Срублено): <span id="score-white">0</span></div>
             </div>
 
             <div class="canvas-wrapper bento-card">
