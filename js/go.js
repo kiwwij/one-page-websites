@@ -11,7 +11,19 @@ let myColor = null;
 let isMyTurn = false;
 let score = { black: 0, white: 0 };
 
-if (localStorage.getItem('theme') === 'light') {
+// --- СИСТЕМА СОХРАНЕНИЙ (LocalStorage) ---
+const savedPrefs = {
+    theme: localStorage.getItem('go_theme') || 'dark',
+    gameMode: localStorage.getItem('go_gameMode') || 'p2p',
+    boardSize: localStorage.getItem('go_boardSize') || '19',
+    p2pColor: localStorage.getItem('go_p2pColor') || 'random',
+    botDiff: localStorage.getItem('go_botDiff') || 'medium',
+    botColor: localStorage.getItem('go_botColor') || 'random',
+    volume: localStorage.getItem('go_volume') || '0.7'
+};
+
+// Применяем тему
+if (savedPrefs.theme === 'light') {
     document.body.classList.remove('dark-theme');
     themeToggle.innerHTML = "<i class='bx bx-moon'></i>";
 }
@@ -19,19 +31,54 @@ if (localStorage.getItem('theme') === 'light') {
 themeToggle.addEventListener('click', () => {
     document.body.classList.toggle('dark-theme');
     const isDark = document.body.classList.contains('dark-theme');
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    localStorage.setItem('go_theme', isDark ? 'dark' : 'light');
     themeToggle.innerHTML = isDark ? "<i class='bx bx-sun'></i>" : "<i class='bx bx-moon'></i>";
 });
+
+// Применяем громкость
+volumeSlider.value = savedPrefs.volume;
+volumeSlider.addEventListener('change', (e) => {
+    localStorage.setItem('go_volume', e.target.value);
+});
+
+// Применяем режим игры
+document.querySelector(`input[name="game-mode"][value="${savedPrefs.gameMode}"]`).checked = true;
+isBotMode = savedPrefs.gameMode === 'bot';
+p2pPanel.classList.toggle('hidden', isBotMode);
+botPanel.classList.toggle('hidden', !isBotMode);
 
 document.querySelectorAll('input[name="game-mode"]').forEach(radio => {
     radio.addEventListener('change', (e) => {
         isBotMode = e.target.value === 'bot';
         p2pPanel.classList.toggle('hidden', isBotMode);
         botPanel.classList.toggle('hidden', !isBotMode);
+        localStorage.setItem('go_gameMode', e.target.value);
     });
 });
 
-// Логика кастомных Dropdown (Вместо select)
+// Функция для установки значения кастомного Dropdown при загрузке
+function setDropdownByValue(id, value) {
+    const dropdown = document.getElementById(id);
+    if (!dropdown) return;
+    dropdown.dataset.value = value;
+    const items = dropdown.querySelectorAll('.dropdown-item');
+    const title = dropdown.querySelector('.dropdown-title');
+    items.forEach(i => {
+        i.classList.remove('selected');
+        if (i.dataset.value === value) {
+            i.classList.add('selected');
+            title.innerHTML = i.innerHTML;
+        }
+    });
+}
+
+// Загружаем сохраненные настройки менюшек
+setDropdownByValue('board-size-select', savedPrefs.boardSize);
+setDropdownByValue('p2p-color-select', savedPrefs.p2pColor);
+setDropdownByValue('bot-difficulty', savedPrefs.botDiff);
+setDropdownByValue('bot-color-select', savedPrefs.botColor);
+
+// --- ЛОГИКА ВЫПАДАЮЩЕГО МЕНЮ (И ИСПРАВЛЕНИЕ ПЕРЕКРЫТИЯ) ---
 document.querySelectorAll('.custom-dropdown').forEach(dropdown => {
     const header = dropdown.querySelector('.dropdown-header');
     const list = dropdown.querySelector('.dropdown-list');
@@ -40,35 +87,63 @@ document.querySelectorAll('.custom-dropdown').forEach(dropdown => {
 
     header.addEventListener('click', (e) => {
         e.stopPropagation();
-        // Закрываем остальные
+        
+        // Закрываем остальные меню и сбрасываем z-index их карточек
         document.querySelectorAll('.dropdown-list').forEach(l => {
             if(l !== list) {
                 l.classList.remove('open');
                 l.parentElement.classList.remove('open');
+                const parentCard = l.closest('.bento-card');
+                if (parentCard) parentCard.style.zIndex = '1';
             }
         });
-        list.classList.toggle('open');
+        
+        const isOpen = list.classList.toggle('open');
         dropdown.classList.toggle('open');
+        
+        // РЕШЕНИЕ ПРОБЛЕМЫ ПЕРЕКРЫТИЯ: Поднимаем карточку с открытым меню на передний план
+        const currentCard = dropdown.closest('.bento-card');
+        if (currentCard) {
+            currentCard.style.position = 'relative';
+            currentCard.style.zIndex = isOpen ? '100' : '1';
+        }
     });
 
     items.forEach(item => {
         item.addEventListener('click', (e) => {
             e.stopPropagation();
             title.innerHTML = item.innerHTML;
-            dropdown.dataset.value = item.dataset.value;
+            const selectedValue = item.dataset.value;
+            dropdown.dataset.value = selectedValue;
+            
             items.forEach(i => i.classList.remove('selected'));
             item.classList.add('selected');
+            
             list.classList.remove('open');
             dropdown.classList.remove('open');
+            
+            const currentCard = dropdown.closest('.bento-card');
+            if (currentCard) currentCard.style.zIndex = '1';
+
+            // Сохраняем выбор в LocalStorage
+            if (dropdown.id === 'board-size-select') {
+                localStorage.setItem('go_boardSize', selectedValue);
+                applyBoardSize(selectedValue);
+            }
+            if (dropdown.id === 'p2p-color-select') localStorage.setItem('go_p2pColor', selectedValue);
+            if (dropdown.id === 'bot-difficulty') localStorage.setItem('go_botDiff', selectedValue);
+            if (dropdown.id === 'bot-color-select') localStorage.setItem('go_botColor', selectedValue);
         });
     });
 });
 
-// Закрытие dropdown при клике вне его
+// Закрытие меню при клике в пустую область
 document.addEventListener('click', () => {
     document.querySelectorAll('.dropdown-list').forEach(l => {
         l.classList.remove('open');
         l.parentElement.classList.remove('open');
+        const parentCard = l.closest('.bento-card');
+        if (parentCard) parentCard.style.zIndex = '1';
     });
 });
 
@@ -84,7 +159,22 @@ function updateScoreUI() {
     document.getElementById('score-white').innerText = score.white;
 }
 
-// --- ЗВУК С РЕГУЛИРОВКОЙ ГРОМКОСТИ ---
+// Обновление размера доски при сигнале от друга (без сохранения в локальное хранилище хоста)
+function updateBoardSizeDropdown(size) {
+    const dropdown = document.getElementById('board-size-select');
+    dropdown.dataset.value = size;
+    const title = dropdown.querySelector('.dropdown-title');
+    if (size == 19) title.innerText = '📏 19x19 (Классика)';
+    if (size == 13) title.innerText = '📏 13x13 (Средняя)';
+    if (size == 9) title.innerText = '📏 9x9 (Быстрая игра)';
+    const items = dropdown.querySelectorAll('.dropdown-item');
+    items.forEach(i => {
+        i.classList.remove('selected');
+        if (i.dataset.value == size) i.classList.add('selected');
+    });
+}
+
+// --- ЗВУК ---
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioCtx = new AudioContext();
 
@@ -114,11 +204,20 @@ function playStoneSound() {
 // --- ДОСКА И ОТРИСОВКА ---
 const canvas = document.getElementById('go-board');
 const ctx = canvas.getContext('2d');
-const BOARD_SIZE = 19;
-const CELL_SIZE = 30;
 const MARGIN = 15;
 
-let boardState = Array(BOARD_SIZE).fill().map(() => Array(BOARD_SIZE).fill(0));
+let BOARD_SIZE = 19;
+let CELL_SIZE = 30;
+let boardState = [];
+
+function applyBoardSize(size) {
+    BOARD_SIZE = parseInt(size);
+    CELL_SIZE = (canvas.width - 2 * MARGIN) / (BOARD_SIZE - 1);
+    boardState = Array(BOARD_SIZE).fill().map(() => Array(BOARD_SIZE).fill(0));
+    score = { black: 0, white: 0 };
+    updateScoreUI();
+    drawBoard();
+}
 
 function drawBoard() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -133,14 +232,20 @@ function drawBoard() {
     }
     ctx.stroke();
 
-    const starPoints = [3, 9, 15];
+    const stars = [];
+    if (BOARD_SIZE === 19) {
+        [3, 9, 15].forEach(x => [3, 9, 15].forEach(y => stars.push({x, y})));
+    } else if (BOARD_SIZE === 13) {
+        [3, 6, 9].forEach(x => [3, 6, 9].forEach(y => stars.push({x, y})));
+    } else if (BOARD_SIZE === 9) {
+        stars.push({x:2,y:2}, {x:6,y:2}, {x:4,y:4}, {x:2,y:6}, {x:6,y:6});
+    }
+
     ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
-    starPoints.forEach(x => {
-        starPoints.forEach(y => {
-            ctx.beginPath();
-            ctx.arc(MARGIN + x * CELL_SIZE, MARGIN + y * CELL_SIZE, 3.5, 0, Math.PI * 2);
-            ctx.fill();
-        });
+    stars.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(MARGIN + p.x * CELL_SIZE, MARGIN + p.y * CELL_SIZE, Math.max(CELL_SIZE * 0.1, 2.5), 0, Math.PI * 2);
+        ctx.fill();
     });
 
     for (let x = 0; x < BOARD_SIZE; x++) {
@@ -155,15 +260,16 @@ function drawBoard() {
 function drawStone(x, y, color) {
     const cx = MARGIN + x * CELL_SIZE;
     const cy = MARGIN + y * CELL_SIZE;
+    const radius = CELL_SIZE * 0.45; 
     
     ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
-    ctx.shadowBlur = 4;
-    ctx.shadowOffsetY = 2;
+    ctx.shadowBlur = radius * 0.3;
+    ctx.shadowOffsetY = radius * 0.15;
 
     ctx.beginPath();
-    ctx.arc(cx, cy, 13.5, 0, Math.PI * 2);
+    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
 
-    const gradient = ctx.createRadialGradient(cx - 4, cy - 4, 2, cx, cy, 14);
+    const gradient = ctx.createRadialGradient(cx - radius * 0.3, cy - radius * 0.3, radius * 0.15, cx, cy, radius * 1.05);
     if (color === 'black') {
         gradient.addColorStop(0, '#444');
         gradient.addColorStop(1, '#0a0a0a');
@@ -176,9 +282,11 @@ function drawStone(x, y, color) {
     ctx.fill();
     ctx.shadowColor = 'transparent';
 }
-drawBoard();
 
-// --- АЛГОРИТМ ЗАХВАТА С ПОДСЧЕТОМ ОЧКОВ ---
+// Загружаем сохраненный размер доски при старте
+applyBoardSize(savedPrefs.boardSize);
+
+// --- АЛГОРИТМ ЗАХВАТА ---
 function getGroupAndLiberties(startX, startY, color, tempBoard = boardState) {
     const visited = Array(BOARD_SIZE).fill().map(() => Array(BOARD_SIZE).fill(false));
     const group = [];
@@ -297,15 +405,12 @@ function botMakeMove() {
 }
 
 document.getElementById('start-bot-btn').addEventListener('click', () => {
-    // Получаем выбор цвета игрока
     const colorPref = document.getElementById('bot-color-select').dataset.value;
     myColor = colorPref === 'random' ? (Math.random() > 0.5 ? 'black' : 'white') : colorPref;
     isMyTurn = (myColor === 'black');
 
-    boardState = Array(BOARD_SIZE).fill().map(() => Array(BOARD_SIZE).fill(0));
-    score = { black: 0, white: 0 };
-    updateScoreUI();
-    drawBoard();
+    const selectedSize = document.getElementById('board-size-select').dataset.value;
+    applyBoardSize(selectedSize);
     
     if (isMyTurn) {
         updateStatus(`Игра началась. Твой ход (${myColor === 'black' ? 'Черные' : 'Белые'})`, true);
@@ -328,28 +433,31 @@ document.getElementById('copy-btn').addEventListener('click', () => {
     setTimeout(() => icon.className = 'bx bx-copy', 2000);
 });
 
-// Когда кто-то подключается к нам (Мы - Хост)
 peer.on('connection', (conn) => {
     setupConnection(conn);
 });
 
-// Когда мы подключаемся к другу (Мы - Клиент)
 document.getElementById('connect-btn').addEventListener('click', () => {
     const friendId = document.getElementById('friend-id').value.trim();
     if (!friendId) return;
     
-    // Определяем цвет перед подключением
     const colorPref = document.getElementById('p2p-color-select').dataset.value;
     myColor = colorPref === 'random' ? (Math.random() > 0.5 ? 'black' : 'white') : colorPref;
     isMyTurn = (myColor === 'black');
+    
+    const selectedSize = document.getElementById('board-size-select').dataset.value;
+    applyBoardSize(selectedSize);
 
     const conn = peer.connect(friendId);
     setupConnection(conn);
 
     conn.on('open', () => {
         updateStatus("Подключение установлено!", true);
-        // Отправляем хосту информацию, каким цветом ОН должен играть
-        conn.send({ type: 'init', hostColor: myColor === 'black' ? 'white' : 'black' });
+        conn.send({ 
+            type: 'init', 
+            hostColor: myColor === 'black' ? 'white' : 'black',
+            boardSize: selectedSize
+        });
         updateStatus(isMyTurn ? "Твой ход (Черные)" : "Ход друга...", isMyTurn);
     });
 });
@@ -358,12 +466,9 @@ function setupConnection(conn) {
     connection = conn;
 
     connection.on('data', (data) => {
-        // Получаем информацию о цветах от клиента (если мы Хост)
         if (data.type === 'init') {
-            boardState = Array(BOARD_SIZE).fill().map(() => Array(BOARD_SIZE).fill(0));
-            score = { black: 0, white: 0 };
-            updateScoreUI();
-            drawBoard();
+            applyBoardSize(data.boardSize);
+            updateBoardSizeDropdown(data.boardSize);
 
             myColor = data.hostColor;
             isMyTurn = (myColor === 'black');

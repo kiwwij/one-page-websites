@@ -25,6 +25,21 @@
                 <span id="turn-text" class="status-text">Ожидание настройки...</span>
             </div>
 
+            <div class="bento-card">
+                <label>Размер доски</label>
+                <div class="custom-dropdown" id="board-size-select" data-value="19">
+                    <div class="dropdown-header">
+                        <span class="dropdown-title">📏 19x19 (Классика)</span>
+                        <i class='bx bx-chevron-down'></i>
+                    </div>
+                    <ul class="dropdown-list">
+                        <li data-value="9" class="dropdown-item">📏 9x9</li>
+                        <li data-value="13" class="dropdown-item">📏 13x13</li>
+                        <li data-value="19" class="dropdown-item selected">📏 19x19</li>
+                    </ul>
+                </div>
+            </div>
+
             <div class="bento-card mode-card">
                 <label>Режим игры</label>
                 <div class="segmented-control">
@@ -53,8 +68,8 @@
                             <i class='bx bx-chevron-down'></i>
                         </div>
                         <ul class="dropdown-list">
-                            <li data-value="black" class="dropdown-item">⚫ Чёрные (Первый ход)</li>
-                            <li data-value="white" class="dropdown-item">⚪ Белые (Второй ход)</li>
+                            <li data-value="black" class="dropdown-item">⚫ Чёрные</li>
+                            <li data-value="white" class="dropdown-item">⚪ Белые</li>
                             <li data-value="random" class="dropdown-item selected">🎲 Случайный цвет</li>
                         </ul>
                     </div>
