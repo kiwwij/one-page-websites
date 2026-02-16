@@ -19,8 +19,8 @@ let isBotMode = false;
 let myColor = null; 
 let isMyTurn = false;
 let score = { black: 0, white: 0 };
-let consecutivePasses = 0; // Для отслеживания взаимного паса
-let territoryToDraw = null; // Для отрисовки закрашенных территорий в конце
+let consecutivePasses = 0; 
+let territoryToDraw = null; 
 
 const savedPrefs = {
     theme: localStorage.getItem('go_theme') || 'dark',
@@ -81,7 +81,7 @@ setDropdownByValue('p2p-color-select', savedPrefs.p2pColor);
 setDropdownByValue('bot-difficulty', savedPrefs.botDiff);
 setDropdownByValue('bot-color-select', savedPrefs.botColor);
 
-// Выпадающие списки
+// --- ИСПРАВЛЕННАЯ ЛОГИКА ВЫПАДАЮЩИХ СПИСКОВ ---
 document.querySelectorAll('.custom-dropdown').forEach(dropdown => {
     const header = dropdown.querySelector('.dropdown-header');
     const list = dropdown.querySelector('.dropdown-list');
@@ -91,11 +91,22 @@ document.querySelectorAll('.custom-dropdown').forEach(dropdown => {
     header.addEventListener('click', (e) => {
         e.stopPropagation();
         document.querySelectorAll('.dropdown-list').forEach(l => {
-            if(l !== list) { l.classList.remove('open'); l.parentElement.classList.remove('open'); l.closest('.bento-card').style.zIndex = '1'; }
+            if(l !== list) { 
+                l.classList.remove('open'); 
+                l.parentElement.classList.remove('open'); 
+                const card = l.closest('.bento-card');
+                if(card) card.style.zIndex = '1'; 
+            }
         });
+        
         const isOpen = list.classList.toggle('open');
         dropdown.classList.toggle('open');
-        dropdown.closest('.bento-card').style.zIndex = isOpen ? '100' : '1';
+        
+        const currentCard = dropdown.closest('.bento-card');
+        if(currentCard) {
+            currentCard.style.position = 'relative';
+            currentCard.style.zIndex = isOpen ? '100' : '1';
+        }
     });
 
     items.forEach(item => {
@@ -104,13 +115,20 @@ document.querySelectorAll('.custom-dropdown').forEach(dropdown => {
             title.innerHTML = item.innerHTML;
             const val = item.dataset.value;
             dropdown.dataset.value = val;
+            
             items.forEach(i => i.classList.remove('selected'));
             item.classList.add('selected');
+            
             list.classList.remove('open');
             dropdown.classList.remove('open');
-            dropdown.closest('.bento-card').style.zIndex = '1';
+            
+            const currentCard = dropdown.closest('.bento-card');
+            if(currentCard) currentCard.style.zIndex = '1';
 
-            if (dropdown.id === 'board-size-select') { localStorage.setItem('go_boardSize', val); applyBoardSize(val); }
+            if (dropdown.id === 'board-size-select') { 
+                localStorage.setItem('go_boardSize', val); 
+                applyBoardSize(val); 
+            }
             if (dropdown.id === 'p2p-color-select') localStorage.setItem('go_p2pColor', val);
             if (dropdown.id === 'bot-difficulty') localStorage.setItem('go_botDiff', val);
             if (dropdown.id === 'bot-color-select') localStorage.setItem('go_botColor', val);
@@ -119,7 +137,12 @@ document.querySelectorAll('.custom-dropdown').forEach(dropdown => {
 });
 
 document.addEventListener('click', () => {
-    document.querySelectorAll('.dropdown-list').forEach(l => { l.classList.remove('open'); l.parentElement.classList.remove('open'); l.closest('.bento-card').style.zIndex = '1'; });
+    document.querySelectorAll('.dropdown-list').forEach(l => { 
+        l.classList.remove('open'); 
+        l.parentElement.classList.remove('open'); 
+        const card = l.closest('.bento-card');
+        if(card) card.style.zIndex = '1'; 
+    });
 });
 
 function updateStatus(text, isActive) {
@@ -137,11 +160,11 @@ function updateBoardSizeDropdown(size) {
     setDropdownByValue('board-size-select', size);
 }
 
-// --- УПРАВЛЕНИЕ ИГРОЙ (Скрытие настроек, показ кнопок) ---
+// --- УПРАВЛЕНИЕ ИГРОЙ ---
 function enterGameMode() {
     setupContainer.classList.add('hidden');
     gameActionsCard.classList.remove('hidden');
-    btnResign.style.display = isBotMode ? 'block' : 'none'; // Убираем "Сдаться" в сетевой игре
+    btnResign.style.display = isBotMode ? 'block' : 'none'; 
     territoryToDraw = null;
     consecutivePasses = 0;
 }
@@ -219,20 +242,13 @@ function drawBoard() {
         ctx.fill();
     });
 
-    // Отрисовка закрашенных территорий в конце игры
     if (territoryToDraw) {
         const offset = CELL_SIZE * 0.35;
         const size = CELL_SIZE * 0.7;
-        
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.4)'; // Территория черных (темный квадрат)
-        territoryToDraw.black.forEach(p => {
-            ctx.fillRect(MARGIN + p.x * CELL_SIZE - offset, MARGIN + p.y * CELL_SIZE - offset, size, size);
-        });
-
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.6)'; // Территория белых (светлый квадрат)
-        territoryToDraw.white.forEach(p => {
-            ctx.fillRect(MARGIN + p.x * CELL_SIZE - offset, MARGIN + p.y * CELL_SIZE - offset, size, size);
-        });
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.4)'; 
+        territoryToDraw.black.forEach(p => ctx.fillRect(MARGIN + p.x * CELL_SIZE - offset, MARGIN + p.y * CELL_SIZE - offset, size, size));
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.6)'; 
+        territoryToDraw.white.forEach(p => ctx.fillRect(MARGIN + p.x * CELL_SIZE - offset, MARGIN + p.y * CELL_SIZE - offset, size, size));
     }
 
     for (let x = 0; x < BOARD_SIZE; x++) {
@@ -356,14 +372,13 @@ function calculateTerritories() {
                         }
                     }
                 }
-                // Если пустая область касается только камней одного цвета - это их территория
                 if (touchesBlack && !touchesWhite) tBlack.push(...region);
                 if (touchesWhite && !touchesBlack) tWhite.push(...region);
             }
         }
     }
     territoryToDraw = { black: tBlack, white: tWhite };
-    drawBoard(); // Перерисовываем доску с цветными территориями
+    drawBoard(); 
 
     return { 
         blackTerritory: tBlack.length, 
@@ -407,7 +422,6 @@ btnRestart.addEventListener('click', () => {
 });
 
 btnResign.addEventListener('click', () => {
-    // Доступно только с ботом
     if (isBotMode) endGame(myColor === 'black' ? 'white' : 'black');
 });
 
@@ -420,14 +434,13 @@ btnPass.addEventListener('click', () => {
     if (isBotMode) {
         updateStatus("Вы спасовали. Бот думает...", false);
         setTimeout(() => {
-            // Бот проверяет доску. Если пустых клеток < 25%, он соглашается завершить.
             let emptyCount = 0;
             boardState.forEach(r => r.forEach(c => { if(c===0) emptyCount++; }));
             if (emptyCount / (BOARD_SIZE * BOARD_SIZE) < 0.25 || Math.random() > 0.8) {
-                consecutivePasses++; // Бот тоже пасует
+                consecutivePasses++; 
                 endGame();
             } else {
-                consecutivePasses = 0; // Бот делает ход
+                consecutivePasses = 0; 
                 botMakeMove();
             }
         }, 600);
@@ -448,7 +461,6 @@ function botMakeMove() {
 
     for (let x = 0; x < BOARD_SIZE; x++) for (let y = 0; y < BOARD_SIZE; y++) if (boardState[x][y] === 0) availableMoves.push({x, y});
     if (availableMoves.length === 0) {
-        // Бот вынужден спасовать
         consecutivePasses++;
         if (consecutivePasses >= 2) endGame();
         else { isMyTurn = true; updateStatus(`Бот спасовал. Твой ход`, true); }
@@ -491,7 +503,7 @@ function botMakeMove() {
         playStoneSound();
         drawBoard();
         isMyTurn = true;
-        consecutivePasses = 0; // Сброс пасов, т.к. ход сделан
+        consecutivePasses = 0; 
         updateStatus(`Твой ход (${myColor === 'black' ? 'Черные' : 'Белые'})`, true);
     } else {
         setTimeout(botMakeMove, 50);
@@ -568,7 +580,7 @@ function setupConnection(conn) {
             playStoneSound();
             drawBoard();
             isMyTurn = true;
-            consecutivePasses = 0; // Сброс пасов, т.к. друг походил
+            consecutivePasses = 0; 
             updateStatus(`Твой ход (${myColor === 'black' ? 'Черные' : 'Белые'})`, true);
         }
         else if (data.type === 'pass') {
@@ -603,7 +615,7 @@ canvas.addEventListener('click', (event) => {
             playStoneSound();
             drawBoard();
             isMyTurn = false;
-            consecutivePasses = 0; // Ты походил, обнуляем пасы
+            consecutivePasses = 0; 
             
             if (isBotMode) {
                 updateStatus("Бот думает...", false);
