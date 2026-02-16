@@ -8,7 +8,7 @@ const bgRoom = "https://kronas.com.ua/Media/files/filemanager/Blog-pics/elegantn
 const bgForest = "https://abrakadabra.fun/uploads/posts/2021-12/1640438886_1-abrakadabra-fun-p-fon-za-oknom-les-sosni-1.jpg";
 
 // Заглушки для спрайтов (персонажей)
-const charFox = "https://cdn.pixabay.com/photo/2017/01/31/13/14/animal-2023924_1280.png"; // Маска/Силуэт
+const charFox = "https://avatanplus.com/files/resources/original/5a23d3e61f31f1601bf3baf0.png"; // Маска/Силуэт
 
 // ГЛАВНЫЙ ОБЪЕКТ СЮЖЕТА
 const storyData = {

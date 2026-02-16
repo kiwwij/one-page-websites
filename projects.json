@@ -221,6 +221,11 @@
     "description": "An interactive web novel with poor storylines.",
     "stack": ["html", "css", "js", "github"]
   },
+  "go.html": {
+    "image": "bx bx-hive",
+    "description": "Multiplayer web-based Go game. Supports direct play with a friend over the network (P2P via WebRTC) without using servers, as well as single-player mode against a bot with 3 difficulty levels.",
+    "stack": ["html", "css", "js", "github"]
+  },
   ".html": {
     "image": "",
     "description": "",

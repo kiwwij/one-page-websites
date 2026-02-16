@@ -29,7 +29,7 @@ const gamesData = [
         discount_percent: 25,
         release_date: "2025",
         rating: "81",
-        play_status: "not_started",
+        play_status: "dropped",
         review_link: ""
     },
     {
@@ -45,7 +45,7 @@ const gamesData = [
         discount_percent: 65,
         release_date: "2017",
         rating: "88",
-        play_status: "not_started",
+        play_status: "dropped",
         review_link: ""
     },
     {
@@ -61,7 +61,7 @@ const gamesData = [
         discount_percent: 25,
         release_date: "2025",
         rating: "88",
-        play_status: "not_started",
+        play_status: "dropped",
         review_link: ""
     },
     {

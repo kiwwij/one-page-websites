@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Онлайн игра Го</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%23111'/></svg>">
+    <link rel="stylesheet" href="../css/go.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+</head>
+<body class="dark-theme">
+
+    <div class="app-wrapper">
+        
+        <div class="sidebar-section">
+            
+            <div class="bento-card header-card-mini">
+                <h1><i class='bx bx-hive'></i> Онлайн игра Го</h1>
+                <button id="theme-toggle" class="btn icon-btn"><i class='bx bx-sun'></i></button>
+            </div>
+
+            <div class="bento-card status-card" id="turn-card">
+                <div id="status-dot" class="dot"></div>
+                <span id="turn-text" class="status-text">Ожидание настройки...</span>
+            </div>
+
+            <div class="bento-card mode-card">
+                <label>Режим игры</label>
+                <div class="segmented-control">
+                    <input type="radio" id="mode-p2p" name="game-mode" value="p2p" checked>
+                    <label for="mode-p2p">С другом</label>
+                    <input type="radio" id="mode-bot" name="game-mode" value="bot">
+                    <label for="mode-bot">С ботом</label>
+                </div>
+            </div>
+
+            <div id="p2p-panel" class="panel-group">
+                <div class="bento-card">
+                    <label>Твой ID</label>
+                    <div class="input-with-btn">
+                        <div id="my-id" class="code-display">Загрузка...</div>
+                        <button id="copy-btn" class="btn primary-btn" title="Копировать"><i class='bx bx-copy'></i></button>
+                    </div>
+                </div>
+
+                <div class="bento-card">
+                    <label>Подключиться к игре</label>
+                    
+                    <div class="custom-dropdown" id="p2p-color-select" data-value="random">
+                        <div class="dropdown-header">
+                            <span class="dropdown-title">🎲 Случайный цвет</span>
+                            <i class='bx bx-chevron-down'></i>
+                        </div>
+                        <ul class="dropdown-list">
+                            <li data-value="black" class="dropdown-item">⚫ Чёрные (Первый ход)</li>
+                            <li data-value="white" class="dropdown-item">⚪ Белые (Второй ход)</li>
+                            <li data-value="random" class="dropdown-item selected">🎲 Случайный цвет</li>
+                        </ul>
+                    </div>
+
+                    <div class="input-with-btn" style="margin-top: 10px;">
+                        <input type="text" id="friend-id" class="modern-input" placeholder="Введи ID друга...">
+                        <button id="connect-btn" class="btn primary-btn"><i class='bx bx-right-arrow-alt'></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="bot-panel" class="panel-group hidden">
+                <div class="bento-card">
+                    <label>Сложность ИИ</label>
+                    <div class="custom-dropdown" id="bot-difficulty" data-value="medium">
+                        <div class="dropdown-header">
+                            <span class="dropdown-title">⚔️ Средняя</span>
+                            <i class='bx bx-chevron-down'></i>
+                        </div>
+                        <ul class="dropdown-list">
+                            <li data-value="easy" class="dropdown-item">🐣 Лёгкая</li>
+                            <li data-value="medium" class="dropdown-item selected">⚔️ Средняя</li>
+                            <li data-value="hard" class="dropdown-item">🧠 Сложная</li>
+                        </ul>
+                    </div>
+
+                    <label style="margin-top: 15px;">Выбери цвет</label>
+                    <div class="custom-dropdown" id="bot-color-select" data-value="random">
+                        <div class="dropdown-header">
+                            <span class="dropdown-title">🎲 Случайный цвет</span>
+                            <i class='bx bx-chevron-down'></i>
+                        </div>
+                        <ul class="dropdown-list">
+                            <li data-value="black" class="dropdown-item">⚫ Чёрные</li>
+                            <li data-value="white" class="dropdown-item">⚪ Белые</li>
+                            <li data-value="random" class="dropdown-item selected">🎲 Случайный цвет</li>
+                        </ul>
+                    </div>
+
+                    <button id="start-bot-btn" class="btn action-btn">Начать партию</button>
+                </div>
+            </div>
+
+            <div class="bento-card">
+                <label><i class='bx bx-volume-full'></i> Громкость звука</label>
+                <input type="range" id="volume-slider" class="modern-slider" min="0" max="1" step="0.05" value="0.7">
+            </div>
+
+        </div>
+
+        <div class="board-section">
+            <div class="score-board bento-card">
+                <div class="score-badge black-score">Чёрные: <span id="score-black">0</span></div>
+                <div class="score-badge white-score">Белые: <span id="score-white">0</span></div>
+            </div>
+
+            <div class="canvas-wrapper bento-card">
+                <canvas id="go-board" width="570" height="570"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="../js/go.js"></script>
+</body>
+</html>

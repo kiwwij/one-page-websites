@@ -27,8 +27,8 @@ const database = {
                 other: 262.38 + 65.33,
             },
             3: {
-                food: 0,
-                snacks: 0,
+                food: 452.01,
+                snacks: 59.99,
                 services: 0,
                 games: 0,
                 tech: 0,
