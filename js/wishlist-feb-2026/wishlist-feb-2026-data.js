@@ -360,6 +360,22 @@ const gamesData = [
         play_status: "not_started",
         review_link: ""
     },
+    {
+        category: "cat_skeptical",
+        title: "CODE VEIN II",
+        poster: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2362060/955e8f3fce6d832c286ac8013657ed6fc51f1f85/header.jpg?t=1770242240",
+        desc_en: "",
+        desc_ru: ".",
+        playtime: "",
+        genres: [""],
+        steam_link: "https://store.steampowered.com/app/2362060/CODE_VEIN_II/",
+        price_uah: 1999,
+        discount_percent: 0,
+        release_date: "2026",
+        rating: "70",
+        play_status: "not_started",
+        review_link: ""
+    },
 
     // --- UNDECIDED (Не знаю куда) ---
     {

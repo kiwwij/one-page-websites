@@ -23,7 +23,10 @@ const mangaData = {
         { name: "sakusyaaya", link: "https://hentaiera.com/artist/sakusyaaya/", desc: "Высокие футанари и девушки с формами.", poster: "https://m10.hentaiera.com/030/jx57fniosb/1.webp" },
         { name: "4era7", link: "https://hentaiera.com/artist/4era7/", desc: "Мамочки футанари, ебут девушек и мальчиков.", poster: "https://m10.hentaiera.com/030/tmo5hjpzcv/1.webp" },
         { name: "meshi shinja", link: "https://hentaiera.com/group/meshi-shinja/", desc: "Спаривание футанари и пышных девушек.", poster: "https://m8.hentaiera.com/026/cj8z6f3pno/1.jpg" },
-        { name: "canvas solaris", link: "https://hentaiera.com/artist/canvas-solaris/", desc: "Футанари с громенным члено в мальчиках.", poster: "https://m9.hentaiera.com/027/ja8nhmrqfz/1.jpg" },
+        { name: "canvas solaris", link: "https://hentaiera.com/artist/canvas-solaris/", desc: "Футанари с громенным членом в мальчиках.", poster: "https://m9.hentaiera.com/027/ja8nhmrqfz/1.jpg" },
+        { name: "chimeda", link: "https://hentaiera.com/artist/chimeda/", desc: "Высокая футанари с огроменным членом в девочках.", poster: "https://m10.hentaiera.com/031/vqxfnck6ow/1.webp" },
+        { name: "mattsuu xp", link: "https://hentaiera.com/artist/mattsuu-xp/", desc: "Высокая футанари с огромным членом.", poster: "https://m10.hentaiera.com/031/s42kqhamec/1.webp" },
+        { name: "puru", link: "https://hentaiera.com/artist/puru/", desc: "Футанари с огромным членом.", poster: "https://m9.hentaiera.com/029/0gij7nlapf/1.webp" },
     ],
     "Огромная грудь": [
         { name: "mura", link: "https://hentaiera.com/artist/mura/", desc: "Увеличение груди, футанари vs парни, деформация.", poster: "https://m3.hentaiera.com/011/jknwt50rhi/4.jpg" },
@@ -47,6 +50,10 @@ const mangaData = {
         { name: "tapeworm", link: "https://hentaiera.com/artist/tapeworm/", desc: "Рисует девушек с огромными формами.", poster: "https://m10.hentaiera.com/029/jxd9el35ys/1.webp" },
         { name: "rampage", link: "https://hentaiera.com/artist/rampage/", desc: "Рисует девушек с огромными формами (иногда футанари).", poster: "https://m5.hentaiera.com/018/ckywqzox42/1.jpg" },
         { name: "leebo", link: "https://hentaiera.com/artist/leebo/", desc: "Рисует девушек с большими формами.", poster: "https://m10.hentaiera.com/031/q7ok9n0bga/188.webp" },
+        { name: "seitoedaha", link: "https://hentaiera.com/artist/seitoedaha/", desc: "Рисует высоких девушек с большими формами. Femdom.", poster: "https://m10.hentaiera.com/031/qs62mwauke/1.webp" },
+        { name: "radracer", link: "https://hentaiera.com/artist/radracer/", desc: "Рисует девушек с огромными формами.", poster: "https://m5.hentaiera.com/019/97s5pgv03h/1.jpg" },
+        { name: "booruguru", link: "https://hentaiera.com/artist/booruguru/", desc: "Рисует низких девушек с огромными формами.", poster: "https://m8.hentaiera.com/025/43jiuwotfy/1.jpg" },
+        { name: "hannya-san", link: "https://hentaiera.com/artist/hannya-san/", desc: "Рисует мамочек с большими формами.", poster: "https://m10.hentaiera.com/029/ne3li7qcwu/1.jpg" },
     ],
     "Высокая девушка": [
         { name: "hachimitsu", link: "https://hentaiera.com/artist/hachimitsu/", desc: "Невероятно высокие девушки и мальчики.", poster: "https://m9.hentaiera.com/027/c5zip8kq6j/1.jpg" },
@@ -59,7 +66,11 @@ const mangaData = {
         { name: "koara", link: "https://hentaiera.com/artist/koara/", desc: "Высокие девушки, доминирование.", poster: "https://m9.hentaiera.com/029/dg0uyakiw6/1.webp" },
         { name: "miura koudai", link: "https://hentaiera.com/group/miura-koudai/", desc: "Специализируется на высоких девушках.", poster: "https://m9.hentaiera.com/029/ch6zftbg2n/1.webp" },
         { name: "amane-san", link: "https://hentaiera.com/artist/amane-san/", desc: "Высокие девушки и мальчики.", poster: "https://m9.hentaiera.com/029/8t4mguxbo6/1.webp" },
-        { name: "kinntarou", link: "https://hentaiera.com/artist/kinntarou/", desc: "Высокие девушки ебут парней, Femdom.", poster: "https://m10.hentaiera.com/031/7nthxfj3d4/1.webp" }
+        { name: "kinntarou", link: "https://hentaiera.com/artist/kinntarou/", desc: "Высокие девушки ебут парней, Femdom.", poster: "https://m10.hentaiera.com/031/7nthxfj3d4/1.webp" },
+        { name: "kmvt", link: "https://hentaiera.com/artist/kmvt/", desc: "Высокие девушки с большими формами.", poster: "https://m9.hentaiera.com/028/se5fjqa42b/6.webp" },
+        { name: "punpunn", link: "https://hentaiera.com/artist/punpunn/", desc: "Высокие девушки с большими формами и парень с огромным членом.", poster: "https://m10.hentaiera.com/031/hqb95zeo78/1.webp" },
+        { name: "starraisins", link: "https://hentaiera.com/artist/starraisins/", desc: "Высокие девушки с большими формами трахают мальчика.", poster: "https://m10.hentaiera.com/031/187ksy54vq/1.webp" },
+        { name: "doraias kazuyo", link: "https://hentaiera.com/artist/doraias-kazuyo/", desc: "Высокие девушки с большими формами, которых трахает мальчик с огромным членом.", poster: "https://m10.hentaiera.com/031/6zy9mnl1uo/10.webp" },
     ],
     "Огромный член": [
         { name: "kazuhiro", link: "https://hentaiera.com/artist/kazuhiro/", desc: "Принятие большого члена, надувание живота.", poster: "https://m4.hentaiera.com/015/rqk8t0wc2g/1.jpg" },
@@ -74,7 +85,10 @@ const mangaData = {
         { name: "shokebe", link: "https://hentaiera.com/artist/shokebe/", desc: "Пышные формы и огромные члены.", poster: "https://m9.hentaiera.com/027/rqx138lk2c/1.jpg" },
         { name: "libi-dos", link: "https://hentaiera.com/artist/libi-dos/", desc: "Футанари ебут девушек с формами. Деформация.", poster: "https://m10.hentaiera.com/030/vhax6r3p4b/34.webp" },
         { name: "dreamy pride", link: "https://hentaiera.com/artist/dreamy-pride/", desc: "Девушки с формами и огромные члены.", poster: "https://m10.hentaiera.com/029/jr7y3kainm/1.webp" },
-        { name: "ijiise", link: "https://hentaiera.com/group/ijiise/", desc: "Большие формы и огромные члены.", poster: "https://m10.hentaiera.com/030/zpt4v20593/79.webp" }
+        { name: "ijiise", link: "https://hentaiera.com/group/ijiise/", desc: "Большие формы и огромные члены.", poster: "https://m10.hentaiera.com/030/zpt4v20593/79.webp" },
+        { name: "renatoforfun", link: "https://hentaiera.com/artist/renatoforfun/", desc: "Большие формы и огромные члены.", poster: "https://m10.hentaiera.com/031/6gpsxulzok/1.gif" },
+        { name: "woomochichi", link: "https://hentaiera.com/artist/woomochichi/", desc: "Девушки с огромными формами и перень с огромным членом. Много спермы", poster: "https://m7.hentaiera.com/024/m0pa1gsj23/3.jpg" },
+        { name: "fake face", link: "https://hentaiera.com/artist/fake-face/", desc: "Девушки с огромными формами и перень, иногда футанари, с огромным членом. Много спермы", poster: "https://m10.hentaiera.com/029/aigxq20wzr/1.jpg" },
     ]
 };
 
