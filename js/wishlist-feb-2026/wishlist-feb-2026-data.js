@@ -14,7 +14,9 @@ const gamesData = [
         release_date: "2025",
         rating: "92",
         play_status: "playing", // "playing", "dropped", "completed", "not_started"
-        review_link: ""
+        progress: 71,
+        is_purchased: true,
+        review_link: "https://steamcommunity.com/id/serhiosergey/recommended/1462040/"
     },
     {
         category: "cat_owned",
@@ -30,6 +32,8 @@ const gamesData = [
         release_date: "2025",
         rating: "81",
         play_status: "dropped",
+        progress: 3,
+        is_purchased: true,
         review_link: ""
     },
     {
@@ -46,6 +50,8 @@ const gamesData = [
         release_date: "2017",
         rating: "88",
         play_status: "dropped",
+        progress: 3,
+        is_purchased: true,
         review_link: ""
     },
     {
@@ -62,6 +68,8 @@ const gamesData = [
         release_date: "2025",
         rating: "88",
         play_status: "dropped",
+        progress: 3,
+        is_purchased: true,
         review_link: ""
     },
     {
@@ -78,6 +86,8 @@ const gamesData = [
         release_date: "2018",
         rating: "85",
         play_status: "dropped",
+        progress: 5,
+        is_purchased: true,
         review_link: ""
     },
     {
@@ -94,6 +104,8 @@ const gamesData = [
         release_date: "2024",
         rating: "82",
         play_status: "dropped",
+        progress: 5,
+        is_purchased: true,
         review_link: ""
     },
     {
@@ -110,6 +122,8 @@ const gamesData = [
         release_date: "2021",
         rating: "68",
         play_status: "not_started",
+        progress: 0,
+        is_purchased: true,
         review_link: ""
     },
     {
@@ -125,7 +139,9 @@ const gamesData = [
         discount_percent: 20,
         release_date: "2025",
         rating: "80",
-        play_status: "",
+        play_status: "not_started",
+        progress: 0,
+        is_purchased: true,
         review_link: ""
     },
 
@@ -144,6 +160,8 @@ const gamesData = [
         release_date: "2025",
         rating: "90",
         play_status: "not_started",
+        progress: 0,
+        is_purchased: false,
         review_link: ""
     },
     {
@@ -160,6 +178,8 @@ const gamesData = [
         release_date: "2025",
         rating: "72",
         play_status: "not_started",
+        progress: 0,
+        is_purchased: false,
         review_link: ""
     },
 
@@ -178,6 +198,8 @@ const gamesData = [
         release_date: "2022",
         rating: "-",
         play_status: "not_started",
+        progress: 0,
+        is_purchased: false,
         review_link: ""
     },
     {
@@ -194,6 +216,8 @@ const gamesData = [
         release_date: "2023",
         rating: "-",
         play_status: "not_started",
+        progress: 0,
+        is_purchased: false,
         review_link: ""
     },
     {
@@ -210,6 +234,8 @@ const gamesData = [
         release_date: "2025",
         rating: "-",
         play_status: "not_started",
+        progress: 0,
+        is_purchased: false,
         review_link: ""
     },
 
@@ -228,6 +254,7 @@ const gamesData = [
         release_date: "2024",
         rating: "-",
         play_status: "not_started",
+        progress: 0,
         review_link: ""
     },
     {
@@ -244,6 +271,8 @@ const gamesData = [
         release_date: "2024",
         rating: "-",
         play_status: "not_started",
+        progress: 0,
+        is_purchased: false,
         review_link: ""
     },
     {
@@ -260,6 +289,8 @@ const gamesData = [
         release_date: "2026",
         rating: "",
         play_status: "not_started",
+        progress: 0,
+        is_purchased: false,
         review_link: ""
     },
     {
@@ -276,6 +307,7 @@ const gamesData = [
         release_date: "2016",
         rating: "83",
         play_status: "not_started",
+        progress: 0,
         review_link: ""
     },
     {
@@ -292,6 +324,8 @@ const gamesData = [
         release_date: "2018",
         rating: "81",
         play_status: "not_started",
+        progress: 0,
+        is_purchased: false,
         review_link: ""
     },
 
@@ -310,6 +344,8 @@ const gamesData = [
         release_date: "2014",
         rating: "83",
         play_status: "not_started",
+        progress: 0,
+        is_purchased: false,
         review_link: ""
     },
     {
@@ -326,6 +362,8 @@ const gamesData = [
         release_date: "2014",
         rating: "79",
         play_status: "not_started",
+        progress: 0,
+        is_purchased: false,
         review_link: ""
     },
     {
@@ -342,6 +380,8 @@ const gamesData = [
         release_date: "2015",
         rating: "66",
         play_status: "not_started",
+        progress: 0,
+        is_purchased: false,
         review_link: ""
     },
     {
@@ -358,22 +398,44 @@ const gamesData = [
         release_date: "2024",
         rating: "87",
         play_status: "not_started",
+        progress: 0,
+        is_purchased: false,
         review_link: ""
     },
     {
         category: "cat_skeptical",
         title: "CODE VEIN II",
         poster: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2362060/955e8f3fce6d832c286ac8013657ed6fc51f1f85/header.jpg?t=1770242240",
-        desc_en: "",
-        desc_ru: ".",
-        playtime: "",
-        genres: [""],
+        desc_en: "The anticipated sequel to the anime souls-like. Create your Revenant, team up with an AI partner, and explore a ruined world filled with new blood-thirsting challenges.",
+        desc_ru: "Ожидаемый сиквел аниме-соулслайка. Создайте своего Ревенанта, объединитесь с ИИ-напарником и исследуйте разрушенный мир, полный новых кровожадных испытаний.",
+        playtime: "40-50",
+        genres: ["Action RPG", "Soulslike", "Anime"],
         steam_link: "https://store.steampowered.com/app/2362060/CODE_VEIN_II/",
         price_uah: 1999,
         discount_percent: 0,
         release_date: "2026",
-        rating: "70",
+        rating: "TBA",
         play_status: "not_started",
+        progress: 0,
+        is_purchased: false,
+        review_link: ""
+    },
+    {
+        category: "cat_skeptical",
+        title: "Escape from Yandere",
+        poster: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4081840/357a2f59ec1939f8d0025c0121e86b0f3dabf12c/header.jpg?t=1771029322",
+        desc_en: "Yandera has locked you in the house and is asking you to confess your love. You can stay with her or try to escape. Explore the house, but be careful, Yandera can kill you. ",
+        desc_ru: "Яндера заперла вас дома и просит признание в любви. Вы можете остаться с ней или попытаться сбежать. Исследуйте дом, но будьте осторожны, Яндера может убить вас. ",
+        playtime: "3",
+        genres: ["Anime", "Horror", "Survival", "Indie"],
+        steam_link: "https://store.steampowered.com/app/4081840/Escape_from_Yandere/",
+        price_uah: 124,
+        discount_percent: 15,
+        release_date: "2026",
+        rating: "",
+        play_status: "not_started",
+        progress: 0,
+        is_purchased: false,
         review_link: ""
     },
 
@@ -392,6 +454,8 @@ const gamesData = [
         release_date: "2025",
         rating: "92",
         play_status: "not_started",
+        progress: 0,
+        is_purchased: false,
         review_link: ""
     },
     {
@@ -408,6 +472,8 @@ const gamesData = [
         release_date: "2025",
         rating: "87",
         play_status: "not_started",
+        progress: 0,
+        is_purchased: false,
         review_link: ""
     },
     {
@@ -424,6 +490,8 @@ const gamesData = [
         release_date: "2025",
         rating: "74",
         play_status: "not_started",
+        progress: 0,
+        is_purchased: false,
         review_link: ""
     },
 
@@ -442,6 +510,8 @@ const gamesData = [
         release_date: "",
         rating: "",
         play_status: "not_started",
+        progress: 0,
+        is_purchased: false,
         review_link: ""
     },
     {
@@ -458,6 +528,8 @@ const gamesData = [
         release_date: "",
         rating: "",
         play_status: "not_started",
+        progress: 0,
+        is_purchased: false,
         review_link: ""
     },
     {
@@ -474,6 +546,8 @@ const gamesData = [
         release_date: "",
         rating: "",
         play_status: "not_started",
+        progress: 0,
+        is_purchased: false,
         review_link: ""
     },
     {
@@ -490,6 +564,8 @@ const gamesData = [
         release_date: "2026",
         rating: "",
         play_status: "not_started",
+        progress: 0,
+        is_purchased: false,
         review_link: ""
     },
     {
@@ -506,6 +582,8 @@ const gamesData = [
         release_date: "",
         rating: "",
         play_status: "not_started",
+        progress: 0,
+        is_purchased: false,
         review_link: ""
     },
     {
@@ -522,6 +600,8 @@ const gamesData = [
         release_date: "",
         rating: "",
         play_status: "not_started",
+        progress: 0,
+        is_purchased: false,
         review_link: ""
     }
 ];

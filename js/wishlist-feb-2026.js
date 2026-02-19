@@ -11,18 +11,21 @@ const translations = {
         cat_upcoming: "Upcoming",
         playtime: "h",
         tba: "TBA",
-        sale: "Sale:",
+        sale: "Possible discount:",
         possible: "Possible:",
         footer_text: "Created by Kiwwij for personal use.",
         metacritic: "Metacritic",
-        // ВОТ ЭТИ ПЕРЕВОДЫ ПОТЕРЯЛИСЬ:
         btn_show_status: "Show Progress",
         btn_hide_status: "Hide Progress",
         status_playing: "Playing",
         status_dropped: "Dropped / Paused",
         status_completed: "Completed",
         status_not_started: "Not Started",
-        read_review: "Review"
+        read_review: "Review",
+        stat_spent: "Already Spent",
+        stat_total_needed: "Total Wishlist Value",
+        stat_left_to_spend: "Left to Spend",
+        already_purchased: "Already purchased"
     },
     ru: {
         steamProfile: "Профиль Steam",
@@ -36,23 +39,26 @@ const translations = {
         cat_upcoming: "Ещё не вышли",
         playtime: "ч",
         tba: "Скоро",
-        sale: "Скидка:",
+        sale: "Возможная скидка:",
         possible: "Возможно:",
         footer_text: "Создано Kiwwij для личного использования.",
         metacritic: "Metacritic",
-        // И ВОТ ЭТИ:
         btn_show_status: "Показать прогресс",
         btn_hide_status: "Скрыть прогресс",
         status_playing: "В процессе",
         status_dropped: "Отложил / Забросил",
         status_completed: "Пройдено",
         status_not_started: "Не начал",
-        read_review: "Обзор"
+        read_review: "Обзор",
+        stat_spent: "Уже потрачено",
+        stat_total_needed: "Сколько всего надо",
+        stat_left_to_spend: "Осталось потратить",
+        already_purchased: "Уже куплено"
     }
 };
 
 let currentLang = 'en';
-let isStatusVisible = false; // Состояние отображения прогресса
+let isStatusVisible = false;
 
 const categoryOrder = [
     "cat_owned",
@@ -82,7 +88,6 @@ function toggleStatusMode() {
     render();
 }
 
-// Avatar Fetcher Logic
 async function updateSteamAvatar() {
     const avatarContainer = document.querySelector('.profile-avatar');
     if (!avatarContainer) return;
@@ -105,20 +110,62 @@ async function updateSteamAvatar() {
     }
 }
 
-// Helper: Determine Metacritic Color
 function getRatingClass(rating) {
     const score = parseInt(rating);
     if (isNaN(score)) return "";
-
     if (score >= 75) return "score-green";
     if (score >= 50) return "score-yellow";
     return "score-red";
 }
 
+function calculateAndRenderStats() {
+    let totalSpent = 0;
+    let totalNeeded = 0;
+    let leftToSpend = 0;
+
+    gamesData.forEach(game => {
+        if (!game.price_uah) return; 
+
+        let basePrice = game.price_uah;
+        let currentPrice = basePrice;
+        
+        if (game.discount_percent && game.discount_percent > 0) {
+            currentPrice = basePrice * (1 - game.discount_percent / 100);
+        }
+
+        // ТЕПЕРЬ ПРОВЕРЯЕМ НОВЫЙ ФЛАГ is_purchased
+        if (game.category === "cat_owned" || game.is_purchased === true) {
+            totalSpent += currentPrice; 
+        } else if (game.category !== "cat_upcoming") {
+            totalNeeded += basePrice;
+            leftToSpend += currentPrice;
+        }
+    });
+
+    const statsPanel = document.getElementById('stats-panel');
+    if (!statsPanel) return;
+
+    const t = translations[currentLang];
+
+    statsPanel.innerHTML = `
+        <div class="stat-item">
+            <span class="stat-label">${t.stat_spent}</span>
+            <span class="stat-value spent">${Math.round(totalSpent).toLocaleString()} ₴</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">${t.stat_total_needed}</span>
+            <span class="stat-value wishlist">${Math.round(totalNeeded).toLocaleString()} ₴</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">${t.stat_left_to_spend}</span>
+            <span class="stat-value saved">${Math.round(leftToSpend).toLocaleString()} ₴</span>
+        </div>
+    `;
+}
+
 function render() {
     const t = translations[currentLang];
 
-    // Update static UI text
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (t[key]) {
@@ -126,7 +173,6 @@ function render() {
         }
     });
 
-    // Update toggle button text based on state
     const toggleBtn = document.getElementById('toggle-status-btn');
     if (toggleBtn) {
         toggleBtn.innerHTML = isStatusVisible 
@@ -148,7 +194,8 @@ function render() {
         return;
     }
 
-    // Loop through categories
+    calculateAndRenderStats();
+
     categoryOrder.forEach(catKey => {
         const catGames = gamesData.filter(g => g.category === catKey);
         if (catGames.length === 0) return;
@@ -168,85 +215,77 @@ function render() {
             const card = document.createElement('div');
             card.className = 'game-card';
 
-            // --- Status Logic ---
             let statusOverlay = '';
             let extraCardClass = '';
-            let reviewHtml = '';
+            let progressHtml = '';
             
             if (isStatusVisible) {
-                // ЗАЩИТА ОТ ОШИБОК: Если статус пустой (""), считаем, что игра "not_started"
                 let currentStatus = game.play_status || "not_started";
                 let statusTextKey = `status_${currentStatus}`;
                 let statusColorClass = `status-badge-${currentStatus}`;
                 
                 statusOverlay = `<div class="status-overlay ${statusColorClass}">${t[statusTextKey]}</div>`;
 
-                // If dropped/paused, apply grayscale class
                 if (currentStatus === 'dropped') {
                     extraCardClass = 'game-card-dropped';
                 }
 
-                // If completed and has review link, show review button
-                if (currentStatus === 'completed' && game.review_link) {
-                    reviewHtml = `
-                        <a href="${game.review_link}" target="_blank" class="review-btn" title="Read Review">
-                            <i class='bx bxs-message-square-detail'></i> ${t.read_review}
-                        </a>
-                    `;
-                }
-            }
-
-            // 1. Playtime HTML
-            let playtimeHtml = '';
-            if (game.playtime && game.playtime !== "TBA" && game.playtime !== "") {
-                playtimeHtml = `
-                    <div class="meta-item" title="Playtime">
-                        <i class='bx bx-time-five'></i> ${game.playtime} ${t.playtime}
-                    </div>
-                `;
-            }
-
-            // 2. Date HTML
-            let dateHtml = '';
-            if (game.release_date && game.release_date !== "TBA" && game.release_date !== "") {
-                dateHtml = `
-                    <div class="meta-item" title="Release Date">
-                        <i class='bx bxs-calendar'></i> ${game.release_date}
-                    </div>
-                `;
-            }
-
-            // 3. Rating HTML
-            let ratingHtml = '';
-            const isRatingValid = game.rating && game.rating !== "-" && game.rating !== "TBA" && game.rating !== "";
-            
-            if (isRatingValid) {
-                const ratingClass = getRatingClass(game.rating);
-                ratingHtml = `
-                    <div class="meta-score ${ratingClass}" title="${t.metacritic}">
-                        ${game.rating}
-                    </div>
-                `;
-            }
-
-            // Price Logic
-            let priceHtml = '';
-            if (game.price_uah === 0) {
-                 priceHtml = `<span class="price-main">${t.tba}</span>`;
-            } else {
-                const mainPrice = `<div class="price-main">${game.price_uah} ₴</div>`;
-                
-                if (game.discount_percent > 0) {
-                    const discounted = Math.round(game.price_uah * (1 - game.discount_percent/100));
-                    priceHtml = `
-                        ${mainPrice}
-                        <div class="price-sub">
-                            ${t.sale} ${discounted} ₴ (-${game.discount_percent}%)
+                if (game.progress !== undefined) {
+                    progressHtml = `
+                        <div class="progress-wrapper">
+                            <span class="progress-text">${game.progress}%</span>
+                            <div class="progress-container">
+                                <div class="progress-bar" style="width: ${game.progress}%;"></div>
+                            </div>
                         </div>
                     `;
-                } else {
-                    priceHtml = `${mainPrice}`;
                 }
+            }
+
+            let reviewHtml = '';
+            if (game.review_link) {
+                reviewHtml = `
+                    <a href="${game.review_link}" target="_blank" class="action-icon review-icon" title="${t.read_review}">
+                        <i class='bx bxs-message-square-detail'></i>
+                    </a>
+                `;
+            }
+
+            let playtimeHtml = '';
+            if (game.playtime) {
+                playtimeHtml = `<div class="meta-item" title="Playtime"><i class='bx bx-time-five'></i> ${game.playtime} ${t.playtime}</div>`;
+            }
+
+            let dateHtml = '';
+            if (game.release_date) {
+                dateHtml = `<div class="meta-item" title="Release Date"><i class='bx bx-calendar'></i> ${game.release_date}</div>`;
+            }
+
+            // --- НОВАЯ ЛОГИКА ЦЕН С ИКОНКОЙ ПОКУПКИ ---
+            let priceHtml = '';
+            let purchasedIcon = game.is_purchased ? `<i class='bx bx-check-circle purchased-icon' title='${t.already_purchased}'></i>` : '';
+
+            if (game.price_uah === 0 || !game.price_uah) {
+                priceHtml = `<span class="price-main">${purchasedIcon}${t.tba}</span>`;
+            } else {
+                if (game.discount_percent > 0) {
+                    let discountedPrice = Math.round(game.price_uah * (1 - game.discount_percent / 100));
+                    priceHtml = `
+                        <div class="price-row">
+                            <span class="price-original">${game.price_uah} ₴</span>
+                            <span class="price-main">${purchasedIcon}${discountedPrice} ₴</span>
+                        </div>
+                        <span class="price-sub">${t.sale} -${game.discount_percent}%</span>
+                    `;
+                } else {
+                    priceHtml = `<span class="price-main">${purchasedIcon}${game.price_uah} ₴</span>`;
+                }
+            }
+
+            let ratingHtml = '';
+            if (game.rating && game.rating !== "TBA" && game.rating !== "-") {
+                let rClass = getRatingClass(game.rating);
+                ratingHtml = `<div class="meta-score ${rClass}" title="${t.metacritic}">${game.rating}</div>`;
             }
 
             const description = currentLang === 'ru' ? game.desc_ru : game.desc_en;
@@ -270,19 +309,23 @@ function render() {
                             ${dateHtml}
                         </div>
 
+                        ${progressHtml}
+
                         <p class="game-desc">${description}</p>
 
                         <div class="game-footer">
                             <div class="price-block">
                                ${priceHtml}
-                               ${reviewHtml}
                             </div>
                             
                             <div class="footer-right">
                                 ${ratingHtml}
-                                <a href="${game.steam_link}" ${linkAttr} class="steam-link-icon">
-                                    <i class='bx bxl-steam'></i>
-                                </a>
+                                <div class="footer-icons">
+                                    ${reviewHtml}
+                                    <a href="${game.steam_link}" ${linkAttr} class="action-icon steam-link-icon" title="${t.steamProfile}">
+                                        <i class='bx bxl-steam'></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -296,7 +339,6 @@ function render() {
     });
 }
 
-// Init
 document.addEventListener('DOMContentLoaded', () => {
     currentLang = detectLanguage();
     render();
