@@ -228,6 +228,8 @@ function render() {
 
                 if (currentStatus === 'dropped') {
                     extraCardClass = 'game-card-dropped';
+                } else if (currentStatus === 'completed') {
+                    extraCardClass = 'game-card-completed'; 
                 }
 
                 if (game.progress !== undefined) {
@@ -261,24 +263,27 @@ function render() {
                 dateHtml = `<div class="meta-item" title="Release Date"><i class='bx bx-calendar'></i> ${game.release_date}</div>`;
             }
 
-            // --- НОВАЯ ЛОГИКА ЦЕН С ИКОНКОЙ ПОКУПКИ ---
             let priceHtml = '';
             let purchasedIcon = game.is_purchased ? `<i class='bx bx-check-circle purchased-icon' title='${t.already_purchased}'></i>` : '';
-
-            if (game.price_uah === 0 || !game.price_uah) {
-                priceHtml = `<span class="price-main">${purchasedIcon}${t.tba}</span>`;
+            
+            if (isStatusVisible && game.play_status === 'completed') {
+                priceHtml = '';
             } else {
-                if (game.discount_percent > 0) {
-                    let discountedPrice = Math.round(game.price_uah * (1 - game.discount_percent / 100));
-                    priceHtml = `
-                        <div class="price-row">
-                            <span class="price-original">${game.price_uah} ₴</span>
-                            <span class="price-main">${purchasedIcon}${discountedPrice} ₴</span>
-                        </div>
-                        <span class="price-sub">${t.sale} -${game.discount_percent}%</span>
-                    `;
+                if (game.price_uah === 0 || !game.price_uah) {
+                    priceHtml = `<span class="price-main">${purchasedIcon}${t.tba}</span>`;
                 } else {
-                    priceHtml = `<span class="price-main">${purchasedIcon}${game.price_uah} ₴</span>`;
+                    if (game.discount_percent > 0) {
+                        let discountedPrice = Math.round(game.price_uah * (1 - game.discount_percent / 100));
+                        priceHtml = `
+                            <div class="price-row">
+                                <span class="price-original">${game.price_uah} ₴</span>
+                                <span class="price-main">${purchasedIcon}${discountedPrice} ₴</span>
+                            </div>
+                            <span class="price-sub">${t.sale} -${game.discount_percent}%</span>
+                        `;
+                    } else {
+                        priceHtml = `<span class="price-main">${purchasedIcon}${game.price_uah} ₴</span>`;
+                    }
                 }
             }
 

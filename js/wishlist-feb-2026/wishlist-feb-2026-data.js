@@ -13,10 +13,10 @@ const gamesData = [
         discount_percent: 50,
         release_date: "2025",
         rating: "92",
-        play_status: "playing", // "playing", "dropped", "completed", "not_started"
-        progress: 71,
+        play_status: "completed", // "playing", "dropped", "completed", "not_started"
+        progress: 100,
         is_purchased: true,
-        review_link: "https://steamcommunity.com/id/serhiosergey/recommended/1462040/"
+        review_link: "https://steamcommunity.com/id/serhiosergey/recommended/2909400/"
     },
     {
         category: "cat_owned",
@@ -31,10 +31,10 @@ const gamesData = [
         discount_percent: 25,
         release_date: "2025",
         rating: "81",
-        play_status: "dropped",
+        play_status: "playing",
         progress: 3,
         is_purchased: true,
-        review_link: ""
+        review_link: "https://www.thesignmaker.co.nz/wp-content/smush-webp/2019/04/C16_Work-In-Progress.png.webp"
     },
     {
         category: "cat_owned",

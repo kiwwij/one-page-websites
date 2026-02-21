@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tier List Maker - Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #1a202c; color: #e2e8f0; }
+        
+        .tier-zone { 
+            min-height: 120px; 
+            transition: background-color 0.2s;
+        }
+        
+        /* Стили карточек с постерами */
+        .game-card { 
+            cursor: grab; 
+            transition: transform 0.1s;
+            position: relative;
+            background-color: #2d3748;
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+        .game-card:active { cursor: grabbing; transform: scale(0.95); }
+        .game-card.dragging { opacity: 0.4; border: 2px dashed #cbd5e0; }
+        
+        /* Градиент и текст поверх картинки */
+        .card-title-overlay {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            padding: 8px 4px 4px;
+            font-size: 0.75rem;
+            text-align: center;
+            line-height: 1.1;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px black;
+        }
+
+        /* Индикатор загрузки API */
+        .loading-spinner {
+            border: 2px solid rgba(255,255,255,0.2);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            position: absolute;
+            top: 5px; right: 5px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="p-6 font-sans">
+
+    <div class="max-w-screen-2xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+            <h1 class="text-3xl font-bold">Games Tier List Maker</h1>
+            <div class="space-x-2">
+                <button onclick="resetData()" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-sm transition">
+                    Сброс до оригинала
+                </button>
+                <button onclick="downloadJS()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm transition">
+                    Скачать games-data.js
+                </button>
+            </div>
+        </div>
+
+        <div id="tier-container" class="space-y-3 border border-gray-700 rounded-lg p-4 bg-gray-800">
+            </div>
+    </div>
+
+    <script>
+        // === КОНФИГ API ===
+        const RAWG_API_KEY = 'eff5af7536f94b1b862edf995f4ee1f9';
+        const posterCache = JSON.parse(localStorage.getItem('posterCache') || '{}');
+        const requestQueue = [];
+        let isProcessingQueue = false;
+
+        const tierColors = {
+            'S': 'bg-red-500',
+            'A': 'bg-orange-500',
+            'B': 'bg-yellow-400 text-black',
+            'C': 'bg-green-500',
+            'D': 'bg-blue-500',
+            'E': 'bg-purple-500',
+            'F': 'bg-gray-600'
+        };
+
+        const originalData = {
+            'S': [
+                { title: "Minecraft", review: "Кайфовая игра на расслабон с друзьями. Свыше 7к часов. Прошёл на платину." },
+                { title: "The Elder Scrolls V: Skyrim", review: "Ревью - https://steamcommunity.com/id/serhiosergey/recommended/489830/" },
+                { title: "Dota 2", review: "Это не игра, а кусок кала, в который я наиграл уже 3к+ часов. Увы не могу просто взять и перестать играть." },
+                { title: "Tiny Bunny", review: "Ревью - https://steamcommunity.com/id/serhiosergey/recommended/1421250/" },
+                { title: "Sea of Thieves", review: "Играл с другом, даже не с одним, было весело." },
+                { title: "Baldur's Gate III", review: "Ревью - https://steamcommunity.com/id/serhiosergey/recommended/1086940/" },
+                { title: "Elden Ring", review: "Ревью - https://steamcommunity.com/id/serhiosergey/recommended/1245620/" },
+                { title: "Terraria", review: "Кайфовая игра на расслабон с друзьями. Прошёл на платину." }
+            ],
+            'A': [
+                { title: "The Last of Us Part I", review: "Ревью - https://steamcommunity.com/id/serhiosergey/recommended/1888930/" },
+                { title: "Atomic Heart", review: "Ревью - https://steamcommunity.com/profiles/76561199512523461/recommended/668580/" },
+                { title: "Cyberpunk 2077", review: "Невертоятная графика, атмосфера, музыка и персонажи. Моя 1ая концовка просто дроп с крыши. Разные билды + моды дают повод несколько раз перепройти. Прошёл на платину." },
+                { title: "Dark Souls: Remastered", review: "Ревью - https://steamcommunity.com/id/serhiosergey/recommended/570940/" },
+                { title: "Dark Souls II: Scholar of the First Sin", review: "Ревью - https://steamcommunity.com/id/serhiosergey/recommended/335300/" },
+                { title: "Dark Souls III", review: "Ревью - https://steamcommunity.com/id/serhiosergey/recommended/374320/" },
+                { title: "FINAL FANTASY VII REMAKE INTERGRADE", review: "Ревью - https://steamcommunity.com/id/serhiosergey/recommended/1462040/" },
+                { title: "Hollow Knight: Silksong", review: "Ревью - https://steamcommunity.com/id/serhiosergey/recommended/1030300/" },
+                { title: "It takes two", review: "Играл с другом, было весело. Прошёл на платину." },
+                { title: "Lies of P", review: "Ревью - https://steamcommunity.com/id/serhiosergey/recommended/1627720/" },
+                { title: "Raft", review: "Ревью - https://steamcommunity.com/id/serhiosergey/recommended/648800/" },
+                { title: "Tomb Raider (2013)", review: "Частичное ревью - https://steamcommunity.com/id/serhiosergey/recommended/750920/" },
+                { title: "Slime Rancher", review: "Прикольная игра на расслабон. Проходил очень много раз.Прошёл на платину." },
+                { title: "FINAL FANTASY VII REBIRTH", review: "Ревью - " },
+                { title: "Genshin Impact", review: "Стой, стой, стой. Дай всё объясню. В 1ые года я дико кайфовал от этого кала, играл по 12 часов каждый день. Сейчас я бы в неё не смог играть, но вот раньше..." },
+                { title: "Honkai Star Rail", review: "Стой, стой, стой. Дай всё объясню. На выходе мне игра понравилась даже больше чем геншин. Он не такой душный, нет открытого мира. Быстро зашёл, прошёл и вышел. И я прошёл HSR за пол года. Собрал 2 пачки, прокачал и закрыл карту. Вот и всё. Сейчас я бы в неё не смог играть." }
+            ],
+            'B': [
+                { title: "Aragami", review: "Играл с другом, было весело и атмосферно. Прошёл на платину." },
+                { title: "Dishonored", review: "Мега атмосферная игра с интересным геймплеем. Прошёл на платину." },
+                { title: "Elden Ring NIGHTREIGN", review: "Ревью - https://steamcommunity.com/id/serhiosergey/recommended/2622380/" },
+                { title: "Escape the Backrooms", review: "Играл с другом, было весело. Прошёл на платину." },
+                { title: "Everlasting Summer", review: "2ая моя визуальная новелла после Зайчика. Моя концовка - плохая концовка с пионером. Прошёл на платину." },
+                { title: "God of War", review: "Отличная графика, атмосфера, музыка, но после середины было скучновато. Прошёл на платину." },
+                { title: "Grounded", review: "Играл с другом даже не с 1, было весело. Прошёл на платину." },
+                { title: "Gunfire Reborn", review: "Играл с другом, было весело. Прошёл на платину." },
+                { title: "Hollow Knight", review: "Кайфовая метроидвания с атмосферой. Прошёл на платину." },
+                { title: "Inmost", review: "Атмосферная игра, но короткая. Прошёл на платину." },
+                { title: "Kingdom two Crowns", review: "Играл с другом, было весело. Прошёл на платину." },
+                { title: "MiSide", review: "Ревью - https://steamcommunity.com/id/serhiosergey/recommended/2527500/" },
+                { title: "My Therapy", review: "Прикольная игрушка, но есть только пролог. Жду продолжение." },
+                { title: "Neceasse", review: "Играл с другом, было весело. Прошёл на платину." },
+                { title: "Resident Evil 4 Remake", review: "Ревью - https://steamcommunity.com/id/serhiosergey/recommended/2050650/" },
+                { title: "Resident Evil Village", review: "Ревью - https://steamcommunity.com/id/serhiosergey/recommended/1196590/" },
+                { title: "Rise of the Tomb Raider", review: "Частичное ревью - https://steamcommunity.com/id/serhiosergey/recommended/750920/" },
+                { title: "Sekiro: shadows die twice", review: "Ревью - https://steamcommunity.com/profiles/76561199512523461/recommended/814380/" },
+                { title: "Ship of Fools", review: "Играл с другом, было весело. Прошёл на платину.", img: "games/Ship_of_Fools.avif" },
+                { title: "Slime Rancher 2", review: "Прикольная игра на расслабон, но 1ая часть атмосферней. Прошёл на платину." },
+                { title: "Sons of the Forest", review: "Играл с другом, было весело. Прошёл на платину." },
+                { title: "SWORD ART ONLINE Alicization Lycoris", review: "Смотрел я как-то давно одно ютубера по САО 'Tim Fairy', играл понравилась, поиграл. Прошёл на платину." },
+                { title: "Trine 4: The Nightmare Prince", review: "Играл с другом, было весело. Прошёл на платину." },
+                { title: "We Were Here Expeditions: The FriendShip", review: "Играл с другом, было весело. Прошёл на платину." },
+                { title: "We Were Here Forever", review: "Играл с другом, было весело. Прошёл на платину." },
+                { title: "Marvel Rivals", review: "Играл с другом, было весело. Прошёл на платину." },
+                { title: "Golf With Your Friends", review: "Играл с другом, было весело. Прошёл на платину." },
+                { title: "Liar's Bar", review: "Играл с другом, было весело. Прошёл на платину." },
+                { title: "PEAK", review: "Играл с другом, было весело. Прошёл на платину." },
+                { title: "Pic Me", review: "Играл с другом, было весело. Прошёл на платину." },
+                { title: "Pummel Party", review: "Играл с другом, было весело. Прошёл на платину." },
+                { title: "Roboquest", review: "Играл с другом, было весело. Прошёл на платину." },
+                { title: "Uno", review: "Играл с другом, было весело. Прошёл на платину." },
+                { title: "Among Us", review: "Играл с другом, даже не с одним, было весело." },
+                { title: "Bioshock Infinite", review: "" },
+                { title: "Divinity: Original Sin 2", review: "Играл с другом, было весело." },
+                { title: "Far Cry 5", review: "Играл с другом, было весело." },
+                { title: "Northgard", review: "Играл с другом, было весело. Прикольная стратегия." },
+                { title: "Heroes of Might and Magic 3: Complete", review: "Играл со знакомым, неплохо. Прикольная стратегия." },
+                { title: "Soulcalibur VI", review: "Играл с другом, было весело." },
+                { title: "Rainbow Six Siege", review: "Играл с другом, было весело." },
+                { title: "Voidtrain", review: "Играл с другом, было весело." },
+                { title: "Valorant", review: "Играл с другом, даже не с одним, было весело." },
+                { title: "Shape of Dreams: Prologue", review: "Играл с другом, что-то по типу RoR2. (название игры в стиме без 'Prologue')" },
+                { title: "Ghost of Tsushima", review: "Ревью - https://steamcommunity.com/profiles/76561199512523461/recommended/2215430/" },
+                { title: "Shadow of the Tomb Raider", review: "Ревью - https://steamcommunity.com/id/serhiosergey/recommended/750920/" },
+                { title: "Abyssus", review: "Играл с другом, было весело." }
+            ],
+            'C': [
+                { title: "Aragami 2", review: "Хуже чем 1ая часть. Прошёл на платину." },
+                { title: "Dishonored 2", review: "Все теже механику, но больше динамик, чтоли. Но скучная. Прошёл на платину." },
+                { title: "Fran Bow", review: "Атмосферная игра, но скучная. Прошёл на платину." },
+                { title: "Higurashi When They Cry Hou - Ch.1", review: "" },
+                { title: "Higurashi When They Cry Hou - Ch.2", review: "" },
+                { title: "Higurashi When They Cry Hou - Ch.3", review: "https://kiwwij.github.io/kiwwij-anime-tier-list/terminal.html" },
+                { title: "Higurashi When They Cry Hou - Ch.4", review: "https://kiwwij.github.io/kiwwij-anime-tier-list/naebalova.net" },
+                { title: "Higurashi When They Cry Hou - Ch.5", review: "" },
+                { title: "Higurashi When They Cry Hou - Ch.6", review: "" },
+                { title: "Higurashi When They Cry Hou - Ch.7", review: "" },
+                { title: "Higurashi When They Cry Hou - Ch.8", review: "" },
+                { title: "Higurashi When They Cry Hou - Rei", review: "" },
+                { title: "Higurashi When They Cry Hou - Hou+", review: "", img: "games/Higurashi_When_They_Cry_Hou+.jpg" },
+                { title: "Kena: Bridge of Spirits", review: "Невероятная графика, но оптимизация хромает. Атмосфера и музыка норм. Прошёл на платину." },
+                { title: "little nightmares", review: "Управление всё портит. Так то игра атмосферная. Прошёл на платину." },
+                { title: "little nightmares II", review: "Управление всё портит. Так то игра атмосферная, лучше 1ой. Прошёл на платину." },
+                { title: "Portal 2", review: "Кайфовая игрушка, но не более. Финальная песня кайф. Прошёл на платину." },
+                { title: "The Quarry", review: "Ревбю - https://steamcommunity.com/id/serhiosergey/recommended/1577120/" },
+                { title: "Sally Face", review: "Скучная игра, думал будет лучше. Прошёл на платину." },
+                { title: "Styx: Shards of Darkness", review: "Скучная игра, думал будет лучше. Прошёл на платину." },
+                { title: "Sword Art Online: Fatal Bullet", review: "Подумал, что будет прикольно, по типу алисизации, но нет. Прошёл на платину." }
+            ],
+            'D': [
+                { title: "The Dark Queen of Mortholme", review: "Ревью - https://steamcommunity.com/id/serhiosergey/recommended/3587610/" },
+                { title: "Knock-knock", review: "Добавил чисто за выслугу лет. Крутая страшная игра с прикольным сюжетом. Прошёл на платину." },
+                { title: "Plague Inc: Evolved", review: "Добавил чисто за выслугу лет. Поиграть чуть-чуть, но не больше." },
+                { title: "Hogwarts Legacy", review: "Пытался пройти несколько раз, но не моё." },
+                { title: "Astroneers", review: "Играл с другом, даже не с одним, было весело." },
+                { title: "Bioshock Remastered", review: "Пытался пройти, но не моё." },
+                { title: "Black Myth: Wukong", review: "Пытался пройти, но не моё." },
+                { title: "The Elder Scrolls Online", review: "Пытался и не 1 раз пройти, но не моё." },
+                { title: "S.T.A.L.K.E.R. 2: Heart of Chornobyl", review: "На минимальных 30 фпс. Пытался пройти." },
+                { title: "Reus", review: "За выслугул лет. Поиграть чуть-чуть, но не больше." },
+                { title: "Black Souls I", review: "Почти прошёл, но если бы в игре не было pdf моментов, было бы даже не стыдно говорить, что я прошёл эту игру.", img: "games/Black_Souls_I.jpg" },
+                { title: "Red Hood's Woods", review: "Небольшое раскрытие персонажа из БС 1. Причины все те же.", img: "games/Red_Hood's_Woods.png" }
+            ],
+            'E': [
+                { title: "Your Mother", review: "Купил в рофл. Прошёл на платину в рофл." },
+                { title: "Hitler is My Crush: Love and Fascism", review: "Купил в рофл. Прошёл на платину в рофл." },
+                { title: "Humans are not that against Lizardwomen", review: "Пик игровой индустрии. Платина.", img: "games/Humans_are_not_that_against_Lizardwomen.jpg" },
+                { title: "Humans are not that against Lizardwomen 2", review: "Пик игровой индустрии 2. Платина.", img: "games/Humans_are_not_that_against_Lizardwomen2.jpg" },
+                { title: "HENTAI - World War II", review: "Платина." },
+                { title: "Bongo Cat", review: "Думал себе на стримы вместо вебки выводить. Платина." },
+                { title: "Chasing Tails ~A Promise in the Snow~", review: "Платина." },
+                { title: "Stalker", review: "Мне Илья подарил, это не моё. Платина." },
+                { title: "Final Fantasy XV Windows Edition", review: "Пытался поиграть, но не понравилось." },
+                { title: "Magicka 2", review: "Играли с другом, не зашло." }
+            ],
+            'F': [
+                { title: "Counter-Strike 2", review: "Ревью - https://steamcommunity.com/id/serhiosergey/recommended/730/" },
+                { title: "The Witcher 3: Wild Hunt", review: "Пытался пройти несколько раз, но не моё." },
+                { title: "Read Dead Redemption 2", review: "Пытался пройти несколько раз (18 часов игры), но не моё.", img: "games/Read_Dead_Redemption2.webp" },
+                { title: "Grand Theft Auto V", review: "Кал" },
+                { title: "Rust", review: "" },
+                { title: "Lords of the Fallen", review: "Ревью - https://steamcommunity.com/id/serhiosergey/recommended/1501750/" }
+            ]
+        };
+
+        let currentData = {};
+
+        function init() {
+            const saved = localStorage.getItem('tierListGamesPro');
+            if (saved) {
+                currentData = JSON.parse(saved);
+            } else {
+                currentData = JSON.parse(JSON.stringify(originalData));
+            }
+            renderTiers();
+        }
+
+        // === ОЧЕРЕДЬ ЗАПРОСОВ К API ===
+        async function processQueue() {
+            if (requestQueue.length === 0) {
+                isProcessingQueue = false;
+                return;
+            }
+            isProcessingQueue = true;
+            
+            const { title, cardElement } = requestQueue.shift();
+            
+            try {
+                const url = `https://api.rawg.io/api/games?key=${RAWG_API_KEY}&search=${encodeURIComponent(title)}&page_size=1`;
+                const res = await fetch(url);
+                const json = await res.json();
+                
+                if (json.results && json.results[0] && json.results[0].background_image) {
+                    const imgUrl = json.results[0].background_image;
+                    posterCache[title] = imgUrl;
+                    localStorage.setItem('posterCache', JSON.stringify(posterCache));
+                    applyPoster(cardElement, imgUrl);
+                } else {
+                    posterCache[title] = 'NOT_FOUND';
+                    localStorage.setItem('posterCache', JSON.stringify(posterCache));
+                    removeLoader(cardElement);
+                }
+            } catch (e) {
+                console.error('API Error:', e);
+                removeLoader(cardElement);
+            }
+
+            // Небольшая задержка перед следующим запросом (как в твоем index.js)
+            setTimeout(processQueue, 700);
+        }
+
+        function loadCardPoster(cardElement, game) {
+            // Если в data уже прописана картинка напрямую
+            if (game.img) {
+                applyPoster(cardElement, game.img);
+                return;
+            }
+
+            // Проверяем кэш
+            if (posterCache[game.title]) {
+                if (posterCache[game.title] !== 'NOT_FOUND') {
+                    applyPoster(cardElement, posterCache[game.title]);
+                } else {
+                    removeLoader(cardElement);
+                }
+                return;
+            }
+
+            // Добавляем спиннер загрузки
+            const spinner = document.createElement('div');
+            spinner.className = 'loading-spinner';
+            cardElement.appendChild(spinner);
+
+            // Отправляем в очередь на запрос
+            requestQueue.push({ title: game.title, cardElement: cardElement });
+            if (!isProcessingQueue) processQueue();
+        }
+
+        function applyPoster(card, url) {
+            card.style.backgroundImage = `url('${url}')`;
+            removeLoader(card);
+        }
+
+        function removeLoader(card) {
+            const spinner = card.querySelector('.loading-spinner');
+            if (spinner) spinner.remove();
+        }
+
+        // === ГЕНЕРАЦИЯ ИНТЕРФЕЙСА ===
+        function renderTiers() {
+            const container = document.getElementById('tier-container');
+            container.innerHTML = '';
+
+            for (const tier in tierColors) {
+                const games = currentData[tier] || [];
+                
+                const row = document.createElement('div');
+                row.className = 'flex flex-col md:flex-row bg-gray-900 rounded overflow-hidden shadow-lg';
+                
+                const label = document.createElement('div');
+                label.className = `w-full md:w-28 flex-shrink-0 flex items-center justify-center text-4xl font-bold py-6 ${tierColors[tier]}`;
+                label.textContent = tier;
+                
+                const dropZone = document.createElement('div');
+                dropZone.className = 'tier-zone flex-1 flex flex-wrap gap-2 p-3 relative';
+                dropZone.dataset.tier = tier;
+                
+                dropZone.addEventListener('dragover', handleDragOverZone);
+                dropZone.addEventListener('drop', handleDrop);
+
+                games.forEach((game) => {
+                    const card = document.createElement('div');
+                    // Размеры постеров (примерно 3x4)
+                    card.className = 'game-card w-24 h-32 md:w-28 md:h-40 rounded border border-gray-600';
+                    card.draggable = true;
+                    card.title = game.title;
+                    
+                    // Сохраняем сам объект игры прямо в DOM элемент (!важно для перестроения)
+                    card.gameData = game;
+
+                    const titleOverlay = document.createElement('div');
+                    titleOverlay.className = 'card-title-overlay';
+                    titleOverlay.textContent = game.title;
+                    card.appendChild(titleOverlay);
+
+                    // Грузим постер
+                    loadCardPoster(card, game);
+
+                    // События
+                    card.addEventListener('dragstart', handleDragStart);
+                    card.addEventListener('dragend', handleDragEnd);
+
+                    dropZone.appendChild(card);
+                });
+
+                row.appendChild(label);
+                row.appendChild(dropZone);
+                container.appendChild(row);
+            }
+        }
+
+        // === DRAG & DROP С СОРТИРОВКОЙ ===
+        let draggedElement = null;
+
+        function handleDragStart(e) {
+            draggedElement = e.target;
+            e.target.classList.add('dragging');
+            // Немного прозрачности при переносе
+            e.dataTransfer.effectAllowed = 'move';
+        }
+
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+            draggedElement = null;
+        }
+
+        function handleDragOverZone(e) {
+            e.preventDefault();
+            const dropZone = e.currentTarget;
+            
+            // Находим карточку, над которой сейчас находится курсор
+            const cards = [...dropZone.querySelectorAll('.game-card:not(.dragging)')];
+            
+            const hoverCard = cards.find(card => {
+                const rect = card.getBoundingClientRect();
+                return e.clientX >= rect.left && e.clientX <= rect.right &&
+                       e.clientY >= rect.top && e.clientY <= rect.bottom;
+            });
+
+            if (hoverCard) {
+                // Если мы навели на карту, вычисляем, в какую половину (левую/правую)
+                const rect = hoverCard.getBoundingClientRect();
+                if (e.clientX < rect.left + rect.width / 2) {
+                    dropZone.insertBefore(draggedElement, hoverCard); // Вставляем ДО
+                } else {
+                    dropZone.insertBefore(draggedElement, hoverCard.nextSibling); // Вставляем ПОСЛЕ
+                }
+            } else if (e.target === dropZone) {
+                // Если курсор просто в зоне, но не над конкретной картой - кидаем в конец
+                dropZone.appendChild(draggedElement);
+            }
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            // Как только мы отпустили элемент (и DOM перестроился визуально),
+            // мы считываем весь DOM и пересобираем объект currentData
+            syncDataFromDOM();
+        }
+
+        // === СИНХРОНИЗАЦИЯ ДАННЫХ ===
+        function syncDataFromDOM() {
+            const newData = {};
+            document.querySelectorAll('.tier-zone').forEach(zone => {
+                const tier = zone.dataset.tier;
+                newData[tier] = [];
+                
+                // Перебираем элементы внутри зоны в том порядке, в котором они сейчас на экране
+                zone.querySelectorAll('.game-card').forEach(card => {
+                    newData[tier].push(card.gameData);
+                });
+            });
+            
+            currentData = newData;
+            localStorage.setItem('tierListGamesPro', JSON.stringify(currentData));
+        }
+
+        function resetData() {
+            if (confirm("Сбросить до оригинального состояния? Все изменения будут потеряны.")) {
+                localStorage.removeItem('tierListGamesPro');
+                init();
+            }
+        }
+
+        // === СКАЧИВАНИЕ ФАЙЛА ===
+        function downloadJS() {
+            let jsContent = `// 1. Создаем уникальную переменную для шкал ИГР
+const gameRatingScales = {
+    standard: [
+        { rank: 'S', color: 'bg-red-500' },
+        { rank: 'A', color: 'bg-orange-500' },
+        { rank: 'B', color: 'bg-yellow-400' },
+        { rank: 'C', color: 'bg-green-500' },
+        { rank: 'D', color: 'bg-blue-500' },
+        { rank: 'E', color: 'bg-purple-500' },
+        { rank: 'F', color: 'bg-gray-600' }
+    ],
+    personal: [
+        { rank: 'Могу играть бесконечно', color: 'bg-red-500' },
+        { rank: 'Дикий кайф', color: 'bg-orange-500' },
+        { rank: 'Крепкий проект', color: 'bg-yellow-400' },
+        { rank: 'Прошёл и забыл', color: 'bg-green-500' },
+        { rank: 'В этом что-то есть', color: 'bg-blue-500' },
+        { rank: 'Рофло игра', color: 'bg-purple-500' },
+        { rank: 'Alt+F4 и Рефанд', color: 'bg-gray-600' }
+    ]
+};
+
+// 2. Добавляем данные, если основной объект существует
+if (typeof tierListData !== 'undefined') {
+    
+    tierListData['Игры'] = {
+        type: 'game', // Важный флаг для API RAWG
+        data: {\n`;
+
+            for (const tier in currentData) {
+                jsContent += `            '${tier}': [\n`;
+                currentData[tier].forEach(game => {
+                    jsContent += `                {\n`;
+                    jsContent += `                    title: "${game.title.replace(/"/g, '\\"')}",\n`;
+                    if (game.ruTitle) jsContent += `                    ruTitle: "${game.ruTitle.replace(/"/g, '\\"')}",\n`;
+                    if (game.review !== undefined) jsContent += `                    review: "${game.review.replace(/"/g, '\\"')}",\n`;
+                    if (game.img) jsContent += `                    img: "${game.img}",\n`;
+                    jsContent += `                },\n`;
+                });
+                jsContent += `            ],\n`;
+            }
+
+            jsContent += `        }
+    };
+}`;
+
+            const blob = new Blob([jsContent], { type: 'text/javascript' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'games-data.js';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        init();
+    </script>
+</body>
+</html>

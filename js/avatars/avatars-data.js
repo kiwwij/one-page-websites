@@ -29,6 +29,7 @@ export const characters = [
             "https://i.pinimg.com/736x/f0/f8/16/f0f8163e1fced02099cd6593f1f464af.jpg",
             "https://i.pinimg.com/736x/9e/b5/3c/9eb53c755c7fb880af3fdca8c827d52b.jpg",
             "https://i.pinimg.com/1200x/93/de/21/93de216d2537fa80e0895f1225eabba5.jpg",
+            "https://i.pinimg.com/1200x/88/1d/89/881d8931659d7fbedcdd9be6d6c5e1ca.jpg",
         ],
         name: {
             en: "Emilia",

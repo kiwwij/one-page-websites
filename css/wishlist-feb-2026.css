@@ -544,3 +544,11 @@ body {
     font-size: 1.1rem;
     vertical-align: middle;
 }
+
+.game-card-completed {
+    background-color: rgba(0, 200, 83, 0.08);
+}
+
+.game-card:hover .game-card-completed {
+    background-color: rgba(0, 200, 83, 0.12);
+}

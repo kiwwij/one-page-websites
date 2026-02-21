@@ -226,6 +226,11 @@
     "description": "Multiplayer web-based Go game. Supports direct play with a friend over the network (P2P via WebRTC) without using servers, as well as single-player mode against a bot with 3 difficulty levels.",
     "stack": ["html", "css", "js", "github"]
   },
+  "games-list.html": {
+    "image": "bx bx-joystick",
+    "description": "A comprehensive tracker for managing my video game backlog and wishlist. Features include tracking playthrough progress, organizing owned titles, and calculating costs.",
+    "stack": ["html", "css", "js", "github"]
+  },
   ".html": {
     "image": "",
     "description": "",
