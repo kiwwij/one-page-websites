@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AniDrop | Случайное аниме</title>
+    <link rel="stylesheet" href="../css/anipic.css">
+</head>
+<body>
+    <div class="container">
+        <h1>AniDrop</h1>
+        
+        <div class="controls">
+            <select id="category-select">
+                <option value="blush">Blush (Смущение)</option>
+                <option value="cry">Cry (Плач / GIF)</option>
+                <option value="dance">Dance (Танец / GIF)</option>
+                <option value="happy">Happy (Радость)</option>
+                <option value="hug">Hug (Объятия)</option>
+                <option value="kiss">Kiss (Поцелуй / GIF)</option>
+                <option value="neko">Neko (Кошкодевочки)</option>
+                <option value="pat">Pat (Поглаживание / GIF)</option>
+                <option value="smile">Smile (Улыбка)</option>
+                <option value="waifu" selected>Waifu (Обычные)</option>
+                <option value="wink">Wink (Подмигивание)</option>
+            </select>
+        </div>
+
+        <div class="image-box">
+            <img id="anime-img" src="" alt="Аниме картинка" hidden>
+            <p id="loading-text">Инициализация...</p>
+        </div>
+
+        <button id="generate-btn" disabled>Загрузка...</button>
+    </div>
+
+    <script src="../js/anipic.js"></script>
+</body>
+</html>

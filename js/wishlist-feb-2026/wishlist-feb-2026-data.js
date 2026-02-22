@@ -13,7 +13,7 @@ const gamesData = [
         discount_percent: 50,
         release_date: "2025",
         rating: "92",
-        play_status: "completed", // "playing", "dropped", "completed", "not_started"
+        play_status: "completed", // "playing", "dropped", "completed", "not_started", "paused"
         progress: 100,
         is_purchased: true,
         review_link: "https://steamcommunity.com/id/serhiosergey/recommended/2909400/"
@@ -32,7 +32,7 @@ const gamesData = [
         release_date: "2025",
         rating: "81",
         play_status: "playing",
-        progress: 3,
+        progress: 14,
         is_purchased: true,
         review_link: "https://www.thesignmaker.co.nz/wp-content/smush-webp/2019/04/C16_Work-In-Progress.png.webp"
     },
@@ -49,7 +49,7 @@ const gamesData = [
         discount_percent: 65,
         release_date: "2017",
         rating: "88",
-        play_status: "dropped",
+        play_status: "paused",
         progress: 3,
         is_purchased: true,
         review_link: ""
@@ -67,7 +67,7 @@ const gamesData = [
         discount_percent: 25,
         release_date: "2025",
         rating: "88",
-        play_status: "dropped",
+        play_status: "paused",
         progress: 3,
         is_purchased: true,
         review_link: ""
@@ -103,7 +103,7 @@ const gamesData = [
         discount_percent: 50,
         release_date: "2024",
         rating: "82",
-        play_status: "dropped",
+        play_status: "paused",
         progress: 5,
         is_purchased: true,
         review_link: ""

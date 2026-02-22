@@ -1,6 +1,6 @@
 const translations = {
     en: {
-        steamProfile: "Steam Profile",
+        steamProfile: "Game in Steam",
         wishlist: "Wishlist",
         cat_owned: "Owned. I'll get through it sooner or later",
         cat_high_wish: "A strong desire to complete",
@@ -18,17 +18,19 @@ const translations = {
         btn_show_status: "Show Progress",
         btn_hide_status: "Hide Progress",
         status_playing: "Playing",
-        status_dropped: "Dropped / Paused",
+        status_dropped: "Dropped",
+        status_paused: "Paused",
         status_completed: "Completed",
         status_not_started: "Not Started",
         read_review: "Review",
-        stat_spent: "Already Spent",
-        stat_total_needed: "Total Wishlist Value",
-        stat_left_to_spend: "Left to Spend",
-        already_purchased: "Already purchased"
+        already_purchased: "Already purchased",
+        stat_total_games: "Total Games",
+        stat_completed: "Completed",
+        stat_dropped: "Dropped",
+        stat_total_value: "Total Value (No Discounts)"
     },
     ru: {
-        steamProfile: "Профиль Steam",
+        steamProfile: "Игра в Steam",
         wishlist: "Вишлист",
         cat_owned: "Куплено. Рано или поздно пройду",
         cat_high_wish: "Большое желание пройти",
@@ -46,14 +48,16 @@ const translations = {
         btn_show_status: "Показать прогресс",
         btn_hide_status: "Скрыть прогресс",
         status_playing: "В процессе",
-        status_dropped: "Отложил / Забросил",
+        status_dropped: "Забросил",
+        status_paused: "Отложил",
         status_completed: "Пройдено",
         status_not_started: "Не начал",
         read_review: "Обзор",
-        stat_spent: "Уже потрачено",
-        stat_total_needed: "Сколько всего надо",
-        stat_left_to_spend: "Осталось потратить",
-        already_purchased: "Уже куплено"
+        already_purchased: "Уже куплено",
+        stat_total_games: "Всего игр",
+        stat_completed: "Пройдено",
+        stat_dropped: "Забросил",
+        stat_total_value: "Общая стоимость всех игр без скидок"
     }
 };
 
@@ -106,7 +110,7 @@ async function updateSteamAvatar() {
             }
         }
     } catch (err) {
-        console.warn('Could not fetch Steam avatar:', err);
+        console.warn(err);
     }
 }
 
@@ -119,46 +123,44 @@ function getRatingClass(rating) {
 }
 
 function calculateAndRenderStats() {
-    let totalSpent = 0;
-    let totalNeeded = 0;
-    let leftToSpend = 0;
-
-    gamesData.forEach(game => {
-        if (!game.price_uah) return; 
-
-        let basePrice = game.price_uah;
-        let currentPrice = basePrice;
-        
-        if (game.discount_percent && game.discount_percent > 0) {
-            currentPrice = basePrice * (1 - game.discount_percent / 100);
-        }
-
-        // ТЕПЕРЬ ПРОВЕРЯЕМ НОВЫЙ ФЛАГ is_purchased
-        if (game.category === "cat_owned" || game.is_purchased === true) {
-            totalSpent += currentPrice; 
-        } else if (game.category !== "cat_upcoming") {
-            totalNeeded += basePrice;
-            leftToSpend += currentPrice;
-        }
-    });
-
     const statsPanel = document.getElementById('stats-panel');
     if (!statsPanel) return;
+
+    let totalGames = gamesData.length;
+    let completedCount = 0;
+    let droppedCount = 0;
+    let totalValue = 0;
+
+    gamesData.forEach(game => {
+        if (game.play_status === "completed") {
+            completedCount++;
+        } else if (game.play_status === "dropped") {
+            droppedCount++;
+        }
+
+        if (game.price_uah) {
+            totalValue += game.price_uah;
+        }
+    });
 
     const t = translations[currentLang];
 
     statsPanel.innerHTML = `
         <div class="stat-item">
-            <span class="stat-label">${t.stat_spent}</span>
-            <span class="stat-value spent">${Math.round(totalSpent).toLocaleString()} ₴</span>
+            <span class="stat-label">${t.stat_total_games}</span>
+            <span class="stat-value total-games">${totalGames}</span>
         </div>
         <div class="stat-item">
-            <span class="stat-label">${t.stat_total_needed}</span>
-            <span class="stat-value wishlist">${Math.round(totalNeeded).toLocaleString()} ₴</span>
+            <span class="stat-label">${t.stat_completed}</span>
+            <span class="stat-value completed">${completedCount}</span>
         </div>
         <div class="stat-item">
-            <span class="stat-label">${t.stat_left_to_spend}</span>
-            <span class="stat-value saved">${Math.round(leftToSpend).toLocaleString()} ₴</span>
+            <span class="stat-label">${t.stat_dropped}</span>
+            <span class="stat-value dropped">${droppedCount}</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">${t.stat_total_value}</span>
+            <span class="stat-value total-value">${Math.round(totalValue).toLocaleString()} ₴</span>
         </div>
     `;
 }
@@ -190,7 +192,7 @@ function render() {
     container.innerHTML = '';
 
     if (typeof gamesData === 'undefined') {
-        container.innerHTML = '<p style="color:red; text-align:center;">Error: games-data.js not loaded.</p>';
+        container.innerHTML = '<p style="color:red; text-align:center;">Error.</p>';
         return;
     }
 
@@ -213,8 +215,7 @@ function render() {
 
         catGames.forEach(game => {
             const card = document.createElement('div');
-            card.className = 'game-card';
-
+            
             let statusOverlay = '';
             let extraCardClass = '';
             let progressHtml = '';
@@ -224,12 +225,14 @@ function render() {
                 let statusTextKey = `status_${currentStatus}`;
                 let statusColorClass = `status-badge-${currentStatus}`;
                 
-                statusOverlay = `<div class="status-overlay ${statusColorClass}">${t[statusTextKey]}</div>`;
+                statusOverlay = `<div class="status-overlay ${statusColorClass}">${t[statusTextKey] || currentStatus}</div>`;
 
                 if (currentStatus === 'dropped') {
                     extraCardClass = 'game-card-dropped';
                 } else if (currentStatus === 'completed') {
                     extraCardClass = 'game-card-completed'; 
+                } else if (currentStatus === 'paused') {
+                    extraCardClass = 'game-card-paused';
                 }
 
                 if (game.progress !== undefined) {
@@ -243,6 +246,9 @@ function render() {
                     `;
                 }
             }
+
+            // ВЕШАЕМ КЛАССЫ СРАЗУ НА ГЛАВНЫЙ БЛОК
+            card.className = `game-card ${extraCardClass}`;
 
             let reviewHtml = '';
             if (game.review_link) {
@@ -266,7 +272,7 @@ function render() {
             let priceHtml = '';
             let purchasedIcon = game.is_purchased ? `<i class='bx bx-check-circle purchased-icon' title='${t.already_purchased}'></i>` : '';
             
-            if (isStatusVisible && game.play_status === 'completed') {
+            if (isStatusVisible && (game.play_status === 'completed' || game.play_status === 'dropped')) {
                 priceHtml = '';
             } else {
                 if (game.price_uah === 0 || !game.price_uah) {
@@ -288,18 +294,30 @@ function render() {
             }
 
             let ratingHtml = '';
-            if (game.rating && game.rating !== "TBA" && game.rating !== "-") {
-                let rClass = getRatingClass(game.rating);
-                ratingHtml = `<div class="meta-score ${rClass}" title="${t.metacritic}">${game.rating}</div>`;
+            if (!(isStatusVisible && game.play_status === 'dropped')) {
+                if (game.rating && game.rating !== "TBA" && game.rating !== "-") {
+                    let rClass = getRatingClass(game.rating);
+                    ratingHtml = `<div class="meta-score ${rClass}" title="${t.metacritic}">${game.rating}</div>`;
+                }
+            }
+
+            let steamLinkHtml = '';
+            const linkAttr = game.steam_link === '#' ? 'style="pointer-events:none; opacity:0.5;"' : 'target="_blank"';
+            if (!(isStatusVisible && game.play_status === 'dropped')) {
+                steamLinkHtml = `
+                    <a href="${game.steam_link}" ${linkAttr} class="action-icon steam-link-icon" title="${t.steamProfile}">
+                        <i class='bx bxl-steam'></i>
+                    </a>
+                `;
             }
 
             const description = currentLang === 'ru' ? game.desc_ru : game.desc_en;
-            const linkAttr = game.steam_link === '#' ? 'style="pointer-events:none; opacity:0.5;"' : 'target="_blank"';
 
+            // ДОБАВЛЕНА ЗАГЛУШКА ONERROR ДЛЯ КАРТИНОК
             card.innerHTML = `
-                <div class="card-inner ${extraCardClass}">
+                <div class="card-inner">
                     <div class="poster-container">
-                        <img src="${game.poster}" alt="${game.title}" class="card-poster">
+                        <img src="${game.poster}" alt="${game.title}" class="card-poster" onerror="this.onerror=null; this.src='https://placehold.co/600x280/1e1e1e/7c4dff?text=No+Image';">
                         ${statusOverlay}
                     </div>
                     
@@ -327,9 +345,7 @@ function render() {
                                 ${ratingHtml}
                                 <div class="footer-icons">
                                     ${reviewHtml}
-                                    <a href="${game.steam_link}" ${linkAttr} class="action-icon steam-link-icon" title="${t.steamProfile}">
-                                        <i class='bx bxl-steam'></i>
-                                    </a>
+                                    ${steamLinkHtml}
                                 </div>
                             </div>
                         </div>

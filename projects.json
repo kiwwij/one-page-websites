@@ -231,6 +231,11 @@
     "description": "A comprehensive tracker for managing my video game backlog and wishlist. Features include tracking playthrough progress, organizing owned titles, and calculating costs.",
     "stack": ["html", "css", "js", "github"]
   },
+  "anipic.html": {
+    "image": "bx bx-image",
+    "description": "A random anime picture generator.",
+    "stack": ["html", "css", "js", "github"]
+  },
   ".html": {
     "image": "",
     "description": "",
