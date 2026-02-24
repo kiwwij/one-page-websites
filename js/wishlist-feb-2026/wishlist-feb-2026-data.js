@@ -32,7 +32,7 @@ const gamesData = [
         release_date: "2025",
         rating: "81",
         play_status: "playing",
-        progress: 14,
+        progress: 50,
         is_purchased: true,
         review_link: "https://www.thesignmaker.co.nz/wp-content/smush-webp/2019/04/C16_Work-In-Progress.png.webp"
     },
@@ -68,7 +68,7 @@ const gamesData = [
         release_date: "2025",
         rating: "88",
         play_status: "paused",
-        progress: 3,
+        progress: 1,
         is_purchased: true,
         review_link: ""
     },

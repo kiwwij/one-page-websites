@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Многокутник розподілу</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body style="background-color: #121212; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;">
+
+    <div style="width: 800px;">
+        <canvas id="distributionChart"></canvas>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('distributionChart').getContext('2d');
+        
+        // Розширюємо вісь X до 9, оскільки в третьому варіанті n = 9
+        const labels = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+        // Оригінал: n=8, p=0.8 (для m=9 ставимо null, щоб лінія обірвалася)
+        const dataOriginal = [0.0000, 0.0001, 0.0011, 0.0092, 0.0459, 0.1468, 0.2936, 0.3355, 0.1678, null];
+        
+        // Умова 'а' (зменшена ймовірність): n=8, p=0.7
+        const dataDecreasedP = [0.0001, 0.0012, 0.0100, 0.0467, 0.1361, 0.2541, 0.2965, 0.1977, 0.0576, null];
+        
+        // Умова 'б' (збільшена кількість): n=9, p=0.8
+        const dataIncreasedN = [0.0000, 0.0000, 0.0003, 0.0028, 0.0165, 0.0661, 0.1762, 0.3020, 0.3020, 0.1342];
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Оригінал (n=8, p=0.8)',
+                        data: dataOriginal,
+                        borderColor: '#ffcc00',
+                        backgroundColor: 'rgba(255, 204, 0, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 5,
+                        pointBackgroundColor: '#fff',
+                        fill: true
+                    },
+                    {
+                        label: 'Зменшена ймовірність (n=8, p=0.7)',
+                        data: dataDecreasedP,
+                        borderColor: '#00ccff', // Блакитний колір
+                        backgroundColor: 'rgba(0, 204, 255, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 5,
+                        pointBackgroundColor: '#fff',
+                        fill: true
+                    },
+                    {
+                        label: 'Більше викликів (n=9, p=0.8)',
+                        data: dataIncreasedN,
+                        borderColor: '#ff3366', // Рожево-червоний колір
+                        backgroundColor: 'rgba(255, 51, 102, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 5,
+                        pointBackgroundColor: '#fff',
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                color: '#fff',
+                plugins: {
+                    legend: {
+                        labels: { color: '#fff' } // Робимо текст легенди білим для темної теми
+                    }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Кількість з\'єднань (m)', color: '#fff' },
+                        grid: { color: '#333' },
+                        ticks: { color: '#ccc' }
+                    },
+                    y: {
+                        title: { display: true, text: 'Ймовірність', color: '#fff' },
+                        grid: { color: '#333' },
+                        ticks: { color: '#ccc' },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

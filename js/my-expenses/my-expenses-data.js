@@ -1,12 +1,12 @@
 const database = {
     "2026-02": {
         // Доход: fix - стипендия/пенсия/зп, extra - подарки
-        income: { fix: 7643, extra: 0 },
+        income: { fix: 7643, extra: 846 },
 
         weeks: {
-            1: {
-                food: 125.56 + 26.99 + 11.99,
-                snacks: 446.02 + 35 + 153.01 + 70.35,
+            2: {
+                food: 164.54,
+                snacks: 704.38,
                 services: 34.16,
                 games: 0,
                 tech: 0,
@@ -15,20 +15,71 @@ const database = {
                 saved: 0,
                 other: 0,
             },
-            2: {
-                food: 159.95 + 184.47 + 14.69 + 49.98 + 62,
-                snacks: 93.05 + 199.53 + 14.99 + 49.99 + 55.59 + 35.18,
+            3: {
+                food: 471.09,
+                snacks: 448.33,
                 services: 99,
                 games: 0,
                 tech: 0,
                 health: 0,
                 clothes: 0,
                 saved: 0,
-                other: 262.38 + 65.33,
+                other: 327.71,
+            },
+            4: {
+                food: 720.84,
+                snacks: 388.60,
+                services: 0,
+                games: 0,
+                tech: 0,
+                health: 0,
+                clothes: 0,
+                saved: 0,
+                other: 0,
+            },
+            5: {
+                food: 594.05,
+                snacks: 89.95,
+                services: 0,
+                games: 0,
+                tech: 0,
+                health: 0,
+                clothes: 0,
+                saved: 0,
+                other: 0,
+            },
+        }
+    },
+
+    "2026-03": {
+        income: { fix: 7643, extra: 0 },
+
+        weeks: {
+            1: {
+                food: 0,
+                snacks: 0,
+                services: 0,
+                games: 0,
+                tech: 0,
+                health: 0,
+                clothes: 0,
+                saved: 0,
+                other: 0,
+            },
+            2: {
+                food: 0,
+                snacks: 0,
+                services: 0,
+                games: 0,
+                tech: 0,
+                health: 0,
+                clothes: 0,
+                saved: 0,
+                other: 0,
             },
             3: {
-                food: 452.01 + 213.83 + 55,
-                snacks: 59.99 + 78.17 + 220 + 30.44,
+                food: 0,
+                snacks: 0,
                 services: 0,
                 games: 0,
                 tech: 0,
@@ -62,7 +113,7 @@ const database = {
         }
     },
 
-    "2026-03": {
+    "2026-04": {
         income: { fix: 7643, extra: 0 },
 
         weeks: {
