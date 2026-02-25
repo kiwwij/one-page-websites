@@ -1,0 +1,225 @@
+:root {
+    /* Soft Dark Theme (Default) */
+    --bg-color: #1a1a1d;
+    --text-color: #e3e1df;
+    --card-bg: #26262b;
+    --accent-color: #c4a77d;
+    --accent-hover: #e0c193;
+    --border-color: #3b3b42;
+    --btn-bg: #323238;
+    --shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="light"] {
+    /* Soft Light Theme */
+    --bg-color: #f5f3f0;
+    --text-color: #383531;
+    --card-bg: #ffffff;
+    --accent-color: #a37c3f;
+    --accent-hover: #8f6c35;
+    --border-color: #ded9cf;
+    --btn-bg: #eae5d9;
+    --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Nunito', sans-serif; /* Soft, readable body font */
+    line-height: 1.6;
+    padding-bottom: 3rem;
+}
+
+h1, h2, h3 {
+    font-family: 'Philosopher', sans-serif; /* Thematic, elegant heading font */
+    color: var(--accent-color);
+}
+
+.icon-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    vertical-align: middle;
+}
+
+.icon-text i {
+    font-size: 1.25em;
+    display: flex;
+}
+
+header {
+    background-color: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 2rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    margin-bottom: 3rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-container h1 {
+    font-size: 1.8rem;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    background-color: var(--btn-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Philosopher', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+.grid-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    /* Adaptive grid for mobile and desktop */
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: 2rem;
+    padding: 0 1.5rem;
+}
+
+.game-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+}
+
+.poster {
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid var(--border-color);
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.card-content h2 {
+    margin-bottom: 1rem;
+    font-size: 1.6rem;
+}
+
+.text-block {
+    margin-bottom: 1.2rem;
+    font-size: 0.95rem;
+}
+
+.text-block strong {
+    color: var(--accent-color);
+    display: block;
+    margin-bottom: 4px;
+    font-family: 'Philosopher', sans-serif;
+    font-size: 1.1rem;
+}
+
+.meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: auto;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.meta-item {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.meta-item i {
+    color: var(--accent-color);
+}
+
+.steam-btn {
+    display: inline-flex;
+    justify-content: center;
+    text-decoration: none;
+    background-color: var(--btn-bg);
+    color: var(--text-color);
+    padding: 0.8rem;
+    border-radius: 8px;
+    font-family: 'Philosopher', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.steam-btn:hover {
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+    border-color: var(--accent-color);
+}
+
+/* =========================================
+   Mobile Responsiveness (Media Queries)
+   ========================================= */
+@media (max-width: 768px) {
+    header {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .header-container h1 {
+        font-size: 1.4rem;
+    }
+
+    .grid-container {
+        padding: 0 1rem;
+        gap: 1.5rem;
+    }
+
+    .card-content {
+        padding: 1rem;
+    }
+
+    .meta-grid {
+        grid-template-columns: 1fr; /* Stack meta items vertically on small screens */
+        gap: 0.8rem;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+}

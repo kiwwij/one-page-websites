@@ -1,4 +1,6 @@
 const gamesData = [
+    // "playing", "dropped", "completed", "not_started", "paused"
+
     // --- OWNED (Куплено) ---
     {
         category: "cat_owned",
@@ -6,15 +8,16 @@ const gamesData = [
         poster: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2909400/header.jpg?t=1770723867",
         desc_en: "Cloud and his friends escape Midgar and embark on a journey across the planet to stop Sephiroth. An expansive open world with deep RPG mechanics.",
         desc_ru: "Клауд и его друзья покидают Мидгар, отправляясь в путешествие по всей планете, чтобы остановить Сефирота. Огромный открытый мир и глубокая RPG-система.",
-        playtime: "80-100",
+        playtime: "30+",
         genres: ["JRPG", "Action", "Open World"],
         steam_link: "https://store.steampowered.com/app/2909400/FINAL_FANTASY_VII_REBIRTH/",
         price_uah: 1699,
         discount_percent: 50,
         release_date: "2025",
         rating: "92",
-        play_status: "completed", // "playing", "dropped", "completed", "not_started", "paused"
+        play_status: "completed",
         progress: 100,
+        // completion_date: "2026-02-21",
         is_purchased: true,
         review_link: "https://steamcommunity.com/id/serhiosergey/recommended/2909400/"
     },
@@ -32,7 +35,7 @@ const gamesData = [
         release_date: "2025",
         rating: "81",
         play_status: "playing",
-        progress: 50,
+        progress: 60,
         is_purchased: true,
         review_link: "https://www.thesignmaker.co.nz/wp-content/smush-webp/2019/04/C16_Work-In-Progress.png.webp"
     },
@@ -42,7 +45,7 @@ const gamesData = [
         poster: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/524220/header.jpg?t=1768992897",
         desc_en: "Androids 2B, 9S and A2 battle to reclaim the machine-driven dystopia overrun by powerful machines. A philosophical masterpiece with multiple endings.",
         desc_ru: "Андроиды 2B, 9S и A2 сражаются за возвращение планеты, захваченной машинами. Философский шедевр с множеством концовок и уникальным повествованием.",
-        playtime: "40+",
+        playtime: "25",
         genres: ["RPG", "Action", "Hack & Slash"],
         steam_link: "https://store.steampowered.com/app/524220/NieRAutomata/",
         price_uah: 466,

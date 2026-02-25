@@ -236,6 +236,16 @@
     "description": "A random anime picture generator.",
     "stack": ["html", "css", "js", "github"]
   },
+  "teor.html": {
+    "image": "",
+    "description": "just homework at university",
+    "stack": ["html", "css", "js", "github"]
+  },
+  "octopath-traveler.html": {
+    "image": "bx bx-compass",
+    "description": "Information about the Octopath Traveler series.",
+    "stack": ["html", "css", "js", "github"]
+  },
   ".html": {
     "image": "",
     "description": "",

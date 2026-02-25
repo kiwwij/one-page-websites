@@ -27,7 +27,10 @@ const translations = {
         stat_total_games: "Total Games",
         stat_completed: "Completed",
         stat_dropped: "Dropped",
-        stat_total_value: "Total Value (No Discounts)"
+        stat_total_value: "Total Value (No Discounts)",
+        btn_show_completed: "Completed Only",
+        btn_all_games: "All Games",
+        cat_completed_games: "Completed Games",
     },
     ru: {
         steamProfile: "Игра в Steam",
@@ -57,12 +60,21 @@ const translations = {
         stat_total_games: "Всего игр",
         stat_completed: "Пройдено",
         stat_dropped: "Забросил",
-        stat_total_value: "Общая стоимость всех игр без скидок"
+        stat_total_value: "Общая стоимость всех игр без скидок",
+        btn_show_completed: "Только пройденные",
+        btn_all_games: "Все игры",
+        cat_completed_games: "Пройденные игры",
     }
 };
 
 let currentLang = 'en';
 let isStatusVisible = false;
+let isCompletedOnlyVisible = false;
+
+function toggleCompletedMode() {
+    isCompletedOnlyVisible = !isCompletedOnlyVisible;
+    render();
+}
 
 const categoryOrder = [
     "cat_owned",
@@ -132,9 +144,11 @@ function calculateAndRenderStats() {
     let totalValue = 0;
 
     gamesData.forEach(game => {
-        if (game.play_status === "completed") {
+        let actualStatus = (game.progress === 100) ? "completed" : game.play_status;
+
+        if (actualStatus === "completed") {
             completedCount++;
-        } else if (game.play_status === "dropped") {
+        } else if (actualStatus === "dropped") {
             droppedCount++;
         }
 
@@ -168,6 +182,7 @@ function calculateAndRenderStats() {
 function render() {
     const t = translations[currentLang];
 
+    // Обновляем переводы
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (t[key]) {
@@ -175,17 +190,26 @@ function render() {
         }
     });
 
+    // Кнопка статуса
     const toggleBtn = document.getElementById('toggle-status-btn');
     if (toggleBtn) {
         toggleBtn.innerHTML = isStatusVisible 
             ? `<i class='bx bx-hide'></i> ${t.btn_hide_status}`
             : `<i class='bx bx-show'></i> ${t.btn_show_status}`;
         
-        if(isStatusVisible) {
-            toggleBtn.classList.add('active');
-        } else {
-            toggleBtn.classList.remove('active');
-        }
+        if(isStatusVisible) toggleBtn.classList.add('active');
+        else toggleBtn.classList.remove('active');
+    }
+
+    // Кнопка пройденных игр
+    const completedBtn = document.getElementById('toggle-completed-btn');
+    if (completedBtn) {
+        completedBtn.innerHTML = isCompletedOnlyVisible 
+            ? `<i class='bx bx-list-ul'></i> ${t.btn_all_games}`
+            : `<i class='bx bx-check-double'></i> ${t.btn_show_completed}`;
+            
+        if(isCompletedOnlyVisible) completedBtn.classList.add('active');
+        else completedBtn.classList.remove('active');
     }
 
     const container = document.getElementById('game-container');
@@ -198,166 +222,186 @@ function render() {
 
     calculateAndRenderStats();
 
-    categoryOrder.forEach(catKey => {
-        const catGames = gamesData.filter(g => g.category === catKey);
-        if (catGames.length === 0) return;
+    if (isCompletedOnlyVisible) {
+        // РЕЖИМ ТОЛЬКО ПРОЙДЕННЫХ ИГР
+        let completedGames = gamesData.filter(game => game.play_status === 'completed' || game.progress === 100);
+        
+        // Сортировка по дате прохождения (сначала новые)
+        completedGames.sort((a, b) => {
+            if (!a.completion_date) return 1;  // Если даты нет, кидаем в конец
+            if (!b.completion_date) return -1;
+            return new Date(b.completion_date) - new Date(a.completion_date); 
+        });
 
-        const section = document.createElement('section');
-        section.className = 'category-section';
+        if (completedGames.length > 0) {
+            createGamesSection(t.cat_completed_games, completedGames, container, t);
+        } else {
+            container.innerHTML = `<h3 style="text-align:center; color:var(--text-muted); margin-top:50px;">Пока нет пройденных игр</h3>`;
+        }
+    } else {
+        // ОБЫЧНЫЙ РЕЖИМ (ПО КАТЕГОРИЯМ)
+        categoryOrder.forEach(catKey => {
+            const catGames = gamesData.filter(g => g.category === catKey);
+            if (catGames.length === 0) return;
+            createGamesSection(t[catKey], catGames, container, t);
+        });
+    }
+}
 
-        const title = document.createElement('h2');
-        title.className = 'category-title';
-        title.innerHTML = `<i class='bx bxs-folder'></i> &nbsp; ${t[catKey]}`;
-        section.appendChild(title);
+// Вспомогательная функция для генерации карточек (чтобы не дублировать код)
+function createGamesSection(sectionTitle, gamesList, container, t) {
+    const section = document.createElement('section');
+    section.className = 'category-section';
 
-        const grid = document.createElement('div');
-        grid.className = 'games-grid';
+    const title = document.createElement('h2');
+    title.className = 'category-title';
+    title.innerHTML = `<i class='bx bxs-folder'></i> &nbsp; ${sectionTitle}`;
+    section.appendChild(title);
 
-        catGames.forEach(game => {
-            const card = document.createElement('div');
+    const grid = document.createElement('div');
+    grid.className = 'games-grid';
+
+    gamesList.forEach(game => {
+        const card = document.createElement('div');
+        
+        // Логика перехвата 100% прогресса
+        let currentStatus = game.play_status || "not_started";
+        if (game.progress === 100) {
+            currentStatus = "completed";
+        }
+        
+        let statusOverlay = '';
+        let extraCardClass = '';
+        let progressHtml = '';
+        
+        if (isStatusVisible || isCompletedOnlyVisible) { // Показываем статусы в обоих спец-режимах
+            let statusTextKey = `status_${currentStatus}`;
+            let statusColorClass = `status-badge-${currentStatus}`;
             
-            let statusOverlay = '';
-            let extraCardClass = '';
-            let progressHtml = '';
-            
-            if (isStatusVisible) {
-                let currentStatus = game.play_status || "not_started";
-                let statusTextKey = `status_${currentStatus}`;
-                let statusColorClass = `status-badge-${currentStatus}`;
-                
-                statusOverlay = `<div class="status-overlay ${statusColorClass}">${t[statusTextKey] || currentStatus}</div>`;
+            statusOverlay = `<div class="status-overlay ${statusColorClass}">${t[statusTextKey] || currentStatus}</div>`;
 
-                if (currentStatus === 'dropped') {
-                    extraCardClass = 'game-card-dropped';
-                } else if (currentStatus === 'completed') {
-                    extraCardClass = 'game-card-completed'; 
-                } else if (currentStatus === 'paused') {
-                    extraCardClass = 'game-card-paused';
-                }
+            if (currentStatus === 'dropped') extraCardClass = 'game-card-dropped';
+            else if (currentStatus === 'completed') extraCardClass = 'game-card-completed'; 
+            else if (currentStatus === 'paused') extraCardClass = 'game-card-paused';
 
-                if (game.progress !== undefined) {
-                    progressHtml = `
-                        <div class="progress-wrapper">
-                            <span class="progress-text">${game.progress}%</span>
-                            <div class="progress-container">
-                                <div class="progress-bar" style="width: ${game.progress}%;"></div>
-                            </div>
+            if (game.progress !== undefined) {
+                progressHtml = `
+                    <div class="progress-wrapper">
+                        <span class="progress-text">${game.progress}%</span>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: ${game.progress}%;"></div>
                         </div>
-                    `;
-                }
-            }
-
-            // ВЕШАЕМ КЛАССЫ СРАЗУ НА ГЛАВНЫЙ БЛОК
-            card.className = `game-card ${extraCardClass}`;
-
-            let reviewHtml = '';
-            if (game.review_link) {
-                reviewHtml = `
-                    <a href="${game.review_link}" target="_blank" class="action-icon review-icon" title="${t.read_review}">
-                        <i class='bx bxs-message-square-detail'></i>
-                    </a>
-                `;
-            }
-
-            let playtimeHtml = '';
-            if (game.playtime) {
-                playtimeHtml = `<div class="meta-item" title="Playtime"><i class='bx bx-time-five'></i> ${game.playtime} ${t.playtime}</div>`;
-            }
-
-            let dateHtml = '';
-            if (game.release_date) {
-                dateHtml = `<div class="meta-item" title="Release Date"><i class='bx bx-calendar'></i> ${game.release_date}</div>`;
-            }
-
-            let priceHtml = '';
-            let purchasedIcon = game.is_purchased ? `<i class='bx bx-check-circle purchased-icon' title='${t.already_purchased}'></i>` : '';
-            
-            if (isStatusVisible && (game.play_status === 'completed' || game.play_status === 'dropped')) {
-                priceHtml = '';
-            } else {
-                if (game.price_uah === 0 || !game.price_uah) {
-                    priceHtml = `<span class="price-main">${purchasedIcon}${t.tba}</span>`;
-                } else {
-                    if (game.discount_percent > 0) {
-                        let discountedPrice = Math.round(game.price_uah * (1 - game.discount_percent / 100));
-                        priceHtml = `
-                            <div class="price-row">
-                                <span class="price-original">${game.price_uah} ₴</span>
-                                <span class="price-main">${purchasedIcon}${discountedPrice} ₴</span>
-                            </div>
-                            <span class="price-sub">${t.sale} -${game.discount_percent}%</span>
-                        `;
-                    } else {
-                        priceHtml = `<span class="price-main">${purchasedIcon}${game.price_uah} ₴</span>`;
-                    }
-                }
-            }
-
-            let ratingHtml = '';
-            if (!(isStatusVisible && game.play_status === 'dropped')) {
-                if (game.rating && game.rating !== "TBA" && game.rating !== "-") {
-                    let rClass = getRatingClass(game.rating);
-                    ratingHtml = `<div class="meta-score ${rClass}" title="${t.metacritic}">${game.rating}</div>`;
-                }
-            }
-
-            let steamLinkHtml = '';
-            const linkAttr = game.steam_link === '#' ? 'style="pointer-events:none; opacity:0.5;"' : 'target="_blank"';
-            if (!(isStatusVisible && game.play_status === 'dropped')) {
-                steamLinkHtml = `
-                    <a href="${game.steam_link}" ${linkAttr} class="action-icon steam-link-icon" title="${t.steamProfile}">
-                        <i class='bx bxl-steam'></i>
-                    </a>
-                `;
-            }
-
-            const description = currentLang === 'ru' ? game.desc_ru : game.desc_en;
-
-            // ДОБАВЛЕНА ЗАГЛУШКА ONERROR ДЛЯ КАРТИНОК
-            card.innerHTML = `
-                <div class="card-inner">
-                    <div class="poster-container">
-                        <img src="${game.poster}" alt="${game.title}" class="card-poster" onerror="this.onerror=null; this.src='https://placehold.co/600x280/1e1e1e/7c4dff?text=No+Image';">
-                        ${statusOverlay}
                     </div>
-                    
-                    <div class="card-body">
-                        <h3 class="game-title">${game.title}</h3>
-                        
-                        <div class="game-meta">
-                            <div class="meta-item" title="Genre">
-                                <i class='bx bxs-joystick'></i> ${game.genres[0] || 'Game'} 
-                            </div>
-                            ${playtimeHtml}
-                            ${dateHtml}
+                `;
+            }
+        }
+
+        card.className = `game-card ${extraCardClass}`;
+
+        let reviewHtml = '';
+        if (game.review_link) {
+            reviewHtml = `
+                <a href="${game.review_link}" target="_blank" class="action-icon review-icon" title="${t.read_review}">
+                    <i class='bx bxs-message-square-detail'></i>
+                </a>
+            `;
+        }
+
+        let playtimeHtml = game.playtime ? `<div class="meta-item" title="Playtime"><i class='bx bx-time-five'></i> ${game.playtime} ${t.playtime}</div>` : '';
+        let dateHtml = game.release_date ? `<div class="meta-item" title="Release Date"><i class='bx bx-calendar'></i> ${game.release_date}</div>` : '';
+        
+        // Показываем дату прохождения, если она есть и мы в режиме "Пройденные"
+        if (isCompletedOnlyVisible && game.completion_date) {
+             dateHtml = `<div class="meta-item" style="color: var(--accent);" title="Completion Date"><i class='bx bx-check-double'></i> Пройдено: ${game.completion_date}</div>`;
+        }
+
+        let priceHtml = '';
+        let purchasedIcon = game.is_purchased ? `<i class='bx bx-check-circle purchased-icon' title='${t.already_purchased}'></i>` : '';
+        
+        if ((isStatusVisible || isCompletedOnlyVisible) && (currentStatus === 'completed' || currentStatus === 'dropped')) {
+            priceHtml = '';
+        } else {
+            if (game.price_uah === 0 || !game.price_uah) {
+                priceHtml = `<span class="price-main">${purchasedIcon}${t.tba}</span>`;
+            } else {
+                if (game.discount_percent > 0) {
+                    let discountedPrice = Math.round(game.price_uah * (1 - game.discount_percent / 100));
+                    priceHtml = `
+                        <div class="price-row">
+                            <span class="price-original">${game.price_uah} ₴</span>
+                            <span class="price-main">${purchasedIcon}${discountedPrice} ₴</span>
                         </div>
+                        <span class="price-sub">${t.sale} -${game.discount_percent}%</span>
+                    `;
+                } else {
+                    priceHtml = `<span class="price-main">${purchasedIcon}${game.price_uah} ₴</span>`;
+                }
+            }
+        }
 
-                        ${progressHtml}
+        let ratingHtml = '';
+        if (!((isStatusVisible || isCompletedOnlyVisible) && currentStatus === 'dropped')) {
+            if (game.rating && game.rating !== "TBA" && game.rating !== "-") {
+                let rClass = getRatingClass(game.rating);
+                ratingHtml = `<div class="meta-score ${rClass}" title="${t.metacritic}">${game.rating}</div>`;
+            }
+        }
 
-                        <p class="game-desc">${description}</p>
+        let steamLinkHtml = '';
+        const linkAttr = game.steam_link === '#' ? 'style="pointer-events:none; opacity:0.5;"' : 'target="_blank"';
+        if (!((isStatusVisible || isCompletedOnlyVisible) && currentStatus === 'dropped')) {
+            steamLinkHtml = `
+                <a href="${game.steam_link}" ${linkAttr} class="action-icon steam-link-icon" title="${t.steamProfile}">
+                    <i class='bx bxl-steam'></i>
+                </a>
+            `;
+        }
 
-                        <div class="game-footer">
-                            <div class="price-block">
-                               ${priceHtml}
-                            </div>
-                            
-                            <div class="footer-right">
-                                ${ratingHtml}
-                                <div class="footer-icons">
-                                    ${reviewHtml}
-                                    ${steamLinkHtml}
-                                </div>
+        const description = currentLang === 'ru' ? game.desc_ru : game.desc_en;
+
+        card.innerHTML = `
+            <div class="card-inner">
+                <div class="poster-container">
+                    <img src="${game.poster}" alt="${game.title}" class="card-poster" onerror="this.onerror=null; this.src='https://placehold.co/600x280/1e1e1e/7c4dff?text=No+Image';">
+                    ${statusOverlay}
+                </div>
+                
+                <div class="card-body">
+                    <h3 class="game-title">${game.title}</h3>
+                    
+                    <div class="game-meta">
+                        <div class="meta-item" title="Genre">
+                            <i class='bx bxs-joystick'></i> ${game.genres[0] || 'Game'} 
+                        </div>
+                        ${playtimeHtml}
+                        ${dateHtml}
+                    </div>
+
+                    ${progressHtml}
+
+                    <p class="game-desc">${description}</p>
+
+                    <div class="game-footer">
+                        <div class="price-block">
+                           ${priceHtml}
+                        </div>
+                        
+                        <div class="footer-right">
+                            ${ratingHtml}
+                            <div class="footer-icons">
+                                ${reviewHtml}
+                                ${steamLinkHtml}
                             </div>
                         </div>
                     </div>
                 </div>
-            `;
-            grid.appendChild(card);
-        });
-
-        section.appendChild(grid);
-        container.appendChild(section);
+            </div>
+        `;
+        grid.appendChild(card);
     });
+
+    section.appendChild(grid);
+    container.appendChild(section);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
