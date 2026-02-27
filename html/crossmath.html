@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="kiwwij">
+    <title>Crossmath</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../css/crossmath.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class='bx bx-math'></i>
+            <span>Crossmath</span>
+        </div>
+        <div class="controls-header">
+            <button id="lang-toggle" class="icon-btn">RU</button>
+            <button id="theme-toggle" class="icon-btn"><i class='bx bx-moon'></i></button>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="game-controls">
+            <div class="control-group">
+                <label id="diff-label" for="difficulty">Difficulty:</label>
+                <select id="difficulty">
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+            </div>
+            
+            <div class="control-group speed-group">
+                <label id="speed-label" for="bot-speed"><i class='bx bx-tachometer'></i> Bot Speed</label>
+                <input type="range" id="bot-speed" min="10" max="1000" value="300" step="10">
+            </div>
+
+            <div class="action-buttons">
+                <button id="btn-restart" class="btn primary"><i class='bx bx-refresh'></i> <span id="text-restart">Restart</span></button>
+                <button id="btn-bot" class="btn secondary"><i class='bx bx-bot'></i> <span id="text-bot">Auto Solve</span></button>
+                <button id="btn-rules" class="btn outline"><i class='bx bx-book-open'></i> <span id="text-rules">Rules</span></button>
+            </div>
+        </section>
+
+        <section class="board-container">
+            <div id="game-board" class="board">
+                </div>
+        </section>
+    </main>
+
+    <div id="rules-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn"><i class='bx bx-x'></i></span>
+            <h2 id="rules-title">How to play Crossmath</h2>
+            <ul id="rules-list">
+                </ul>
+        </div>
+    </div>
+
+    <script src="../js/crossmath.js"></script>
+</body>
+</html>

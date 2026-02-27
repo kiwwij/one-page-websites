@@ -89,7 +89,7 @@ const gamesData = [
         release_date: "2018",
         rating: "85",
         play_status: "dropped",
-        progress: 5,
+        progress: 1,
         is_purchased: true,
         review_link: ""
     },
@@ -107,7 +107,7 @@ const gamesData = [
         release_date: "2024",
         rating: "82",
         play_status: "paused",
-        progress: 5,
+        progress: 20,
         is_purchased: true,
         review_link: ""
     },

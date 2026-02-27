@@ -1,0 +1,274 @@
+:root {
+    /* Dark Theme (Default) */
+    --bg-color: #1e1e24;
+    --text-color: #f4f4f9;
+    --header-bg: #2a2a35;
+    --board-bg: #252530;
+    --cell-bg: #333344;
+    --cell-border: #4a4a6a;
+    --primary-color: #6c5ce7;
+    --primary-hover: #5b4bc4;
+    --secondary-color: #00cec9;
+    --secondary-hover: #00b3a6;
+    --modal-bg: rgba(0, 0, 0, 0.7);
+    --modal-content: #2a2a35;
+}
+
+body.light-theme {
+    /* Light Theme */
+    --bg-color: #f4f4f9;
+    --text-color: #2d3436;
+    --header-bg: #ffffff;
+    --board-bg: #e1e5ee;
+    --cell-bg: #ffffff;
+    --cell-border: #b2bec3;
+    --primary-color: #6c5ce7;
+    --primary-hover: #5b4bc4;
+    --secondary-color: #0984e3;
+    --secondary-hover: #076bb8;
+    --modal-bg: rgba(0, 0, 0, 0.4);
+    --modal-content: #ffffff;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito', sans-serif;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+header {
+    background-color: var(--header-bg);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary-color);
+}
+
+.controls-header {
+    display: flex;
+    gap: 1rem;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+/* Main Layout */
+.container {
+    flex: 1;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+}
+
+/* Controls Section */
+.game-controls {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-weight: 600;
+}
+
+select {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    background-color: var(--cell-bg);
+    color: var(--text-color);
+    border: 1px solid var(--cell-border);
+    font-weight: 600;
+    outline: none;
+}
+
+.speed-group {
+    width: 100%;
+    max-width: 300px;
+}
+
+input[type="range"] {
+    width: 100%;
+    accent-color: var(--primary-color);
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.btn {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 800;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn.primary { background-color: var(--primary-color); color: white; }
+.btn.primary:hover { background-color: var(--primary-hover); }
+
+.btn.secondary { background-color: var(--secondary-color); color: white; }
+.btn.secondary:hover { background-color: var(--secondary-hover); }
+
+.btn.outline { background-color: transparent; border: 2px solid var(--primary-color); color: var(--text-color); }
+
+/* Game Board */
+.board-container {
+    background-color: var(--board-bg);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(7, auto);
+    gap: 0.5rem;
+    align-items: center;
+    justify-items: center;
+}
+
+.cell {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 800;
+    border-radius: 8px;
+}
+
+.cell.input {
+    background-color: var(--cell-bg);
+    border: 2px solid var(--cell-border);
+    cursor: pointer;
+    color: var(--text-color);
+    text-align: center;
+}
+
+.cell.input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.cell.input.bot-active {
+    background-color: rgba(108, 92, 231, 0.2);
+    border-color: var(--primary-color);
+}
+
+.cell.operator, .cell.result, .cell.equals {
+    background-color: transparent;
+    border: none;
+    color: var(--text-color);
+}
+
+.cell.result {
+    font-weight: 800;
+    color: var(--secondary-color);
+}
+
+/* ЭТО ПРАВКА ДЛЯ КРАСИВОГО ВИДА НИЖНИХ "=" */
+.cell.equals.v-equals {
+    transform: rotate(90deg); /* Поворачиваем, чтобы создать двойную вертикальную линию */
+    font-size: 1.4rem; /* Немного увеличим для красоты */
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: var(--modal-bg);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal.active { display: flex; }
+
+.modal-content {
+    background-color: var(--modal-content);
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 400px;
+    width: 90%;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+#rules-list {
+    margin-top: 1rem;
+    padding-left: 1.5rem;
+}
+
+#rules-list li {
+    margin-bottom: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .cell {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+    .board { gap: 0.25rem; }
+    .action-buttons { flex-direction: column; width: 100%; }
+    .btn { justify-content: center; }
+}

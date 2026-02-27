@@ -52,7 +52,7 @@ const database = {
     },
 
     "2026-03": {
-        income: { fix: 7643, extra: 0 },
+        income: { fix: 5643, extra: 0 },
 
         weeks: {
             1: {

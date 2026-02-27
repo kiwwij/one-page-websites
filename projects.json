@@ -246,6 +246,11 @@
     "description": "Information about the Octopath Traveler series.",
     "stack": ["html", "css", "js", "github"]
   },
+  "crossmath.html": {
+    "image": "bx bx-math",
+    "description": "A web-based version of the Crossmath puzzle game.",
+    "stack": ["html", "css", "js", "github"]
+  },
   ".html": {
     "image": "",
     "description": "",
