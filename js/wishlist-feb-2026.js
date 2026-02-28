@@ -14,6 +14,7 @@ const translations = {
         sale: "Possible discount:",
         possible: "Possible:",
         footer_text: "Games on kiwwij's wishlist as of February 2026 that he wants to play.",
+        footer_text2: "The approximate time indicated is for completing the story only, not the entire game.",
         metacritic: "Metacritic",
         btn_show_status: "Show Progress",
         btn_hide_status: "Hide Progress",
@@ -22,15 +23,19 @@ const translations = {
         status_paused: "Paused",
         status_completed: "Completed",
         status_not_started: "Not Started",
+        status_changed_mind: "Changed Mind",
         read_review: "Review",
         already_purchased: "Already purchased",
         stat_total_games: "Total Games",
         stat_completed: "Completed",
         stat_dropped: "Dropped",
+        stat_changed_mind: "Changed Mind",
         stat_total_value: "Total Value (No Discounts)",
-        btn_show_completed: "Completed Only",
-        btn_all_games: "All Games",
-        cat_completed_games: "Completed Games",
+        filter_all: "All Games",
+        filter_completed: "Completed Only",
+        filter_dropped: "Dropped Only",
+        filter_changed_mind: "Changed Mind Only",
+        empty_list: "Nothing here yet",
     },
     ru: {
         steamProfile: "Игра в Steam",
@@ -47,6 +52,7 @@ const translations = {
         sale: "Возможная скидка:",
         possible: "Возможно:",
         footer_text: "Игры в списке желаемого kiwwij на момент февраля 2026, который он хочет пройти.",
+        footer_text2: "Указано примерное время прохождения только сюжета, а не всей игры.",
         metacritic: "Metacritic",
         btn_show_status: "Показать прогресс",
         btn_hide_status: "Скрыть прогресс",
@@ -55,24 +61,28 @@ const translations = {
         status_paused: "Отложил",
         status_completed: "Пройдено",
         status_not_started: "Не начал",
+        status_changed_mind: "Передумал",
         read_review: "Обзор",
         already_purchased: "Уже куплено",
         stat_total_games: "Всего игр",
         stat_completed: "Пройдено",
         stat_dropped: "Забросил",
+        stat_changed_mind: "Передумал",
         stat_total_value: "Общая стоимость всех игр без скидок",
-        btn_show_completed: "Только пройденные",
-        btn_all_games: "Все игры",
-        cat_completed_games: "Пройденные игры",
+        filter_all: "Все игры",
+        filter_completed: "Только пройденные",
+        filter_dropped: "Только заброшенные",
+        filter_changed_mind: "Только передуманные",
+        empty_list: "Тут пока пусто",
     }
 };
 
 let currentLang = 'en';
 let isStatusVisible = false;
-let isCompletedOnlyVisible = false;
+let currentFilter = 'all';
 
-function toggleCompletedMode() {
-    isCompletedOnlyVisible = !isCompletedOnlyVisible;
+function changeFilter(value) {
+    currentFilter = value;
     render();
 }
 
@@ -141,6 +151,7 @@ function calculateAndRenderStats() {
     let totalGames = gamesData.length;
     let completedCount = 0;
     let droppedCount = 0;
+    let changedMindCount = 0;
     let totalValue = 0;
 
     gamesData.forEach(game => {
@@ -150,6 +161,8 @@ function calculateAndRenderStats() {
             completedCount++;
         } else if (actualStatus === "dropped") {
             droppedCount++;
+        } else if (actualStatus === "changed_mind") {
+            changedMindCount++;
         }
 
         if (game.price_uah) {
@@ -171,6 +184,10 @@ function calculateAndRenderStats() {
         <div class="stat-item">
             <span class="stat-label">${t.stat_dropped}</span>
             <span class="stat-value dropped">${droppedCount}</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">${t.stat_changed_mind}</span>
+            <span class="stat-value changed-mind" style="color: #9c27b0;">${changedMindCount}</span>
         </div>
         <div class="stat-item">
             <span class="stat-label">${t.stat_total_value}</span>
@@ -201,17 +218,6 @@ function render() {
         else toggleBtn.classList.remove('active');
     }
 
-    // Кнопка пройденных игр
-    const completedBtn = document.getElementById('toggle-completed-btn');
-    if (completedBtn) {
-        completedBtn.innerHTML = isCompletedOnlyVisible 
-            ? `<i class='bx bx-list-ul'></i> ${t.btn_all_games}`
-            : `<i class='bx bx-check-double'></i> ${t.btn_show_completed}`;
-            
-        if(isCompletedOnlyVisible) completedBtn.classList.add('active');
-        else completedBtn.classList.remove('active');
-    }
-
     const container = document.getElementById('game-container');
     container.innerHTML = '';
 
@@ -222,21 +228,25 @@ function render() {
 
     calculateAndRenderStats();
 
-    if (isCompletedOnlyVisible) {
-        // РЕЖИМ ТОЛЬКО ПРОЙДЕННЫХ ИГР
-        let completedGames = gamesData.filter(game => game.play_status === 'completed' || game.progress === 100);
+    if (currentFilter !== 'all') {
+        // РЕЖИМ ФИЛЬТРАЦИИ (Пройденные, Заброшенные, Передумал)
+        let filteredGames = gamesData.filter(game => {
+            let actualStatus = (game.progress === 100) ? 'completed' : game.play_status;
+            return actualStatus === currentFilter;
+        });
         
         // Сортировка по дате прохождения (сначала новые)
-        completedGames.sort((a, b) => {
-            if (!a.completion_date) return 1;  // Если даты нет, кидаем в конец
+        filteredGames.sort((a, b) => {
+            if (!a.completion_date) return 1;  
             if (!b.completion_date) return -1;
             return new Date(b.completion_date) - new Date(a.completion_date); 
         });
 
-        if (completedGames.length > 0) {
-            createGamesSection(t.cat_completed_games, completedGames, container, t);
+        if (filteredGames.length > 0) {
+            let titleKey = `filter_${currentFilter}`;
+            createGamesSection(t[titleKey] || t[`status_${currentFilter}`], filteredGames, container, t);
         } else {
-            container.innerHTML = `<h3 style="text-align:center; color:var(--text-muted); margin-top:50px;">Пока нет пройденных игр</h3>`;
+            container.innerHTML = `<h3 style="text-align:center; color:var(--text-muted); margin-top:50px;">${t.empty_list}</h3>`;
         }
     } else {
         // ОБЫЧНЫЙ РЕЖИМ (ПО КАТЕГОРИЯМ)
@@ -248,7 +258,6 @@ function render() {
     }
 }
 
-// Вспомогательная функция для генерации карточек (чтобы не дублировать код)
 function createGamesSection(sectionTitle, gamesList, container, t) {
     const section = document.createElement('section');
     section.className = 'category-section';
@@ -274,7 +283,7 @@ function createGamesSection(sectionTitle, gamesList, container, t) {
         let extraCardClass = '';
         let progressHtml = '';
         
-        if (isStatusVisible || isCompletedOnlyVisible) { // Показываем статусы в обоих спец-режимах
+        if (isStatusVisible || currentFilter !== 'all') { 
             let statusTextKey = `status_${currentStatus}`;
             let statusColorClass = `status-badge-${currentStatus}`;
             
@@ -283,6 +292,7 @@ function createGamesSection(sectionTitle, gamesList, container, t) {
             if (currentStatus === 'dropped') extraCardClass = 'game-card-dropped';
             else if (currentStatus === 'completed') extraCardClass = 'game-card-completed'; 
             else if (currentStatus === 'paused') extraCardClass = 'game-card-paused';
+            else if (currentStatus === 'changed_mind') extraCardClass = 'game-card-changed_mind';
 
             if (game.progress !== undefined) {
                 progressHtml = `
@@ -311,14 +321,14 @@ function createGamesSection(sectionTitle, gamesList, container, t) {
         let dateHtml = game.release_date ? `<div class="meta-item" title="Release Date"><i class='bx bx-calendar'></i> ${game.release_date}</div>` : '';
         
         // Показываем дату прохождения, если она есть и мы в режиме "Пройденные"
-        if (isCompletedOnlyVisible && game.completion_date) {
+        if (currentFilter === 'completed' && game.completion_date) {
              dateHtml = `<div class="meta-item" style="color: var(--accent);" title="Completion Date"><i class='bx bx-check-double'></i> Пройдено: ${game.completion_date}</div>`;
         }
 
         let priceHtml = '';
         let purchasedIcon = game.is_purchased ? `<i class='bx bx-check-circle purchased-icon' title='${t.already_purchased}'></i>` : '';
         
-        if ((isStatusVisible || isCompletedOnlyVisible) && (currentStatus === 'completed' || currentStatus === 'dropped')) {
+        if ((isStatusVisible || currentFilter !== 'all') && (currentStatus === 'completed' || currentStatus === 'dropped' || currentStatus === 'changed_mind')) {
             priceHtml = '';
         } else {
             if (game.price_uah === 0 || !game.price_uah) {
@@ -340,7 +350,7 @@ function createGamesSection(sectionTitle, gamesList, container, t) {
         }
 
         let ratingHtml = '';
-        if (!((isStatusVisible || isCompletedOnlyVisible) && currentStatus === 'dropped')) {
+        if (!((isStatusVisible || currentFilter !== 'all') && (currentStatus === 'dropped' || currentStatus === 'changed_mind'))) {
             if (game.rating && game.rating !== "TBA" && game.rating !== "-") {
                 let rClass = getRatingClass(game.rating);
                 ratingHtml = `<div class="meta-score ${rClass}" title="${t.metacritic}">${game.rating}</div>`;
@@ -349,7 +359,7 @@ function createGamesSection(sectionTitle, gamesList, container, t) {
 
         let steamLinkHtml = '';
         const linkAttr = game.steam_link === '#' ? 'style="pointer-events:none; opacity:0.5;"' : 'target="_blank"';
-        if (!((isStatusVisible || isCompletedOnlyVisible) && currentStatus === 'dropped')) {
+        if (!((isStatusVisible || currentFilter !== 'all') && (currentStatus === 'dropped' || currentStatus === 'changed_mind'))) {
             steamLinkHtml = `
                 <a href="${game.steam_link}" ${linkAttr} class="action-icon steam-link-icon" title="${t.steamProfile}">
                     <i class='bx bxl-steam'></i>

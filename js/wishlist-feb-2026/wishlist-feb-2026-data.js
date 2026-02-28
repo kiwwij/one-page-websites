@@ -1,5 +1,5 @@
 const gamesData = [
-    // "playing", "dropped", "completed", "not_started", "paused"
+    // "playing", "dropped", "completed", "not_started", "paused", "changed_mind"
 
     // --- OWNED (Куплено) ---
     {
@@ -27,17 +27,17 @@ const gamesData = [
         poster: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3489700/header.jpg?t=1763566418", 
         desc_en: "Save humanity from extinction in this fast-paced action adventure. Play as EVE, fighting the Naytiba with stylish combos and visceral combat.",
         desc_ru: "Спасите человечество от вымирания в этом динамичном экшене. Играя за Еву, сражайтесь с таинственными Найтиба, используя стильные комбо и мощные приемы.",
-        playtime: "25-30",
+        playtime: "14",
         genres: ["Action", "Hack & Slash", "Sci-Fi"],
         steam_link: "https://store.steampowered.com/app/3489700/Stellar_Blade/",
         price_uah: 1999,
         discount_percent: 25,
         release_date: "2025",
         rating: "81",
-        play_status: "playing",
-        progress: 90,
+        play_status: "completed",
+        progress: 100,
         is_purchased: true,
-        review_link: "https://www.thesignmaker.co.nz/wp-content/smush-webp/2019/04/C16_Work-In-Progress.png.webp"
+        review_link: "https://steamcommunity.com/id/serhiosergey/recommended/3489700/"
     },
     {
         category: "cat_owned",
@@ -52,10 +52,10 @@ const gamesData = [
         discount_percent: 65,
         release_date: "2017",
         rating: "88",
-        play_status: "paused",
+        play_status: "playing",
         progress: 3,
         is_purchased: true,
-        review_link: ""
+        review_link: "https://www.thesignmaker.co.nz/wp-content/smush-webp/2019/04/C16_Work-In-Progress.png.webp"
     },
     {
         category: "cat_owned",
@@ -456,7 +456,7 @@ const gamesData = [
         discount_percent: 10,
         release_date: "2025",
         rating: "92",
-        play_status: "not_started",
+        play_status: "changed_mind",
         progress: 0,
         is_purchased: false,
         review_link: ""

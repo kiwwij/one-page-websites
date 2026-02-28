@@ -4,6 +4,17 @@ const database = {
         income: { fix: 7643, extra: 846 },
 
         weeks: {
+            1: {
+                food: 0,
+                snacks: 0,
+                services: 0,
+                games: 0,
+                tech: 0,
+                health: 0,
+                clothes: 0,
+                saved: 0,
+                other: 0,
+            },
             2: {
                 food: 164.54,
                 snacks: 704.38,
@@ -38,8 +49,19 @@ const database = {
                 other: 0,
             },
             5: {
-                food: 594.05 + 29.99 + 26.49,
-                snacks: 89.95 + 226.61,
+                food: 784.53,
+                snacks: 369.49,
+                services: 0,
+                games: 0,
+                tech: 0,
+                health: 0,
+                clothes: 0,
+                saved: 0,
+                other: 0,
+            },
+            6: {
+                food: 0,
+                snacks: 0,
                 services: 0,
                 games: 0,
                 tech: 0,
@@ -58,7 +80,7 @@ const database = {
             1: {
                 food: 0,
                 snacks: 0,
-                services: 0,
+                services: 424.2,
                 games: 0,
                 tech: 0,
                 health: 0,
@@ -80,7 +102,7 @@ const database = {
             3: {
                 food: 0,
                 snacks: 0,
-                services: 0,
+                services: 99,
                 games: 0,
                 tech: 0,
                 health: 0,
@@ -100,6 +122,17 @@ const database = {
                 other: 0,
             },
             5: {
+                food: 0,
+                snacks: 0,
+                services: 0,
+                games: 0,
+                tech: 0,
+                health: 0,
+                clothes: 0,
+                saved: 0,
+                other: 0,
+            },
+            6: {
                 food: 0,
                 snacks: 0,
                 services: 0,
@@ -162,6 +195,17 @@ const database = {
                 other: 0,
             },
             5: {
+                food: 0,
+                snacks: 0,
+                services: 0,
+                games: 0,
+                tech: 0,
+                health: 0,
+                clothes: 0,
+                saved: 0,
+                other: 0,
+            },
+            6: {
                 food: 0,
                 snacks: 0,
                 services: 0,

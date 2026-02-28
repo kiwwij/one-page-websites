@@ -36,9 +36,12 @@
                         <button id="toggle-status-btn" class="btn-toggle-status" onclick="toggleStatusMode()">
                             <i class='bx bx-show'></i> <span data-i18n="btn_show_status">Show Progress</span>
                         </button>
-                        <button id="toggle-completed-btn" class="btn-toggle-status" onclick="toggleCompletedMode()">
-                            <i class='bx bx-check-double'></i> <span data-i18n="btn_show_completed">Completed</span>
-                        </button>
+                        <select id="status-filter" class="btn-toggle-status" onchange="changeFilter(this.value)">
+                            <option value="all" data-i18n="filter_all">All Games</option>
+                            <option value="completed" data-i18n="filter_completed">Completed Only</option>
+                            <option value="dropped" data-i18n="filter_dropped">Dropped Only</option>
+                            <option value="changed_mind" data-i18n="filter_changed_mind">Changed Mind</option>
+                        </select>
                     </div>
                 </div>
                 <div class="lang-switch">
@@ -60,7 +63,8 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-left">
-                    <p data-i18n="footer_text">&copy; 2026 Kiwwij Game Library</p>
+                    <p data-i18n="footer_text">&copy; footer_text</p>
+                    <p data-i18n="footer_text2">&copy; footer_text2</p>
                 </div>
                 <div class="footer-socials">
                     <a href="https://github.com/kiwwij" target="_blank"><i class='bx bxl-github'></i></a>
