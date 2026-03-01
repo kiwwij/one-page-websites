@@ -52,10 +52,10 @@ const gamesData = [
         discount_percent: 65,
         release_date: "2017",
         rating: "88",
-        play_status: "playing",
+        play_status: "dropped",
         progress: 30,
         is_purchased: true,
-        review_link: "https://www.thesignmaker.co.nz/wp-content/smush-webp/2019/04/C16_Work-In-Progress.png.webp"
+        review_link: "https://telegra.ph/NieRAutomata-review-03-01"
     },
     {
         category: "cat_owned",
@@ -124,10 +124,10 @@ const gamesData = [
         discount_percent: 80,
         release_date: "2021",
         rating: "68",
-        play_status: "not_started",
+        play_status: "playing",
         progress: 0,
         is_purchased: true,
-        review_link: ""
+        review_link: "https://www.thesignmaker.co.nz/wp-content/smush-webp/2019/04/C16_Work-In-Progress.png.webp"
     },
     {
         category: "cat_owned",
@@ -256,7 +256,7 @@ const gamesData = [
         discount_percent: 50,
         release_date: "2024",
         rating: "-",
-        play_status: "not_started",
+        play_status: "changed_mind",
         progress: 0,
         review_link: ""
     },
@@ -273,7 +273,7 @@ const gamesData = [
         discount_percent: 50,
         release_date: "2024",
         rating: "-",
-        play_status: "not_started",
+        play_status: "changed_mind",
         progress: 0,
         is_purchased: false,
         review_link: ""
