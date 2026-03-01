@@ -251,6 +251,11 @@
     "description": "A web-based version of the Crossmath puzzle game.",
     "stack": ["html", "css", "js", "github"]
   },
+  "nieR-automata-bosses.html": {
+    "image": "bx bx-bot",
+    "description": "Tracker for bosses in the game NieR:Automata. Tracker for marking defeated bosses. (abandoned)",
+    "stack": ["html", "css", "js", "github"]
+  },
   ".html": {
     "image": "",
     "description": "",

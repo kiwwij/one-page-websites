@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="kiwwij">
+    <title>NieR:Automata | Boss Tracker</title>
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23666'><path d='M21 10.975V8a2 2 0 0 0-2-2h-3V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2H5a2 2 0 0 0-2 2v2.975c-1.16.413-2 1.524-2 2.825v6c0 1.654 1.346 3 3 3h16c1.654 0 3-1.346 3-3v-6c0-1.301-.84-2.412-2-2.825zM10 4h4v2h-4V4zm-1 9h-2V9h2v4zm7 0h-2V9h2v4z'/></svg>">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
+    <link rel="stylesheet" href="../css/nieR-automata-bosses.css">
+</head>
+<body class="dark-theme"> <header>
+        <div class="header-content">
+            <h1><i class='bx bx-bot'></i> <span id="site-title">Боссы NieR:Automata</span></h1>
+            <div class="controls">
+                <button id="lang-btn" class="ui-btn">
+                    <i class='bx bx-globe'></i> <span id="lang-text">EN</span>
+                </button>
+                <button id="theme-btn" class="ui-btn">
+                    <i class='bx bx-moon'></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="tracker-info">
+            <h2 id="tracker-heading">Список целей</h2>
+            <p id="tracker-stats">Убито: <span id="kill-count">0</span> / <span id="total-count">0</span></p>
+        </div>
+        
+        <div id="boss-grid" class="boss-grid">
+            </div>
+    </main>
+
+    <script src="../js/nieR-automata-bosses.js"></script>
+</body>
+</html>

@@ -1,0 +1,247 @@
+/* --- NieR:Automata Color Palette & Variables --- */
+:root {
+    /* Dark Theme (Default) */
+    --bg-color: #1a1a1a;
+    --text-color: #dcd8c0;
+    --card-bg: #242424;
+    --border-color: #454138;
+    --accent-color: #79735d;
+    --btn-bg: #333333;
+    --btn-hover: #4a4a4a;
+    --danger-color: #8c3a3a;
+}
+
+body.light-theme {
+    /* Light Theme (NieR Menu Style) */
+    --bg-color: #dcd8c0;
+    --text-color: #454138;
+    --card-bg: #cdcca4;
+    --border-color: #a8a38c;
+    --accent-color: #454138;
+    --btn-bg: #b5b395;
+    --btn-hover: #a19f7e;
+    --danger-color: #a64c4c;
+}
+
+/* --- Global Styles --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Rajdhani', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+h1, h2, h3 {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+/* --- Header --- */
+header {
+    border-bottom: 2px solid var(--border-color);
+    background-color: var(--card-bg);
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.header-content h1 {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.controls {
+    display: flex;
+    gap: 1rem;
+}
+
+/* --- Buttons --- */
+.ui-btn {
+    background-color: var(--btn-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 1rem;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: all 0.2s;
+}
+
+.ui-btn:hover {
+    background-color: var(--btn-hover);
+}
+
+/* --- Main Content --- */
+main {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.tracker-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.boss-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+/* --- Boss Cards --- */
+.boss-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+
+.boss-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.boss-img-container {
+    width: 100%;
+    height: 200px;
+    border-bottom: 1px solid var(--border-color);
+    background-color: #000;
+}
+
+.boss-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+}
+
+.boss-info {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.boss-name {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+}
+
+.boss-stats {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    color: var(--accent-color);
+}
+
+.boss-stats span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.boss-desc {
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+}
+
+.kill-btn {
+    width: 100%;
+    justify-content: center;
+    background-color: var(--danger-color);
+    color: #fff;
+    border: none;
+}
+
+.kill-btn:hover {
+    filter: brightness(1.2);
+}
+
+/* --- Defeated State --- */
+.boss-card.defeated {
+    opacity: 0.6;
+    filter: grayscale(80%);
+}
+
+.boss-card.defeated .boss-name,
+.boss-card.defeated .boss-desc,
+.boss-card.defeated .boss-stats {
+    text-decoration: line-through;
+}
+
+.boss-card.defeated .kill-btn {
+    background-color: var(--btn-bg);
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+/* --- Категории боссов (Бейджи) --- */
+.boss-category {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding: 0.2rem 0.6rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
+    z-index: 10;
+    text-transform: uppercase;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
+
+.boss-card.defeated .boss-category {
+    background-color: var(--border-color);
+    color: var(--bg-color);
+}
+
+/* --- Responsive Adaptability --- */
+@media (max-width: 600px) {
+    .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .tracker-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+}
