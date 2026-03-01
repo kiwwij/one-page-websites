@@ -1,3 +1,76 @@
+const mainWrapper = document.querySelector('.main-wrapper');
+
+if (sessionStorage.getItem('finance_unlocked') !== 'true') {
+    mainWrapper.style.display = 'none';
+    
+    const overlay = document.createElement('div');
+    overlay.id = 'finance-login-overlay';
+    overlay.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:var(--bg-color); z-index:9999; display:flex; justify-content:center; align-items:center; transition: background-color 0.3s;';
+    
+    overlay.innerHTML = `
+        <div style="background:var(--card-bg); padding:40px; border-radius:var(--border-radius); box-shadow:var(--shadow); text-align:center; width: 90%; max-width: 380px;">
+            <i class='bx bxs-lock-alt' style="font-size: 4rem; color: var(--primary-color); margin-bottom: 10px;"></i>
+            <h2 style="margin-bottom: 5px; color: var(--text-color);">У вас нет доступа к финансам</h2>
+            <p style="margin-bottom: 25px; color: var(--text-color); opacity: 0.6; font-size: 0.85rem;">
+                Подсказка: Лучшая девочка из Re:Zero 🦋 
+            </p>
+            
+            <input type="password" id="finance-pwd" placeholder="****" 
+                style="width: 100%; padding: 15px; margin-bottom: 15px; border: 2px solid var(--input-bg); border-radius: 12px; background: var(--input-bg); color: var(--text-color); outline: none; font-size: 1.5rem; text-align: center; letter-spacing: 5px; transition: border-color 0.3s;">
+            
+            <button id="finance-btn" 
+                style="width: 100%; padding: 15px; background: var(--primary-color); color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 1.1rem; transition: opacity 0.2s;">
+                Войти
+            </button>
+            
+            <p id="finance-err" style="color: var(--danger); margin-top: 15px; font-size: 0.9rem; opacity: 0; transition: opacity 0.3s;">
+                Неверный пароль!
+            </p>
+            
+            <a href="../index.html" style="display: block; margin-top: 20px; color: var(--text-color); opacity: 0.5; text-decoration: none; font-size: 0.85rem; transition: opacity 0.2s;">
+                &larr; Назад к проектам
+            </a>
+        </div>
+    `;
+    
+    document.body.appendChild(overlay);
+
+    const input = document.getElementById('finance-pwd');
+    const btn = document.getElementById('finance-btn');
+    const err = document.getElementById('finance-err');
+
+    input.addEventListener('focus', () => input.style.borderColor = 'var(--primary-color)');
+    input.addEventListener('blur', () => input.style.borderColor = 'var(--input-bg)');
+
+    function checkPassword() {
+        if (input.value === 'hentaif') {
+            sessionStorage.setItem('finance_unlocked', 'true');
+            overlay.remove();
+            mainWrapper.style.display = '';
+        } else {
+            err.style.opacity = '1';
+            input.value = '';
+            
+            overlay.firstElementChild.animate([
+                { transform: 'translateX(0)' },
+                { transform: 'translateX(-10px)' },
+                { transform: 'translateX(10px)' },
+                { transform: 'translateX(-10px)' },
+                { transform: 'translateX(10px)' },
+                { transform: 'translateX(0)' }
+            ], { duration: 400 });
+            
+            setTimeout(() => { err.style.opacity = '0'; }, 2000);
+        }
+    }
+
+    btn.addEventListener('click', checkPassword);
+    input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') checkPassword();
+    });
+
+}
+
 const balanceEl = document.getElementById('display-balance');
 const incomeEl = document.getElementById('display-income');
 const expenseEl = document.getElementById('display-expense');

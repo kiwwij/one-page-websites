@@ -1,3 +1,135 @@
+document.addEventListener('DOMContentLoaded', () => {
+    if (sessionStorage.getItem('rezero_unlocked') === 'true') {
+        initReZeroArc8Page();
+        return;
+    }
+
+    // 2. Блокируем прокрутку основного сайта
+    // document.body.style.overflow = 'hidden';
+
+    const overlay = document.createElement('div');
+    overlay.id = 'rezero-login-overlay';
+
+    overlay.style.cssText = `
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: radial-gradient(circle, #2E1A47 0%, #09090B 100%);
+        z-index: 10000; display: flex; justify-content: center; align-items:center;
+        font-family: 'Poppins', sans-serif; transition: opacity 0.5s ease;
+    `;
+
+    overlay.innerHTML = `
+        <div id="rezero-lock-card" style="
+            background: rgba(20, 18, 31, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(165, 129, 245, 0.4), inset 0 0 20px rgba(165, 129, 245, 0.2);
+            border: 2px solid #A581F5;
+            text-align: center;
+            width: 90%; max-width: 400px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+        ">
+            <i class='bx bx-butterfly' style="position: absolute; top: -20px; right: -20px; font-size: 8rem; color: rgba(165, 129, 245, 0.08); transform: rotate(15deg); pointer-events: none;"></i>
+
+            <i class='bx bxs-lock-alt' style="font-size: 5rem; color: #A581F5; filter: drop-shadow(0 0 10px rgba(165, 129, 245, 0.8)); margin-bottom: 15px;"></i>
+
+            <h2 style="margin: 0 0 10px; color: #FFFFFF; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; text-shadow: 0 0 15px rgba(165, 129, 245, 0.6);">У вас временно нет доступу к архивам</h2>
+            
+            <p style="margin: 0 0 30px; color: #E0E0E0; font-size: 0.95rem; line-height: 1.5;">
+                Доступ ограничен. Подсказка:<br>
+                <strong style="color: #A581F5;">Лучшая девочка из Re:Zero</strong> 🦋
+            </p>
+
+            <input type="password" id="rezero-pwd" placeholder="****" style="
+                width: 100%; padding: 18px; margin-bottom: 20px;
+                border: 2px solid #3F3A63; border-radius: 15px;
+                background: #09090B; color: #FFFFFF;
+                outline: none; font-size: 1.8rem; text-align: center;
+                letter-spacing: 8px; font-family: monospace;
+                transition: all 0.3s ease;
+                box-sizing: border-box;
+            ">
+
+            <button id="rezero-btn" style="
+                width: 100%; padding: 18px;
+                background: linear-gradient(135deg, #A581F5 0%, #8F94FB 100%);
+                color: white; border: none; border-radius: 15px;
+                cursor: pointer; font-weight: 700; font-size: 1.2rem;
+                text-transform: uppercase; letter-spacing: 1px;
+                transition: transform 0.1s ease, box-shadow 0.3s ease;
+                box-shadow: 0 4px 15px rgba(165, 129, 245, 0.5);
+            ">
+                Разблокировать
+            </button>
+
+            <p id="rezero-err" style="color: #FF6B6B; margin: 15px 0 0; font-size: 0.95rem; font-weight: 600; opacity: 0; transition: opacity 0.3s;">
+                ❌ Неверный пароль!
+            </p>
+
+            <a href="../index.html" style="display: inline-block; margin-top: 25px; color: #B0A9D9; text-decoration: none; font-size: 0.85rem; transition: color 0.2s; opacity: 0.8;">
+                &larr; Назад к проектам
+            </a>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    const input = document.getElementById('rezero-pwd');
+    const btn = document.getElementById('rezero-btn');
+    const err = document.getElementById('rezero-err');
+    const card = document.getElementById('rezero-lock-card');
+
+    input.addEventListener('focus', () => {
+        input.style.borderColor = '#A581F5';
+        input.style.boxShadow = '0 0 10px rgba(165, 129, 245, 0.5)';
+    });
+    input.addEventListener('blur', () => {
+        input.style.borderColor = '#3F3A63';
+        input.style.boxShadow = 'none';
+    });
+    btn.addEventListener('mousedown', () => btn.style.transform = 'scale(0.98)');
+    btn.addEventListener('mouseup', () => btn.style.transform = 'scale(1)');
+
+    function attemptUnlock() {
+        if (input.value === 'hentaif') {
+            sessionStorage.setItem('rezero_unlocked', 'true');
+            // Плавное исчезновение
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.remove();
+                initReZeroArc8Page(); 
+            }, 500);
+        } else {
+            err.style.opacity = '1';
+            input.value = '';
+            input.focus();
+
+            card.animate([
+                { transform: 'translateX(0)' },
+                { transform: 'translateX(-10px)' },
+                { transform: 'translateX(10px)' },
+                { transform: 'translateX(-10px)' },
+                { transform: 'translateX(10px)' },
+                { transform: 'translateX(0)' }
+            ], { duration: 400 });
+
+            setTimeout(() => err.style.opacity = '0', 2500);
+        }
+    }
+
+    btn.addEventListener('click', attemptUnlock);
+    input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') attemptUnlock();
+    });
+});
+
+
+
+
+
+
+
 const volumes = {
     34: { start: 1, end: 15, title: "Том 34", img: "https://static.wikia.nocookie.net/rezero/images/0/0f/Re_Zero_Volume_34_Cover.png" },
     35: { start: 16, end: 28, title: "Том 35", img: "https://static.wikia.nocookie.net/rezero/images/9/92/Re_Zero_Volume_35_Cover.png" },
