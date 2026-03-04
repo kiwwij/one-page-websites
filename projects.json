@@ -256,6 +256,11 @@
     "description": "Tracker for bosses in the game NieR:Automata. Tracker for marking defeated bosses. (abandoned)",
     "stack": ["html", "css", "js", "github"]
   },
+  "saved-playlists.html": {
+    "image": "bx bx-headphone",
+    "description": "A curated collection of my favorite video game and anime original soundtracks (OSTs).",
+    "stack": ["html", "css", "js", "github"]
+  },
   ".html": {
     "image": "",
     "description": "",

@@ -1,0 +1,189 @@
+:root {
+    /* Тёмная тема (по умолчанию) */
+    --bg-color: #1a1a24;
+    --card-bg: #252533;
+    --text-main: #e2e2e8;
+    --text-muted: #a0a0b0;
+    --accent: #8b9bb4;
+    --accent-hover: #a5b4cc;
+    --shadow: rgba(0, 0, 0, 0.3);
+}
+
+body.light {
+    /* Светлая тема */
+    --bg-color: #f4f5f8;
+    --card-bg: #ffffff;
+    --text-main: #2d2d3a;
+    --text-muted: #6b6b7b;
+    --accent: #6b82a8;
+    --accent-hover: #53698c;
+    --shadow: rgba(149, 157, 165, 0.2);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Quicksand', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    min-height: 100vh;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    background-color: var(--card-bg);
+    box-shadow: 0 4px 12px var(--shadow);
+    transition: background-color 0.3s ease;
+}
+
+h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.controls {
+    display: flex;
+    gap: 12px;
+}
+
+.btn {
+    background: transparent;
+    border: 2px solid var(--accent);
+    color: var(--text-main);
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    background: var(--accent);
+    color: var(--bg-color);
+}
+
+.btn i {
+    font-size: 1.2rem;
+}
+
+main {
+    padding: 40px 5%;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.card {
+    background-color: var(--card-bg);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px var(--shadow);
+    transition: transform 0.2s ease, background-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    background-color: #333;
+}
+
+.card-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.card-desc {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    line-height: 1.5;
+    flex-grow: 1;
+}
+
+.card-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: var(--accent);
+    color: var(--bg-color);
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 12px;
+    font-weight: 700;
+    transition: background-color 0.2s ease;
+}
+
+.card-link:hover {
+    background-color: var(--accent-hover);
+}
+
+.card-link i {
+    font-size: 1.3rem;
+}
+
+/* Адаптивность */
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .container {
+        /* Две колонки одинаковой ширины на мобильных */
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 12px; /* Уменьшаем расстояние между карточками */
+    }
+    main {
+        padding: 20px 3%;
+    }
+    .card-content {
+        padding: 12px;
+    }
+    .card-title {
+        font-size: 1rem;
+        margin-bottom: 8px;
+    }
+    .card-desc {
+        font-size: 0.85rem;
+        margin-bottom: 12px;
+    }
+    .card-link {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+}
