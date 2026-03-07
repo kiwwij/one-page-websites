@@ -1,5 +1,6 @@
 const gamesData = [
     // "playing", "dropped", "completed", "not_started", "paused", "changed_mind"
+    // https://www.thesignmaker.co.nz/wp-content/smush-webp/2019/04/C16_Work-In-Progress.png.webp
 
     // --- OWNED (Куплено) ---
     {
@@ -70,10 +71,10 @@ const gamesData = [
         discount_percent: 25,
         release_date: "2025",
         rating: "88",
-        play_status: "paused",
+        play_status: "dropped",
         progress: 1,
         is_purchased: true,
-        review_link: ""
+        review_link: "https://telegra.ph/Trails-in-the-Sky-1st-Chapter-03-07"
     },
     {
         category: "cat_owned",
@@ -125,7 +126,7 @@ const gamesData = [
         release_date: "2021",
         rating: "68",
         play_status: "playing",
-        progress: 3,
+        progress: 20,
         is_purchased: true,
         review_link: "https://www.thesignmaker.co.nz/wp-content/smush-webp/2019/04/C16_Work-In-Progress.png.webp"
     },

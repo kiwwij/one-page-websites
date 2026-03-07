@@ -27,6 +27,7 @@ const translations = {
         read_review: "Review",
         already_purchased: "Already purchased",
         stat_total_games: "Total Games",
+        stat_remaining: "Remaining to play",
         stat_completed: "Completed",
         stat_dropped: "Dropped",
         stat_changed_mind: "Changed Mind",
@@ -65,6 +66,7 @@ const translations = {
         read_review: "Обзор",
         already_purchased: "Уже куплено",
         stat_total_games: "Всего игр",
+        stat_remaining: "Осталось пройти",
         stat_completed: "Пройдено",
         stat_dropped: "Забросил",
         stat_changed_mind: "Передумал",
@@ -172,10 +174,19 @@ function calculateAndRenderStats() {
 
     const t = translations[currentLang];
 
+    // Динамическая логика для главного счетчика
+    let displayTotal = totalGames;
+    let displayLabel = t.stat_total_games;
+
+    if (isStatusVisible) {
+        displayTotal = totalGames - completedCount - droppedCount - changedMindCount;
+        displayLabel = t.stat_remaining;
+    }
+
     statsPanel.innerHTML = `
         <div class="stat-item">
-            <span class="stat-label">${t.stat_total_games}</span>
-            <span class="stat-value total-games">${totalGames}</span>
+            <span class="stat-label">${displayLabel}</span>
+            <span class="stat-value total-games">${displayTotal}</span>
         </div>
         <div class="stat-item">
             <span class="stat-label">${t.stat_completed}</span>
@@ -199,7 +210,6 @@ function calculateAndRenderStats() {
 function render() {
     const t = translations[currentLang];
 
-    // Обновляем переводы
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (t[key]) {
@@ -207,7 +217,6 @@ function render() {
         }
     });
 
-    // Кнопка статуса
     const toggleBtn = document.getElementById('toggle-status-btn');
     if (toggleBtn) {
         toggleBtn.innerHTML = isStatusVisible 
@@ -229,13 +238,11 @@ function render() {
     calculateAndRenderStats();
 
     if (currentFilter !== 'all') {
-        // РЕЖИМ ФИЛЬТРАЦИИ (Пройденные, Заброшенные, Передумал)
         let filteredGames = gamesData.filter(game => {
             let actualStatus = (game.progress === 100) ? 'completed' : game.play_status;
             return actualStatus === currentFilter;
         });
         
-        // Сортировка по дате прохождения (сначала новые)
         filteredGames.sort((a, b) => {
             if (!a.completion_date) return 1;  
             if (!b.completion_date) return -1;
@@ -249,7 +256,6 @@ function render() {
             container.innerHTML = `<h3 style="text-align:center; color:var(--text-muted); margin-top:50px;">${t.empty_list}</h3>`;
         }
     } else {
-        // ОБЫЧНЫЙ РЕЖИМ (ПО КАТЕГОРИЯМ)
         categoryOrder.forEach(catKey => {
             const catGames = gamesData.filter(g => g.category === catKey);
             if (catGames.length === 0) return;
@@ -273,7 +279,6 @@ function createGamesSection(sectionTitle, gamesList, container, t) {
     gamesList.forEach(game => {
         const card = document.createElement('div');
         
-        // Логика перехвата 100% прогресса
         let currentStatus = game.play_status || "not_started";
         if (game.progress === 100) {
             currentStatus = "completed";
@@ -320,7 +325,6 @@ function createGamesSection(sectionTitle, gamesList, container, t) {
         let playtimeHtml = game.playtime ? `<div class="meta-item" title="Playtime"><i class='bx bx-time-five'></i> ${game.playtime} ${t.playtime}</div>` : '';
         let dateHtml = game.release_date ? `<div class="meta-item" title="Release Date"><i class='bx bx-calendar'></i> ${game.release_date}</div>` : '';
         
-        // Показываем дату прохождения, если она есть и мы в режиме "Пройденные"
         if (currentFilter === 'completed' && game.completion_date) {
              dateHtml = `<div class="meta-item" style="color: var(--accent);" title="Completion Date"><i class='bx bx-check-double'></i> Пройдено: ${game.completion_date}</div>`;
         }
