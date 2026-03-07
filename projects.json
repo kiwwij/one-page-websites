@@ -261,6 +261,11 @@
     "description": "A curated collection of my favorite video game and anime original soundtracks (OSTs).",
     "stack": ["html", "css", "js", "github"]
   },
+  "my-notes.html": {
+    "image": "bx bx-notepad",
+    "description": "A personal web-based text editor for writing notes, video scripts, or reviews with local storage and synchronization with GitHub cloud storage (for professionals).",
+    "stack": ["html", "css", "js", "github"]
+  },
   ".html": {
     "image": "",
     "description": "",

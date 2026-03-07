@@ -135,8 +135,13 @@ async function loadProjects() {
             card.target = '_blank';
             card.setAttribute('data-name', displayName.toLowerCase());
             card.setAttribute('data-stack', stack.join(',').toLowerCase());
+            card.setAttribute('data-id', file.name); // ДОБАВИТЬ ЭТОУ СТРОКУ
             
             card.innerHTML = `
+                <div class="pin-btn" title="Pin project" onclick="togglePin(event, '${file.name}')">
+                    <i class='bx bx-pin'></i>
+                </div>
+                
                 ${imageHTML}
                 <div class="card-content">
                     <div class="card-title">${displayName}</div>
@@ -153,6 +158,7 @@ async function loadProjects() {
         });
 
         updateProjectCount();
+        updatePinnedOrder();
 
     } catch (error) {
         console.error(error);
@@ -426,4 +432,58 @@ function scrollFunction() {
 }
 function topFunction() {
     window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// --- СИСТЕМА ЗАКРЕПЛЕНИЯ ПРОЕКТОВ ---
+
+// Обновляет визуальное состояние и порядок карточек
+function updatePinnedOrder() {
+    const pinned = JSON.parse(localStorage.getItem('pinned_projects')) || [];
+    
+    allProjects.forEach(card => {
+        const id = card.getAttribute('data-id');
+        const pinIndex = pinned.indexOf(id);
+        const icon = card.querySelector('.pin-btn i');
+        
+        if (pinIndex > -1) {
+            card.classList.add('is-pinned');
+            // Делаем отрицательный order, чтобы они были в начале. 
+            // pinIndex учитывает порядок добавления: первый закрепленный будет выше всех (-10, -9 и т.д.)
+            card.style.order = pinIndex - 10; 
+            if(icon) icon.className = 'bx bxs-pin';
+        } else {
+            card.classList.remove('is-pinned');
+            card.style.order = 0; // Обычный порядок
+            if(icon) icon.className = 'bx bx-pin';
+        }
+    });
+}
+
+// Обработка клика по кнопке
+function togglePin(event, fileId) {
+    // Останавливаем переход по ссылке карточки
+    event.preventDefault();
+    event.stopPropagation();
+
+    let pinned = JSON.parse(localStorage.getItem('pinned_projects')) || [];
+    const index = pinned.indexOf(fileId);
+
+    if (index > -1) {
+        // Если проект уже закреплён — открепляем
+        pinned.splice(index, 1);
+        showToast('<i class="bx bx-pin"></i> Project unpinned');
+    } else {
+        // Если проект не закреплён — проверяем лимит в 4 штуки
+        if (pinned.length >= 4) {
+            showToast('<i class="bx bx-error-circle"></i> You can only pin up to 4 projects!', 3000);
+            return; // Прерываем функцию, не давая добавить 5-й
+        }
+        // Закрепляем
+        pinned.push(fileId);
+        showToast('<i class="bx bxs-pin"></i> Project pinned to top!');
+    }
+
+    // Сохраняем в память и обновляем интерфейс
+    localStorage.setItem('pinned_projects', JSON.stringify(pinned));
+    updatePinnedOrder();
 }

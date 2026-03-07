@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentFolderId = appData[0]?.id || null;
     let currentNoteId = appData[0]?.notes[0]?.id || null;
 
-    // --- Кастомные Модальные Окна ---
     const modal = document.getElementById('custom-modal');
     const modalTitle = document.getElementById('modal-title');
     const modalMessage = document.getElementById('modal-message');
@@ -41,21 +40,52 @@ document.addEventListener('DOMContentLoaded', () => {
             modal.classList.remove('hidden');
             
             btnConfirm.onclick = () => ui.closeModal();
-        },
-        showConfirm: (title, message, callback) => {
-            modalTitle.innerText = title;
-            modalMessage.innerText = message;
-            modalMessage.classList.remove('hidden');
-            modalInput.classList.add('hidden');
-            btnCancel.classList.remove('hidden');
-            modal.classList.remove('hidden');
-            
-            btnConfirm.onclick = () => { ui.closeModal(); callback(true); };
-            btnCancel.onclick = () => { ui.closeModal(); callback(false); };
         }
     };
 
-    // --- Отрисовка папок и записей ---
+    let undoTimer = null;
+    let undoInterval = null;
+    let undoCountdown = 0;
+
+    function showUndoToast(message, onUndo) {
+        const toast = document.getElementById('toast');
+        const toastMsg = document.getElementById('toast-message');
+        const toastTimer = document.getElementById('toast-timer');
+        
+        toastMsg.innerText = message;
+        toast.classList.remove('hidden');
+        
+        undoCountdown = 5;
+        toastTimer.innerText = undoCountdown;
+        
+        clearInterval(undoInterval);
+        clearTimeout(undoTimer);
+        
+        document.getElementById('toast-undo-btn').onclick = () => {
+            onUndo();
+            hideUndoToast();
+        };
+
+        undoInterval = setInterval(() => {
+            undoCountdown--;
+            if (undoCountdown > 0) {
+                toastTimer.innerText = undoCountdown;
+            } else {
+                clearInterval(undoInterval);
+            }
+        }, 1000);
+
+        undoTimer = setTimeout(() => {
+            hideUndoToast();
+        }, 5000);
+    }
+
+    function hideUndoToast() {
+        document.getElementById('toast').classList.add('hidden');
+        clearInterval(undoInterval);
+        clearTimeout(undoTimer);
+    }
+
     function renderFolders() {
         foldersContainer.innerHTML = '';
         appData.forEach(folder => {
@@ -87,31 +117,24 @@ document.addEventListener('DOMContentLoaded', () => {
             folder.notes.forEach(note => {
                 const li = document.createElement('li');
                 li.className = `note-item ${note.id === currentNoteId ? 'active' : ''}`;
+                li.draggable = true;
                 
-                // Добавлена иконка drag-handle для перетаскивания
                 li.innerHTML = `
-                    <div style="display: flex; align-items: center; overflow: hidden; flex-grow: 1;">
-                        <i class='bx bx-grid-vertical drag-handle' title="Потянуть"></i>
-                        <div class="note-title-text" onclick="app.loadNote(${folder.id}, ${note.id})">
-                            <i class='bx bx-file'></i> <span>${note.title || 'Без названия'}</span>
-                        </div>
+                    <i class='bx bx-grid-vertical drag-handle' title="Потянуть"></i>
+                    <div class="note-title-text" onclick="app.loadNote(${folder.id}, ${note.id})">
+                        <i class='bx bx-file'></i> <span>${note.title || 'Без названия'}</span>
                     </div>
                     <button class="delete-btn" onclick="app.deleteNote(${folder.id}, ${note.id}, event)"><i class='bx bx-x'></i></button>
                 `;
 
-                // Перетаскивание работает ТОЛЬКО если потянуть за иконку (решает проблему с кликами)
-                const dragHandle = li.querySelector('.drag-handle');
-                if(dragHandle) {
-                    dragHandle.onmousedown = () => li.draggable = true;
-                    dragHandle.onmouseup = () => li.draggable = false;
-                    dragHandle.onmouseleave = () => li.draggable = false;
-                }
-
                 li.ondragstart = (e) => {
+                    if (!e.target.classList.contains('drag-handle') && !e.target.closest('.drag-handle')) {
+                        e.preventDefault(); 
+                        return;
+                    }
                     e.dataTransfer.setData('noteId', note.id);
                     e.dataTransfer.setData('sourceFolderId', folder.id);
                 };
-                li.ondragend = () => li.draggable = false;
 
                 notesList.appendChild(li);
             });
@@ -122,7 +145,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Логика Данных ---
     function saveAll() { localStorage.setItem('kiwwij_data', JSON.stringify(appData)); }
     
     function saveCurrentNote() {
@@ -155,39 +177,81 @@ document.addEventListener('DOMContentLoaded', () => {
     window.app = {
         selectFolder: (id) => { currentFolderId = id; renderFolders(); },
         loadNote: (fId, nId) => {
-            saveCurrentNote(); // Сохраняем предыдущую запись
+            saveCurrentNote(); 
             currentFolderId = fId; currentNoteId = nId;
             const note = appData.find(f => f.id === fId).notes.find(n => n.id === nId);
             titleInput.value = note.title; editor.innerHTML = note.content;
             renderFolders();
             
-            // На мобилке закрываем меню
             document.getElementById('sidebar').classList.remove('open');
             document.getElementById('sidebar-overlay').classList.add('hidden');
         },
         deleteFolder: (id, e) => {
             e.stopPropagation();
-            ui.showConfirm("Удаление папки", "Точно удалить папку со всеми записями внутри?", (confirm) => {
-                if(confirm) {
-                    appData = appData.filter(f => f.id !== id);
-                    if(currentFolderId === id) { currentFolderId = null; currentNoteId = null; titleInput.value=''; editor.innerHTML=''; }
+            hideUndoToast();
+            
+            const folderIndex = appData.findIndex(f => f.id === id);
+            if (folderIndex === -1) return;
+            const folderToRestore = appData[folderIndex];
+            
+            appData.splice(folderIndex, 1);
+            
+            let wasCurrent = false;
+            if (currentFolderId === id) { 
+                wasCurrent = true;
+                currentFolderId = null; currentNoteId = null; titleInput.value=''; editor.innerHTML=''; 
+            }
+            saveAll(); renderFolders();
+
+            showUndoToast("Папка удалена", () => {
+                appData.splice(folderIndex, 0, folderToRestore);
+                if (wasCurrent && folderToRestore.notes.length > 0) {
+                    window.app.loadNote(folderToRestore.id, folderToRestore.notes[0].id);
+                } else {
                     saveAll(); renderFolders();
                 }
             });
         },
         deleteNote: (fId, nId, e) => {
             e.stopPropagation();
+            hideUndoToast();
+            
             const folder = appData.find(f => f.id === fId);
-            folder.notes = folder.notes.filter(n => n.id !== nId);
-            if(currentNoteId === nId) { currentNoteId = null; titleInput.value=''; editor.innerHTML=''; }
+            const noteIndex = folder.notes.findIndex(n => n.id === nId);
+            if (noteIndex === -1) return;
+            
+            const noteToRestore = folder.notes[noteIndex];
+            
+            folder.notes.splice(noteIndex, 1);
+            
+            let wasCurrent = false;
+            if (currentNoteId === nId) { 
+                wasCurrent = true;
+                currentNoteId = null; titleInput.value=''; editor.innerHTML=''; 
+            }
             saveAll(); renderFolders();
+
+            showUndoToast("Запись удалена", () => {
+                const targetFolder = appData.find(f => f.id === fId);
+                if (targetFolder) {
+                    targetFolder.notes.splice(noteIndex, 0, noteToRestore);
+                    if (wasCurrent) {
+                        window.app.loadNote(fId, nId);
+                    } else {
+                        saveAll(); renderFolders();
+                    }
+                }
+            });
         }
     };
 
-    // --- События кнопок добавления ---
     document.getElementById('new-folder-btn').onclick = () => {
         ui.showPrompt("Новая папка", "Название папки...", (name) => {
-            if (name) { appData.push({ id: Date.now(), name, notes: [] }); saveAll(); renderFolders(); }
+            if (name) { 
+                appData.push({ id: Date.now(), name, notes: [] }); 
+                saveAll(); 
+                renderFolders(); 
+            }
         });
     };
 
@@ -197,13 +261,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const newNote = { id: Date.now(), title: 'Новая запись', content: '' };
         folder.notes.push(newNote);
         window.app.loadNote(currentFolderId, newNote.id);
+        
+        titleInput.focus();
+        titleInput.select();
     };
 
     document.getElementById('save-local-btn').onclick = () => { saveCurrentNote(); renderFolders(); };
     editor.addEventListener('input', saveCurrentNote);
     titleInput.addEventListener('input', () => { saveCurrentNote(); renderFolders(); });
 
-    // --- Импорт и Экспорт ---
     document.getElementById('export-btn').onclick = () => {
         saveCurrentNote();
         const jsonContent = JSON.stringify(appData, null, 4);
@@ -224,8 +290,6 @@ document.addEventListener('DOMContentLoaded', () => {
         reader.onload = (event) => {
             try {
                 let text = event.target.result;
-                
-                // Очистка на случай, если загружается старый .js файл
                 text = text.replace(/^\/\/.*\n/g, ''); 
                 text = text.replace(/^const myNotesData = /g, ''); 
                 text = text.replace(/;$/g, ''); 
@@ -234,10 +298,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 appData = JSON.parse(text);
                 saveAll();
                 
-                // СБРАСЫВАЕМ ID, чтобы saveCurrentNote() ничего не удалил
                 currentFolderId = null;
                 currentNoteId = null;
-                
                 const newFolderId = appData[0]?.id || null;
                 const newNoteId = appData[0]?.notes[0]?.id || null;
                 
@@ -254,7 +316,6 @@ document.addEventListener('DOMContentLoaded', () => {
         e.target.value = ''; 
     });
 
-    // --- Двусторонняя Синхронизация с GitHub ---
     const GIST_FILENAME = 'kiwwij-notes-sync.json';
 
     async function githubRequest(url, method, body, token) {
@@ -293,7 +354,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Сохранить В ОБЛАКО
     document.getElementById('sync-github-up-btn').onclick = () => {
         checkToken(async (token) => {
             saveCurrentNote();
@@ -302,14 +362,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 const gistId = await findGistId(token);
                 const payload = {
                     description: "Мои заметки kiwwij",
-                    public: false, // Файл скрыт
+                    public: false, 
                     files: { [GIST_FILENAME]: { content: JSON.stringify(appData, null, 2) } }
                 };
 
                 if (gistId) {
-                    await githubRequest(`/gists/${gistId}`, 'PATCH', payload, token); // Перезаписываем
+                    await githubRequest(`/gists/${gistId}`, 'PATCH', payload, token); 
                 } else {
-                    const newGist = await githubRequest('/gists', 'POST', payload, token); // Создаем
+                    const newGist = await githubRequest('/gists', 'POST', payload, token); 
                     localStorage.setItem('github_gist_id', newGist.id);
                 }
                 ui.showAlert("Успех", "Записи успешно сохранены в GitHub!");
@@ -320,7 +380,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Загрузить ИЗ ОБЛАКА
     const syncDownBtn = document.getElementById('sync-github-down-btn');
     if(syncDownBtn) {
         syncDownBtn.onclick = () => {
@@ -352,7 +411,6 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
-    // --- Кнопка Спойлера ---
     const spoilerBtn = document.getElementById('spoiler-btn');
     if (spoilerBtn) {
         spoilerBtn.onclick = () => {
@@ -367,7 +425,74 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
-    // --- Эмодзи и Форматирование ---
+    const imageBtn = document.getElementById('image-btn');
+    if (imageBtn) {
+        imageBtn.onclick = () => {
+            let savedRange = null;
+            const selection = window.getSelection();
+            if (selection.rangeCount > 0) {
+                const range = selection.getRangeAt(0);
+                if (editor.contains(range.commonAncestorContainer)) {
+                    savedRange = range;
+                }
+            }
+
+            ui.showPrompt("Картинка", "Вставь прямую ссылку (https://...jpg)", (url) => {
+                if (url) {
+                    editor.focus();
+                    
+                    if (savedRange) {
+                        const sel = window.getSelection();
+                        sel.removeAllRanges();
+                        sel.addRange(savedRange);
+                    }
+                    
+                    document.execCommand('insertImage', false, url);
+                    
+                    saveCurrentNote();
+                }
+            });
+        };
+    }
+
+    editor.addEventListener('mousemove', function(e) {
+        if(e.target.tagName === 'IMG') {
+            const rect = e.target.getBoundingClientRect();
+            const isEdge = e.clientX > rect.right - 30 && e.clientY > rect.bottom - 30;
+            e.target.style.cursor = isEdge ? 'nwse-resize' : 'default';
+        }
+    });
+
+    editor.addEventListener('mousedown', function(e) {
+        if(e.target.tagName === 'IMG') {
+            const rect = e.target.getBoundingClientRect();
+            const isEdge = e.clientX > rect.right - 30 && e.clientY > rect.bottom - 30;
+            
+            if (isEdge) {
+                e.preventDefault();
+                let startX = e.clientX;
+                let startWidth = e.target.clientWidth;
+                
+                function onMouseMove(moveEvent) {
+                    let newWidth = startWidth + (moveEvent.clientX - startX);
+                    if (newWidth > 50) { 
+                        e.target.style.width = newWidth + 'px';
+                        e.target.style.height = 'auto';
+                    }
+                }
+                
+                function onMouseUp() {
+                    document.removeEventListener('mousemove', onMouseMove);
+                    document.removeEventListener('mouseup', onMouseUp);
+                    saveCurrentNote();
+                }
+                
+                document.addEventListener('mousemove', onMouseMove);
+                document.addEventListener('mouseup', onMouseUp);
+            }
+        }
+    });
+
     const emojiBtn = document.getElementById('emoji-btn');
     const emojiPopup = document.getElementById('emoji-popup');
     const picker = document.querySelector('emoji-picker');
@@ -396,7 +521,66 @@ document.addEventListener('DOMContentLoaded', () => {
         document.execCommand('foreColor', false, e.target.value); editor.focus();
     });
 
-    // --- Тема ---
+    // --- Автоматические кликабельные ссылки ---
+    editor.addEventListener('keydown', (e) => {
+        if (e.key === ' ' || e.key === 'Enter') {
+            const sel = window.getSelection();
+            if (!sel.isCollapsed) return;
+            
+            const range = sel.getRangeAt(0);
+            const node = range.startContainer;
+            
+            if (node.nodeType === Node.TEXT_NODE) {
+                const textBeforeCursor = node.textContent.substring(0, range.startOffset);
+                const words = textBeforeCursor.split(/\s/);
+                const lastWord = words[words.length - 1]; 
+                
+                if (/^https?:\/\/[^\s]+$/.test(lastWord)) {
+                    const startPos = range.startOffset - lastWord.length;
+                    const newRange = document.createRange();
+                    newRange.setStart(node, startPos);
+                    newRange.setEnd(node, range.startOffset);
+                    
+                    sel.removeAllRanges();
+                    sel.addRange(newRange);
+                    
+                    document.execCommand('createLink', false, lastWord);
+                    
+                    const linkNode = sel.anchorNode.parentNode;
+                    if (linkNode && linkNode.tagName === 'A') {
+                        linkNode.setAttribute('target', '_blank');
+                    }
+                    
+                    sel.collapseToEnd();
+                }
+            }
+        }
+    });
+
+    editor.addEventListener('paste', (e) => {
+        const clipboardData = e.clipboardData || window.clipboardData;
+        const text = clipboardData.getData('text/plain');
+        const html = clipboardData.getData('text/html');
+        
+        if (!html && text) {
+            const urlRegex = /(https?:\/\/[^\s]+)/g;
+            if (urlRegex.test(text)) {
+                e.preventDefault();
+                let formattedText = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                let htmlToInsert = formattedText.replace(urlRegex, '<a href="$1" target="_blank">$1</a>');
+                htmlToInsert = htmlToInsert.replace(/\n/g, '<br>');
+                document.execCommand('insertHTML', false, htmlToInsert);
+            }
+        }
+    });
+
+    editor.addEventListener('click', (e) => {
+        if (e.target.tagName === 'A') {
+            e.preventDefault(); 
+            window.open(e.target.href, '_blank'); 
+        }
+    });
+
     const themeToggleBtn = document.getElementById('theme-toggle');
     const currentTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', currentTheme);
@@ -415,7 +599,6 @@ document.addEventListener('DOMContentLoaded', () => {
         else picker.classList.remove('dark');
     }
 
-    // --- Мобильное меню ---
     const sidebar = document.getElementById('sidebar');
     const sidebarOverlay = document.getElementById('sidebar-overlay');
     
@@ -432,7 +615,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('close-sidebar-btn').onclick = closeMenu;
     sidebarOverlay.onclick = closeMenu;
 
-    // Инициализация
     if (currentFolderId && currentNoteId) window.app.loadNote(currentFolderId, currentNoteId);
     renderFolders();
 });

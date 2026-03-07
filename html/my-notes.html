@@ -29,7 +29,7 @@
             <div id="folders-container" class="folders-container"></div>
             
             <div class="backup-actions">
-                <button id="export-btn" class="btn-secondary"><i class='bx bx-download'></i> Скачать .js</button>
+                <button id="export-btn" class="btn-secondary"><i class='bx bx-download'></i> Скачать .json</button>
                 <input type="file" id="import-input" accept=".json, .js" class="hidden">
                 <button id="import-btn" class="btn-secondary"><i class='bx bx-upload'></i> Загрузить</button>
             </div>
@@ -56,12 +56,16 @@
                 <button class="format-btn" data-command="italic"><i class='bx bx-italic'></i></button>
                 <button class="format-btn" data-command="underline"><i class='bx bx-underline'></i></button>
                 <button class="format-btn" id="spoiler-btn" title="Спойлер"><i class='bx bx-hide'></i></button>
+                <button class="format-btn" id="image-btn" title="Добавить картинку по ссылке"><i class='bx bx-image-add'></i></button>
                 <div class="divider"></div>
                 <button class="format-btn" data-command="justifyLeft"><i class='bx bx-align-left'></i></button>
                 <button class="format-btn" data-command="justifyCenter"><i class='bx bx-align-middle'></i></button>
                 <button class="format-btn" data-command="justifyFull"><i class='bx bx-align-justify'></i></button>
                 <div class="divider"></div>
                 <input type="color" id="text-color" class="color-picker" title="Цвет текста">
+                
+                <button class="format-btn" data-command="removeFormat" title="Сбросить цвет и форматирование"><i class='bx bx-eraser'></i></button>
+                
                 <div class="divider"></div>
                 
                 <div class="emoji-wrapper">
@@ -86,6 +90,11 @@
                 <button id="modal-confirm" class="btn-primary">Ок</button>
             </div>
         </div>
+    </div>
+
+    <div id="toast" class="toast-container hidden">
+        <span id="toast-message">Удалено</span>
+        <button id="toast-undo-btn" class="btn-accent">Отменить (<span id="toast-timer">5</span>)</button>
     </div>
 
     <script src="../js/my-notes.js"></script>

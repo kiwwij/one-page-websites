@@ -357,6 +357,15 @@ h2 {
     border-style: solid;
 }
 
+.project-card[data-name="my-notes.html"] {
+    color: var(--text-muted);
+    border-style: dashed;
+}
+.project-card[data-name="my-notes.html"]:hover {
+    color: var(--text-main);
+    border-style: solid;
+}
+
 /* .project-card[data-name=""] {
     color: var(--text-muted);
     border-style: dashed;
@@ -965,4 +974,67 @@ footer a:hover {
 .card-image-wrapper.loaded::after {
     display: none; /* Убираем анимацию, чтобы не грузить процессор */
     animation: none;
+}
+
+/* --- СИСТЕМА ЗАКРЕПЛЕНИЯ ПРОЕКТОВ (PIN) --- */
+
+/* Если у .project-card ещё нет position: relative, добавляем: */
+.project-card {
+    position: relative; 
+}
+
+.pin-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--card-bg);
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.2s ease;
+    z-index: 10;
+    box-shadow: var(--shadow);
+    font-size: 1.1rem;
+}
+
+/* Показываем кнопку при наведении на карточку */
+.project-card:hover .pin-btn {
+    opacity: 1;
+}
+
+.pin-btn:hover {
+    transform: scale(1.1);
+    color: var(--accent);
+}
+
+/* Стили для уже закреплённой карточки */
+.project-card.is-pinned .pin-btn {
+    opacity: 1;
+    background: var(--accent);
+    color: #ffffff;
+    border-color: var(--accent);
+}
+
+.project-card.is-pinned {
+    border: 2px solid var(--accent); /* Выделяем карточку цветом акцента */
+    box-shadow: 0 0 15px rgba(9, 132, 227, 0.15); /* Лёгкое свечение */
+}
+
+/* В тёмной теме свечение подгоняем под акцент */
+[data-theme="dark"] .project-card.is-pinned {
+    box-shadow: 0 0 15px rgba(88, 166, 255, 0.2);
+}
+
+/* На мобильных устройствах (где нет ховера) всегда показываем кнопку слегка прозрачной */
+@media (max-width: 768px) {
+    .pin-btn {
+        opacity: 0.8;
+    }
 }
