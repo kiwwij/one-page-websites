@@ -117,7 +117,6 @@ document.addEventListener('DOMContentLoaded', () => {
             folder.notes.forEach(note => {
                 const li = document.createElement('li');
                 li.className = `note-item ${note.id === currentNoteId ? 'active' : ''}`;
-                li.draggable = true;
                 
                 li.innerHTML = `
                     <i class='bx bx-grid-vertical drag-handle' title="Потянуть"></i>
@@ -127,11 +126,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     <button class="delete-btn" onclick="app.deleteNote(${folder.id}, ${note.id}, event)"><i class='bx bx-x'></i></button>
                 `;
 
+                // Включаем перетаскивание только если мышь наведена на 6 точек
+                const dragHandle = li.querySelector('.drag-handle');
+                if(dragHandle) {
+                    dragHandle.onmousedown = () => { li.draggable = true; };
+                    dragHandle.onmouseup = () => { li.draggable = false; };
+                    li.ondragend = () => { li.draggable = false; };
+                }
+
                 li.ondragstart = (e) => {
-                    if (!e.target.classList.contains('drag-handle') && !e.target.closest('.drag-handle')) {
-                        e.preventDefault(); 
-                        return;
-                    }
                     e.dataTransfer.setData('noteId', note.id);
                     e.dataTransfer.setData('sourceFolderId', folder.id);
                 };
@@ -303,8 +306,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 const newFolderId = appData[0]?.id || null;
                 const newNoteId = appData[0]?.notes[0]?.id || null;
                 
-                if (newFolderId && newNoteId) window.app.loadNote(newFolderId, newNoteId);
-                else renderFolders();
+                if (newFolderId && newNoteId) {
+                    window.app.loadNote(newFolderId, newNoteId);
+                } else {
+                    renderFolders();
+                }
                 
                 ui.showAlert("Успех", "Записи успешно восстановлены!");
             } catch (error) {
@@ -399,8 +405,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     const newFolderId = appData[0]?.id || null;
                     const newNoteId = appData[0]?.notes[0]?.id || null;
                     
-                    if (newFolderId && newNoteId) window.app.loadNote(newFolderId, newNoteId);
-                    else renderFolders();
+                    if (newFolderId && newNoteId) {
+                        window.app.loadNote(newFolderId, newNoteId);
+                    } else {
+                        renderFolders();
+                    }
 
                     ui.showAlert("Успех", "Записи загружены из облака!");
                 } catch (e) {
@@ -448,7 +457,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     
                     document.execCommand('insertImage', false, url);
-                    
                     saveCurrentNote();
                 }
             });
@@ -517,6 +525,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.format-btn[data-command]').forEach(btn => {
         btn.onclick = () => { document.execCommand(btn.getAttribute('data-command'), false, null); editor.focus(); };
     });
+    
     document.getElementById('text-color').addEventListener('input', (e) => {
         document.execCommand('foreColor', false, e.target.value); editor.focus();
     });
@@ -615,6 +624,17 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('close-sidebar-btn').onclick = closeMenu;
     sidebarOverlay.onclick = closeMenu;
 
-    if (currentFolderId && currentNoteId) window.app.loadNote(currentFolderId, currentNoteId);
+    // --- Инициализация ---
     renderFolders();
+    
+    if (currentFolderId && currentNoteId) {
+        const folder = appData.find(f => f.id === currentFolderId);
+        if (folder) {
+            const note = folder.notes.find(n => n.id === currentNoteId);
+            if (note) {
+                titleInput.value = note.title;
+                editor.innerHTML = note.content;
+            }
+        }
+    }
 });
