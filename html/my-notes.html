@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="kiwwij">
+    <title>kiwwij Notes</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../css/my-notes.css">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1/index.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="icon-text">
+                    <i class='bx bx-notepad'></i>
+                    <h2>kiwwij Notes</h2>
+                </div>
+                <button id="close-sidebar-btn" class="btn-icon mobile-only"><i class='bx bx-x'></i></button>
+            </div>
+            
+            <div class="sidebar-actions">
+                <button id="new-folder-btn" class="btn-secondary"><i class='bx bx-folder-plus'></i> Папка</button>
+                <button id="new-note-btn" class="btn-primary"><i class='bx bx-plus'></i> Запись</button>
+            </div>
+
+            <div id="folders-container" class="folders-container"></div>
+            
+            <div class="backup-actions">
+                <button id="export-btn" class="btn-secondary"><i class='bx bx-download'></i> Скачать .js</button>
+                <input type="file" id="import-input" accept=".json, .js" class="hidden">
+                <button id="import-btn" class="btn-secondary"><i class='bx bx-upload'></i> Загрузить</button>
+            </div>
+        </aside>
+
+        <div id="sidebar-overlay" class="sidebar-overlay hidden"></div>
+
+        <main class="editor-area">
+            <header class="editor-header">
+                <div class="mobile-header-left">
+                    <button id="mobile-menu-btn" class="btn-icon mobile-only"><i class='bx bx-menu'></i></button>
+                    <input type="text" id="note-title" placeholder="Название записи..." class="title-input">
+                </div>
+                <div class="header-actions">
+                    <button id="theme-toggle" class="btn-icon" title="Сменить тему"><i class='bx bx-sun'></i></button>
+                    <button id="save-local-btn" class="btn-secondary" title="Сохранить локально"><i class='bx bx-save'></i></button>
+                    <button id="sync-github-down-btn" class="btn-secondary" title="Скачать из облака"><i class='bx bx-cloud-download'></i></button>
+                    <button id="sync-github-up-btn" class="btn-accent" title="Сохранить в облако"><i class='bx bx-cloud-upload'></i></button>
+                </div>
+            </header>
+
+            <div class="toolbar">
+                <button class="format-btn" data-command="bold"><i class='bx bx-bold'></i></button>
+                <button class="format-btn" data-command="italic"><i class='bx bx-italic'></i></button>
+                <button class="format-btn" data-command="underline"><i class='bx bx-underline'></i></button>
+                <button class="format-btn" id="spoiler-btn" title="Спойлер"><i class='bx bx-hide'></i></button>
+                <div class="divider"></div>
+                <button class="format-btn" data-command="justifyLeft"><i class='bx bx-align-left'></i></button>
+                <button class="format-btn" data-command="justifyCenter"><i class='bx bx-align-middle'></i></button>
+                <button class="format-btn" data-command="justifyFull"><i class='bx bx-align-justify'></i></button>
+                <div class="divider"></div>
+                <input type="color" id="text-color" class="color-picker" title="Цвет текста">
+                <div class="divider"></div>
+                
+                <div class="emoji-wrapper">
+                    <button class="format-btn" id="emoji-btn"><i class='bx bx-smile'></i></button>
+                    <div id="emoji-popup" class="hidden">
+                        <emoji-picker class="dark"></emoji-picker>
+                    </div>
+                </div>
+            </div>
+
+            <div id="editor" class="rich-editor" contenteditable="true"></div>
+        </main>
+    </div>
+
+    <div id="custom-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3 id="modal-title">Ввод данных</h3>
+            <p id="modal-message" class="hidden" style="margin: 1rem 0; color: var(--text-muted);"></p>
+            <input type="text" id="modal-input" class="modal-input">
+            <div class="modal-actions">
+                <button id="modal-cancel" class="btn-secondary">Отмена</button>
+                <button id="modal-confirm" class="btn-primary">Ок</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/my-notes.js"></script>
+</body>
+</html>
