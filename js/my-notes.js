@@ -2,6 +2,57 @@ document.addEventListener('DOMContentLoaded', () => {
     const editor = document.getElementById('editor');
     const titleInput = document.getElementById('note-title');
     
+    const urlParams = new URLSearchParams(window.location.search);
+    const readBinId = urlParams.get('read');
+    const isReadOnly = !!readBinId;
+
+    let selectedImage = null;
+    let debouncedSave = () => {};
+
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const picker = document.querySelector('emoji-picker');
+    const currentTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', currentTheme); 
+    
+    function updateThemeIconAndEmoji(theme) { 
+        themeToggleBtn.innerHTML = theme === 'dark' ? "<i class='bx bx-sun'></i>" : "<i class='bx bx-moon'></i>"; 
+        if(picker) picker.classList.toggle('dark', theme === 'dark'); 
+    }
+    updateThemeIconAndEmoji(currentTheme);
+    
+    themeToggleBtn.onclick = () => {
+        let newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', newTheme); 
+        localStorage.setItem('theme', newTheme); 
+        updateThemeIconAndEmoji(newTheme);
+    };
+
+    editor.addEventListener('click', (e) => { 
+        if (e.target.tagName === 'A') { e.preventDefault(); window.open(e.target.href, '_blank'); }
+        
+        if (e.target.tagName === 'IMG' && e.target.classList.contains('img-spoiler')) { 
+            e.target.classList.toggle('revealed'); 
+            if (!isReadOnly) debouncedSave(); 
+        }
+        
+        if (!isReadOnly) {
+            if (e.target.tagName === 'IMG') {
+                if(selectedImage) selectedImage.classList.remove('selected-img');
+                selectedImage = e.target;
+                selectedImage.classList.add('selected-img');
+            } else {
+                if(selectedImage) selectedImage.classList.remove('selected-img');
+                selectedImage = null;
+            }
+        }
+
+        const spoilerTarget = e.target.closest('.spoiler');
+        if (spoilerTarget) { 
+            spoilerTarget.classList.toggle('revealed'); 
+            if (!isReadOnly) debouncedSave(); 
+        }
+    });
+
     const modal = document.getElementById('custom-modal');
     const modalTitle = document.getElementById('modal-title');
     const modalMessage = document.getElementById('modal-message');
@@ -46,37 +97,37 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // --- РЕЖИМ ТОЛЬКО ДЛЯ ЧТЕНИЯ (ШЕРИНГ) ---
-    const urlParams = new URLSearchParams(window.location.search);
-    const readBinId = urlParams.get('read');
-
-    if (readBinId) {
+    if (isReadOnly) {
         document.getElementById('sidebar').style.display = 'none';
         document.querySelector('.mobile-header-left button').style.display = 'none';
         document.querySelector('.toolbar').style.display = 'none';
-        document.querySelector('.header-actions').style.display = 'none';
+        
+        document.getElementById('share-note-btn').style.display = 'none';
+        document.getElementById('save-local-btn').style.display = 'none';
+        const syncDown = document.getElementById('sync-github-down-btn');
+        if (syncDown) syncDown.style.display = 'none';
+        document.getElementById('sync-github-up-btn').style.display = 'none';
         
         titleInput.readOnly = true;
         editor.setAttribute('contenteditable', 'false');
         
         ui.showAlert("Загрузка...", "Получаем запись по ссылке...");
         
-        fetch(`https://api.jsonbin.io/v3/b/${readBinId}`)
+        fetch(`https://bytebin.lucko.me/${readBinId}`)
             .then(res => res.json())
             .then(data => {
                 ui.closeModal();
-                titleInput.value = data.record.title;
-                editor.innerHTML = data.record.content;
+                titleInput.value = data.title;
+                editor.innerHTML = data.content;
             })
             .catch(err => {
                 console.error(err);
                 ui.showAlert("Ошибка", "Запись не найдена, удалена или ссылка недействительна.");
             });
             
-        return; 
+        return;
     }
 
-    // --- ОБЫЧНЫЙ РЕЖИМ ---
     const foldersContainer = document.getElementById('folders-container');
     const rootNotesList = document.getElementById('root-notes-list');
     const rootDropZone = document.getElementById('root-drop-zone');
@@ -96,7 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentFolderId = null;
     let currentNoteId = null;
-    let selectedImage = null; 
     
     if (appData.rootNotes.length > 0) { currentFolderId = 'root'; currentNoteId = appData.rootNotes[0].id; } 
     else if (appData.folders.length > 0 && appData.folders[0].notes.length > 0) { currentFolderId = appData.folders[0].id; currentNoteId = appData.folders[0].notes[0].id; }
@@ -194,13 +244,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     let saveTimeout;
-    function debouncedSave() {
+    debouncedSave = function() {
         clearTimeout(saveTimeout);
         saveTimeout = setTimeout(() => {
             saveCurrentNote();
             renderFolders();
         }, 1000); 
-    }
+    };
 
     function moveNote(sourceId, targetId, noteId) {
         if (sourceId === targetId) return;
@@ -262,25 +312,37 @@ document.addEventListener('DOMContentLoaded', () => {
     editor.addEventListener('input', debouncedSave);
     titleInput.addEventListener('input', debouncedSave);
 
-    // --- JSONBIN SHARE LOGIC ---
     document.getElementById('share-note-btn').onclick = async () => {
         if (!currentNoteId) return ui.showAlert("Ошибка", "Сначала выберите запись.");
         saveCurrentNote(); 
         const noteContent = editor.innerHTML;
         const noteTitle = titleInput.value || "Без названия";
-        ui.showAlert("Создание ссылки", "Загружаем запись в облако (JSONBin)...");
+        ui.showAlert("Создание ссылки", "Загружаем запись в облако (Bytebin)...");
         try {
-            const response = await fetch("https://api.jsonbin.io/v3/b", {
-                method: "POST", headers: { "Content-Type": "application/json", "X-Bin-Name": noteTitle },
+            const response = await fetch("https://bytebin.lucko.me/post", {
+                method: "POST", 
+                headers: { "Content-Type": "application/json", "Accept": "application/json" },
                 body: JSON.stringify({ title: noteTitle, content: noteContent })
             });
-            if (!response.ok) throw new Error("Ошибка API");
+            
+            if (!response.ok) throw new Error("Ошибка API Bytebin");
+            
             const data = await response.json();
             const baseUrl = window.location.href.split('?')[0]; 
-            const shareUrl = `${baseUrl}?read=${data.metadata.id}`;
-            ui.showPrompt("Ссылка готова!", "Скопируй и отправь её другу:", (val) => {}, { text: "Понятно", checked: false });
-            setTimeout(() => { document.getElementById('modal-input').value = shareUrl; document.getElementById('modal-input').select(); }, 100);
-        } catch (err) { console.error(err); ui.showAlert("Ошибка", "Не удалось создать ссылку. Возможно сервис временно недоступен."); }
+            const shareUrl = `${baseUrl}?read=${data.key}`;
+            
+            navigator.clipboard.writeText(shareUrl).then(() => {
+                ui.showPrompt("Готово!", "Ссылка автоматически скопирована в буфер обмена!", (val) => {}, { text: "Понятно", checked: false });
+                setTimeout(() => { document.getElementById('modal-input').value = shareUrl; document.getElementById('modal-input').select(); }, 100);
+            }).catch(err => {
+                ui.showPrompt("Ссылка готова!", "Скопируй её вручную:", (val) => {}, { text: "Понятно", checked: false });
+                setTimeout(() => { document.getElementById('modal-input').value = shareUrl; document.getElementById('modal-input').select(); }, 100);
+            });
+            
+        } catch (err) { 
+            console.error(err); 
+            ui.showAlert("Ошибка", "Не удалось создать ссылку. Возможно сервис временно недоступен."); 
+        }
     };
 
     document.getElementById('export-btn').onclick = () => {
@@ -388,26 +450,6 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
-    editor.addEventListener('click', (e) => { 
-        if (e.target.tagName === 'A') { e.preventDefault(); window.open(e.target.href, '_blank'); }
-        
-        if (e.target.tagName === 'IMG' && e.target.classList.contains('img-spoiler')) { 
-            e.target.classList.toggle('revealed'); debouncedSave(); 
-        }
-        
-        if (e.target.tagName === 'IMG') {
-            if(selectedImage) selectedImage.classList.remove('selected-img');
-            selectedImage = e.target;
-            selectedImage.classList.add('selected-img');
-        } else {
-            if(selectedImage) selectedImage.classList.remove('selected-img');
-            selectedImage = null;
-        }
-
-        const spoilerTarget = e.target.closest('.spoiler');
-        if (spoilerTarget) { spoilerTarget.classList.toggle('revealed'); debouncedSave(); }
-    });
-
     document.querySelectorAll('.format-btn[data-command]').forEach(btn => { 
         btn.onclick = (e) => { 
             e.preventDefault();
@@ -435,19 +477,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }; 
     });
 
-    // --- ПРАВЫЙ НИЖНИЙ УГОЛ (РЕСАЙЗ И ТРЕУГОЛЬНИК) ---
     const imgResizer = document.getElementById('image-resizer');
 
     editor.addEventListener('mousemove', function(e) {
         if (e.target.tagName === 'IMG') {
             const rect = e.target.getBoundingClientRect();
-            // Зона 40x40 в ПРАВОМ нижнем углу
             const isEdge = e.clientX > rect.right - 40 && e.clientY > rect.bottom - 40;
             
             if (isEdge) {
                 e.target.classList.add('can-resize-right');
                 imgResizer.classList.remove('hidden');
-                // Двигаем треугольник в правый нижний угол картинки
                 imgResizer.style.left = `${rect.right - 20}px`;
                 imgResizer.style.top = `${rect.bottom - 20}px`;
             } else {
@@ -473,7 +512,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 let currentImg = e.target;
                 
                 function onMouseMove(moveEvent) {
-                    // Тянем ВПРАВО -> ширина увеличивается (плюс)
                     let newWidth = startWidth + (moveEvent.clientX - startX);
                     if (newWidth > 50) { 
                         currentImg.style.width = newWidth + 'px'; 
@@ -497,10 +535,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    const emojiBtn = document.getElementById('emoji-btn'); const emojiPopup = document.getElementById('emoji-popup'); const picker = document.querySelector('emoji-picker');
+    const emojiBtn = document.getElementById('emoji-btn'); const emojiPopup = document.getElementById('emoji-popup'); 
     emojiBtn.onclick = (e) => { e.stopPropagation(); emojiPopup.classList.toggle('hidden'); };
     document.addEventListener('click', (e) => { if (!emojiPopup.classList.contains('hidden') && !emojiBtn.contains(e.target) && !emojiPopup.contains(e.target)) emojiPopup.classList.add('hidden'); });
-    picker.addEventListener('emoji-click', event => { editor.focus(); document.execCommand('insertText', false, event.detail.unicode); emojiPopup.classList.add('hidden'); });
+    if(picker) picker.addEventListener('emoji-click', event => { editor.focus(); document.execCommand('insertText', false, event.detail.unicode); emojiPopup.classList.add('hidden'); });
     document.getElementById('text-color').addEventListener('input', (e) => { document.execCommand('foreColor', false, e.target.value); editor.focus(); });
 
     editor.addEventListener('keydown', (e) => {
@@ -527,15 +565,6 @@ document.addEventListener('DOMContentLoaded', () => {
             document.execCommand('insertHTML', false, text.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>').replace(/\n/g, '<br>'));
         }
     });
-
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    const currentTheme = localStorage.getItem('theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', currentTheme); updateThemeIconAndEmoji(currentTheme);
-    themeToggleBtn.onclick = () => {
-        let newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-theme', newTheme); localStorage.setItem('theme', newTheme); updateThemeIconAndEmoji(newTheme);
-    };
-    function updateThemeIconAndEmoji(theme) { themeToggleBtn.innerHTML = theme === 'dark' ? "<i class='bx bx-sun'></i>" : "<i class='bx bx-moon'></i>"; picker.classList.toggle('dark', theme === 'dark'); }
 
     const sidebar = document.getElementById('sidebar'); const sidebarOverlay = document.getElementById('sidebar-overlay');
     document.getElementById('mobile-menu-btn').onclick = () => { sidebar.classList.add('open'); sidebarOverlay.classList.remove('hidden'); };
