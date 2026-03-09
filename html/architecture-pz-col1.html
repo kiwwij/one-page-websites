@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="kiwwij">
+    <title>ArchPrep | 68 Питань</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        :root{--bg:#f8fafc;--pr:#6366f1;--pr-l:#818cf8;--suc:#10b981;--err:#ef4444;--txt:#1e293b;--mut:#64748b;--c-bg:#fff;--sh:0 4px 6px -1px rgba(0,0,0,0.1);--tr:all 0.3s ease}
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Nunito',sans-serif}
+        body{background:var(--bg);color:var(--txt);min-height:100vh;display:flex;flex-direction:column}
+        header{background:var(--c-bg);padding:1rem 2rem;box-shadow:0 1px 3px rgba(0,0,0,0.05);display:flex;flex-direction:column;gap:1rem;align-items:center;position:sticky;top:0;z-index:100}
+        .ht{display:flex;justify-content:space-between;width:100%;max-width:1200px}
+        .logo{font-size:1.5rem;font-weight:800;color:var(--pr);display:flex;align-items:center;gap:.5rem}
+        .tabs{display:flex;gap:.5rem;background:var(--bg);padding:.3rem;border-radius:12px}
+        .tab{background:transparent;border:none;padding:.5rem 1.5rem;border-radius:8px;font-weight:600;color:var(--mut);cursor:pointer;transition:var(--tr)}
+        .tab.act{background:var(--c-bg);color:var(--pr);box-shadow:var(--sh)}
+        main{flex:1;padding:2rem;max-width:1200px;margin:0 auto;width:100%}
+        .sec{display:none;animation:fi .4s ease}.sec.act{display:block}
+        @keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem}
+        .card{perspective:1000px;height:260px;cursor:pointer}
+        .c-in{position:relative;width:100%;height:100%;text-align:center;transition:transform .6s;transform-style:preserve-3d;border-radius:16px;box-shadow:var(--sh)}
+        .card.flip .c-in{transform:rotateY(180deg)}
+        .c-f,.c-b{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:16px;padding:1.5rem;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:1rem}
+        .c-f{background:var(--c-bg)}.c-f i{font-size:2.5rem;color:var(--pr-l)}
+        .c-b{transform:rotateY(180deg);background:var(--pr);color:#fff;text-align:left;align-items:flex-start;overflow-y:auto;font-size:.95rem}
+        .q-cnt{max-width:800px;margin:0 auto;background:var(--c-bg);padding:2rem;border-radius:16px;box-shadow:var(--sh)}
+        .q-hd{display:flex;justify-content:space-between;margin-bottom:1.5rem;color:var(--mut);font-weight:600}
+        .q-txt{font-size:1.25rem;font-weight:700;margin-bottom:2rem}
+        .q-opt{display:flex;flex-direction:column;gap:1rem}
+        .obtn{background:var(--bg);border:2px solid transparent;padding:1rem;border-radius:12px;text-align:left;font-size:1rem;cursor:pointer;transition:var(--tr);color:var(--txt)}
+        .obtn:hover:not(:disabled){background:#e2e8f0}
+        .obtn.y{background:#d1fae5;border-color:var(--suc);color:#065f46}
+        .obtn.n{background:#fee2e2;border-color:var(--err);color:#991b1b}
+        .q-act{margin-top:2rem;text-align:right}
+        .btn{background:var(--pr);color:#fff;border:none;padding:.75rem 1.5rem;border-radius:8px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:.5rem;transition:var(--tr)}
+        .btn:hover{background:var(--pr-l)}.btn:disabled{opacity:.5;cursor:not-allowed}
+        .l-cnt{display:flex;flex-direction:column;gap:1rem;max-width:900px;margin:0 auto}
+        .l-it{background:var(--c-bg);padding:1.5rem;border-radius:12px;box-shadow:var(--sh)}
+        .l-q{font-weight:700;font-size:1.1rem;margin-bottom:.5rem;display:flex;gap:.5rem;align-items:flex-start}
+        .l-q i{color:var(--pr);margin-top:3px}.l-a{color:var(--mut);line-height:1.6;padding-left:1.7rem}
+        @media(max-width:600px){.tabs{width:100%;overflow-x:auto}.tab{flex:1;text-align:center;padding:.5rem;font-size:.9rem}}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="ht"><div class="logo"><i class='bx bx-brain'></i> ArchPrep</div></div>
+        <nav class="tabs">
+            <button class="tab act" data-t="cards-sec">Картки</button>
+            <button class="tab" data-t="quiz-sec">Тести</button>
+            <button class="tab" data-t="list-sec">Усі питання</button>
+        </nav>
+    </header>
+    <main>
+        <div id="cards-sec" class="sec act">
+            <div style="margin-bottom:1rem;text-align:right;"><button class="btn" id="s-cards"><i class='bx bx-refresh'></i> Перемішати</button></div>
+            <div id="cards-grid" class="grid"></div>
+        </div>
+        <div id="quiz-sec" class="sec">
+            <div class="q-cnt">
+                <div class="q-hd"><span id="q-prog"></span><span id="q-score"></span></div>
+                <div class="q-txt" id="q-txt"></div>
+                <div class="q-opt" id="q-opt"></div>
+                <div class="q-act"><button class="btn" id="n-btn" disabled>Наступне <i class='bx bx-right-arrow-alt'></i></button></div>
+            </div>
+        </div>
+        <div id="list-sec" class="sec"><div class="l-cnt" id="l-cnt"></div></div>
+    </main>
+
+    <script>
+        const qaData = [
+            { q: "1. У чому полягає основна різниця між архітектурою ПЗ і проектуванням ПЗ?", a: "Архітектура - це високорівневий план та взаємодія компонентів. Проектування - це специфікація деталей: алгоритмів та внутрішньої структури." },
+            { q: "2. Хто зазвичай залучається до проектування програмного забезпечення?", a: "Software developers, UX/UI designers, QA engineers, Product Managers, Data Analysts, DevOps, SecOps." },
+            { q: "3. Хто зазвичай залучається до архітектурної розробки ПЗ?", a: "Software, Solution, System, Enterprise, Security, Infrastructure, Interface та Data architects." },
+            { q: "4. Які основні елементи враховує проектування інтерфейсу в ПЗ?", a: "Розробка інтерфейсів, що забезпечують взаємодію користувача з програмою або інтеграцію з іншими системами." },
+            { q: "5. Що визначає архітектура програмного забезпечення на ранніх стадіях розробки?", a: "Основні компоненти системи, їх взаємодію та загальну структуру програмного продукту в цілому." },
+            { q: "6. Як архітектура ПЗ впливає на модульність і масштабованість?", a: "Сприяє розділенню коду на логічні одиниці (модульність) та дозволяє системі розширюватися при великих навантаженнях (масштабованість)." },
+            { q: "7. Які фактори слід враховувати при виборі архітектури проєкту?", a: "Вимоги до проєкту, технічні обмеження, бізнес-стратегію, бюджет, терміни та досвід команди." },
+            { q: "8. У яких випадках краще обрати монолітну архітектуру, а коли мікросервісну?", a: "Невеликі проєкти краще робити монолітними, а великі та складні системи вимагають мікросервісів." },
+            { q: "9. Які основні типи архітектурних стилів виділяються в програмній інженерії?", a: "Монолітна, клієнт-серверна, мікросервісна, сервіс-орієнтована (SOA), багаторівнева (Layered), подійно-орієнтована." },
+            { q: "10. У чому полягає відмінність між архітектурними стилями MVC та MVP?", a: "У MVC контролер керує моделлю і видом, а вид може читати модель. У MVP Presenter повністю ізолює View від Model." },
+            { q: "11. Яка основна ідея гексагональної архітектури (Hexagonal Architecture)?", a: "Ізоляція бізнес-логіки від зовнішніх систем та інтерфейсів за допомогою портів і адаптерів." },
+            { q: "12. Що таке архітектурний стиль «Кільцева архітектура» і де він застосовується?", a: "Це розвиток гексагональної архітектури, де всі залежності завжди спрямовані всередину, до центру (доменного ядра)." },
+            { q: "13. Яка різниця між архітектурними рівнями: сервісу, інтеграції та даних?", a: "Рівень сервісу містить бізнес-логіку, інтеграції - зв'язок між системами, даних - збереження та доступ до БД." },
+            { q: "14. Які характеристики має архітектура «Мікросервісів»?", a: "Розподіленість, незалежне розгортання, слабка зв'язність, автономність команд та технологічна гнучкість." },
+            { q: "15. Як працює патерн архітектури «Pipes-and-Filters»?", a: "Дані проходять через послідовність незалежних компонентів (фільтрів), які обробляють їх і передають далі через канали (pipes)." },
+            { q: "16. Для чого використовується «Service Discovery»?", a: "Для автоматичного виявлення мережевих адрес мікросервісів у системі, щоб вони могли взаємодіяти між собою." },
+            { q: "17. Які основні види представлення архітектури передбачає підхід SEI Views & Beyond?", a: "Архітектурні, функціональні, процесні, ресурсні та інші види для розгляду ПЗ з різних точок зору." },
+            { q: "18. Що включається до функціональних вимог?", a: "Опис функцій, сценарії взаємодії з користувачем, вимоги до обробки даних та системні операції." },
+            { q: "19. Які є основні види нефункціональних вимог?", a: "Вимоги до продуктивності, безпеки, надійності, сумісності та доступності." },
+            { q: "20. Які аспекти охоплюють вимоги до безпеки ПЗ?", a: "Захист від несанкціонованого доступу, шифрування даних та управління вразливостями." },
+            { q: "21. Що включають вимоги до інтерфейсу програмного забезпечення?", a: "Вимоги до користувацького дизайну (UI/UX) та вимоги до інтеграції з іншими системами (API)." },
+            { q: "22. Яка інформація повинна бути задокументована у вимогах до даних?", a: "Структура, формат даних, вимоги до їх зберігання, обробки та резервного копіювання." },
+            { q: "23. Яке значення мають вимоги до тестування у процесі розробки ПЗ?", a: "Вони визначають тестові сценарії, засоби тестування та критерії прийняття готового продукту." },
+            { q: "24. Що включають вимоги до ефективності та продуктивності?", a: "Вимоги до швидкодії, завантаження та оптимізації ресурсів (використання пам'яті чи процесора)." },
+            { q: "25. Які вимоги висуваються до масштабованості системи?", a: "Вимоги до можливості системи розширюватися та стабільно працювати при збільшенні обсягів даних чи навантаження." },
+            { q: "26. Чому важливо документувати вимоги у вигляді чітких і вимірюваних характеристик?", a: "Щоб мати можливість їх перевіряти (валідувати) та щоб вони були однозначно зрозумілі всім стейкхолдерам." },
+            { q: "27. Яке значення має визначення ризиків під час розробки архітектури ПЗ?", a: "Запобігає можливим проблемам, що можуть вплинути на ефективність, надійність та терміни здачі продукту." },
+            { q: "28. Як аналіз ризиків впливає на планування бюджету та ресурсів у проекті?", a: "Дозволяє ефективно розподіляти бюджет, управляти витратами та передбачати кошти на усунення проблем." },
+            { q: "29. Які основні категорії ризиків виділяються при проектуванні та розробці ПЗ?", a: "Технічні, управлінські, ризики вимог, якості та тестування, зовнішні, комунікаційні, бізнес-ризики." },
+            { q: "30. Чому комунікаційні ризики можуть бути критичними для успіху програмного проекту?", a: "Недостатня комунікація призводить до непорозумінь між командами, конфліктів та зриву термінів." },
+            { q: "31. Як зовнішні фактори, такі як законодавчі зміни або конкуренція, можуть вплинути на розробку ПЗ?", a: "Зміни в законах вимагають адаптації продукту, а конкуренція впливає на ринкову стратегію та популярність." },
+            { q: "32. У чому полягає відмінність відкритого ПЗ (Open Source) від закритого?", a: "Відкрите ПЗ надає доступ до вихідного коду для вільного використання і модифікації, а закрите приховує код і захищене копірайтом." },
+            { q: "33. Які основні принципи Open Source?", a: "Вільний доступ до коду, можливість модифікації, вільне поширення похідних робіт та відсутність дискримінації." },
+            { q: "34. Що передбачає ліцензія GPL?", a: "Дозволяє модифікувати код, але всі похідні продукти обов'язково повинні бути відкритими під тією ж ліцензією (Copyleft)." },
+            { q: "35. У чому особливості ліцензії MIT?", a: "Дуже гнучка ліцензія: дозволяє вільно використовувати, змінювати та продавати код, вимагає лише збереження тексту самої ліцензії." },
+            { q: "36. Які права надає ліцензія Apache?", a: "Дозволяє вільне використання коду, включає захист від патентних претензій і вимагає збереження повідомлень про авторські права." },
+            { q: "37. Яка роль ліцензії Creative Commons у сфері ПЗ?", a: "Вона частіше використовується для документації, текстів та графіки, а не для самого вихідного коду." },
+            { q: "38. Що таке поняття «копілефт» (copyleft)?", a: "Принцип ліцензування, який вимагає поширювати модифіковані версії програми під тими ж вільними правами, що й оригінал." },
+            { q: "39. Як застосовується відкрите ПЗ у комерційних проектах?", a: "Використовується як основа, але вимагає суворого дотримання ліцензій (особливо copyleft), щоб уникнути юридичних позовів." },
+            { q: "40. Які переваги використання Open Source для розробників?", a: "Економія часу та коштів, доступ до готових рішень, велика спільнота та можливість вивчати якісний код." },
+            { q: "41. Які ризики пов'язані з використанням Open Source?", a: "Відсутність гарантій, потенційні вразливості безпеки та ризик припинення підтримки спільнотою." },
+            { q: "42. Яке призначення стандартів серії ГОСТ 34?", a: "Створення автоматизованих систем і жорстка регламентація оформлення документації на них (ТЗ, стадії розробки)." },
+            { q: "43. Що регламентує стандарт IEEE 1471?", a: "Це стандарт для формального та структурованого опису архітектури програмно-інтенсивних систем." },
+            { q: "44. Чим відрізняється ISO/IEC 12207 від інших стандартів?", a: "Визначає комплексну структуру процесів усього життєвого циклу ПЗ (від замовлення до списання)." },
+            { q: "45. Які основні розділи містить керівництво SWEBOK?", a: "Вимоги, проектування, конструювання, тестування, супровід, конфігураційне управління, інженерія ПЗ тощо." },
+            { q: "46. Що таке СММ і для чого він використовується?", a: "Capability Maturity Model - модель оцінки рівня зрілості процесів розробки ПЗ в компанії." },
+            { q: "47. Які існують типи проектів у галузі розробки ПЗ?", a: "Замовні (Аутсорс), продуктові, внутрішні інфраструктурні та Open Source проекти." },
+            { q: "48. У чому полягає суть фреймворку FEA?", a: "Еталонна модель архітектури підприємства (для уряду США) для інтеграції стратегії, бізнес-процесів та ІТ." },
+            { q: "49. Які ключові складові має TOGAF?", a: "Основна складова - Architecture Development Method (ADM) - покроковий метод розробки архітектури підприємства." },
+            { q: "50. Для чого існує програма сертифікації TOGAF?", a: "Для підтвердження кваліфікації архітекторів (Enterprise Architects) та їхнього знання методології." },
+            { q: "51. У чому полягає структура моделі Kruchten 4+1?", a: "Використовує 5 видів: Logical, Process, Physical, Development та Use Case View." },
+            { q: "52. Що описує рівень Context у моделі С4?", a: "Описує загальну картину системи, включаючи її взаємодію з іншими зовнішніми системами та стейкхолдерами." },
+            { q: "53. Які типи архітектурних описів визначає стандарт ISO/IEC/IEEE 42010?", a: "Architectural Framework, Architectural View, Architectural Description Construct." },
+            { q: "54. Яку роль відіграють «Architectural Views» в архітектурній документації?", a: "Це спосіб представлення інформації для конкретних аудиторій; кожен вид відображає певний аспект системи." },
+            { q: "55. Як позначаються вимоги, рекомендації та дозволи в архітектурних документах?", a: "«shall» - вимога; «should» - рекомендація; «may» - дозвіл." },
+            { q: "56. Яка основна мета використання архітектурного фреймворку?", a: "Надати загальний набір правил і моделей, які визначають структуру архітектурних описів." },
+            { q: "57. Які переваги надає використання моделі С4 під час архітектурного опису?", a: "Допомагає описувати архітектуру на різних рівнях абстракції: від загального контексту до конкретного коду." },
+            { q: "58. Що таке функціональні вимоги до програмного забезпечення?", a: "Це вимоги, які описують, ЩО саме повинна робити система (її поведінку, реакції та функції)." },
+            { q: "59. Які основні фази включає процес розробки ПЗ за методологією RUP?", a: "Початок (Inception), Проектування (Elaboration), Побудова (Construction), Впровадження (Transition)." },
+            { q: "60. Які ключові особливості методології Microsoft Solution Framework (MSF)?", a: "Гнучкість, фокус на бізнес-цілях, модель команди з рівноправних ролей (без єдиного боса) та управління ризиками." },
+            { q: "61. У чому полягає основна ідея філософії Agile?", a: "Ітеративна розробка, гнучкість до змін, пріоритет робочого продукту та співпраці з замовником над жорсткою документацією." },
+            { q: "62. Які ключові ролі і артефакти передбачені в методології Scrum?", a: "Ролі: Product Owner, Scrum Master, Team. Артефакти: Product Backlog, Sprint Backlog, Increment." },
+            { q: "63. Як працює система Kanban в управлінні процесом розробки?", a: "Візуалізація задач на дошці, обмеження незавершеної роботи (WIP) та безперервний потік задач без жорстких спринтів." },
+            { q: "64. Які практики властиві Extreme Programming (XP)?", a: "Парне програмування, розробка через тестування (TDD), безперервна інтеграція та частий рефакторинг." },
+            { q: "65. Які особливості методології Feature-Driven Development (FDD)?", a: "Розробка, орієнтована на функції. Включає створення загальної моделі та ітеративну розробку списку конкретних фіч." },
+            { q: "66. Чим відрізняється Lean Software Development від інших підходів?", a: "Фокус на усуненні втрат (зайвої роботи), швидкій доставці, постійному навчанні та відкладенні необоротних рішень." },
+            { q: "67. Яка роль DevOps у циклі розробки програмного забезпечення?", a: "Об'єднання розробки (Dev) і експлуатації (Ops) для автоматизації процесів та прискорення релізів." },
+            { q: "68. Що таке CI/CD і які переваги цього підходу?", a: "Безперервна інтеграція та доставка. Переваги: швидке виявлення багів, автоматизація тестів та безпечні часті релізи." }
+        ];
+
+        // Автоматична генерація хибних відповідей для тесту
+        qaData.forEach(item => {
+            let opts = [item.a];
+            while(opts.length < 4) {
+                let r = qaData[Math.floor(Math.random() * qaData.length)].a;
+                if(!opts.includes(r)) opts.push(r);
+            }
+            item.options = opts.sort(() => Math.random() - 0.5);
+        });
+
+        const qs = (s) => document.querySelector(s), qsa = (s) => document.querySelectorAll(s);
+        qsa('.tab').forEach(b => {
+            b.addEventListener('click', () => {
+                qsa('.tab').forEach(t => t.classList.remove('act'));
+                qsa('.sec').forEach(s => s.classList.remove('act'));
+                b.classList.add('act');
+                document.getElementById(b.dataset.t).classList.add('act');
+            });
+        });
+
+        const cGrid = document.getElementById('cards-grid');
+        function renderCards(data) {
+            cGrid.innerHTML = '';
+            data.forEach((item, i) => {
+                const c = document.createElement('div'); c.className = 'card';
+                c.innerHTML = `<div class="c-in"><div class="c-f"><i class='bx bx-question-mark'></i><h3>Питання ${i+1}</h3><p>${item.q}</p></div><div class="c-b"><p>${item.a}</p></div></div>`;
+                c.addEventListener('click', () => c.classList.toggle('flip'));
+                cGrid.appendChild(c);
+            });
+        }
+        renderCards(qaData);
+        document.getElementById('s-cards').addEventListener('click', () => renderCards([...qaData].sort(() => Math.random() - 0.5)));
+
+        const lCnt = document.getElementById('l-cnt');
+        qaData.forEach(item => {
+            lCnt.innerHTML += `<div class="l-it"><div class="l-q"><i class='bx bx-message-square-detail'></i> <span>${item.q}</span></div><div class="l-a">${item.a}</div></div>`;
+        });
+
+        let cQ = 0, score = 0, quiz = [...qaData].sort(() => Math.random() - 0.5);
+        const qTxt = document.getElementById('q-txt'), qOpt = document.getElementById('q-opt'), nextB = document.getElementById('n-btn');
+
+        function loadQ() {
+            nextB.disabled = true;
+            let qD = quiz[cQ];
+            document.getElementById('q-prog').innerText = `Питання ${cQ+1} / ${quiz.length}`;
+            document.getElementById('q-score').innerText = `Рахунок: ${score}`;
+            qTxt.innerText = qD.q; qOpt.innerHTML = '';
+            
+            qD.options.forEach(opt => {
+                let btn = document.createElement('button'); btn.className = 'obtn'; btn.innerText = opt;
+                btn.addEventListener('click', () => {
+                    qsa('.obtn').forEach(b => b.disabled = true);
+                    if(opt === qD.a) { btn.classList.add('y'); score++; } 
+                    else {
+                        btn.classList.add('n');
+                        qsa('.obtn').forEach(b => { if(b.innerText === qD.a) b.classList.add('y') });
+                    }
+                    document.getElementById('q-score').innerText = `Рахунок: ${score}`;
+                    if(cQ < quiz.length - 1) nextB.disabled = false;
+                    else { nextB.innerText = "Завершити тест"; nextB.disabled = false; nextB.onclick = () => alert(`Тест завершено! Рахунок: ${score}/${quiz.length}`); }
+                });
+                qOpt.appendChild(btn);
+            });
+        }
+        nextB.addEventListener('click', () => { cQ++; loadQ(); });
+        loadQ();
+    </script>
+</body>
+</html>

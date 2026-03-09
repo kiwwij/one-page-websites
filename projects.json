@@ -266,6 +266,11 @@
     "description": "A personal web-based text editor for writing notes, video scripts, or reviews with local storage and synchronization with GitHub cloud storage (for professionals).",
     "stack": ["html", "css", "js", "github"]
   },
+  "architecture-pz-col1.html": {
+    "image": "bx bx-brain",
+    "description": "Software architecture. Preparation in colloquium 1.",
+    "stack": ["html", "css", "js", "github"]
+  },
   ".html": {
     "image": "",
     "description": "",

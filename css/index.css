@@ -357,11 +357,11 @@ h2 {
     border-style: solid;
 }
 
-.project-card[data-name="my-notes.html"] {
+.project-card[data-name="my-notes"] {
     color: var(--text-muted);
     border-style: dashed;
 }
-.project-card[data-name="my-notes.html"]:hover {
+.project-card[data-name="my-notes"]:hover {
     color: var(--text-main);
     border-style: solid;
 }
