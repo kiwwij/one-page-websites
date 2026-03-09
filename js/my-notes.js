@@ -9,6 +9,117 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedImage = null;
     let debouncedSave = () => {};
 
+    const dict = {
+        ru: {
+            app_title: "kiwwij Notes", folder: "Папка", note: "Запись", out_of_folders: "Вне папок",
+            export: "Скачать .json", import: "Загрузить", ph_note_title: "Название записи...",
+            cancel: "Отмена", ok: "Ок", new_folder: "Новая папка", ph_folder_name: "Название папки...",
+            error: "Ошибка", folder_not_found: "Папка не найдена!", new_note_def: "Новая запись",
+            success: "Успех", restored: "Записи успешно восстановлены!", read_err: "Не удалось прочитать файл.",
+            syncing: "Синхронизация", sync_save: "Сохраняем данные в облако...", sync_ok: "Записи успешно сохранены в GitHub!",
+            sync_err: "Не удалось сохранить в облако. Проверь токен.", sync_search: "Ищем твои записи на GitHub...",
+            sync_none: "Бекап не найден", sync_loaded: "Записи загружены из облака!",
+            sync_not_found: "Бекап в облаке не найден. Сначала нажми 'В облако', чтобы его создать.",
+            folder_deleted: "Папка удалена", note_deleted: "Запись удалена", img: "Картинка",
+            img_ph: "Вставь прямую ссылку (https://...jpg)", spoiler_opt: "Скрыть под спойлер",
+            share_err1: "Сначала выберите запись.", share_title: "Создание ссылки",
+            share_load: "Загружаем запись в облако (Bytebin)...", share_err2: "Ошибка API Bytebin",
+            share_done: "Готово!", share_auto: "Ссылка автоматически скопирована в буфер обмена!",
+            share_manual: "Скопируй её вручную:", share_ready: "Ссылка готова!", got_it: "Понятно",
+            share_fail: "Не удалось создать ссылку. Возможно сервис временно недоступен.",
+            read_load: "Загрузка...", read_fetch: "Получаем запись по ссылке...",
+            read_err_not_found: "Запись не найдена, удалена или ссылка недействительна.",
+            gh_token: "Токен GitHub", gh_token_ph: "Вставь Personal Access Token...",
+            def_folder: "Мои заметки", def_note: "Первая заметка", def_text: "Тут можно начать писать...",
+            untitled: "Без названия", hidden: "Скрытый текст", undo: "Отменить",
+            modal_title: "Ввод данных", theme_tt: "Сменить тему", share_tt: "Поделиться ссылкой",
+            save_tt: "Сохранить локально", down_tt: "Скачать из облака", up_tt: "Сохранить в облако",
+            ul_tt: "Маркированный список", ol_tt: "Нумерованный список", bold_tt: "Жирный", italic_tt: "Курсив", 
+            under_tt: "Подчеркнутый", spoiler_tt: "Спойлер текста", img_add_tt: "Добавить картинку",
+            left_tt: "По левому краю", center_tt: "По центру", right_tt: "По правому краю", full_tt: "По ширине",
+            color_tt: "Цвет текста", clear_tt: "Сбросить цвет", move_up: "Вверх", move_down: "Вниз", del: "Удалить", drag_note: "Потянуть"
+        },
+        ua: {
+            app_title: "kiwwij Notes", folder: "Папка", note: "Запис", out_of_folders: "Поза папками",
+            export: "Завантажити .json", import: "Завантажити", ph_note_title: "Назва запису...",
+            cancel: "Скасувати", ok: "Ок", new_folder: "Нова папка", ph_folder_name: "Назва папки...",
+            error: "Помилка", folder_not_found: "Папку не знайдено!", new_note_def: "Новий запис",
+            success: "Успіх", restored: "Записи успішно відновлено!", read_err: "Не вдалося прочитати файл.",
+            syncing: "Синхронізація", sync_save: "Зберігаємо дані в хмару...", sync_ok: "Записи успішно збережено в GitHub!",
+            sync_err: "Не вдалося зберегти в хмару. Перевір токен.", sync_search: "Шукаємо твої записи на GitHub...",
+            sync_none: "Бекап не знайдено", sync_loaded: "Записи завантажено з хмари!",
+            sync_not_found: "Бекап у хмарі не знайдено. Спочатку натисни 'В хмару', щоб його створити.",
+            folder_deleted: "Папку видалено", note_deleted: "Запис видалено", img: "Зображення",
+            img_ph: "Встав пряме посилання (https://...jpg)", spoiler_opt: "Приховати під спойлер",
+            share_err1: "Спочатку виберіть запис.", share_title: "Створення посилання",
+            share_load: "Завантажуємо запис у хмару (Bytebin)...", share_err2: "Помилка API Bytebin",
+            share_done: "Готово!", share_auto: "Посилання автоматично скопійовано в буфер обміну!",
+            share_manual: "Скопіюй його вручну:", share_ready: "Посилання готове!", got_it: "Зрозуміло",
+            share_fail: "Не вдалося створити посилання. Можливо сервіс тимчасово недоступний.",
+            read_load: "Завантаження...", read_fetch: "Отримуємо запис за посиланням...",
+            read_err_not_found: "Запис не знайдено, видалено або посилання недійсне.",
+            gh_token: "Токен GitHub", gh_token_ph: "Встав Personal Access Token...",
+            def_folder: "Мої нотатки", def_note: "Перша нотатка", def_text: "Тут можна почати писати...",
+            untitled: "Без назви", hidden: "Прихований текст", undo: "Скасувати",
+            modal_title: "Введення даних", theme_tt: "Змінити тему", share_tt: "Поділитися посиланням",
+            save_tt: "Зберегти локально", down_tt: "Завантажити з хмари", up_tt: "Зберегти у хмару",
+            ul_tt: "Маркований список", ol_tt: "Нумерований список", bold_tt: "Жирний", italic_tt: "Курсив", 
+            under_tt: "Підкреслений", spoiler_tt: "Спойлер тексту", img_add_tt: "Додати зображення",
+            left_tt: "По лівому краю", center_tt: "По центру", right_tt: "По правому краю", full_tt: "По ширині",
+            color_tt: "Колір тексту", clear_tt: "Скинути колір", move_up: "Вгору", move_down: "Вниз", del: "Видалити", drag_note: "Потягнути"
+        },
+        en: {
+            app_title: "kiwwij Notes", folder: "Folder", note: "Note", out_of_folders: "Outside folders",
+            export: "Export .json", import: "Import", ph_note_title: "Note title...",
+            cancel: "Cancel", ok: "OK", new_folder: "New folder", ph_folder_name: "Folder name...",
+            error: "Error", folder_not_found: "Folder not found!", new_note_def: "New note",
+            success: "Success", restored: "Notes successfully restored!", read_err: "Failed to read file.",
+            syncing: "Syncing", sync_save: "Saving data to cloud...", sync_ok: "Notes successfully saved to GitHub!",
+            sync_err: "Failed to save to cloud. Check token.", sync_search: "Searching your notes on GitHub...",
+            sync_none: "Backup not found", sync_loaded: "Notes loaded from cloud!",
+            sync_not_found: "Cloud backup not found. Click 'Save to cloud' first to create it.",
+            folder_deleted: "Folder deleted", note_deleted: "Note deleted", img: "Image",
+            img_ph: "Insert direct link (https://...jpg)", spoiler_opt: "Hide under spoiler",
+            share_err1: "Select a note first.", share_title: "Creating link",
+            share_load: "Uploading note to cloud (Bytebin)...", share_err2: "Bytebin API Error",
+            share_done: "Done!", share_auto: "Link automatically copied to clipboard!",
+            share_manual: "Copy it manually:", share_ready: "Link is ready!", got_it: "Got it",
+            share_fail: "Failed to create link. Service might be unavailable.",
+            read_load: "Loading...", read_fetch: "Fetching note via link...",
+            read_err_not_found: "Note not found, deleted or link is invalid.",
+            gh_token: "GitHub Token", gh_token_ph: "Insert Personal Access Token...",
+            def_folder: "My notes", def_note: "First note", def_text: "You can start typing here...",
+            untitled: "Untitled", hidden: "Hidden text", undo: "Undo",
+            modal_title: "Data entry", theme_tt: "Toggle theme", share_tt: "Share link",
+            save_tt: "Save locally", down_tt: "Download from cloud", up_tt: "Save to cloud",
+            ul_tt: "Bulleted list", ol_tt: "Numbered list", bold_tt: "Bold", italic_tt: "Italic", 
+            under_tt: "Underline", spoiler_tt: "Text spoiler", img_add_tt: "Add image",
+            left_tt: "Align left", center_tt: "Align center", right_tt: "Align right", full_tt: "Justify",
+            color_tt: "Text color", clear_tt: "Clear formatting", move_up: "Up", move_down: "Down", del: "Delete", drag_note: "Drag"
+        }
+    };
+
+    let currentLang = localStorage.getItem('kiwwij_lang') || 'ru';
+    const langSelect = document.getElementById('lang-select');
+    if (langSelect) {
+        langSelect.value = currentLang;
+        langSelect.addEventListener('change', (e) => {
+            currentLang = e.target.value;
+            localStorage.setItem('kiwwij_lang', currentLang);
+            applyTranslations();
+            if (!isReadOnly) renderFolders();
+        });
+    }
+
+    function t(key) { return dict[currentLang][key] || key; }
+
+    function applyTranslations() {
+        document.querySelectorAll('[data-i18n]').forEach(el => el.innerText = t(el.getAttribute('data-i18n')));
+        document.querySelectorAll('[data-i18n-ph]').forEach(el => el.placeholder = t(el.getAttribute('data-i18n-ph')));
+        document.querySelectorAll('[data-i18n-title]').forEach(el => el.title = t(el.getAttribute('data-i18n-title')));
+    }
+    applyTranslations();
+
     const themeToggleBtn = document.getElementById('theme-toggle');
     const picker = document.querySelector('emoji-picker');
     const currentTheme = localStorage.getItem('theme') || 'dark';
@@ -111,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
         titleInput.readOnly = true;
         editor.setAttribute('contenteditable', 'false');
         
-        ui.showAlert("Загрузка...", "Получаем запись по ссылке...");
+        ui.showAlert(t('read_load'), t('read_fetch'));
         
         fetch(`https://bytebin.lucko.me/${readBinId}`)
             .then(res => res.json())
@@ -122,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch(err => {
                 console.error(err);
-                ui.showAlert("Ошибка", "Запись не найдена, удалена или ссылка недействительна.");
+                ui.showAlert(t('error'), t('read_err_not_found'));
             });
             
         return;
@@ -141,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         appData = {
             rootNotes: [],
-            folders: [{ id: 1, name: 'Мои заметки', collapsed: false, notes: [{ id: 101, title: 'Первая заметка', content: 'Тут можно начать писать...' }] }]
+            folders: [{ id: 1, name: t('def_folder'), collapsed: false, notes: [{ id: 101, title: t('def_note'), content: t('def_text') }] }]
         };
     }
 
@@ -175,11 +286,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const li = document.createElement('li');
         li.className = `note-item ${note.id === currentNoteId ? 'active' : ''}`;
         li.innerHTML = `
-            <i class='bx bx-grid-vertical drag-handle' title="Потянуть"></i>
+            <i class='bx bx-grid-vertical drag-handle' title="${t('drag_note')}"></i>
             <div class="note-title-text" onclick="app.loadNote('${folderId}', ${note.id})">
-                <i class='bx bx-file'></i> <span>${note.title || 'Без названия'}</span>
+                <i class='bx bx-file'></i> <span>${note.title || t('untitled')}</span>
             </div>
-            <button class="folder-btn delete-btn" onclick="app.deleteNote('${folderId}', ${note.id}, event)"><i class='bx bx-x'></i></button>
+            <button class="folder-btn delete-btn" onclick="app.deleteNote('${folderId}', ${note.id}, event)" title="${t('del')}"><i class='bx bx-x'></i></button>
         `;
         const dragHandle = li.querySelector('.drag-handle');
         if(dragHandle) {
@@ -187,7 +298,31 @@ document.addEventListener('DOMContentLoaded', () => {
             dragHandle.onmouseup = () => { li.draggable = false; };
             li.ondragend = () => { li.draggable = false; };
         }
-        li.ondragstart = (e) => { e.dataTransfer.setData('noteId', note.id); e.dataTransfer.setData('sourceFolderId', folderId); };
+        li.ondragstart = (e) => { 
+            e.dataTransfer.setData('noteId', note.id); 
+            e.dataTransfer.setData('sourceFolderId', folderId); 
+            e.stopPropagation();
+        };
+
+        li.ondragover = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            li.classList.add('drag-over-note');
+        };
+        li.ondragleave = (e) => {
+            li.classList.remove('drag-over-note');
+        };
+        li.ondrop = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            li.classList.remove('drag-over-note');
+            const sourceNoteId = parseInt(e.dataTransfer.getData('noteId'));
+            const sourceFolderId = e.dataTransfer.getData('sourceFolderId');
+            if (sourceNoteId && !isNaN(sourceNoteId)) {
+                reorderNote(sourceFolderId === 'root' ? 'root' : parseInt(sourceFolderId), folderId, sourceNoteId, note.id);
+            }
+        };
+
         return li;
     }
 
@@ -208,9 +343,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="folder-title-text" onclick="app.selectFolder(${folder.id})"><i class='bx bx-folder'></i> <span>${folder.name}</span></div>
                 </div>
                 <div class="folder-controls">
-                    <button class="folder-btn" onclick="app.moveFolder(${folder.id}, -1, event)" ${isFirst ? 'style="visibility:hidden"' : ''} title="Вверх"><i class='bx bx-chevron-up'></i></button>
-                    <button class="folder-btn" onclick="app.moveFolder(${folder.id}, 1, event)" ${isLast ? 'style="visibility:hidden"' : ''} title="Вниз"><i class='bx bx-chevron-down'></i></button>
-                    <button class="folder-btn delete-btn" onclick="app.deleteFolder(${folder.id}, event)" title="Удалить"><i class='bx bx-trash'></i></button>
+                    <button class="folder-btn" onclick="app.moveFolder(${folder.id}, -1, event)" ${isFirst ? 'style="visibility:hidden"' : ''} title="${t('move_up')}"><i class='bx bx-chevron-up'></i></button>
+                    <button class="folder-btn" onclick="app.moveFolder(${folder.id}, 1, event)" ${isLast ? 'style="visibility:hidden"' : ''} title="${t('move_down')}"><i class='bx bx-chevron-down'></i></button>
+                    <button class="folder-btn delete-btn" onclick="app.deleteFolder(${folder.id}, event)" title="${t('del')}"><i class='bx bx-trash'></i></button>
                 </div>
             `;
             folderTitle.ondragover = (e) => { e.preventDefault(); folderTitle.classList.add('drag-over'); };
@@ -260,6 +395,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (noteIndex > -1) { targetList.push(sourceList.splice(noteIndex, 1)[0]); currentFolderId = targetId; saveAll(); renderFolders(); }
     }
 
+    function reorderNote(sourceId, targetId, noteId, targetNoteId) {
+        if (sourceId === targetId && noteId === targetNoteId) return;
+        const sourceList = sourceId === 'root' ? appData.rootNotes : appData.folders.find(f => f.id === sourceId).notes;
+        const targetList = targetId === 'root' ? appData.rootNotes : appData.folders.find(f => f.id === targetId).notes;
+        const noteIndex = sourceList.findIndex(n => n.id === noteId);
+        if (noteIndex === -1) return;
+        const [noteToMove] = sourceList.splice(noteIndex, 1);
+        const targetIndex = targetList.findIndex(n => n.id === targetNoteId);
+        if (targetIndex > -1) targetList.splice(targetIndex, 0, noteToMove);
+        else targetList.push(noteToMove);
+        currentFolderId = targetId;
+        saveAll(); renderFolders();
+    }
+
     rootDropZone.ondragover = (e) => { e.preventDefault(); rootDropZone.classList.add('drag-over'); };
     rootDropZone.ondragleave = () => rootDropZone.classList.remove('drag-over');
     rootDropZone.ondrop = (e) => { e.preventDefault(); rootDropZone.classList.remove('drag-over'); moveNote(e.dataTransfer.getData('sourceFolderId') === 'root' ? 'root' : parseInt(e.dataTransfer.getData('sourceFolderId')), 'root', parseInt(e.dataTransfer.getData('noteId'))); };
@@ -286,7 +435,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const folderToRestore = appData.folders[folderIndex]; appData.folders.splice(folderIndex, 1);
             let wasCurrent = false; if (currentFolderId === id) { wasCurrent = true; currentFolderId = null; currentNoteId = null; titleInput.value=''; editor.innerHTML=''; }
             saveAll(); renderFolders();
-            showUndoToast("Папка удалена", () => { appData.folders.splice(folderIndex, 0, folderToRestore); if (wasCurrent && folderToRestore.notes.length > 0) window.app.loadNote(folderToRestore.id, folderToRestore.notes[0].id); else { saveAll(); renderFolders(); } });
+            showUndoToast(t('folder_deleted'), () => { appData.folders.splice(folderIndex, 0, folderToRestore); if (wasCurrent && folderToRestore.notes.length > 0) window.app.loadNote(folderToRestore.id, folderToRestore.notes[0].id); else { saveAll(); renderFolders(); } });
         },
         deleteNote: (fId, nId, e) => {
             e.stopPropagation(); hideUndoToast(); const targetId = fId === 'root' ? 'root' : parseInt(fId);
@@ -295,16 +444,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const noteToRestore = list[noteIndex]; list.splice(noteIndex, 1);
             let wasCurrent = false; if (currentNoteId === nId) { wasCurrent = true; currentNoteId = null; titleInput.value=''; editor.innerHTML=''; }
             saveAll(); renderFolders();
-            showUndoToast("Запись удалена", () => { list.splice(noteIndex, 0, noteToRestore); if (wasCurrent) window.app.loadNote(targetId, nId); else { saveAll(); renderFolders(); } });
+            showUndoToast(t('note_deleted'), () => { list.splice(noteIndex, 0, noteToRestore); if (wasCurrent) window.app.loadNote(targetId, nId); else { saveAll(); renderFolders(); } });
         }
     };
 
-    document.getElementById('new-folder-btn').onclick = () => { ui.showPrompt("Новая папка", "Название папки...", (name) => { if (name) { appData.folders.push({ id: Date.now(), name, collapsed: false, notes: [] }); saveAll(); renderFolders(); } }); };
+    document.getElementById('new-folder-btn').onclick = () => { ui.showPrompt(t('new_folder'), t('ph_folder_name'), (name) => { if (name) { appData.folders.push({ id: Date.now(), name, collapsed: false, notes: [] }); saveAll(); renderFolders(); } }); };
 
     document.getElementById('new-note-btn').onclick = () => {
-        const targetFolderId = currentFolderId || 'root'; const newNote = { id: Date.now(), title: 'Новая запись', content: '' };
+        const targetFolderId = currentFolderId || 'root'; const newNote = { id: Date.now(), title: t('new_note_def'), content: '' };
         if (targetFolderId === 'root') appData.rootNotes.push(newNote);
-        else { const folder = appData.folders.find(f => f.id === targetFolderId); if (!folder) return ui.showAlert("Ошибка", "Папка не найдена!"); folder.collapsed = false; folder.notes.push(newNote); }
+        else { const folder = appData.folders.find(f => f.id === targetFolderId); if (!folder) return ui.showAlert(t('error'), t('folder_not_found')); folder.collapsed = false; folder.notes.push(newNote); }
         saveAll(); window.app.loadNote(targetFolderId, newNote.id); titleInput.focus(); titleInput.select();
     };
 
@@ -313,11 +462,11 @@ document.addEventListener('DOMContentLoaded', () => {
     titleInput.addEventListener('input', debouncedSave);
 
     document.getElementById('share-note-btn').onclick = async () => {
-        if (!currentNoteId) return ui.showAlert("Ошибка", "Сначала выберите запись.");
+        if (!currentNoteId) return ui.showAlert(t('error'), t('share_err1'));
         saveCurrentNote(); 
         const noteContent = editor.innerHTML;
-        const noteTitle = titleInput.value || "Без названия";
-        ui.showAlert("Создание ссылки", "Загружаем запись в облако (Bytebin)...");
+        const noteTitle = titleInput.value || t('untitled');
+        ui.showAlert(t('share_title'), t('share_load'));
         try {
             const response = await fetch("https://bytebin.lucko.me/post", {
                 method: "POST", 
@@ -325,23 +474,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ title: noteTitle, content: noteContent })
             });
             
-            if (!response.ok) throw new Error("Ошибка API Bytebin");
+            if (!response.ok) throw new Error("Bytebin API Error");
             
             const data = await response.json();
             const baseUrl = window.location.href.split('?')[0]; 
             const shareUrl = `${baseUrl}?read=${data.key}`;
             
             navigator.clipboard.writeText(shareUrl).then(() => {
-                ui.showPrompt("Готово!", "Ссылка автоматически скопирована в буфер обмена!", (val) => {}, { text: "Понятно", checked: false });
+                ui.showPrompt(t('share_done'), t('share_auto'), (val) => {}, { text: t('got_it'), checked: false });
                 setTimeout(() => { document.getElementById('modal-input').value = shareUrl; document.getElementById('modal-input').select(); }, 100);
             }).catch(err => {
-                ui.showPrompt("Ссылка готова!", "Скопируй её вручную:", (val) => {}, { text: "Понятно", checked: false });
+                ui.showPrompt(t('share_ready'), t('share_manual'), (val) => {}, { text: t('got_it'), checked: false });
                 setTimeout(() => { document.getElementById('modal-input').value = shareUrl; document.getElementById('modal-input').select(); }, 100);
             });
             
         } catch (err) { 
             console.error(err); 
-            ui.showAlert("Ошибка", "Не удалось создать ссылку. Возможно сервис временно недоступен."); 
+            ui.showAlert(t('error'), t('share_fail')); 
         }
     };
 
@@ -366,8 +515,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (appData.rootNotes.length > 0) window.app.loadNote('root', appData.rootNotes[0].id);
                 else if (appData.folders[0]?.notes[0]) window.app.loadNote(appData.folders[0].id, appData.folders[0].notes[0].id);
                 else renderFolders();
-                ui.showAlert("Успех", "Записи успешно восстановлены!");
-            } catch (error) { ui.showAlert("Ошибка", "Не удалось прочитать файл."); }
+                ui.showAlert(t('success'), t('restored'));
+            } catch (error) { ui.showAlert(t('error'), t('read_err')); }
         };
         reader.readAsText(file); e.target.value = ''; 
     });
@@ -385,20 +534,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function checkToken(callback) {
         let token = localStorage.getItem('github_token');
-        if (!token) { ui.showPrompt("Токен GitHub", "Вставь Personal Access Token...", (inputToken) => { if(inputToken) { localStorage.setItem('github_token', inputToken); callback(inputToken); } }); } 
+        if (!token) { ui.showPrompt(t('gh_token'), t('gh_token_ph'), (inputToken) => { if(inputToken) { localStorage.setItem('github_token', inputToken); callback(inputToken); } }); } 
         else { callback(token); }
     }
 
     document.getElementById('sync-github-up-btn').onclick = () => {
         checkToken(async (token) => {
-            saveCurrentNote(); ui.showAlert("Синхронизация", "Сохраняем данные в облако...");
+            saveCurrentNote(); ui.showAlert(t('syncing'), t('sync_save'));
             try {
                 const gistId = await findGistId(token);
                 const payload = { description: "Мои заметки kiwwij", public: false, files: { [GIST_FILENAME]: { content: JSON.stringify(appData, null, 2) } } };
                 if (gistId) await githubRequest(`/gists/${gistId}`, 'PATCH', payload, token); 
                 else { const newGist = await githubRequest('/gists', 'POST', payload, token); localStorage.setItem('github_gist_id', newGist.id); }
-                ui.showAlert("Успех", "Записи успешно сохранены в GitHub!");
-            } catch (e) { ui.showAlert("Ошибка", "Не удалось сохранить в облако. Проверь токен."); }
+                ui.showAlert(t('success'), t('sync_ok'));
+            } catch (e) { ui.showAlert(t('error'), t('sync_err')); }
         });
     };
 
@@ -406,9 +555,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if(syncDownBtn) {
         syncDownBtn.onclick = () => {
             checkToken(async (token) => {
-                ui.showAlert("Синхронизация", "Ищем твои записи на GitHub...");
+                ui.showAlert(t('syncing'), t('sync_search'));
                 try {
-                    const gistId = await findGistId(token); if (!gistId) throw new Error("Бекап не найден");
+                    const gistId = await findGistId(token); if (!gistId) throw new Error("No backup");
                     const gist = await githubRequest(`/gists/${gistId}`, 'GET', null, token);
                     let parsed = JSON.parse(gist.files[GIST_FILENAME].content);
                     appData = Array.isArray(parsed) ? { rootNotes: [], folders: parsed.map(f => ({ ...f, collapsed: false })) } : parsed;
@@ -416,8 +565,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (appData.rootNotes.length > 0) window.app.loadNote('root', appData.rootNotes[0].id);
                     else if (appData.folders[0]?.notes[0]) window.app.loadNote(appData.folders[0].id, appData.folders[0].notes[0].id);
                     else renderFolders();
-                    ui.showAlert("Успех", "Записи загружены из облака!");
-                } catch (e) { ui.showAlert("Ошибка", "Бекап в облаке не найден. Сначала нажми 'В облако', чтобы его создать."); }
+                    ui.showAlert(t('success'), t('sync_loaded'));
+                } catch (e) { ui.showAlert(t('error'), t('sync_not_found')); }
             });
         };
     }
@@ -429,7 +578,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!selection.isCollapsed) {
                 const range = selection.getRangeAt(0); const div = document.createElement('div'); div.appendChild(range.cloneContents());
                 document.execCommand('insertHTML', false, `<span class="spoiler">${div.innerHTML}</span>&nbsp;`);
-            } else { document.execCommand('insertHTML', false, `<span class="spoiler">Скрытый текст</span>&nbsp;`); }
+            } else { document.execCommand('insertHTML', false, `<span class="spoiler">${t('hidden')}</span>&nbsp;`); }
             editor.focus(); debouncedSave();
         };
     }
@@ -440,13 +589,13 @@ document.addEventListener('DOMContentLoaded', () => {
             let savedRange = null; const selection = window.getSelection();
             if (selection.rangeCount > 0 && editor.contains(selection.getRangeAt(0).commonAncestorContainer)) savedRange = selection.getRangeAt(0);
             
-            ui.showPrompt("Картинка", "Вставь прямую ссылку (https://...jpg)", (url, isSpoiler) => {
+            ui.showPrompt(t('img'), t('img_ph'), (url, isSpoiler) => {
                 if (url) {
                     editor.focus(); if (savedRange) { const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(savedRange); }
                     document.execCommand('insertHTML', false, `<img src="${url}" class="${isSpoiler ? 'img-spoiler' : ''}" alt="Image">&nbsp;`);
                     debouncedSave();
                 }
-            }, { text: "Скрыть под спойлер", checked: false });
+            }, { text: t('spoiler_opt'), checked: false });
         };
     }
 

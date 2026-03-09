@@ -16,20 +16,20 @@
             <div class="sidebar-header">
                 <div class="icon-text">
                     <i class='bx bx-notepad'></i>
-                    <h2>kiwwij Notes</h2>
+                    <h2 data-i18n="app_title">kiwwij Notes</h2>
                 </div>
                 <button id="close-sidebar-btn" class="btn-icon mobile-only"><i class='bx bx-x'></i></button>
             </div>
             
             <div class="sidebar-actions">
-                <button id="new-folder-btn" class="btn-secondary"><i class='bx bx-folder-plus'></i> Папка</button>
-                <button id="new-note-btn" class="btn-primary"><i class='bx bx-plus'></i> Запись</button>
+                <button id="new-folder-btn" class="btn-secondary"><i class='bx bx-folder-plus'></i> <span data-i18n="folder">Папка</span></button>
+                <button id="new-note-btn" class="btn-primary"><i class='bx bx-plus'></i> <span data-i18n="note">Запись</span></button>
             </div>
 
             <div class="sidebar-scroll-area">
                 <div id="root-zone" class="root-zone">
                     <div class="root-zone-title" id="root-drop-zone">
-                        <span><i class='bx bx-layer'></i> Вне папок</span>
+                        <span><i class='bx bx-layer'></i> <span data-i18n="out_of_folders">Вне папок</span></span>
                     </div>
                     <ul id="root-notes-list" class="notes-list"></ul>
                 </div>
@@ -38,9 +38,9 @@
             </div>
             
             <div class="backup-actions">
-                <button id="export-btn" class="btn-secondary"><i class='bx bx-download'></i> Скачать .json</button>
+                <button id="export-btn" class="btn-secondary"><i class='bx bx-download'></i> <span data-i18n="export">Скачать .json</span></button>
                 <input type="file" id="import-input" accept=".json, .js" class="hidden">
-                <button id="import-btn" class="btn-secondary"><i class='bx bx-upload'></i> Загрузить</button>
+                <button id="import-btn" class="btn-secondary"><i class='bx bx-upload'></i> <span data-i18n="import">Загрузить</span></button>
             </div>
         </aside>
 
@@ -50,32 +50,40 @@
             <header class="editor-header">
                 <div class="mobile-header-left">
                     <button id="mobile-menu-btn" class="btn-icon mobile-only"><i class='bx bx-menu'></i></button>
-                    <input type="text" id="note-title" placeholder="Название записи..." class="title-input">
+                    <input type="text" id="note-title" data-i18n-ph="ph_note_title" placeholder="Название записи..." class="title-input">
                 </div>
                 <div class="header-actions">
-                    <button id="theme-toggle" class="btn-icon" title="Сменить тему"><i class='bx bx-sun'></i></button>
-                    <button id="share-note-btn" class="btn-secondary" title="Поделиться ссылкой (только чтение)"><i class='bx bx-share-alt'></i></button>
-                    <button id="save-local-btn" class="btn-secondary" title="Сохранить локально"><i class='bx bx-save'></i></button>
-                    <button id="sync-github-down-btn" class="btn-secondary" title="Скачать из облака"><i class='bx bx-cloud-download'></i></button>
-                    <button id="sync-github-up-btn" class="btn-accent" title="Сохранить в облако"><i class='bx bx-cloud-upload'></i></button>
+                    <select id="lang-select" class="lang-selector">
+                        <option value="ru">RU</option>
+                        <option value="ua">UA</option>
+                        <option value="en">EN</option>
+                    </select>
+                    <button id="theme-toggle" class="btn-icon" data-i18n-title="theme_tt" title="Сменить тему"><i class='bx bx-sun'></i></button>
+                    <button id="share-note-btn" class="btn-secondary" data-i18n-title="share_tt" title="Поделиться ссылкой"><i class='bx bx-share-alt'></i></button>
+                    <button id="save-local-btn" class="btn-secondary" data-i18n-title="save_tt" title="Сохранить локально"><i class='bx bx-save'></i></button>
+                    <button id="sync-github-down-btn" class="btn-secondary" data-i18n-title="down_tt" title="Скачать из облака"><i class='bx bx-cloud-download'></i></button>
+                    <button id="sync-github-up-btn" class="btn-accent" data-i18n-title="up_tt" title="Сохранить в облако"><i class='bx bx-cloud-upload'></i></button>
                 </div>
             </header>
 
             <div class="toolbar">
-                <button class="format-btn" data-command="bold"><i class='bx bx-bold'></i></button>
-                <button class="format-btn" data-command="italic"><i class='bx bx-italic'></i></button>
-                <button class="format-btn" data-command="underline"><i class='bx bx-underline'></i></button>
-                <button class="format-btn" id="spoiler-btn" title="Спойлер текста"><i class='bx bx-hide'></i></button>
-                <button class="format-btn" id="image-btn" title="Добавить картинку по ссылке"><i class='bx bx-image-add'></i></button>
+                <button class="format-btn" data-command="bold" data-i18n-title="bold_tt" title="Жирный"><i class='bx bx-bold'></i></button>
+                <button class="format-btn" data-command="italic" data-i18n-title="italic_tt" title="Курсив"><i class='bx bx-italic'></i></button>
+                <button class="format-btn" data-command="underline" data-i18n-title="under_tt" title="Подчеркнутый"><i class='bx bx-underline'></i></button>
+                <button class="format-btn" id="spoiler-btn" data-i18n-title="spoiler_tt" title="Спойлер текста"><i class='bx bx-hide'></i></button>
+                <button class="format-btn" id="image-btn" data-i18n-title="img_add_tt" title="Добавить картинку"><i class='bx bx-image-add'></i></button>
                 <div class="divider"></div>
-                <button class="format-btn" data-command="justifyLeft"><i class='bx bx-align-left'></i></button>
-                <button class="format-btn" data-command="justifyCenter"><i class='bx bx-align-middle'></i></button>
-                <button class="format-btn" data-command="justifyRight"><i class='bx bx-align-right'></i></button>
-                <button class="format-btn" data-command="justifyFull"><i class='bx bx-align-justify'></i></button>
+                <button class="format-btn" data-command="insertOrderedList" data-i18n-title="ol_tt" title="Нумерованный список"><i class='bx bx-list-ol'></i></button>
+                <button class="format-btn" data-command="insertUnorderedList" data-i18n-title="ul_tt" title="Маркированный список"><i class='bx bx-list-ul'></i></button>
+                <div class="divider"></div>
+                <button class="format-btn" data-command="justifyLeft" data-i18n-title="left_tt" title="По левому краю"><i class='bx bx-align-left'></i></button>
+                <button class="format-btn" data-command="justifyCenter" data-i18n-title="center_tt" title="По центру"><i class='bx bx-align-middle'></i></button>
+                <button class="format-btn" data-command="justifyRight" data-i18n-title="right_tt" title="По правому краю"><i class='bx bx-align-right'></i></button>
+                <button class="format-btn" data-command="justifyFull" data-i18n-title="full_tt" title="По ширине"><i class='bx bx-align-justify'></i></button>
                 <div class="divider"></div>
                 
-                <input type="color" id="text-color" class="color-picker" title="Цвет текста">
-                <button class="format-btn" data-command="removeFormat" title="Сбросить цвет и форматирование"><i class='bx bx-eraser'></i></button>
+                <input type="color" id="text-color" class="color-picker" data-i18n-title="color_tt" title="Цвет текста">
+                <button class="format-btn" data-command="removeFormat" data-i18n-title="clear_tt" title="Сбросить"><i class='bx bx-eraser'></i></button>
                 <div class="divider"></div>
                 
                 <div class="emoji-wrapper">
@@ -94,7 +102,7 @@
 
     <div id="custom-modal" class="modal-overlay hidden">
         <div class="modal-content">
-            <h3 id="modal-title">Ввод данных</h3>
+            <h3 id="modal-title" data-i18n="modal_title">Ввод данных</h3>
             <p id="modal-message" class="hidden" style="margin: 1rem 0; color: var(--text-muted);"></p>
             <input type="text" id="modal-input" class="modal-input">
             
@@ -104,15 +112,15 @@
             </label>
 
             <div class="modal-actions" style="margin-top: 1.5rem;">
-                <button id="modal-cancel" class="btn-secondary">Отмена</button>
-                <button id="modal-confirm" class="btn-primary">Ок</button>
+                <button id="modal-cancel" class="btn-secondary" data-i18n="cancel">Отмена</button>
+                <button id="modal-confirm" class="btn-primary" data-i18n="ok">Ок</button>
             </div>
         </div>
     </div>
 
     <div id="toast" class="toast-container hidden">
         <span id="toast-message">Удалено</span>
-        <button id="toast-undo-btn" class="btn-accent">Отменить (<span id="toast-timer">5</span>)</button>
+        <button id="toast-undo-btn" class="btn-accent"><span data-i18n="undo">Отменить</span> (<span id="toast-timer">5</span>)</button>
     </div>
 
     <script src="../js/my-notes.js"></script>
