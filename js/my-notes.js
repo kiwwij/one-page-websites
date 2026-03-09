@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
             modal_title: "Ввод данных", theme_tt: "Сменить тему", share_tt: "Поделиться ссылкой",
             save_tt: "Сохранить локально", down_tt: "Скачать из облака", up_tt: "Сохранить в облако",
             ul_tt: "Маркированный список", ol_tt: "Нумерованный список", bold_tt: "Жирный", italic_tt: "Курсив", 
-            under_tt: "Подчеркнутый", spoiler_tt: "Спойлер текста", img_add_tt: "Добавить картинку",
+            under_tt: "Подчеркнутый", spoiler_tt: "Спойлер текста", img_add_tt: "Вставить картинку по ссылке", img_upload_tt: "Загрузить с ПК",
             left_tt: "По левому краю", center_tt: "По центру", right_tt: "По правому краю", full_tt: "По ширине",
             color_tt: "Цвет текста", clear_tt: "Сбросить цвет", move_up: "Вверх", move_down: "Вниз", del: "Удалить", drag_note: "Потянуть"
         },
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
             modal_title: "Введення даних", theme_tt: "Змінити тему", share_tt: "Поділитися посиланням",
             save_tt: "Зберегти локально", down_tt: "Завантажити з хмари", up_tt: "Зберегти у хмару",
             ul_tt: "Маркований список", ol_tt: "Нумерований список", bold_tt: "Жирний", italic_tt: "Курсив", 
-            under_tt: "Підкреслений", spoiler_tt: "Спойлер тексту", img_add_tt: "Додати зображення",
+            under_tt: "Підкреслений", spoiler_tt: "Спойлер тексту", img_add_tt: "Вставити зображення по посиланню", img_upload_tt: "Завантажити з ПК",
             left_tt: "По лівому краю", center_tt: "По центру", right_tt: "По правому краю", full_tt: "По ширині",
             color_tt: "Колір тексту", clear_tt: "Скинути колір", move_up: "Вгору", move_down: "Вниз", del: "Видалити", drag_note: "Потягнути"
         },
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
             modal_title: "Data entry", theme_tt: "Toggle theme", share_tt: "Share link",
             save_tt: "Save locally", down_tt: "Download from cloud", up_tt: "Save to cloud",
             ul_tt: "Bulleted list", ol_tt: "Numbered list", bold_tt: "Bold", italic_tt: "Italic", 
-            under_tt: "Underline", spoiler_tt: "Text spoiler", img_add_tt: "Add image",
+            under_tt: "Underline", spoiler_tt: "Text spoiler", img_add_tt: "Add image by link", img_upload_tt: "Upload from PC",
             left_tt: "Align left", center_tt: "Align center", right_tt: "Align right", full_tt: "Justify",
             color_tt: "Text color", clear_tt: "Clear formatting", move_up: "Up", move_down: "Down", del: "Delete", drag_note: "Drag"
         }
@@ -272,12 +272,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const toastTimer = document.getElementById('toast-timer');
         
         toastMsg.innerText = message; toast.classList.remove('hidden');
-        undoCountdown = 5; toastTimer.innerText = undoCountdown;
+        undoCountdown = 10; // Увеличено до 10 секунд
+        toastTimer.innerText = undoCountdown;
         
         clearInterval(undoInterval); clearTimeout(undoTimer);
         document.getElementById('toast-undo-btn').onclick = () => { onUndo(); hideUndoToast(); };
         undoInterval = setInterval(() => { undoCountdown--; if (undoCountdown > 0) toastTimer.innerText = undoCountdown; else clearInterval(undoInterval); }, 1000);
-        undoTimer = setTimeout(hideUndoToast, 5000);
+        undoTimer = setTimeout(hideUndoToast, 10000); // Таймер на 10 секунд
     }
 
     function hideUndoToast() { document.getElementById('toast').classList.add('hidden'); clearInterval(undoInterval); clearTimeout(undoTimer); }
@@ -481,10 +482,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const shareUrl = `${baseUrl}?read=${data.key}`;
             
             navigator.clipboard.writeText(shareUrl).then(() => {
-                ui.showPrompt(t('share_done'), t('share_auto'), (val) => {}, { text: t('got_it'), checked: false });
+                // Убрали чекбокс "Понятно"
+                ui.showPrompt(t('share_done'), t('share_auto'), (val) => {});
                 setTimeout(() => { document.getElementById('modal-input').value = shareUrl; document.getElementById('modal-input').select(); }, 100);
             }).catch(err => {
-                ui.showPrompt(t('share_ready'), t('share_manual'), (val) => {}, { text: t('got_it'), checked: false });
+                // Убрали чекбокс "Понятно"
+                ui.showPrompt(t('share_ready'), t('share_manual'), (val) => {});
                 setTimeout(() => { document.getElementById('modal-input').value = shareUrl; document.getElementById('modal-input').select(); }, 100);
             });
             
@@ -573,7 +576,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const spoilerBtn = document.getElementById('spoiler-btn');
     if (spoilerBtn) {
-        spoilerBtn.onclick = () => {
+        spoilerBtn.onclick = (e) => {
+            e.preventDefault();
+            // Защита: не даем применить спойлер на поле заголовка
+            if (document.activeElement === titleInput) return;
+
             const selection = window.getSelection();
             if (!selection.isCollapsed) {
                 const range = selection.getRangeAt(0); const div = document.createElement('div'); div.appendChild(range.cloneContents());
@@ -585,7 +592,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const imageBtn = document.getElementById('image-btn');
     if (imageBtn) {
-        imageBtn.onclick = () => {
+        imageBtn.onclick = (e) => {
+            e.preventDefault();
             let savedRange = null; const selection = window.getSelection();
             if (selection.rangeCount > 0 && editor.contains(selection.getRangeAt(0).commonAncestorContainer)) savedRange = selection.getRangeAt(0);
             
@@ -599,9 +607,37 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
+    // Логика загрузки локальной картинки
+    const localImageBtn = document.getElementById('local-image-btn');
+    const localImageInput = document.getElementById('local-image-input');
+    if (localImageBtn && localImageInput) {
+        localImageBtn.onclick = (e) => {
+            e.preventDefault();
+            if (document.activeElement === titleInput) editor.focus(); // Уводим фокус из заголовка
+            localImageInput.click();
+        };
+        localImageInput.onchange = (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const base64Url = event.target.result;
+                editor.focus();
+                document.execCommand('insertHTML', false, `<img src="${base64Url}" alt="Image">&nbsp;`);
+                debouncedSave();
+            };
+            reader.readAsDataURL(file);
+            e.target.value = '';
+        };
+    }
+
     document.querySelectorAll('.format-btn[data-command]').forEach(btn => { 
         btn.onclick = (e) => { 
             e.preventDefault();
+            
+            // Защита: блокируем форматирование, если фокус находится в поле заголовка
+            if (document.activeElement === titleInput) return;
+
             const cmd = btn.getAttribute('data-command');
 
             if (selectedImage && cmd.startsWith('justify')) {
