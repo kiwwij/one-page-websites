@@ -89,10 +89,10 @@ const gamesData = [
         discount_percent: 60,
         release_date: "2018",
         rating: "85",
-        play_status: "dropped",
-        progress: 1,
+        play_status: "playing",
+        progress: 7,
         is_purchased: true,
-        review_link: ""
+        review_link: "https://www.thesignmaker.co.nz/wp-content/smush-webp/2019/04/C16_Work-In-Progress.png.webp"
     },
     {
         category: "cat_owned",

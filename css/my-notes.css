@@ -80,10 +80,8 @@ body {
 .folder-name-wrap { display: flex; align-items: flex-start; gap: 0.5rem; width: 100%; cursor: pointer; overflow: hidden; }
 .collapse-icon { transition: transform 0.2s; font-size: 1.2rem; cursor: pointer; padding: 0.2rem; flex-shrink: 0; margin-top: 0.05rem; }
 
-/* Увеличен отступ, чтобы текст не залазил под 3 кнопки папки */
 .folder-title-text { flex-grow: 1; display: flex; align-items: flex-start; gap: 0.5rem; overflow: hidden; padding-right: 90px; }
 
-/* Чистые кнопки папок без теней */
 .folder-controls { position: absolute; right: 0.2rem; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 2px; background: transparent; z-index: 2; }
 .folder-title.active-folder .folder-controls { background: transparent; }
 .folder-title.drag-over .folder-controls { display: none; }
@@ -101,23 +99,20 @@ body {
 .note-item.active { background-color: var(--accent); color: white; }
 .note-item.drag-over-note { box-shadow: 0 -2px 0 var(--accent); border-top-left-radius: 0; border-top-right-radius: 0; }
 
-/* Увеличен отступ, чтобы текст не залазил под крестик */
 .note-title-text { flex-grow: 1; overflow: hidden; cursor: pointer; display: flex; align-items: flex-start; gap: 0.5rem; padding: 0.5rem; padding-right: 40px; }
 .folder-title-text i, .note-title-text i { flex-shrink: 0; margin-top: 0.15rem; }
 
 .folder-title-text span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
 .note-title-text span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; word-break: break-word; white-space: normal; }
 
-/* Чистый крестик удаления у заметок */
 .note-item .delete-btn { position: absolute; right: 0.2rem; top: 50%; transform: translateY(-50%); background: transparent; opacity: 0.5; z-index: 2; }
 .note-item:hover .delete-btn { opacity: 0.8; }
 .note-item .delete-btn:hover { opacity: 1; color: #ef4444; background-color: rgba(239, 68, 68, 0.1); }
-
-/* Подсветка крестика в активной (фиолетовой) записи */
 .note-item.active .delete-btn { color: rgba(255, 255, 255, 0.6); }
 .note-item.active .delete-btn:hover { color: white; background-color: rgba(255, 255, 255, 0.2); }
 
-.drag-handle { color: var(--text-muted); cursor: grab; font-size: 1.2rem; padding: 0.5rem 0.2rem 0.5rem 0.5rem; flex-shrink: 0; }
+/* Защита от скролла при касании ползунка */
+.drag-handle { color: var(--text-muted); cursor: grab; font-size: 1.2rem; padding: 0.5rem 0.2rem 0.5rem 0.5rem; flex-shrink: 0; touch-action: none; }
 .drag-handle:active { cursor: grabbing; }
 
 .editor-area { flex-grow: 1; display: flex; flex-direction: column; background-color: var(--bg-main); min-width: 0; position: relative; }
@@ -145,9 +140,9 @@ body {
 .rich-editor img { max-width: 100%; height: auto; border-radius: var(--radius); margin: 5px; display: inline-block; transition: box-shadow 0.2s, filter 0.3s ease; }
 .rich-editor img:hover { box-shadow: 0 0 0 2px var(--accent); }
 .rich-editor img.selected-img { outline: 3px solid var(--accent); outline-offset: 2px; }
-.rich-editor img.can-resize-right { cursor: nwse-resize !important; }
 
-#image-resizer { position: fixed; width: 20px; height: 20px; background: linear-gradient(135deg, transparent 50%, var(--accent) 50%); z-index: 9999; pointer-events: none; transition: opacity 0.1s; }
+#image-resizer { position: fixed; width: 24px; height: 24px; background-color: var(--accent); color: white; display: flex; justify-content: center; align-items: center; border-radius: 50%; z-index: 9999; cursor: nwse-resize; box-shadow: 0 2px 5px rgba(0,0,0,0.3); touch-action: none; }
+.rich-editor img.can-resize-right { cursor: nwse-resize !important; }
 
 .rich-editor img.img-spoiler { filter: blur(15px); clip-path: inset(0 round var(--radius)); cursor: pointer; }
 .rich-editor img.img-spoiler:hover, .rich-editor img.img-spoiler.revealed { filter: blur(0px); }
@@ -185,6 +180,10 @@ emoji-picker { --background: var(--bg-sidebar); --border-color: var(--border); -
 
 .toast-container { position: fixed; bottom: 20px; left: 20px; background-color: var(--bg-sidebar); border: 1px solid var(--border); padding: 1rem; border-radius: var(--radius); box-shadow: 0 10px 25px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 1rem; z-index: 2000; transition: opacity 0.3s ease, transform 0.3s ease; }
 .toast-container.hidden { opacity: 0; transform: translateY(20px); pointer-events: none; }
+
+.simple-toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px); background-color: var(--accent); color: white; padding: 0.5rem 1.5rem; border-radius: var(--radius); box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 3000; opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; pointer-events: none; }
+.simple-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
 .hidden { display: none !important; }
 .mobile-only { display: none; }
 .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 90; }

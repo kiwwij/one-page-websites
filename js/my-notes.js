@@ -14,16 +14,18 @@ document.addEventListener('DOMContentLoaded', () => {
             app_title: "kiwwij Notes", folder: "Папка", note: "Запись", out_of_folders: "Вне папок",
             export: "Скачать .json", import: "Загрузить", ph_note_title: "Название записи...",
             cancel: "Отмена", ok: "Ок", new_folder: "Новая папка", ph_folder_name: "Название папки...",
+            rename_folder: "Переименовать", new_name: "Новое название...",
             error: "Ошибка", folder_not_found: "Папка не найдена!", new_note_def: "Новая запись",
             success: "Успех", restored: "Записи успешно восстановлены!", read_err: "Не удалось прочитать файл.",
             syncing: "Синхронизация", sync_save: "Сохраняем данные в облако...", sync_ok: "Записи успешно сохранены в GitHub!",
             sync_err: "Не удалось сохранить в облако. Проверь токен.", sync_search: "Ищем твои записи на GitHub...",
             sync_none: "Бекап не найден", sync_loaded: "Записи загружены из облака!",
             sync_not_found: "Бекап в облаке не найден. Сначала нажми 'В облако', чтобы его создать.",
+            sync_warn_title: "Скачивание из облака", sync_warn_msg: "Внимание! Текущие локальные записи будут заменены данными из облака. Продолжить?",
             folder_deleted: "Папка удалена", note_deleted: "Запись удалена", img: "Картинка",
             img_ph: "Вставь прямую ссылку (https://...jpg)", spoiler_opt: "Скрыть под спойлер",
-            share_err1: "Сначала выберите запись.", share_title: "Создание ссылки",
-            share_load: "Загружаем запись в облако (Bytebin)...", share_err2: "Ошибка API Bytebin",
+            share_err1: "Сначала выберите запись.", share_title: "Создание ссылки", share_warn_msg: "Ссылка будет сгенерирована и скопирована в буфер обмена после нажатия «Ок»:\n\nhttps://.../?read=...",
+            share_load: "Загружаем запись в облако...", share_err2: "Ошибка API Bytebin",
             share_done: "Готово!", share_auto: "Ссылка автоматически скопирована в буфер обмена!",
             share_manual: "Скопируй её вручную:", share_ready: "Ссылка готова!", got_it: "Понятно",
             share_fail: "Не удалось создать ссылку. Возможно сервис временно недоступен.",
@@ -33,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
             def_folder: "Мои заметки", def_note: "Первая заметка", def_text: "Тут можно начать писать...",
             untitled: "Без названия", hidden: "Скрытый текст", undo: "Отменить",
             modal_title: "Ввод данных", theme_tt: "Сменить тему", share_tt: "Поделиться ссылкой",
-            save_tt: "Сохранить локально", down_tt: "Скачать из облака", up_tt: "Сохранить в облако",
+            save_tt: "Сохранить локально", saved_local: "Сохранено!", down_tt: "Скачать из облака", up_tt: "Сохранить в облако",
             ul_tt: "Маркированный список", ol_tt: "Нумерованный список", bold_tt: "Жирный", italic_tt: "Курсив", 
             under_tt: "Подчеркнутый", spoiler_tt: "Спойлер текста", img_add_tt: "Вставить картинку по ссылке", img_upload_tt: "Загрузить с ПК",
             left_tt: "По левому краю", center_tt: "По центру", right_tt: "По правому краю", full_tt: "По ширине",
@@ -43,16 +45,18 @@ document.addEventListener('DOMContentLoaded', () => {
             app_title: "kiwwij Notes", folder: "Папка", note: "Запис", out_of_folders: "Поза папками",
             export: "Завантажити .json", import: "Завантажити", ph_note_title: "Назва запису...",
             cancel: "Скасувати", ok: "Ок", new_folder: "Нова папка", ph_folder_name: "Назва папки...",
+            rename_folder: "Перейменувати", new_name: "Нова назва...",
             error: "Помилка", folder_not_found: "Папку не знайдено!", new_note_def: "Новий запис",
             success: "Успіх", restored: "Записи успішно відновлено!", read_err: "Не вдалося прочитати файл.",
             syncing: "Синхронізація", sync_save: "Зберігаємо дані в хмару...", sync_ok: "Записи успішно збережено в GitHub!",
             sync_err: "Не вдалося зберегти в хмару. Перевір токен.", sync_search: "Шукаємо твої записи на GitHub...",
             sync_none: "Бекап не знайдено", sync_loaded: "Записи завантажено з хмари!",
             sync_not_found: "Бекап у хмарі не знайдено. Спочатку натисни 'В хмару', щоб його створити.",
+            sync_warn_title: "Завантаження з хмари", sync_warn_msg: "Увага! Поточні локальні записи будуть замінені даними з хмари. Продовжити?",
             folder_deleted: "Папку видалено", note_deleted: "Запис видалено", img: "Зображення",
             img_ph: "Встав пряме посилання (https://...jpg)", spoiler_opt: "Приховати під спойлер",
-            share_err1: "Спочатку виберіть запис.", share_title: "Створення посилання",
-            share_load: "Завантажуємо запис у хмару (Bytebin)...", share_err2: "Помилка API Bytebin",
+            share_err1: "Спочатку виберіть запис.", share_title: "Створення посилання", share_warn_msg: "Посилання буде створено та скопійовано після натискання «Ок»:\n\nhttps://.../?read=...",
+            share_load: "Завантажуємо запис у хмару...", share_err2: "Помилка API Bytebin",
             share_done: "Готово!", share_auto: "Посилання автоматично скопійовано в буфер обміну!",
             share_manual: "Скопіюй його вручну:", share_ready: "Посилання готове!", got_it: "Зрозуміло",
             share_fail: "Не вдалося створити посилання. Можливо сервіс тимчасово недоступний.",
@@ -62,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
             def_folder: "Мої нотатки", def_note: "Перша нотатка", def_text: "Тут можна почати писати...",
             untitled: "Без назви", hidden: "Прихований текст", undo: "Скасувати",
             modal_title: "Введення даних", theme_tt: "Змінити тему", share_tt: "Поділитися посиланням",
-            save_tt: "Зберегти локально", down_tt: "Завантажити з хмари", up_tt: "Зберегти у хмару",
+            save_tt: "Зберегти локально", saved_local: "Збережено!", down_tt: "Завантажити з хмари", up_tt: "Зберегти у хмару",
             ul_tt: "Маркований список", ol_tt: "Нумерований список", bold_tt: "Жирний", italic_tt: "Курсив", 
             under_tt: "Підкреслений", spoiler_tt: "Спойлер тексту", img_add_tt: "Вставити зображення по посиланню", img_upload_tt: "Завантажити з ПК",
             left_tt: "По лівому краю", center_tt: "По центру", right_tt: "По правому краю", full_tt: "По ширині",
@@ -72,16 +76,18 @@ document.addEventListener('DOMContentLoaded', () => {
             app_title: "kiwwij Notes", folder: "Folder", note: "Note", out_of_folders: "Outside folders",
             export: "Export .json", import: "Import", ph_note_title: "Note title...",
             cancel: "Cancel", ok: "OK", new_folder: "New folder", ph_folder_name: "Folder name...",
+            rename_folder: "Rename", new_name: "New name...",
             error: "Error", folder_not_found: "Folder not found!", new_note_def: "New note",
             success: "Success", restored: "Notes successfully restored!", read_err: "Failed to read file.",
             syncing: "Syncing", sync_save: "Saving data to cloud...", sync_ok: "Notes successfully saved to GitHub!",
             sync_err: "Failed to save to cloud. Check token.", sync_search: "Searching your notes on GitHub...",
             sync_none: "Backup not found", sync_loaded: "Notes loaded from cloud!",
             sync_not_found: "Cloud backup not found. Click 'Save to cloud' first to create it.",
+            sync_warn_title: "Download from cloud", sync_warn_msg: "Warning! Current local notes will be replaced by cloud data. Continue?",
             folder_deleted: "Folder deleted", note_deleted: "Note deleted", img: "Image",
             img_ph: "Insert direct link (https://...jpg)", spoiler_opt: "Hide under spoiler",
-            share_err1: "Select a note first.", share_title: "Creating link",
-            share_load: "Uploading note to cloud (Bytebin)...", share_err2: "Bytebin API Error",
+            share_err1: "Select a note first.", share_title: "Creating link", share_warn_msg: "Link will be generated and copied after clicking OK:\n\nhttps://.../?read=...",
+            share_load: "Uploading note to cloud...", share_err2: "Bytebin API Error",
             share_done: "Done!", share_auto: "Link automatically copied to clipboard!",
             share_manual: "Copy it manually:", share_ready: "Link is ready!", got_it: "Got it",
             share_fail: "Failed to create link. Service might be unavailable.",
@@ -91,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
             def_folder: "My notes", def_note: "First note", def_text: "You can start typing here...",
             untitled: "Untitled", hidden: "Hidden text", undo: "Undo",
             modal_title: "Data entry", theme_tt: "Toggle theme", share_tt: "Share link",
-            save_tt: "Save locally", down_tt: "Download from cloud", up_tt: "Save to cloud",
+            save_tt: "Save locally", saved_local: "Saved!", down_tt: "Download from cloud", up_tt: "Save to cloud",
             ul_tt: "Bulleted list", ol_tt: "Numbered list", bold_tt: "Bold", italic_tt: "Italic", 
             under_tt: "Underline", spoiler_tt: "Text spoiler", img_add_tt: "Add image by link", img_upload_tt: "Upload from PC",
             left_tt: "Align left", center_tt: "Align center", right_tt: "Align right", full_tt: "Justify",
@@ -138,6 +144,19 @@ document.addEventListener('DOMContentLoaded', () => {
         updateThemeIconAndEmoji(newTheme);
     };
 
+    const imgResizer = document.getElementById('image-resizer');
+    
+    function updateResizerPosition() {
+        if (!selectedImage) { imgResizer.classList.add('hidden'); return; }
+        const rect = selectedImage.getBoundingClientRect();
+        imgResizer.classList.remove('hidden');
+        imgResizer.style.left = `${rect.right - 12}px`;
+        imgResizer.style.top = `${rect.bottom - 12}px`;
+    }
+
+    editor.addEventListener('scroll', updateResizerPosition);
+    window.addEventListener('resize', updateResizerPosition);
+
     editor.addEventListener('click', (e) => { 
         if (e.target.tagName === 'A') { e.preventDefault(); window.open(e.target.href, '_blank'); }
         
@@ -151,9 +170,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(selectedImage) selectedImage.classList.remove('selected-img');
                 selectedImage = e.target;
                 selectedImage.classList.add('selected-img');
-            } else {
+                updateResizerPosition();
+            } else if (e.target.id !== 'image-resizer' && e.target.parentNode.id !== 'image-resizer') {
                 if(selectedImage) selectedImage.classList.remove('selected-img');
                 selectedImage = null;
+                imgResizer.classList.add('hidden');
             }
         }
 
@@ -205,6 +226,30 @@ document.addEventListener('DOMContentLoaded', () => {
             btnCancel.classList.add('hidden'); 
             modal.classList.remove('hidden');
             btnConfirm.onclick = () => ui.closeModal();
+        },
+        showConfirm: (title, message, callback, checkboxOpts = null) => {
+            modalTitle.innerText = title;
+            modalMessage.innerText = message;
+            modalMessage.classList.remove('hidden');
+            modalInput.classList.add('hidden');
+            
+            if (checkboxOpts) {
+                modalCheckboxLabel.classList.remove('hidden');
+                modalCheckboxText.innerText = checkboxOpts.text;
+                modalCheckbox.checked = checkboxOpts.checked || false;
+            } else { modalCheckboxLabel.classList.add('hidden'); }
+
+            btnCancel.classList.remove('hidden');
+            modal.classList.remove('hidden');
+            
+            btnConfirm.onclick = () => { ui.closeModal(); callback(true, checkboxOpts ? modalCheckbox.checked : null); };
+            btnCancel.onclick = () => { ui.closeModal(); callback(false); };
+        },
+        showSimpleToast: (msg) => {
+            const toast = document.getElementById('simple-toast');
+            toast.innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
         }
     };
 
@@ -272,13 +317,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const toastTimer = document.getElementById('toast-timer');
         
         toastMsg.innerText = message; toast.classList.remove('hidden');
-        undoCountdown = 10; // Увеличено до 10 секунд
+        undoCountdown = 10;
         toastTimer.innerText = undoCountdown;
         
         clearInterval(undoInterval); clearTimeout(undoTimer);
         document.getElementById('toast-undo-btn').onclick = () => { onUndo(); hideUndoToast(); };
         undoInterval = setInterval(() => { undoCountdown--; if (undoCountdown > 0) toastTimer.innerText = undoCountdown; else clearInterval(undoInterval); }, 1000);
-        undoTimer = setTimeout(hideUndoToast, 10000); // Таймер на 10 секунд
+        undoTimer = setTimeout(hideUndoToast, 10000);
     }
 
     function hideUndoToast() { document.getElementById('toast').classList.add('hidden'); clearInterval(undoInterval); clearTimeout(undoTimer); }
@@ -305,18 +350,10 @@ document.addEventListener('DOMContentLoaded', () => {
             e.stopPropagation();
         };
 
-        li.ondragover = (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            li.classList.add('drag-over-note');
-        };
-        li.ondragleave = (e) => {
-            li.classList.remove('drag-over-note');
-        };
+        li.ondragover = (e) => { e.preventDefault(); e.stopPropagation(); li.classList.add('drag-over-note'); };
+        li.ondragleave = (e) => { li.classList.remove('drag-over-note'); };
         li.ondrop = (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            li.classList.remove('drag-over-note');
+            e.preventDefault(); e.stopPropagation(); li.classList.remove('drag-over-note');
             const sourceNoteId = parseInt(e.dataTransfer.getData('noteId'));
             const sourceFolderId = e.dataTransfer.getData('sourceFolderId');
             if (sourceNoteId && !isNaN(sourceNoteId)) {
@@ -344,6 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="folder-title-text" onclick="app.selectFolder(${folder.id})"><i class='bx bx-folder'></i> <span>${folder.name}</span></div>
                 </div>
                 <div class="folder-controls">
+                    <button class="folder-btn" onclick="app.renameFolder(${folder.id}, event)" title="${t('rename_folder')}"><i class='bx bx-edit'></i></button>
                     <button class="folder-btn" onclick="app.moveFolder(${folder.id}, -1, event)" ${isFirst ? 'style="visibility:hidden"' : ''} title="${t('move_up')}"><i class='bx bx-chevron-up'></i></button>
                     <button class="folder-btn" onclick="app.moveFolder(${folder.id}, 1, event)" ${isLast ? 'style="visibility:hidden"' : ''} title="${t('move_down')}"><i class='bx bx-chevron-down'></i></button>
                     <button class="folder-btn delete-btn" onclick="app.deleteFolder(${folder.id}, event)" title="${t('del')}"><i class='bx bx-trash'></i></button>
@@ -382,10 +420,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let saveTimeout;
     debouncedSave = function() {
         clearTimeout(saveTimeout);
-        saveTimeout = setTimeout(() => {
-            saveCurrentNote();
-            renderFolders();
-        }, 1000); 
+        saveTimeout = setTimeout(() => { saveCurrentNote(); renderFolders(); }, 1000); 
     };
 
     function moveNote(sourceId, targetId, noteId) {
@@ -423,6 +458,21 @@ document.addEventListener('DOMContentLoaded', () => {
             else if (direction === 1 && index < appData.folders.length - 1) [appData.folders[index + 1], appData.folders[index]] = [appData.folders[index], appData.folders[index + 1]];
             saveAll(); renderFolders();
         },
+        renameFolder: (id, e) => {
+            e.stopPropagation();
+            const folder = appData.folders.find(f => f.id === id);
+            if (!folder) return;
+            ui.showPrompt(t('rename_folder'), t('new_name'), (newName) => {
+                if (newName && newName.trim() !== "") {
+                    folder.name = newName.trim();
+                    saveAll(); renderFolders();
+                }
+            });
+            setTimeout(() => { 
+                const input = document.getElementById('modal-input');
+                input.value = folder.name; input.select(); 
+            }, 50);
+        },
         loadNote: (fId, nId) => {
             saveCurrentNote(); 
             currentFolderId = fId === 'root' ? 'root' : parseInt(fId); currentNoteId = parseInt(nId);
@@ -458,43 +508,47 @@ document.addEventListener('DOMContentLoaded', () => {
         saveAll(); window.app.loadNote(targetFolderId, newNote.id); titleInput.focus(); titleInput.select();
     };
 
-    document.getElementById('save-local-btn').onclick = () => { saveCurrentNote(); renderFolders(); };
+    document.getElementById('save-local-btn').onclick = () => { saveCurrentNote(); renderFolders(); ui.showSimpleToast(t('saved_local')); };
     editor.addEventListener('input', debouncedSave);
     titleInput.addEventListener('input', debouncedSave);
 
     document.getElementById('share-note-btn').onclick = async () => {
         if (!currentNoteId) return ui.showAlert(t('error'), t('share_err1'));
         saveCurrentNote(); 
-        const noteContent = editor.innerHTML;
-        const noteTitle = titleInput.value || t('untitled');
-        ui.showAlert(t('share_title'), t('share_load'));
-        try {
-            const response = await fetch("https://bytebin.lucko.me/post", {
-                method: "POST", 
-                headers: { "Content-Type": "application/json", "Accept": "application/json" },
-                body: JSON.stringify({ title: noteTitle, content: noteContent })
-            });
+        
+        ui.showConfirm(t('share_title'), t('share_warn_msg'), async (confirmed) => {
+            if (!confirmed) return;
             
-            if (!response.ok) throw new Error("Bytebin API Error");
+            const noteContent = editor.innerHTML;
+            const noteTitle = titleInput.value || t('untitled');
+            ui.showAlert(t('share_title'), t('share_load'));
             
-            const data = await response.json();
-            const baseUrl = window.location.href.split('?')[0]; 
-            const shareUrl = `${baseUrl}?read=${data.key}`;
-            
-            navigator.clipboard.writeText(shareUrl).then(() => {
-                // Убрали чекбокс "Понятно"
-                ui.showPrompt(t('share_done'), t('share_auto'), (val) => {});
-                setTimeout(() => { document.getElementById('modal-input').value = shareUrl; document.getElementById('modal-input').select(); }, 100);
-            }).catch(err => {
-                // Убрали чекбокс "Понятно"
-                ui.showPrompt(t('share_ready'), t('share_manual'), (val) => {});
-                setTimeout(() => { document.getElementById('modal-input').value = shareUrl; document.getElementById('modal-input').select(); }, 100);
-            });
-            
-        } catch (err) { 
-            console.error(err); 
-            ui.showAlert(t('error'), t('share_fail')); 
-        }
+            try {
+                const response = await fetch("https://bytebin.lucko.me/post", {
+                    method: "POST", 
+                    headers: { "Content-Type": "application/json", "Accept": "application/json" },
+                    body: JSON.stringify({ title: noteTitle, content: noteContent })
+                });
+                
+                if (!response.ok) throw new Error("Bytebin API Error");
+                
+                const data = await response.json();
+                const baseUrl = window.location.href.split('?')[0]; 
+                const shareUrl = `${baseUrl}?read=${data.key}`;
+                
+                navigator.clipboard.writeText(shareUrl).then(() => {
+                    ui.showPrompt(t('share_done'), t('share_auto'), (val) => {});
+                    setTimeout(() => { document.getElementById('modal-input').value = shareUrl; document.getElementById('modal-input').select(); }, 100);
+                }).catch(err => {
+                    ui.showPrompt(t('share_ready'), t('share_manual'), (val) => {});
+                    setTimeout(() => { document.getElementById('modal-input').value = shareUrl; document.getElementById('modal-input').select(); }, 100);
+                });
+                
+            } catch (err) { 
+                console.error(err); 
+                ui.showAlert(t('error'), t('share_fail')); 
+            }
+        });
     };
 
     document.getElementById('export-btn').onclick = () => {
@@ -557,19 +611,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const syncDownBtn = document.getElementById('sync-github-down-btn');
     if(syncDownBtn) {
         syncDownBtn.onclick = () => {
-            checkToken(async (token) => {
-                ui.showAlert(t('syncing'), t('sync_search'));
-                try {
-                    const gistId = await findGistId(token); if (!gistId) throw new Error("No backup");
-                    const gist = await githubRequest(`/gists/${gistId}`, 'GET', null, token);
-                    let parsed = JSON.parse(gist.files[GIST_FILENAME].content);
-                    appData = Array.isArray(parsed) ? { rootNotes: [], folders: parsed.map(f => ({ ...f, collapsed: false })) } : parsed;
-                    saveAll(); currentFolderId = null; currentNoteId = null;
-                    if (appData.rootNotes.length > 0) window.app.loadNote('root', appData.rootNotes[0].id);
-                    else if (appData.folders[0]?.notes[0]) window.app.loadNote(appData.folders[0].id, appData.folders[0].notes[0].id);
-                    else renderFolders();
-                    ui.showAlert(t('success'), t('sync_loaded'));
-                } catch (e) { ui.showAlert(t('error'), t('sync_not_found')); }
+            ui.showConfirm(t('sync_warn_title'), t('sync_warn_msg'), (confirmed) => {
+                if (!confirmed) return;
+                checkToken(async (token) => {
+                    ui.showAlert(t('syncing'), t('sync_search'));
+                    try {
+                        const gistId = await findGistId(token); if (!gistId) throw new Error("No backup");
+                        const gist = await githubRequest(`/gists/${gistId}`, 'GET', null, token);
+                        let parsed = JSON.parse(gist.files[GIST_FILENAME].content);
+                        appData = Array.isArray(parsed) ? { rootNotes: [], folders: parsed.map(f => ({ ...f, collapsed: false })) } : parsed;
+                        saveAll(); currentFolderId = null; currentNoteId = null;
+                        if (appData.rootNotes.length > 0) window.app.loadNote('root', appData.rootNotes[0].id);
+                        else if (appData.folders[0]?.notes[0]) window.app.loadNote(appData.folders[0].id, appData.folders[0].notes[0].id);
+                        else renderFolders();
+                        ui.showAlert(t('success'), t('sync_loaded'));
+                    } catch (e) { ui.showAlert(t('error'), t('sync_not_found')); }
+                });
             });
         };
     }
@@ -578,7 +635,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (spoilerBtn) {
         spoilerBtn.onclick = (e) => {
             e.preventDefault();
-            // Защита: не даем применить спойлер на поле заголовка
             if (document.activeElement === titleInput) return;
 
             const selection = window.getSelection();
@@ -607,24 +663,45 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
-    // Логика загрузки локальной картинки
     const localImageBtn = document.getElementById('local-image-btn');
     const localImageInput = document.getElementById('local-image-input');
+    let savedLocalImageRange = null;
+
     if (localImageBtn && localImageInput) {
         localImageBtn.onclick = (e) => {
             e.preventDefault();
-            if (document.activeElement === titleInput) editor.focus(); // Уводим фокус из заголовка
+            if (document.activeElement === titleInput) editor.focus();
+            
+            const selection = window.getSelection();
+            if (selection.rangeCount > 0 && editor.contains(selection.getRangeAt(0).commonAncestorContainer)) {
+                savedLocalImageRange = selection.getRangeAt(0);
+            } else {
+                savedLocalImageRange = null;
+            }
+            
             localImageInput.click();
         };
+        
         localImageInput.onchange = (e) => {
             const file = e.target.files[0];
             if (!file) return;
             const reader = new FileReader();
+            
             reader.onload = (event) => {
                 const base64Url = event.target.result;
-                editor.focus();
-                document.execCommand('insertHTML', false, `<img src="${base64Url}" alt="Image">&nbsp;`);
-                debouncedSave();
+                ui.showConfirm(t('img'), t('spoiler_opt') + '?', (confirmed, isSpoiler) => {
+                    if (!confirmed) return;
+                    
+                    editor.focus();
+                    if (savedLocalImageRange) {
+                        const sel = window.getSelection();
+                        sel.removeAllRanges();
+                        sel.addRange(savedLocalImageRange);
+                    }
+                    
+                    document.execCommand('insertHTML', false, `<img src="${base64Url}" class="${isSpoiler ? 'img-spoiler' : ''}" alt="Image">&nbsp;`);
+                    debouncedSave();
+                }, { text: t('spoiler_opt'), checked: false });
             };
             reader.readAsDataURL(file);
             e.target.value = '';
@@ -634,8 +711,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.format-btn[data-command]').forEach(btn => { 
         btn.onclick = (e) => { 
             e.preventDefault();
-            
-            // Защита: блокируем форматирование, если фокус находится в поле заголовка
             if (document.activeElement === titleInput) return;
 
             const cmd = btn.getAttribute('data-command');
@@ -654,6 +729,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     selectedImage.style.margin = '10px auto';
                     selectedImage.style.display = 'block';
                 }
+                updateResizerPosition();
                 debouncedSave();
                 return; 
             }
@@ -662,63 +738,42 @@ document.addEventListener('DOMContentLoaded', () => {
         }; 
     });
 
-    const imgResizer = document.getElementById('image-resizer');
-
-    editor.addEventListener('mousemove', function(e) {
-        if (e.target.tagName === 'IMG') {
-            const rect = e.target.getBoundingClientRect();
-            const isEdge = e.clientX > rect.right - 40 && e.clientY > rect.bottom - 40;
-            
-            if (isEdge) {
-                e.target.classList.add('can-resize-right');
-                imgResizer.classList.remove('hidden');
-                imgResizer.style.left = `${rect.right - 20}px`;
-                imgResizer.style.top = `${rect.bottom - 20}px`;
-            } else {
-                e.target.classList.remove('can-resize-right');
-                imgResizer.classList.add('hidden');
-            }
-        } else {
-            imgResizer.classList.add('hidden');
-        }
-    });
-
-    editor.addEventListener('scroll', () => { imgResizer.classList.add('hidden'); });
-
-    editor.addEventListener('mousedown', function(e) {
-        if (e.target.tagName === 'IMG') {
-            const rect = e.target.getBoundingClientRect();
-            const isEdge = e.clientX > rect.right - 40 && e.clientY > rect.bottom - 40;
-            
-            if (isEdge) {
-                e.preventDefault();
-                let startX = e.clientX;
-                let startWidth = e.target.clientWidth;
-                let currentImg = e.target;
-                
-                function onMouseMove(moveEvent) {
-                    let newWidth = startWidth + (moveEvent.clientX - startX);
-                    if (newWidth > 50) { 
-                        currentImg.style.width = newWidth + 'px'; 
-                        currentImg.style.height = 'auto';
-                        
-                        const newRect = currentImg.getBoundingClientRect();
-                        imgResizer.style.left = `${newRect.right - 20}px`;
-                        imgResizer.style.top = `${newRect.bottom - 20}px`;
-                    }
-                }
-                
-                function onMouseUp() { 
-                    document.removeEventListener('mousemove', onMouseMove); 
-                    document.removeEventListener('mouseup', onMouseUp); 
-                    debouncedSave(); 
-                }
-                
-                document.addEventListener('mousemove', onMouseMove); 
-                document.addEventListener('mouseup', onMouseUp);
+    // Универсальный и надежный ресайз картинок (для ПК и мобильных через синий ползунок)
+    function startResize(e) {
+        e.preventDefault(); 
+        e.stopPropagation(); // ВАЖНО: чтобы фокус не сбрасывался на редактор
+        if (!selectedImage) return;
+        
+        let startX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+        let startWidth = selectedImage.clientWidth;
+        
+        function onMove(moveEvent) {
+            let currentX = moveEvent.type === 'touchmove' ? moveEvent.touches[0].clientX : moveEvent.clientX;
+            let newWidth = startWidth + (currentX - startX);
+            if (newWidth > 50) {
+                selectedImage.style.width = newWidth + 'px';
+                selectedImage.style.height = 'auto';
+                updateResizerPosition();
             }
         }
-    });
+        
+        function onEnd() {
+            document.removeEventListener('mousemove', onMove);
+            document.removeEventListener('mouseup', onEnd);
+            document.removeEventListener('touchmove', onMove);
+            document.removeEventListener('touchend', onEnd);
+            debouncedSave();
+        }
+        
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onEnd);
+        document.addEventListener('touchmove', onMove, {passive: false});
+        document.addEventListener('touchend', onEnd);
+    }
+
+    // Привязываем ресайз к нашему кружку-ползунку на оба типа событий
+    imgResizer.addEventListener('mousedown', startResize);
+    imgResizer.addEventListener('touchstart', startResize, {passive: false});
 
     const emojiBtn = document.getElementById('emoji-btn'); const emojiPopup = document.getElementById('emoji-popup'); 
     emojiBtn.onclick = (e) => { e.stopPropagation(); emojiPopup.classList.toggle('hidden'); };
@@ -750,6 +805,109 @@ document.addEventListener('DOMContentLoaded', () => {
             document.execCommand('insertHTML', false, text.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>').replace(/\n/g, '<br>'));
         }
     });
+
+    let touchDragNode = null, touchDragGhost = null, touchDragOffsetY = 0, touchDragSourceFolder = null, touchDragNoteId = null;
+
+    function initTouchDrag(e) {
+        const handle = e.target.closest('.drag-handle');
+        if (!handle) return;
+        const li = handle.closest('.note-item');
+        if (!li) return;
+
+        e.preventDefault();
+        touchDragNode = li;
+        touchDragNoteId = parseInt(li.querySelector('.delete-btn').getAttribute('onclick').match(/, (\d+),/)[1]);
+        
+        const onclickStr = li.querySelector('.delete-btn').getAttribute('onclick');
+        const folderMatch = onclickStr.match(/app\.deleteNote\('?(\w+)'?,/);
+        touchDragSourceFolder = folderMatch ? folderMatch[1] : 'root';
+        if (touchDragSourceFolder !== 'root') touchDragSourceFolder = parseInt(touchDragSourceFolder);
+
+        const rect = li.getBoundingClientRect();
+        touchDragOffsetY = e.touches[0].clientY - rect.top;
+
+        touchDragGhost = li.cloneNode(true);
+        touchDragGhost.style.position = 'fixed';
+        touchDragGhost.style.top = `${rect.top}px`;
+        touchDragGhost.style.left = `${rect.left}px`;
+        touchDragGhost.style.width = `${rect.width}px`;
+        touchDragGhost.style.opacity = '0.8';
+        touchDragGhost.style.pointerEvents = 'none';
+        touchDragGhost.style.zIndex = '9999';
+        touchDragGhost.style.background = 'var(--bg-sidebar)';
+        document.body.appendChild(touchDragGhost);
+
+        li.style.opacity = '0.3';
+    }
+
+    function moveTouchDrag(e) {
+        if (!touchDragGhost) return;
+        e.preventDefault();
+        
+        const y = e.touches[0].clientY;
+        touchDragGhost.style.top = `${y - touchDragOffsetY}px`;
+
+        const elemBelow = document.elementFromPoint(e.touches[0].clientX, y);
+        if (!elemBelow) return;
+
+        document.querySelectorAll('.drag-over-note').forEach(el => el.classList.remove('drag-over-note'));
+        document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+
+        const targetLi = elemBelow.closest('.note-item');
+        if (targetLi && targetLi !== touchDragNode) targetLi.classList.add('drag-over-note');
+        else {
+            const targetFolder = elemBelow.closest('.folder-title');
+            if (targetFolder) targetFolder.classList.add('drag-over');
+            else {
+                const targetRoot = elemBelow.closest('.root-zone-title');
+                if (targetRoot) targetRoot.classList.add('drag-over');
+            }
+        }
+    }
+
+    function endTouchDrag(e) {
+        if (!touchDragGhost) return;
+        
+        touchDragGhost.remove();
+        touchDragGhost = null;
+        touchDragNode.style.opacity = '1';
+
+        const y = e.changedTouches[0].clientY;
+        const elemBelow = document.elementFromPoint(e.changedTouches[0].clientX, y);
+        
+        document.querySelectorAll('.drag-over-note').forEach(el => el.classList.remove('drag-over-note'));
+        document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+
+        if (elemBelow) {
+            const targetLi = elemBelow.closest('.note-item');
+            if (targetLi && targetLi !== touchDragNode) {
+                const targetOnclickStr = targetLi.querySelector('.delete-btn').getAttribute('onclick');
+                const targetFolderMatch = targetOnclickStr.match(/app\.deleteNote\('?(\w+)'?,/);
+                let targetFolderId = targetFolderMatch ? targetFolderMatch[1] : 'root';
+                if (targetFolderId !== 'root') targetFolderId = parseInt(targetFolderId);
+                const targetNoteId = parseInt(targetOnclickStr.match(/, (\d+),/)[1]);
+                
+                reorderNote(touchDragSourceFolder, targetFolderId, touchDragNoteId, targetNoteId);
+            } else {
+                const targetFolder = elemBelow.closest('.folder-title');
+                if (targetFolder) {
+                    const folderIdStr = targetFolder.querySelector('.folder-title-text').getAttribute('onclick').match(/app\.selectFolder\((\w+)\)/)[1];
+                    moveNote(touchDragSourceFolder, parseInt(folderIdStr), touchDragNoteId);
+                } else {
+                    const targetRoot = elemBelow.closest('.root-zone-title');
+                    if (targetRoot) moveNote(touchDragSourceFolder, 'root', touchDragNoteId);
+                }
+            }
+        }
+        touchDragNode = null;
+    }
+
+    const scrollArea = document.querySelector('.sidebar-scroll-area');
+    if (scrollArea) {
+        scrollArea.addEventListener('touchstart', initTouchDrag, {passive: false});
+        scrollArea.addEventListener('touchmove', moveTouchDrag, {passive: false});
+        scrollArea.addEventListener('touchend', endTouchDrag);
+    }
 
     const sidebar = document.getElementById('sidebar'); const sidebarOverlay = document.getElementById('sidebar-overlay');
     document.getElementById('mobile-menu-btn').onclick = () => { sidebar.classList.add('open'); sidebarOverlay.classList.remove('hidden'); };

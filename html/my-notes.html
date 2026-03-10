@@ -96,7 +96,7 @@
                 </div>
             </div>
 
-            <div id="image-resizer" class="hidden"></div>
+            <div id="image-resizer" class="hidden"><i class='bx bx-move-horizontal'></i></div>
             
             <div id="editor" class="rich-editor" contenteditable="true"></div>
         </main>
@@ -105,7 +105,7 @@
     <div id="custom-modal" class="modal-overlay hidden">
         <div class="modal-content">
             <h3 id="modal-title" data-i18n="modal_title">Ввод данных</h3>
-            <p id="modal-message" class="hidden" style="margin: 1rem 0; color: var(--text-muted);"></p>
+            <p id="modal-message" class="hidden" style="margin: 1rem 0; color: var(--text-muted); word-break: break-word;"></p>
             <input type="text" id="modal-input" class="modal-input">
             
             <label id="modal-checkbox-label" class="hidden" style="display: flex; align-items: center; gap: 0.5rem; margin-top: 1rem; color: var(--text-main); cursor: pointer;">
@@ -124,6 +124,8 @@
         <span id="toast-message">Удалено</span>
         <button id="toast-undo-btn" class="btn-accent"><span data-i18n="undo">Отменить</span> (<span id="toast-timer">10</span>)</button>
     </div>
+
+    <div id="simple-toast" class="simple-toast">Сохранено</div>
 
     <script src="../js/my-notes.js"></script>
 </body>
