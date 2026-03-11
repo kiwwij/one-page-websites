@@ -1,18 +1,25 @@
-// --- НАСТРОЙКИ ---
 const username = 'kiwwij';
 const repo = 'my-projects';
 const folder = 'html';
 const configUrl = 'projects.json'; 
 
-// Скрытые проекты, которые не должны отображаться без кода
 const HIDDEN_FILES = ['manga.html', 'girls-inst.html', 'tg-alt.html', ''];
-const SECRET_CODE = 'hentaif'; // Код для разблокировки
+const SECRET_CODE = 'hentaif';
 let inputBuffer = '';
 
 const container = document.getElementById('projects-grid');
 const searchInput = document.getElementById('search-input');
 
 let allProjects = [];
+
+function isProjectNew(dateString) {
+    if (!dateString) return false;
+    const projectDate = new Date(dateString);
+    const currentDate = new Date();
+    const diffTime = currentDate - projectDate;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays > 0 && diffDays <= 14; 
+}
 
 async function loadProjects() {
     const apiFolderUrl = `https://api.github.com/repos/${username}/${repo}/contents/${folder}`;
@@ -29,16 +36,14 @@ async function loadProjects() {
         const files = await filesResponse.json();
         const projectsConfig = configResponse || {}; 
         
-        // 1. Фильтруем файлы с GitHub (исключаем скрытые, если не активирован секретный режим)
         let htmlFiles = files.filter(file => {
             const isHtml = file.name.endsWith('.html');
             const isSecret = HIDDEN_FILES.includes(file.name);
             
-            if (showHidden) return isHtml; // Показываем всё, если разблокировано
-            return isHtml && !isSecret;    // Иначе скрываем секретные файлы
+            if (showHidden) return isHtml;
+            return isHtml && !isSecret;
         });
 
-        // 2. ДОБАВЛЯЕМ ВНЕШНИЕ ПРОЕКТЫ
         const manualProjects = [
             { name: 'Homeowners-association' },
             { name: 'kiwwij-anime-tier-list' },
@@ -52,11 +57,10 @@ async function loadProjects() {
         htmlFiles.push(...manualProjects);
         htmlFiles.sort((a, b) => a.name.localeCompare(b.name));
 
-        // Рендерим статистику только на основе видимых файлов
         renderTechStats(htmlFiles, projectsConfig);
 
         container.innerHTML = ''; 
-        allProjects = []; // Очищаем массив перед заполнением
+        allProjects = []; 
 
         if (htmlFiles.length === 0) {
             container.innerHTML = '<p>There are no projects yet.</p>';
@@ -82,11 +86,14 @@ async function loadProjects() {
                 customUrl = configEntry.url;
             }
 
-            // Рендер картинки/плейсхолдера
+            let badgeHTML = '';
+            if (configEntry && configEntry.date && isProjectNew(configEntry.date)) {
+                badgeHTML = `<div class="new-badge" title="Added in the last 2 weeks">new</div>`;
+            }
+
             let imageHTML;
             if (imageSource) {
                 if (imageSource.includes('/') || imageSource.includes('http')) {
-                    
                     imageHTML = `
                         <div class="card-image-wrapper">
                             <img 
@@ -95,12 +102,10 @@ async function loadProjects() {
                                 class="card-image-real" 
                                 loading="lazy"
                                 onload="this.parentElement.classList.add('loaded')"
-                                onerror="this.parentElement.innerHTML='<div class=\'card-image placeholder\' style=\'height:100%\'><i class=\'bx bx-image-alt\' style=\'font-size: 3rem\'></i></div>'"
+                                onerror="this.parentElement.innerHTML='<div class=\\'card-image placeholder\\' style=\\'height:100%\\'><i class=\\'bx bx-image-alt\\' style=\\'font-size: 3rem\\'></i></div>'"
                             >
                         </div>`;
-
                 } else if (imageSource.startsWith('bx')) {
-                    
                     const color = getRandomColor();
                     imageHTML = `<div class="card-image placeholder" style="background-color: ${color}"><i class='${imageSource}' style="font-size: 5rem; color: white;"></i></div>`;
                 } else {
@@ -112,7 +117,6 @@ async function loadProjects() {
                 imageHTML = `<div class="card-image placeholder" style="background-color: ${color}"><span>${displayName.charAt(0)}</span></div>`;
             }
 
-            // Стек технологий
             const MAX_ICONS = 6; 
             let stackHTML = '';
             const createIconHtml = (tech) => {
@@ -135,9 +139,10 @@ async function loadProjects() {
             card.target = '_blank';
             card.setAttribute('data-name', displayName.toLowerCase());
             card.setAttribute('data-stack', stack.join(',').toLowerCase());
-            card.setAttribute('data-id', file.name); // ДОБАВИТЬ ЭТОУ СТРОКУ
+            card.setAttribute('data-id', file.name); 
             
             card.innerHTML = `
+                ${badgeHTML}
                 <div class="pin-btn" title="Pin project" onclick="togglePin(event, '${file.name}')">
                     <i class='bx bx-pin'></i>
                 </div>
@@ -166,8 +171,6 @@ async function loadProjects() {
     }
 }
 
-// --- СИСТЕМА ПАСХАЛКИ ---
-// Функция для красивых уведомлений
 function showToast(message, duration = 2500) {
     const container = document.getElementById('toast-container');
     const toast = document.createElement('div');
@@ -181,7 +184,6 @@ function showToast(message, duration = 2500) {
     }, duration);
 }
 
-// Обновленный слушатель секретного кода
 document.addEventListener('keydown', (e) => {
     inputBuffer += e.key.toLowerCase();
     if (inputBuffer.length > SECRET_CODE.length) {
@@ -198,16 +200,13 @@ document.addEventListener('keydown', (e) => {
             showToast('<i class="bx bx-lock-alt"></i> Secret mode deactivated. 🔒');
         }
         
-        // Задержка перед перезагрузкой, чтобы пользователь успел увидеть тост
         setTimeout(() => location.reload(), 1200);
     }
 });
 
-// Карта иконок
 function getTechIcon(tech) {
     const lowerTech = tech.toLowerCase();
     const map = {
-        // --- WEB ---
         'html': 'bx bxl-html5',
         'css': 'bx bxl-css3',
         'js': 'bx bxl-javascript',
@@ -222,8 +221,6 @@ function getTechIcon(tech) {
         'bootstrap': 'bx bxl-bootstrap',
         'tailwind': 'bx bxl-tailwind-css',
         'sass': 'bx bxl-sass',
-
-        // --- BACKEND & LANGS ---
         'php': 'bx bxl-php',
         'python': 'bx bxl-python',
         'java': 'bx bxl-java',
@@ -231,8 +228,6 @@ function getTechIcon(tech) {
         'cpp': 'bx bxl-c-plus-plus',
         'go': 'bx bxl-go-lang',
         'ruby': 'bx bxl-ruby',
-        
-        // --- TOOLS & DB ---
         'git': 'bx bxl-git',
         'github': 'bx bxl-github',
         'docker': 'bx bxl-docker',
@@ -242,16 +237,13 @@ function getTechIcon(tech) {
         'android': 'bx bxl-android',
         'apple': 'bx bxl-apple',
         'windows': 'bx bxl-windows',
-
-        // --- DATABASES ---
-        'database': 'bx bxs-data', // Одинаковые
-        'sql': 'bx bxs-data',      // Одинаковые
-        'mysql': 'bx bxs-data',    // Одинаковые
+        'database': 'bx bxs-data', 
+        'sql': 'bx bxs-data',      
+        'mysql': 'bx bxs-data',    
         'postgresql': 'bx bxl-postgresql',
         'mongodb': 'bx bxl-mongodb',
     };
 
-    // Если иконка не найдена, возвращаем стандартный значок кода
     return map[lowerTech] || 'bx bx-code-alt';
 }
 
@@ -270,23 +262,16 @@ async function updateSteamAvatar() {
         
         if (response.ok) {
             const scriptContent = await response.text();
-            
             const match = scriptContent.match(/["']avatar["']\s*:\s*["']([^"']+)["']/);
             
             if (match && match[1]) {
                 const newAvatarUrl = match[1];
-                
-                // Обновляем картинку
                 if (avatarElement.src !== newAvatarUrl) {
                     avatarElement.src = newAvatarUrl;
                 }
-            } else {
-                console.warn('Не удалось найти ссылку на аватар в файле данных.');
             }
         }
-    } catch (err) {
-        console.error('Ошибка при загрузке данных с kiwwij-anime-tier-list:', err);
-    }
+    } catch (err) {}
 }
 
 function initTheme() {
@@ -308,7 +293,6 @@ function initTheme() {
 searchInput.addEventListener('input', (e) => {
     const val = e.target.value.toLowerCase();
 
-    // --- ПРОВЕРКА НА СЕКРЕТНЫЙ КОД ---
     if (val === SECRET_CODE) {
         const isCurrentlyUnlocked = localStorage.getItem('unlock_hidden') === 'true';
         if (!isCurrentlyUnlocked) {
@@ -319,7 +303,7 @@ searchInput.addEventListener('input', (e) => {
             showToast('<i class="bx bx-lock-alt"></i> Secret mode deactivated. 🔒');
         }
         
-        searchInput.value = ''; // Очищаем поле ввода, чтобы никто не палил
+        searchInput.value = ''; 
         setTimeout(() => location.reload(), 1200);
         return;
     }
@@ -373,11 +357,8 @@ function renderTechStats(files, projectsConfig) {
     statsContainer.innerHTML = sortedStats.map(([tech, count]) => {
         const percentage = (count / totalCount) * 100;
         const color = techColors[tech] || getRandomColor();
-        
-        // Округляем проценты для отображения (например, 33%)
         const displayPercent = Math.round(percentage);
 
-        // В атрибут title добавляем проценты в скобках
         return `<div class="stat-bar" id="filter-${tech}" onclick="filterByTech('${tech}')" 
             style="width: ${percentage}%; background-color: ${color};" 
             title="Filter by ${tech.toUpperCase()}: ${count} projects (${displayPercent}%)"></div>`;
@@ -420,7 +401,6 @@ function updateProjectCount() {
     }
 }
 
-// --- КНОПКА SCROLL TO TOP ---
 const mybutton = document.getElementById("scrollTopBtn");
 window.onscroll = function() { scrollFunction() };
 function scrollFunction() {
@@ -434,9 +414,6 @@ function topFunction() {
     window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-// --- СИСТЕМА ЗАКРЕПЛЕНИЯ ПРОЕКТОВ ---
-
-// Обновляет визуальное состояние и порядок карточек
 function updatePinnedOrder() {
     const pinned = JSON.parse(localStorage.getItem('pinned_projects')) || [];
     
@@ -447,21 +424,17 @@ function updatePinnedOrder() {
         
         if (pinIndex > -1) {
             card.classList.add('is-pinned');
-            // Делаем отрицательный order, чтобы они были в начале. 
-            // pinIndex учитывает порядок добавления: первый закрепленный будет выше всех (-10, -9 и т.д.)
             card.style.order = pinIndex - 10; 
             if(icon) icon.className = 'bx bxs-pin';
         } else {
             card.classList.remove('is-pinned');
-            card.style.order = 0; // Обычный порядок
+            card.style.order = 0; 
             if(icon) icon.className = 'bx bx-pin';
         }
     });
 }
 
-// Обработка клика по кнопке
 function togglePin(event, fileId) {
-    // Останавливаем переход по ссылке карточки
     event.preventDefault();
     event.stopPropagation();
 
@@ -469,21 +442,17 @@ function togglePin(event, fileId) {
     const index = pinned.indexOf(fileId);
 
     if (index > -1) {
-        // Если проект уже закреплён — открепляем
         pinned.splice(index, 1);
         showToast('<i class="bx bx-pin"></i> Project unpinned');
     } else {
-        // Если проект не закреплён — проверяем лимит в 4 штуки
         if (pinned.length >= 4) {
             showToast('<i class="bx bx-error-circle"></i> You can only pin up to 4 projects!', 3000);
-            return; // Прерываем функцию, не давая добавить 5-й
+            return; 
         }
-        // Закрепляем
         pinned.push(fileId);
         showToast('<i class="bx bxs-pin"></i> Project pinned to top!');
     }
 
-    // Сохраняем в память и обновляем интерфейс
     localStorage.setItem('pinned_projects', JSON.stringify(pinned));
     updatePinnedOrder();
 }

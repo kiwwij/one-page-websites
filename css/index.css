@@ -1,4 +1,3 @@
-/* --- ПЕРЕМЕННЫЕ И ЦВЕТА --- */
 :root {
     --bg-color: #f8f9fa;
     --card-bg: #ffffff;
@@ -10,7 +9,6 @@
     --border-color: transparent;
 }
 
-/* --- DEEP DARK THEME (Тёмная тема) --- */
 [data-theme="dark"] {
     --bg-color: #0d1117;
     --card-bg: #161b22;
@@ -22,60 +20,19 @@
     --border-color: #30363d;
 }
 
-/* Специфичные настройки для тёмной темы */
-[data-theme="dark"] .project-card {
-    border: 1px solid var(--border-color);
-}
+[data-theme="dark"] .project-card { border: 1px solid var(--border-color); }
+[data-theme="dark"] .card-image { border-bottom: 1px solid var(--border-color); opacity: 0.9; }
+[data-theme="dark"] #search-input { background-color: #0d1117; border-color: var(--border-color); color: #fff; }
+[data-theme="dark"] #search-input:focus { border-color: var(--accent); background-color: #161b22; }
+[data-theme="dark"] .controls { border-bottom-color: var(--border-color); }
+[data-theme="dark"] .card-footer { border-top: 1px solid rgba(255, 255, 255, 0.05); }
 
-[data-theme="dark"] .card-image {
-    border-bottom: 1px solid var(--border-color);
-    opacity: 0.9;
-}
+[data-theme="dark"] ::-webkit-scrollbar { width: 10px; }
+[data-theme="dark"] ::-webkit-scrollbar-track { background: #0d1117; }
+[data-theme="dark"] ::-webkit-scrollbar-thumb { background: #30363d; border-radius: 5px; }
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover { background: #58a6ff; }
 
-[data-theme="dark"] #search-input {
-    background-color: #0d1117;
-    border-color: var(--border-color);
-    color: #fff;
-}
-
-[data-theme="dark"] #search-input:focus {
-    border-color: var(--accent);
-    background-color: #161b22;
-}
-
-[data-theme="dark"] .controls {
-    border-bottom-color: var(--border-color);
-}
-
-[data-theme="dark"] .card-footer {
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-/* Кастомный скроллбар для тёмной темы */
-[data-theme="dark"] ::-webkit-scrollbar {
-    width: 10px;
-}
-
-[data-theme="dark"] ::-webkit-scrollbar-track {
-    background: #0d1117;
-}
-
-[data-theme="dark"] ::-webkit-scrollbar-thumb {
-    background: #30363d;
-    border-radius: 5px;
-}
-
-[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
-    background: #58a6ff;
-}
-
-
-/* --- БАЗОВАЯ РАЗМЕТКА --- */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
     background-color: var(--bg-color);
@@ -96,12 +53,7 @@ body {
     flex-direction: column;
 }
 
-
-/* --- ШАПКА И ПРОФИЛЬ --- */
-header {
-    text-align: center;
-    margin-bottom: 40px;
-}
+header { text-align: center; margin-bottom: 40px; }
 
 .avatar {
     width: 80px;
@@ -114,19 +66,9 @@ header {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
-    font-weight: 800;
-    font-size: 2rem;
-    margin-bottom: 5px;
-}
+h1 { font-weight: 800; font-size: 2rem; margin-bottom: 5px; }
+.bio { color: var(--text-muted); font-size: 1.1rem; }
 
-.bio {
-    color: var(--text-muted);
-    font-size: 1.1rem;
-}
-
-
-/* --- УПРАВЛЕНИЕ И ПОИСК --- */
 .controls {
     display: flex;
     justify-content: space-between;
@@ -149,12 +91,7 @@ h2 {
     margin: 0;
 }
 
-.search-wrapper {
-    position: relative;
-    width: 100%;
-    max-width: 300px;
-}
-
+.search-wrapper { position: relative; width: 100%; max-width: 300px; }
 .search-wrapper i {
     position: absolute;
     left: 12px;
@@ -174,22 +111,17 @@ h2 {
     outline: none;
     transition: all 0.2s;
 }
-
 #search-input:focus {
     border-color: var(--accent);
     box-shadow: 0 0 0 3px rgba(9, 132, 227, 0.1);
 }
 
-
-/* --- СЕТКА ПРОЕКТОВ --- */
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
 }
 
-
-/* --- КАРТОЧКА ПРОЕКТА --- */
 .project-card {
     background-color: var(--card-bg);
     border-radius: 12px;
@@ -202,6 +134,7 @@ h2 {
     display: flex;
     flex-direction: column;
     height: 100%;
+    position: relative;
 }
 
 .project-card:hover {
@@ -235,37 +168,22 @@ h2 {
     flex-grow: 1;
 }
 
-.card-title {
-    font-weight: 700;
-    font-size: 1.1rem;
-    margin-bottom: 8px;
-}
+.card-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 8px; }
 
-/* --- ОПИСАНИЕ С ПЛАВНОЙ АНИМАЦИЕЙ --- */
 .card-description {
     font-size: 0.9rem;
-    /* color: var(--text-muted); */
     margin-bottom: 20px;
     line-height: 1.4;
-    
-    /* Начальное состояние (Свернуто) */
-    max-height: 4.2em;       /* Примерно 3 строки текста (1.4 * 3) */
-    overflow: hidden;        /* Скрываем то, что не влезло */
-    
-    /* Плавность перехода */
+    max-height: 4.2em;
+    overflow: hidden;
     transition: max-height 0.5s ease-in-out, mask-image 0.5s;
-    
     cursor: help; 
 }
 
-/* При наведении показываем весь текст */
 .card-description:hover {
-    max-height: 500px; /* Ставим заведомо большое значение, чтобы влез любой текст */
-    
-    /* Убираем эффект исчезновения (показываем текст четко) */
+    max-height: 500px;
     -webkit-mask-image: linear-gradient(to bottom, black 100%, black 100%);
     mask-image: linear-gradient(to bottom, black 100%, black 100%);
-    
     color: var(--text-main);
 }
 
@@ -275,105 +193,48 @@ h2 {
 
 
 
-.project-card[data-name="homeowners association"] {
-    color: var(--text-muted);
-    border-style: dashed;
-}
 
-.project-card[data-name="homeowners association"]:hover {
-    color: var(--text-main);
-    border-style: solid;
-}
 
-.project-card[data-name="newpc"] {
-    color: var(--text-muted);
-    border-style: dashed;
-}
-.project-card[data-name="newpc"]:hover {
-    color: var(--text-main);
-    border-style: solid;
-}
-
-.project-card[data-name="pleiades"] {
-    color: var(--text-muted);
-    border-style: dashed;
-}
-.project-card[data-name="pleiades"]:hover {
-    color: var(--text-main);
-    border-style: solid;
-}
-
-.project-card[data-name="tt"] {
-    color: var(--text-muted);
-    border-style: dashed;
-}
-.project-card[data-name="tt"]:hover {
-    color: var(--text-main);
-    border-style: solid;
-}
-
-.project-card[data-name="dota2 signature heroes"] {
-    color: var(--text-muted);
-    border-style: dashed;
-}
-.project-card[data-name="dota2 signature heroes"]:hover {
-    color: var(--text-main);
-    border-style: solid;
-}
-
-.project-card[data-name="2048"] {
-    color: var(--text-muted);
-    border-style: dashed;
-}
-.project-card[data-name="2048"]:hover {
-    color: var(--text-main);
-    border-style: solid;
-}
-
-.project-card[data-name="go"] {
-    color: var(--text-muted);
-    border-style: dashed;
-}
-.project-card[data-name="go"]:hover {
-    color: var(--text-main);
-    border-style: solid;
-}
-
-.project-card[data-name="games list"] {
-    color: var(--text-muted);
-    border-style: dashed;
-}
-.project-card[data-name="games list"]:hover {
-    color: var(--text-main);
-    border-style: solid;
-}
-
-.project-card[data-name="nieR-automata-bosses"] {
-    color: var(--text-muted);
-    border-style: dashed;
-}
-.project-card[data-name="nieR-automata-bosses"]:hover {
-    color: var(--text-main);
-    border-style: solid;
-}
-
+ 
+/* .project-card[data-name=""], */
+/* .project-card[data-name=""], */
+/* .project-card[data-name=""], */
+.project-card[data-name="homeowners association"],
+.project-card[data-name="newpc"],
+.project-card[data-name="pleiades"],
+.project-card[data-name="tt"],
+.project-card[data-name="dota2 signature heroes"],
+.project-card[data-name="2048"],
+.project-card[data-name="go"],
+.project-card[data-name="games list"],
+.project-card[data-name="nieR-automata-bosses"],
 .project-card[data-name="my-notes"] {
     color: var(--text-muted);
     border-style: dashed;
 }
+
+/* .project-card[data-name=""], */
+/* .project-card[data-name=""], */
+/* .project-card[data-name=""], */
+.project-card[data-name="homeowners association"]:hover,
+.project-card[data-name="newpc"]:hover,
+.project-card[data-name="pleiades"]:hover,
+.project-card[data-name="tt"]:hover,
+.project-card[data-name="dota2 signature heroes"]:hover,
+.project-card[data-name="2048"]:hover,
+.project-card[data-name="go"]:hover,
+.project-card[data-name="games list"]:hover,
+.project-card[data-name="nieR-automata-bosses"]:hover,
 .project-card[data-name="my-notes"]:hover {
     color: var(--text-main);
     border-style: solid;
 }
 
-/* .project-card[data-name=""] {
-    color: var(--text-muted);
-    border-style: dashed;
-}
-.project-card[data-name=""]:hover {
-    color: var(--text-main);
-    border-style: solid;
-} */
+
+
+
+
+
 
 
 
@@ -388,42 +249,14 @@ h2 {
     padding-top: 15px;
 }
 
-.tech-stack {
-    display: flex;
-    gap: 10px;
-}
-
-/* Иконки языков */
-.tech-icon {
-    font-size: 1.5rem;
-    color: var(--text-muted);
-    transition: color 0.2s;
-}
-
-/* Цвета для популярных языков */
-.tech-icon.bxl-html5 {
-    color: #e34c26;
-}
-
-.tech-icon.bxl-css3 {
-    color: #264de4;
-}
-
-.tech-icon.bxl-javascript {
-    color: #f0db4f;
-}
-
-.tech-icon.bxl-python {
-    color: #3776ab;
-}
-
-.tech-icon.bxl-java {
-    color: #007396;
-}
-
-.tech-icon.bxl-react {
-    color: #61dafb;
-}
+.tech-stack { display: flex; gap: 10px; }
+.tech-icon { font-size: 1.5rem; color: var(--text-muted); transition: color 0.2s; }
+.tech-icon.bxl-html5 { color: #e34c26; }
+.tech-icon.bxl-css3 { color: #264de4; }
+.tech-icon.bxl-javascript { color: #f0db4f; }
+.tech-icon.bxl-python { color: #3776ab; }
+.tech-icon.bxl-java { color: #007396; }
+.tech-icon.bxl-react { color: #61dafb; }
 
 .card-arrow {
     color: var(--accent);
@@ -434,19 +267,9 @@ h2 {
     transition: all 0.3s ease;
 }
 
-.project-card:hover .card-arrow {
-    opacity: 1;
-    transform: translateX(0);
-}
+.project-card:hover .card-arrow { opacity: 1; transform: translateX(0); }
+.loading { color: var(--text-muted); font-style: italic; width: 100%; }
 
-.loading {
-    color: var(--text-muted);
-    font-style: italic;
-    width: 100%;
-}
-
-
-/* --- ФУТЕР --- */
 footer {
     margin-top: auto;
     padding-top: 40px;
@@ -469,36 +292,11 @@ footer a {
     transition: color 0.2s;
 }
 
-footer a:hover {
-    color: var(--accent);
-}
+footer a:hover { color: var(--accent); }
 
-
-/* --- ПЕРЕКЛЮЧАТЕЛЬ ТЕМЫ --- */
-.btn-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-/* Исправление иконок темы */
-.btn-container svg {
-    width: 22px;
-    height: 22px;
-    min-width: 22px;
-    vertical-align: middle;
-    overflow: visible;
-    margin: 0 4px;
-}
-
-.btn-color-mode-switch {
-    display: inline-block;
-    margin: 0;
-    position: relative;
-}
-
+.btn-container { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 20px; }
+.btn-container svg { width: 22px; height: 22px; min-width: 22px; vertical-align: middle; overflow: visible; margin: 0 4px; }
+.btn-color-mode-switch { display: inline-block; margin: 0; position: relative; }
 .btn-color-mode-switch>label.btn-color-mode-switch-inner {
     margin: 0;
     width: 140px;
@@ -551,77 +349,29 @@ footer a:hover {
     margin: 0;
 }
 
-/* Состояние CHECKED (Темная тема) */
-.btn-color-mode-switch input[type="checkbox"]:checked+label.btn-color-mode-switch-inner {
-    background: #151515;
-    color: #fff;
-}
-
+.btn-color-mode-switch input[type="checkbox"]:checked+label.btn-color-mode-switch-inner { background: #151515; color: #fff; }
 .btn-color-mode-switch input[type="checkbox"]:checked+label.btn-color-mode-switch-inner:after {
-    content: attr(data-on);
-    left: 68px;
-    background: #3c3c3c;
-    color: #fff;
+    content: attr(data-on); left: 68px; background: #3c3c3c; color: #fff;
 }
-
 .btn-color-mode-switch input[type="checkbox"]:checked+label.btn-color-mode-switch-inner:before {
-    content: attr(data-off);
-    right: auto;
-    left: 20px;
-    color: #777;
+    content: attr(data-off); right: auto; left: 20px; color: #777;
 }
 
-
-/* --- МОБИЛЬНАЯ АДАПТАЦИЯ --- */
 @media (max-width: 768px) {
-    .main-wrapper {
-        padding: 20px 15px;
-    }
-
-    header {
-        margin-bottom: 30px;
-    }
-
-    .avatar {
-        width: 70px;
-        height: 70px;
-    }
-
-    h1 {
-        font-size: 1.75rem;
-    }
-
-    /* Блок управления в колонку */
-    .controls {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 15px;
-    }
-
-    .search-wrapper,
-    #search-input {
-        max-width: 100%;
-        width: 100%;
-    }
-
-    h2 {
-        justify-content: center;
-    }
-
-    /* Одна колонка для карточек на мобильных */
-    .grid {
-        grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
-    }
+    .main-wrapper { padding: 20px 15px; }
+    header { margin-bottom: 30px; }
+    .avatar { width: 70px; height: 70px; }
+    h1 { font-size: 1.75rem; }
+    .controls { flex-direction: column; align-items: stretch; gap: 15px; }
+    .search-wrapper, #search-input { max-width: 100%; width: 100%; }
+    h2 { justify-content: center; }
+    .grid { grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); }
 }
 
-/* Для планшетов */
 @media (min-width: 480px) and (max-width: 768px) {
-    .grid {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    }
+    .grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
 }
 
-/* Стиль для счетчика скрытых технологий (+2, +3 и т.д.) */
 .tech-more {
     font-size: 0.75rem;
     font-weight: 600;
@@ -634,81 +384,40 @@ footer a:hover {
     justify-content: center;
     height: 24px;
     min-width: 24px;
-    cursor: help; /* Курсор вопроса при наведении */
+    cursor: help; 
 }
 
-[data-theme="dark"] .tech-more {
-    background-color: rgba(255, 255, 255, 0.1);
-}
+[data-theme="dark"] .tech-more { background-color: rgba(255, 255, 255, 0.1); }
 
-/* --- СТАТИСТИКА (LANGUAGE BAR) --- */
 .tech-stats {
     width: 100%;
     display: flex;
-    height: 10px; /* Очень тонкая линия */
+    height: 10px;
     background-color: #e1e4e8;
     border-radius: 6px;
     overflow: hidden;
-    margin-top: 15px; /* Отступ от поиска */
+    margin-top: 15px;
     opacity: 0.8;
     transition: opacity 0.3s;
 }
 
-[data-theme="dark"] .tech-stats {
-    background-color: #30363d;
-}
+[data-theme="dark"] .tech-stats { background-color: #30363d; }
+.tech-stats:hover { opacity: 1; }
+.stat-bar { height: 100%; transition: width 1s ease-in-out; position: relative; cursor: help; }
+.stat-bar:hover { filter: brightness(1.1); }
 
-.tech-stats:hover {
-    opacity: 1; /* При наведении становится ярче */
-}
+@media (max-width: 768px) { .tech-stats { height: 8px; margin-top: 10px; } }
 
-.stat-bar {
-    height: 100%;
-    transition: width 1s ease-in-out;
-    position: relative;
-    cursor: help;
-}
+.stat-bar { cursor: pointer; transition: all 0.3s ease; }
+.tech-stats.has-active-filter .stat-bar { opacity: 0.3; filter: grayscale(0.6); }
+.tech-stats.has-active-filter .stat-bar.active { opacity: 1; filter: none; box-shadow: 0 0 10px rgba(0,0,0,0.2); z-index: 2; }
 
-/* Эффект при наведении на конкретный цвет */
-.stat-bar:hover {
-    filter: brightness(1.1);
-}
-
-/* На мобильных можно скрыть, если места мало, или оставить */
-@media (max-width: 768px) {
-    .tech-stats {
-        height: 8px;
-        margin-top: 10px;
-    }
-}
-
-/* --- ИНТЕРАКТИВНОСТЬ СТАТИСТИКИ --- */
-.stat-bar {
-    cursor: pointer; /* Курсор-рука */
-    transition: all 0.3s ease;
-}
-
-/* Когда активен фильтр, этот класс вешается на родителя */
-.tech-stats.has-active-filter .stat-bar {
-    opacity: 0.3; /* Все становятся бледными */
-    filter: grayscale(0.6);
-}
-
-/* А выбранный элемент остается ярким */
-.tech-stats.has-active-filter .stat-bar.active {
-    opacity: 1;
-    filter: none;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    z-index: 2;
-}
-
-/* --- СЧЕТЧИК ПРОЕКТОВ --- */
 .count-badge {
-    font-size: 0.75rem; /* Уменьшили шрифт (было 0.85rem) */
+    font-size: 0.75rem;
     background-color: rgba(0, 0, 0, 0.08);
     color: var(--text-muted);
-    padding: 2px 8px; /* Чуть меньше отступы по бокам (было 10px) */
-    border-radius: 10px; /* Чуть меньше радиус скругления */
+    padding: 2px 8px;
+    border-radius: 10px;
     margin-left: 4px;
     vertical-align: middle;
     position: relative; 
@@ -716,98 +425,59 @@ footer a:hover {
     transition: all 0.3s ease;
 }
 
-/* В темной теме делаем фон чуть светлее */
-[data-theme="dark"] .count-badge {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: var(--text-main);
-}
+[data-theme="dark"] .count-badge { background-color: rgba(255, 255, 255, 0.1); color: var(--text-main); }
 
-/* Иконки языков */
 .tech-icon {
     font-size: 1.5rem;
     color: var(--text-muted);
-    
-    /* Та самая "пружинистая" анимация */
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-    
-    cursor: pointer;    /* Рука при наведении */
-    position: relative; /* Чтобы работали z-index */
-    z-index: 1;         /* Лежит на уровне карточки */
-    display: inline-block; /* Важно для трансформации */
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    display: inline-block;
 }
 
-/* Эффект при наведении */
 .tech-icon:hover {
-    transform: scale(1.4) translateY(-3px); /* Сильное увеличение и подскок */
-    z-index: 10;          /* Всплывает поверх всего, даже соседних иконок */
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2)); /* Добавляем тень для объема */
+    transform: scale(1.4) translateY(-3px);
+    z-index: 10;
     filter: brightness(1.2) drop-shadow(0 4px 6px rgba(0,0,0,0.2));
 }
 
-/* --- КНОПКА "НАВЕРХ" --- */
 #scrollTopBtn {
-    /* Обязательно display: flex, но скрываем визуально */
     display: flex;
     position: fixed;
     bottom: 30px;
     right: 30px;
     z-index: 99;
-    
-    /* Размеры и форма */
     width: 45px;
     height: 45px;
     border-radius: 12px;
-    
-    /* Цвета */
     background-color: var(--card-bg);
     color: var(--text-muted);
     border: 1px solid var(--border-color);
-    
-    /* Тени и размытие */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(5px);
-    
-    /* Текст */
     font-size: 1.5rem;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    
-    /* --- АНИМАЦИЯ ПОЯВЛЕНИЯ (Главное изменение) --- */
-    opacity: 0;                /* Полностью прозрачная */
-    visibility: hidden;        /* Нельзя кликнуть */
-    transform: translateY(20px); /* Спущена вниз на 20px */
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Плавный переход */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* Класс, который мы будем добавлять через JS */
-#scrollTopBtn.show {
-    opacity: 1;                /* Видимая */
-    visibility: visible;       /* Кликабельная */
-    transform: translateY(0);  /* Возвращается на место */
-}
-
-/* Ховер эффект */
+#scrollTopBtn.show { opacity: 1; visibility: visible; transform: translateY(0); }
 #scrollTopBtn:hover {
-    transform: translateY(-5px); /* При наведении чуть всплывает */
+    transform: translateY(-5px);
     background-color: var(--accent);
     color: white;
     border-color: var(--accent);
     box-shadow: 0 8px 20px rgba(9, 132, 227, 0.3);
 }
 
-/* Адаптация для мобильных */
-@media (max-width: 768px) {
-    #scrollTopBtn {
-        bottom: 20px;
-        right: 20px;
-        width: 40px;
-        height: 40px;
-        font-size: 1.2rem;
-    }
-}
+@media (max-width: 768px) { #scrollTopBtn { bottom: 20px; right: 20px; width: 40px; height: 40px; font-size: 1.2rem; } }
 
-/* Базовый скелетон */
 .skeleton-card {
     background-color: var(--card-bg);
     border-radius: 12px;
@@ -818,55 +488,24 @@ footer a:hover {
     height: 100%;
 }
 
-.skeleton-image {
-    width: 100%;
-    height: 150px;
-    background: var(--bg-color);
-}
+.skeleton-image { width: 100%; height: 150px; background: var(--bg-color); }
+.skeleton-content { padding: 20px; }
+.skeleton-line { background: var(--bg-color); margin-bottom: 10px; border-radius: 4px; position: relative; overflow: hidden; }
 
-.skeleton-content {
-    padding: 20px;
-}
-
-.skeleton-line {
-    background: var(--bg-color);
-    margin-bottom: 10px;
-    border-radius: 4px;
-    position: relative;
-    overflow: hidden;
-}
-
-/* Анимация "блеска" */
 .skeleton-line::after, .skeleton-image::after {
     content: "";
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    top: 0; right: 0; bottom: 0; left: 0;
     transform: translateX(-100%);
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.05),
-        transparent
-    );
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
     animation: shimmer 1.5s infinite;
 }
 
-/* Настраиваем размеры линий */
 .skeleton-line.title { width: 60%; height: 20px; }
 .skeleton-line.description { width: 90%; height: 40px; }
 .skeleton-line.footer { width: 40%; height: 15px; margin-top: 10px; }
 
-#toast-container {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-    pointer-events: none;
-}
+#toast-container { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; pointer-events: none; }
 
 .toast {
     background: var(--card-bg);
@@ -885,38 +524,18 @@ footer a:hover {
     animation: toastSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
-@keyframes toastSlideIn {
-    from { opacity: 0; transform: translateY(40px); }
-    to { opacity: 1; transform: translateY(0); }
+@keyframes toastSlideIn { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+.toast.fade-out { animation: toastSlideOut 0.3s ease-in forwards; }
+@keyframes toastSlideOut { to { opacity: 0; transform: translateY(20px) scale(0.95); } }
+@keyframes shimmer { 100% { transform: translateX(100%); } }
+
+[data-theme="light"] .skeleton-line::after, [data-theme="light"] .skeleton-image::after {
+    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.05), transparent);
 }
 
-.toast.fade-out {
-    animation: toastSlideOut 0.3s ease-in forwards;
-}
-
-@keyframes toastSlideOut {
-    to { opacity: 0; transform: translateY(20px) scale(0.95); }
-}
-
-@keyframes shimmer {
-    100% { transform: translateX(100%); }
-}
-
-/* В светлой теме градиент должен быть темнее */
-[data-theme="light"] .skeleton-line::after, 
-[data-theme="light"] .skeleton-image::after {
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(0, 0, 0, 0.05),
-        transparent
-    );
-}
-
-/* --- SKELETON LOADING ДЛЯ КАРТИНОК --- */
 .card-image-wrapper {
     width: 100%;
-    height: 150px; /* Фиксированная высота */
+    height: 150px;
     background-color: #e0e0e0;
     position: relative;
     overflow: hidden;
@@ -924,64 +543,25 @@ footer a:hover {
     display: block;
 }
 
-/* Адаптация под темную тему */
-[data-theme="dark"] .card-image-wrapper {
-    background-color: #1f252e; /* Более темный фон для скелета */
-    border-color: var(--border-color);
-}
+[data-theme="dark"] .card-image-wrapper { background-color: #1f252e; border-color: var(--border-color); }
 
-/* Анимация "блика" (используем вашу существующую анимацию shimmer) */
 .card-image-wrapper::after {
     content: "";
     position: absolute;
     top: 0; right: 0; bottom: 0; left: 0;
     transform: translateX(-100%);
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.4), /* Блик */
-        transparent
-    );
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
     animation: shimmer 1.5s infinite;
     z-index: 1;
 }
 
 [data-theme="dark"] .card-image-wrapper::after {
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.05), /* Блик слабее для темной темы */
-        transparent
-    );
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
 }
 
-/* Сама картинка */
-.card-image-real {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0; /* Скрыта по умолчанию */
-    transition: opacity 0.5s ease-in-out; /* Плавное появление */
-    position: relative;
-    z-index: 2; /* Поверх анимации */
-}
-
-/* Класс, который JS добавит после загрузки */
-.card-image-wrapper.loaded .card-image-real {
-    opacity: 1; /* Показываем картинку */
-}
-
-.card-image-wrapper.loaded::after {
-    display: none; /* Убираем анимацию, чтобы не грузить процессор */
-    animation: none;
-}
-
-/* --- СИСТЕМА ЗАКРЕПЛЕНИЯ ПРОЕКТОВ (PIN) --- */
-
-/* Если у .project-card ещё нет position: relative, добавляем: */
-.project-card {
-    position: relative; 
-}
+.card-image-real { width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.5s ease-in-out; position: relative; z-index: 2; }
+.card-image-wrapper.loaded .card-image-real { opacity: 1; }
+.card-image-wrapper.loaded::after { display: none; animation: none; }
 
 .pin-btn {
     position: absolute;
@@ -1004,37 +584,28 @@ footer a:hover {
     font-size: 1.1rem;
 }
 
-/* Показываем кнопку при наведении на карточку */
-.project-card:hover .pin-btn {
-    opacity: 1;
-}
+.project-card:hover .pin-btn { opacity: 1; }
+.pin-btn:hover { transform: scale(1.1); color: var(--accent); }
+.project-card.is-pinned .pin-btn { opacity: 1; background: var(--accent); color: #ffffff; border-color: var(--accent); }
+.project-card.is-pinned { border: 2px solid var(--accent); box-shadow: 0 0 15px rgba(9, 132, 227, 0.15); }
 
-.pin-btn:hover {
-    transform: scale(1.1);
-    color: var(--accent);
-}
+[data-theme="dark"] .project-card.is-pinned { box-shadow: 0 0 15px rgba(88, 166, 255, 0.2); }
 
-/* Стили для уже закреплённой карточки */
-.project-card.is-pinned .pin-btn {
-    opacity: 1;
-    background: var(--accent);
+@media (max-width: 768px) { .pin-btn { opacity: 0.8; } }
+
+.new-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background-color: var(--accent);
     color: #ffffff;
-    border-color: var(--accent);
-}
-
-.project-card.is-pinned {
-    border: 2px solid var(--accent); /* Выделяем карточку цветом акцента */
-    box-shadow: 0 0 15px rgba(9, 132, 227, 0.15); /* Лёгкое свечение */
-}
-
-/* В тёмной теме свечение подгоняем под акцент */
-[data-theme="dark"] .project-card.is-pinned {
-    box-shadow: 0 0 15px rgba(88, 166, 255, 0.2);
-}
-
-/* На мобильных устройствах (где нет ховера) всегда показываем кнопку слегка прозрачной */
-@media (max-width: 768px) {
-    .pin-btn {
-        opacity: 0.8;
-    }
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+    z-index: 15;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: help;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }

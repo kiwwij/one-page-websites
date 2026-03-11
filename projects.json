@@ -244,37 +244,50 @@
   "octopath-traveler.html": {
     "image": "bx bx-compass",
     "description": "Information about the Octopath Traveler series.",
-    "stack": ["html", "css", "js", "github"]
+    "stack": ["html", "css", "js", "github"],
+    "url": "",
+    "date": "2026-02-26"
   },
   "crossmath.html": {
     "image": "bx bx-math",
     "description": "A web-based version of the Crossmath puzzle game.",
-    "stack": ["html", "css", "js", "github"]
+    "stack": ["html", "css", "js", "github"],
+    "url": "",
+    "date": "2026-02-27"
   },
   "nieR-automata-bosses.html": {
     "image": "bx bx-bot",
     "description": "Tracker for bosses in the game NieR:Automata. Tracker for marking defeated bosses. (abandoned)",
-    "stack": ["html", "css", "js", "github"]
+    "stack": ["html", "css", "js", "github"],
+    "url": "",
+    "date": "2026-03-01"
   },
   "saved-playlists.html": {
     "image": "bx bx-headphone",
     "description": "A curated collection of my favorite video game and anime original soundtracks (OSTs).",
-    "stack": ["html", "css", "js", "github"]
+    "stack": ["html", "css", "js", "github"],
+    "url": "",
+    "date": "2026-03-04"
   },
   "my-notes.html": {
     "image": "bx bx-notepad",
     "description": "A personal web-based text editor for writing notes, video scripts, or reviews with local storage and synchronization with GitHub cloud storage (for professionals).",
-    "stack": ["html", "css", "js", "github"]
+    "stack": ["html", "css", "js", "github"],
+    "url": "",
+    "date": "2026-03-07"
   },
   "architecture-pz-col1.html": {
     "image": "bx bx-brain",
     "description": "Software architecture. Preparation in colloquium 1.",
-    "stack": ["html", "css", "js", "github"]
+    "stack": ["html", "css", "js", "github"],
+    "url": "",
+    "date": "2026-03-09"
   },
   ".html": {
     "image": "",
     "description": "",
     "stack": ["html", "css", "js", "github"],
-    "url": ""
+    "url": "",
+    "date": "2026-12-31"
   }
 }
