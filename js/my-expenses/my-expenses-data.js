@@ -74,7 +74,7 @@ const database = {
     },
 
     "2026-03": {
-        income: { fix: 5880.56, extra: 50 },
+        income: { fix: 7880.56, extra: 50 },
 
         weeks: {
             1: {
@@ -103,7 +103,7 @@ const database = {
                 food:   555.6,
                 snacks: 443.4,
                 services: 99,
-                games: 0,
+                games: 50,
                 tech: 0,
                 health: 0,
                 clothes: 0,

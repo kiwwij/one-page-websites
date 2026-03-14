@@ -203,7 +203,7 @@
   },
   "wishlist-feb-2026.html": {
     "image": "bx bxs-joystick",
-    "description": "Personal game backlog and wishlist with Steam integration.",
+    "description": "Personal game backlog and wishlist with Steam integration (feb 2026).",
     "stack": ["html", "css", "js", "github"]
   },
   "web2k.html": {
@@ -282,6 +282,13 @@
     "stack": ["html", "css", "js", "github"],
     "url": "",
     "date": "2026-03-09"
+  },
+  "wishlist-summer-2026.html": {
+    "image": "bx bxs-joystick",
+    "description": "Personal game backlog and wishlist with Steam integration (summer 2026).",
+    "stack": ["html", "css", "js", "github"],
+    "url": "",
+    "date": "2026-03-14"
   },
   ".html": {
     "image": "",

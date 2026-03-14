@@ -1,19 +1,16 @@
 const translations = {
     en: {
-        steamProfile: "Steam profile",
+        steamProfile: "Steam Profile",
         wishlist: "Wishlist",
-        cat_owned: "Owned. I'll get through it sooner or later",
-        cat_high_wish: "A strong desire to complete",
-        cat_closure: "Series Closure",
-        cat_curiosity: "Curiosity",
-        cat_skeptical: "Skeptical Interest",
-        cat_undecided: "Undecided",
-        cat_upcoming: "Upcoming",
+        cat_priority: "Top Priority",
+        cat_anime: "Animelike",
+        cat_multiplayer: "cat 1",
+        cat_long: "cat 2",
         playtime: "h",
-        tba: "TBA",
+        tba: "tbd",
         sale: "Possible discount:",
         possible: "Possible:",
-        footer_text: "Games on kiwwij's wishlist as of February 2026 that he wants to play.",
+        footer_text: "Games on kiwwij's wishlist for Summer 2026.",
         footer_text2: "The approximate time indicated is for completing the story only, not the entire game.",
         metacritic: "Metacritic",
         btn_show_status: "Show Progress",
@@ -25,7 +22,6 @@ const translations = {
         status_not_started: "Not Started",
         status_changed_mind: "Changed Mind",
         read_review: "Review",
-        already_purchased: "Already purchased",
         stat_total_games: "Total Games",
         stat_remaining: "Remaining to play",
         stat_completed: "Completed",
@@ -39,20 +35,17 @@ const translations = {
         empty_list: "Nothing here yet",
     },
     ru: {
-        steamProfile: "Steam профиль",
+        steamProfile: "Профиль Steam",
         wishlist: "Вишлист",
-        cat_owned: "Куплено. Рано или поздно пройду",
-        cat_high_wish: "Большое желание пройти",
-        cat_closure: "Закрыть гештальт",
-        cat_curiosity: "Интересно ознакомиться",
-        cat_skeptical: "Скептический интерес",
-        cat_undecided: "Не знаю куда отнести",
-        cat_upcoming: "Ещё не вышли",
+        cat_priority: "Главный приоритет",
+        cat_anime: "Анимешные",
+        cat_multiplayer: "Доп. кат. 1",
+        cat_long: "Доп. кат. 2",
         playtime: "ч",
         tba: "Скоро",
         sale: "Возможная скидка:",
         possible: "Возможно:",
-        footer_text: "Игры в списке желаемого kiwwij на момент февраля 2026, который он хочет пройти.",
+        footer_text: "Игры в списке желаемого kiwwij на лето 2026.",
         footer_text2: "Указано примерное время прохождения только сюжета, а не всей игры.",
         metacritic: "Metacritic",
         btn_show_status: "Показать прогресс",
@@ -64,13 +57,12 @@ const translations = {
         status_not_started: "Не начал",
         status_changed_mind: "Передумал",
         read_review: "Обзор",
-        already_purchased: "Уже куплено",
         stat_total_games: "Всего игр",
         stat_remaining: "Осталось пройти",
         stat_completed: "Пройдено",
         stat_dropped: "Забросил",
         stat_changed_mind: "Передумал",
-        stat_total_value: "Общая стоимость всех игр без скидок",
+        stat_total_value: "Общая стоимость без скидок",
         filter_all: "Все игры",
         filter_completed: "Только пройденные",
         filter_dropped: "Только заброшенные",
@@ -88,14 +80,12 @@ function changeFilter(value) {
     render();
 }
 
+// Новые нормальные категории
 const categoryOrder = [
-    "cat_owned",
-    "cat_high_wish",
-    "cat_closure",
-    "cat_curiosity",
-    "cat_skeptical",
-    "cat_undecided",
-    "cat_upcoming"
+    "cat_priority",
+    "cat_anime",
+    "cat_multiplayer",
+    "cat_long"
 ];
 
 function detectLanguage() {
@@ -174,7 +164,6 @@ function calculateAndRenderStats() {
 
     const t = translations[currentLang];
 
-    // Динамическая логика для главного счетчика
     let displayTotal = totalGames;
     let displayLabel = t.stat_total_games;
 
@@ -330,25 +319,24 @@ function createGamesSection(sectionTitle, gamesList, container, t) {
         }
 
         let priceHtml = '';
-        let purchasedIcon = game.is_purchased ? `<i class='bx bx-check-circle purchased-icon' title='${t.already_purchased}'></i>` : '';
         
         if ((isStatusVisible || currentFilter !== 'all') && (currentStatus === 'completed' || currentStatus === 'dropped' || currentStatus === 'changed_mind')) {
             priceHtml = '';
         } else {
             if (game.price_uah === 0 || !game.price_uah) {
-                priceHtml = `<span class="price-main">${purchasedIcon}${t.tba}</span>`;
+                priceHtml = `<span class="price-main">${t.tba}</span>`;
             } else {
                 if (game.discount_percent > 0) {
                     let discountedPrice = Math.round(game.price_uah * (1 - game.discount_percent / 100));
                     priceHtml = `
                         <div class="price-row">
                             <span class="price-original">${game.price_uah} ₴</span>
-                            <span class="price-main">${purchasedIcon}${discountedPrice} ₴</span>
+                            <span class="price-main">${discountedPrice} ₴</span>
                         </div>
                         <span class="price-sub">${t.sale} -${game.discount_percent}%</span>
                     `;
                 } else {
-                    priceHtml = `<span class="price-main">${purchasedIcon}${game.price_uah} ₴</span>`;
+                    priceHtml = `<span class="price-main">${game.price_uah} ₴</span>`;
                 }
             }
         }
@@ -376,7 +364,7 @@ function createGamesSection(sectionTitle, gamesList, container, t) {
         card.innerHTML = `
             <div class="card-inner">
                 <div class="poster-container">
-                    <img src="${game.poster}" alt="${game.title}" class="card-poster" onerror="this.onerror=null; this.src='https://placehold.co/600x280/1e1e1e/7c4dff?text=No+Image';">
+                    <img src="${game.poster}" alt="${game.title}" class="card-poster" onerror="this.onerror=null; this.src='https://placehold.co/600x280/1e1e1e/10b981?text=No+Image';">
                     ${statusOverlay}
                 </div>
                 
